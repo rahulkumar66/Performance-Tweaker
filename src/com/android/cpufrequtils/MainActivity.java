@@ -8,7 +8,6 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,21 +15,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.extras.SysUtils;
+import com.android.extras.utils.Constants;
+import com.android.extras.utils.CpuUtils;
+import com.android.extras.utils.RootUtils;
 import com.cpufrequtils.app.R;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements Constants {
 	TextView max, min;
 	Button apply, exit;
-	Spinner maxSpinner, minSpinner;
-	String tag = "cpu control";
+	Spinner maxSpinner, minSpinner,governorSpinner;
 	BufferedReader stdinput;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (!((SysUtils.isRooted()))) {
+		if (!((RootUtils.isRooted()))) {
 			Toast.makeText(getBaseContext(),
 					"Sorry You do not have Root permissions", Toast.LENGTH_LONG)
 					.show();
@@ -59,24 +59,33 @@ public class MainActivity extends Activity {
 			exit = (Button) findViewById(R.id.button_exit);
 			maxSpinner = (Spinner) findViewById(R.id.spinner1);
 			minSpinner = (Spinner) findViewById(R.id.min_spinner2);
+			governorSpinner=(Spinner) findViewById(R.id.governor_spinner);
+			
+			String[] availableGovernors=CpuUtils.getAvailableGovernors();
+			ArrayAdapter<String> governorAdapter=
+					new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,availableGovernors);
+			governorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			governorSpinner.setAdapter(governorAdapter);
+			governorSpinner.setSelection(governorAdapter.getPosition(CpuUtils.getCurrentScalingGovernor()));
+			
 
-			String[] availableFrequencies = SysUtils.getAvailableFrequencies();
+			String[] availableFrequencies = CpuUtils.getAvailableFrequencies();
 			ArrayAdapter<String> maxFreqAdapter = new ArrayAdapter<String>(
-					getBaseContext(), android.R.layout.simple_spinner_item,
+					this, android.R.layout.simple_spinner_item,
 					availableFrequencies);
 			maxFreqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			maxSpinner.setAdapter(maxFreqAdapter);
-			maxSpinner.setSelection(SysUtils.getCurrentMaxFrequencyIndex(availableFrequencies));
+			maxSpinner.setSelection(maxFreqAdapter.getPosition(CpuUtils.getCurrentMaxFrequeny()));
 			
 			ArrayAdapter<String> minFreqAdapter=new ArrayAdapter<String>(
-					getBaseContext(),android.R.layout.simple_spinner_item,
+					this,android.R.layout.simple_spinner_item,
 					availableFrequencies);
 			minFreqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			minSpinner.setAdapter(minFreqAdapter);
-			minSpinner.setSelection(SysUtils.getCurrentMinFrequencyIndex(availableFrequencies));
+			minSpinner.setSelection(minFreqAdapter.getPosition(CpuUtils.getCurrentMinFrequency()));
 
-			max.setText(SysUtils.getCurrentMaxFrequeny() + "");
-			min.setText(SysUtils.getCurrentMinFrequency() + "");
+			max.setText(CpuUtils.getCurrentMaxFrequeny() + "");
+			min.setText(CpuUtils.getCurrentMinFrequency() + "");
 
 			/*
 			 * set event handlers
@@ -85,23 +94,16 @@ public class MainActivity extends Activity {
 				@Override
 				public void onClick(View view) {
 					new Thread(new Runnable() {
-						
 						@Override
 						public void run() {
-							SysUtils.setFrequencyAndGovernor(maxSpinner.getSelectedItem().toString(),
-									minSpinner.getSelectedItem().toString());		
+							CpuUtils.setFrequencyAndGovernor(maxSpinner.getSelectedItem().toString(),
+									minSpinner.getSelectedItem().toString(),governorSpinner.getSelectedItem().toString(),getBaseContext());		
 						}
 					}).start();
 					
-					Toast.makeText(getBaseContext(),
-							"Maximum Frequency "
-									+ SysUtils.getCurrentMaxFrequeny()+" Minimum Frequency "
-									+SysUtils.getCurrentMinFrequency(),
-							Toast.LENGTH_SHORT).show();
 				}
 			});
 
-			
 			exit.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
