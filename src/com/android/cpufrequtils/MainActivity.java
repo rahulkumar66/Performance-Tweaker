@@ -23,9 +23,9 @@ import com.cpufrequtils.app.R;
 public class MainActivity extends Activity implements Constants {
 	TextView max, min;
 	Button apply, exit;
-	Spinner maxSpinner, minSpinner,governorSpinner;
+	Spinner maxSpinner, minSpinner, governorSpinner, IOSchedulers;
 	BufferedReader stdinput;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,33 +59,49 @@ public class MainActivity extends Activity implements Constants {
 			exit = (Button) findViewById(R.id.button_exit);
 			maxSpinner = (Spinner) findViewById(R.id.spinner1);
 			minSpinner = (Spinner) findViewById(R.id.min_spinner2);
-			governorSpinner=(Spinner) findViewById(R.id.governor_spinner);
-			
-			String[] availableGovernors=CpuUtils.getAvailableGovernors();
-			ArrayAdapter<String> governorAdapter=
-					new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,availableGovernors);
-			governorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			governorSpinner = (Spinner) findViewById(R.id.governor_spinner);
+			IOSchedulers = (Spinner) findViewById(R.id.disk_io_scheduler);
+
+			String[] availableGovernors = CpuUtils.getAvailableGovernors();
+			ArrayAdapter<String> governorAdapter = new ArrayAdapter<String>(
+					this, android.R.layout.simple_spinner_item,
+					availableGovernors);
+			governorAdapter
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			governorSpinner.setAdapter(governorAdapter);
-			governorSpinner.setSelection(governorAdapter.getPosition(CpuUtils.getCurrentScalingGovernor()));
-			
+			governorSpinner.setSelection(governorAdapter.getPosition(CpuUtils
+					.getCurrentScalingGovernor()));
 
 			String[] availableFrequencies = CpuUtils.getAvailableFrequencies();
 			ArrayAdapter<String> maxFreqAdapter = new ArrayAdapter<String>(
 					this, android.R.layout.simple_spinner_item,
 					availableFrequencies);
-			maxFreqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			maxFreqAdapter
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			maxSpinner.setAdapter(maxFreqAdapter);
-			maxSpinner.setSelection(maxFreqAdapter.getPosition(CpuUtils.getCurrentMaxFrequeny()));
-			
-			ArrayAdapter<String> minFreqAdapter=new ArrayAdapter<String>(
-					this,android.R.layout.simple_spinner_item,
+			maxSpinner.setSelection(maxFreqAdapter.getPosition(CpuUtils
+					.getCurrentMaxFrequeny()));
+
+			ArrayAdapter<String> minFreqAdapter = new ArrayAdapter<String>(
+					this, android.R.layout.simple_spinner_item,
 					availableFrequencies);
-			minFreqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			minFreqAdapter
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			minSpinner.setAdapter(minFreqAdapter);
-			minSpinner.setSelection(minFreqAdapter.getPosition(CpuUtils.getCurrentMinFrequency()));
+			minSpinner.setSelection(minFreqAdapter.getPosition(CpuUtils
+					.getCurrentMinFrequency()));
 
 			max.setText(CpuUtils.getCurrentMaxFrequeny() + "");
 			min.setText(CpuUtils.getCurrentMinFrequency() + "");
+
+			String schedulers[] = CpuUtils.getAvailableIOScheduler();
+			ArrayAdapter<String> scheduler_adapter = new ArrayAdapter<String>(
+					this, android.R.layout.simple_spinner_item, schedulers);
+			scheduler_adapter
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			IOSchedulers.setAdapter(scheduler_adapter);
+			IOSchedulers.setSelection(scheduler_adapter.getPosition(CpuUtils
+					.getCurrentIOScheduler()));
 
 			/*
 			 * set event handlers
@@ -96,11 +112,16 @@ public class MainActivity extends Activity implements Constants {
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							CpuUtils.setFrequencyAndGovernor(maxSpinner.getSelectedItem().toString(),
-									minSpinner.getSelectedItem().toString(),governorSpinner.getSelectedItem().toString(),getBaseContext());		
+							CpuUtils.setFrequencyAndGovernor(maxSpinner
+									.getSelectedItem().toString(), minSpinner
+									.getSelectedItem().toString(),
+									governorSpinner.getSelectedItem()
+											.toString(), IOSchedulers
+											.getSelectedItem().toString(),
+									getBaseContext());
 						}
 					}).start();
-					
+
 				}
 			});
 

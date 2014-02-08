@@ -11,5 +11,8 @@ public interface Constants {
 	public final static String scaling_governor = cpufreq_sys_dir + "scaling_governor";
 	public final static String scaling_available_freq = cpufreq_sys_dir + "scaling_available_frequencies";
 	public final static String scaling_available_governors = cpufreq_sys_dir + "scaling_available_governors";
+	public final static String available_blockdevices="/sys/block/";
+	public final static String available_schedulers="/sys/block/mmcblk0/queue/scheduler";
 	public final static String tag="Cpu Freq Utilities";
+//	sys/block/sda/queue/scheduler
 }
