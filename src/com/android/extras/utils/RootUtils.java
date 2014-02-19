@@ -14,8 +14,8 @@ public class RootUtils implements Constants {
 
 	public static boolean isRooted() {
 		File file = new File("/system/bin/su");
-		File f2 = new File("/system/xbin/su");
-		if (file.exists() || f2.exists())
+		File file2 = new File("/system/xbin/su");
+		if (file.exists() || file2.exists())
 			return true;
 		else
 			return false;
@@ -36,6 +36,7 @@ public class RootUtils implements Constants {
 
 	}
 
+	
 	public static String executeCommandwithResult(String comm) {
 		StringBuffer buffer = new StringBuffer();
 		String data = new String();
@@ -70,7 +71,7 @@ public class RootUtils implements Constants {
 				is = mProcess.getInputStream();
 
 			} else {
-				Log.d(tag, "oh man");
+				Log.d(tag, "peace sells but whos buying");
 				is = mProcess.getErrorStream();
 			}
 			dos.close();
