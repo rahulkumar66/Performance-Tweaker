@@ -2,9 +2,9 @@ package com.rattlehead.cpufrequtils.app;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-class TestFragmentAdapter extends FragmentPagerAdapter {	    
+class TestFragmentAdapter extends FragmentStatePagerAdapter {	    
     private int mCount = 3;
 
     public TestFragmentAdapter(FragmentManager fm) {

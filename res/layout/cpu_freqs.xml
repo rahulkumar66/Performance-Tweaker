@@ -90,7 +90,8 @@
                  android:layout_height="wrap_content"
                  android:layout_marginLeft="60dp"
                  android:layout_weight="1" 
-                 style="@style/SpinnerAppTheme"/>
+                 style="@style/SpinnerAppTheme"
+                 android:spinnerMode="dropdown"/>
          </TableRow>
 
          <TableRow
@@ -142,6 +143,8 @@
                  android:layout_marginLeft="60dp"
                  android:layout_weight="1"
                  style="@style/SpinnerAppTheme"
+                 android:spinnerMode="dialog"
+                 
                  />
              
          </TableRow>

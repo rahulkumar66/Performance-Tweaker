@@ -10,36 +10,31 @@ import java.util.ArrayList;
 
 import android.util.Log;
 
-public class RootUtils implements Constants {
+public class RootUtils extends Thread implements Constants {
 
 	public static boolean isRooted() {
-		File file = new File("/system/bin/su");
-		File file2 = new File("/system/xbin/su");
-		if (file.exists() || file2.exists())
+		if (new File("/system/bin/su").exists() || new File("/system/xbin/su").exists())
 			return true;
 		else
 			return false;
 	}
 
-	
 	public static boolean hasCpuFrequencyScaling() {
 		String[] requiredFiles = { scaling_governor, scaling_max_freq,
 				scaling_min_freq };
 		for (String file : requiredFiles) {
-			if (new File(Constants.cpufreq_sys_dir+file).exists()) {
+			if (new File(Constants.cpufreq_sys_dir + file).exists()) {
 				return true;
 			} else
 				return false;
-
 		}
 		return true;
 
 	}
 
-	
 	public static String executeCommandwithResult(String comm) {
 		StringBuffer buffer = new StringBuffer();
-		String data = new String();
+		String data = null;
 		Process process;
 		BufferedReader stdinput;
 		try {
@@ -55,7 +50,17 @@ public class RootUtils implements Constants {
 		return buffer.toString();
 	}
 
-	
+	public static BufferedReader getBufferForCommand(String command) {
+		Process process = null;
+		try {
+			process = Runtime.getRuntime().exec(command);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		return new BufferedReader(new InputStreamReader(
+				process.getInputStream()));
+	}
+
 	public static void executeRootCommand(ArrayList<String> commands) {
 		InputStream is = null;
 		DataOutputStream dos;
@@ -67,30 +72,30 @@ public class RootUtils implements Constants {
 				dos.flush();
 			}
 			if (mProcess.waitFor() == 0) {
-				Log.d(tag, "Succesfull");
+				Log.d(tag, "rattle you goddamn head");
 				is = mProcess.getInputStream();
 
 			} else {
-				Log.d(tag, "peace sells but whos buying");
 				is = mProcess.getErrorStream();
 			}
 			dos.close();
+
+			if (is != null)
+				printOutputOnStdout(is);
 			is.close();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		printOutputOnStdout(is);
 	}
 
-	
 	private static void printOutputOnStdout(InputStream is) {
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		String line = null;
 		try {
 			while ((line = br.readLine()) != null) {
-				Log.d(tag, line);
+				Log.e(tag, line);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -103,13 +108,10 @@ public class RootUtils implements Constants {
 		return mProcess;
 	}
 
-	
 	public static String getSUbinaryPath() {
 		String path = executeCommandwithResult("which su");
 		return path;
 	}
-	
-	
 	
 
 }
