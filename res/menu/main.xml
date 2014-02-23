@@ -1,9 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
+	<item
+    android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"
+    android:showAsAction="ifRoom">
+    <menu>
+        <item
+		android:id="@+id/report_issue_on_github"
+		android:showAsAction="always"
+		android:title="Report an Issue"
+		/>
+	<item
+		android:id="@+id/settings"
+		android:showAsAction="ifRoom"
+		android:title="Settings"/>
+	    
+
+	<item
+		android:id="@+id/about"
+		android:showAsAction="ifRoom"
+		android:title="About"/>
+	
+    </menu>
+</item>
+	
 
 </menu>

@@ -1,7 +1,5 @@
 package com.android.cpufrequtils;
 
-import java.io.BufferedReader;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -24,7 +22,11 @@ public class MainActivity extends Activity implements Constants {
 	TextView max, min;
 	Button apply, exit;
 	Spinner maxSpinner, minSpinner, governorSpinner, IOSchedulers;
+<<<<<<< HEAD
 	BufferedReader stdinput;
+=======
+
+>>>>>>> test
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class MainActivity extends Activity implements Constants {
 
 		if (!((RootUtils.isRooted()))) {
 			Toast.makeText(getBaseContext(),
-					"Sorry You do not have Root permissions", Toast.LENGTH_LONG)
+					"You do not have Root permissions", Toast.LENGTH_LONG)
 					.show();
 			Builder builder = new AlertDialog.Builder(this);
 			builder.setIcon(R.drawable.ic_launcher);

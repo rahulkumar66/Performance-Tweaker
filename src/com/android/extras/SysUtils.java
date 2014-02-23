@@ -12,7 +12,7 @@ import java.util.List;
 import android.util.Log;
 
 public class SysUtils {
-	
+	//hello
 	private final static String cpufreq_sys_dir = "/sys/devices/system/cpu/cpu0/cpufreq/";
 	private final static String scaling_min_freq = cpufreq_sys_dir + "scaling_min_freq";
 	private final static String cpuinfo_min_freq = cpufreq_sys_dir + "cpuinfo_min_freq";

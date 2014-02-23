@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+  <style name="_AppTheme" parent="Theme.Sherlock.Light.DarkActionBar">
+
+    <item name="android:editTextStyle">@style/EditTextAppTheme</item>
+
+    <item name="android:checkboxStyle">@style/CheckBoxAppTheme</item>
+
+    <item name="android:radioButtonStyle">@style/RadioButtonAppTheme</item>
+
+    <item name="android:buttonStyle">@style/ButtonAppTheme</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
+
+    <item name="android:spinnerStyle">@style/SpinnerAppTheme</item>
+
+    <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemAppTheme</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarAppTheme</item>
+
+  </style>
+
+</resources>
