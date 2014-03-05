@@ -13,26 +13,15 @@ import android.util.Log;
 public class RootUtils extends Thread implements Constants {
 
 	public static boolean isRooted() {
-		if (new File("/system/bin/su").exists() || new File("/system/xbin/su").exists())
+		if (new File("/system/bin/su").exists()
+				|| new File("/system/xbin/su").exists())
 			return true;
 		else
 			return false;
 	}
 
-	public static boolean hasCpuFrequencyScaling() {
-		String[] requiredFiles = { scaling_governor, scaling_max_freq,
-				scaling_min_freq };
-		for (String file : requiredFiles) {
-			if (new File(Constants.cpufreq_sys_dir + file).exists()) {
-				return true;
-			} else
-				return false;
-		}
-		return true;
+	public static String executeCommand(String comm) {
 
-	}
-
-	public static String executeCommandwithResult(String comm) {
 		StringBuffer buffer = new StringBuffer();
 		String data = null;
 		Process process;
@@ -48,6 +37,7 @@ public class RootUtils extends Thread implements Constants {
 			e.printStackTrace();
 		}
 		return buffer.toString();
+
 	}
 
 	public static BufferedReader getBufferForCommand(String command) {
@@ -109,9 +99,8 @@ public class RootUtils extends Thread implements Constants {
 	}
 
 	public static String getSUbinaryPath() {
-		String path = executeCommandwithResult("which su");
+		String path = RootUtils.executeCommand("which su");
 		return path;
 	}
-	
 
 }

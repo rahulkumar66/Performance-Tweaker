@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_holo_light" >
+
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="2dp" >
+
+        <TextView
+            android:id="@+id/maximumfrequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Maximum Frequency"
+            android:textSize="20sp" />
+
+        <antistatic.spinnerwheel.WheelHorizontalView
+            android:id="@+id/mins"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/minimumfrequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Minimum Frequency"
+            android:textSize="20sp" />
+
+        <antistatic.spinnerwheel.WheelHorizontalView
+            android:id="@+id/minimumfreq_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Scaling Governor"
+            android:textSize="20sp" />
+
+        <antistatic.spinnerwheel.WheelHorizontalView
+            android:id="@+id/governor_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="2dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button_apply"
+            style="@style/ButtonAppTheme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Apply" />
+
+        <CheckBox
+            android:id="@+id/apply_on_boot"
+            style="@style/CheckBoxAppTheme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Apply On Boot" />
+    </LinearLayout>
+
+</RelativeLayout>

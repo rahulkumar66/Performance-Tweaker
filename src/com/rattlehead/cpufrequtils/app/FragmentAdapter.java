@@ -16,11 +16,11 @@ class TestFragmentAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
     	switch(position) {
     	case 0:
-    		return new CpuInformation();
-    	case 1:
-    		return new CpuControlFragment();
-    	case 2:
     		return new TimeInStatesFragment();
+    	case 1:
+    		return new CpuFrequencyFragment();
+    	case 2:
+    		return new DiskFragment();
     	}
     	return null;
     }
@@ -36,11 +36,11 @@ class TestFragmentAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
     	switch(position) {
     	case 0:
-    		return "Cpu Information";
+    		return "Time in State";
     	case 1:
 			return "Cpu Control";
     	case 2:
-    		return "Time In State";
+    		return "Information";
     	}
     	return "";	
     }

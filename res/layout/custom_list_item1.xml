@@ -9,7 +9,7 @@
         android:id="@+id/frequency"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:textSize="15sp" />
+        android:textSize="18sp" />
     
     <TextView 
         android:id="@+id/time"
@@ -17,7 +17,7 @@
         android:layout_height="fill_parent"
         android:textSize="15sp"
         android:paddingLeft="150dp"
-        android:text="123"/>
+        android:text=""/>
 
     <LinearLayout
         android:id="@+id/linear1"
@@ -38,5 +38,11 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/linear1" />
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/progress"
+        android:background="@color/black"
+        />
 
 </RelativeLayout>
