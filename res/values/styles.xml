@@ -1,40 +1,23 @@
-
 <resources>
-    
-     <style name="Theme.Styled" parent="Theme.Sherlock.Light.DarkActionBar">
+
+    <style name="Theme.Styled" parent="Theme.Sherlock.Light.DarkActionBar">
         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
     </style>
-    
+
     <style name="Theme.VPI" parent="Theme.Styled">
-<!--           <item name="vpiTabPageIndicatorStyle">@style/CustomTitlePageIndicator</item> -->
+        <!-- <item name="vpiTabPageIndicatorStyle">@style/CustomTitlePageIndicator</item> -->
     </style>
-    
+
     <style name="Widget.Styled.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
         <item name="titleTextStyle">@style/TitleText</item>
         <item name="android:titleTextStyle">@style/TitleText</item>
     </style>
-    
-    <!-- Title of tabs -->
-    
-    <!--     <style name="CustomTitlePageIndicator" parent="Widget.TabPageIndicator">
-        <item name="android:background">@android:color/black</item>
-        <item name="footerColor">@android:color/black</item>
-        <item name="footerLineHeight">1dp</item>
-        <item name="footerIndicatorHeight">3dp</item>
-        <item name="footerIndicatorStyle">underline</item>
-        <item name="android:textColor">@android:color/black</item>
-        <item name="selectedColor">@android:color/black</item>
-        <item name="selectedBold">true</item>
-    </style>
-     -->
-    
-    
-    
+
     <!-- Title on action bar -->
-     <style name="TitleText" >
+    <style name="TitleText">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">17dip</item>
     </style>
-</resources>
 
+</resources>

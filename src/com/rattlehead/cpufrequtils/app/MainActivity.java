@@ -1,25 +1,28 @@
 package com.rattlehead.cpufrequtils.app;
 
-import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
+import com.rattlehead.cpufrequtils.app.dialogs.RootAlertDialog;
+import com.rattlehead.cpufrequtils.app.utils.Constants;
+import com.rattlehead.cpufrequtils.app.utils.RootUtils;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TitlePageIndicator;
+
+import com.bugsense.trace.BugSenseHandler;
 
 public class MainActivity extends SherlockFragmentActivity {
 
 	TestFragmentAdapter mAdapter;
 	ViewPager mPager;
 	PageIndicator mIndicator;
-	ArrayList<String> availableFrequencies, availableGovernors;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		BugSenseHandler.initAndStartSession(MainActivity.this, "4cdc31a1");
 		setContentView(R.layout.title_tabs);
 
 		mAdapter = new TestFragmentAdapter(getSupportFragmentManager());
@@ -28,6 +31,9 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		mIndicator = (TitlePageIndicator) findViewById(R.id.indicator);
 		mIndicator.setViewPager(mPager);
+		if (!(RootUtils.isRooted()))
+			new RootAlertDialog().show(getSupportFragmentManager(), "Cpu Tuner");
+
 
 	}
 

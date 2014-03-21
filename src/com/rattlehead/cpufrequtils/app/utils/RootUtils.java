@@ -20,14 +20,14 @@ public class RootUtils extends Thread implements Constants {
 			return false;
 	}
 
-	public static String executeCommand(String comm) {
+	public static String executeCommand(String command) {
 
 		StringBuffer buffer = new StringBuffer();
 		String data = null;
 		Process process;
 		BufferedReader stdinput;
 		try {
-			process = Runtime.getRuntime().exec(comm);
+			process = Runtime.getRuntime().exec(command);
 			stdinput = new BufferedReader(new InputStreamReader(
 					process.getInputStream()));
 			while ((data = stdinput.readLine()) != null) {
@@ -40,7 +40,7 @@ public class RootUtils extends Thread implements Constants {
 
 	}
 
-	public static BufferedReader getBufferForCommand(String command) {
+	public static BufferedReader getBufferedReader(String command) {
 		Process process = null;
 		try {
 			process = Runtime.getRuntime().exec(command);
@@ -99,8 +99,15 @@ public class RootUtils extends Thread implements Constants {
 	}
 
 	public static String getSUbinaryPath() {
-		String path = RootUtils.executeCommand("which su");
-		return path;
+		String path = "/system/bin/su";
+		if (new File(path).exists()) {
+			return path;
+		}
+		path = "/system/xbin/su";
+		if (new File(path).exists()) {
+			return path;
+		}
+		return null;
 	}
 
 }

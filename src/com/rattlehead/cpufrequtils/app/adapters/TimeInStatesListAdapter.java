@@ -25,7 +25,7 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 	public TimeInStatesListAdapter(Context context) {
 		statesReader=new TimeInStateReader();
 		this.context = context;
-		states=statesReader.getCpuStateTime();
+		states=statesReader.getCpuStateTime(true);
 		totaltime = statesReader.getTotalTimeInState();
 	}
 

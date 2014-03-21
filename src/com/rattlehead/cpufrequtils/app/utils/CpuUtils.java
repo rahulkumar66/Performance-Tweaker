@@ -1,38 +1,39 @@
 package com.rattlehead.cpufrequtils.app.utils;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import com.rattlehead.cpufrequtils.app.dialogs.RootAlertDialog;
+
 import android.content.Context;
-import android.util.Log;
 
 public class CpuUtils implements Constants {
 
-	private static ArrayList<CpuState> states = new ArrayList<CpuState>();
-
 	public static String[] getAvailableFrequencies() {
-		String[] frequencies = null;
-		frequencies = RootUtils.executeCommand("cat " + scaling_available_freq)
-				.split(" ");
-		if (frequencies != null) {
+		String[] frequencies;
+		if (new File(scaling_available_freq).exists()) {
+			frequencies = RootUtils.executeCommand(
+					"cat " + scaling_available_freq).split(" ");
 			return frequencies;
-		} else {
+		} else if (new File(time_in_states).exists()) {
+			ArrayList<CpuState> states = new ArrayList<CpuState>();
 			int i = 0;
-			states = new TimeInStateReader().getCpuStateTime();
+			states = new TimeInStateReader().getCpuStateTime(false);
 			frequencies = new String[states.size()];
 			for (CpuState object : states) {
-				frequencies[i] = "" + object.getFrequency();
+				frequencies[i] = object.getFrequency() + "";
 				i++;
 			}
-
 			return frequencies;
-
+		} else {
+			return null;
 		}
 
 	}
 
 	public static String getCurrentMaxFrequeny() {
 
-		return RootUtils.executeCommand("cat " + scaling_cur_freq);
+		return RootUtils.executeCommand("cat " + scaling_max_freq);
 	}
 
 	public static String getCurrentMinFrequency() {
@@ -99,14 +100,30 @@ public class CpuUtils implements Constants {
 		}
 		return data;
 	}
-	
+
 	public static String[] toMhz(String[] values) {
-		int i=0;
-		String[] frequency=new String[values.length];
-		for(i=0;i<values.length;i++) {
-			frequency[i]=(Integer.parseInt(values[i]))/1000+" Mhz";
+		int i = 0;
+		String[] frequency = new String[values.length];
+		if (values != null) {
+			for (i = 0; i < values.length; i++) {
+				try {
+					frequency[i] = String.valueOf((Integer.parseInt(values[i]))
+							/ 1000 + " Mhz");
+				} catch (NumberFormatException nfe) {
+					nfe.printStackTrace();
+					return new String[] {};
+					/*
+					 * need to return an empty string in case an exception is
+					 * thrown while parsing the integer values if we return a
+					 * null value the spinner wheel widget would just crash and
+					 * we dont want that do we??
+					 */
+				}
+			}
+
 		}
 		return frequency;
+
 	}
 
 }
