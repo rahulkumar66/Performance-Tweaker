@@ -1,2 +1,2 @@
-Cpu-Frequency-Utilities
+Cpu-Tuner
 =======================

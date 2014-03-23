@@ -5,13 +5,11 @@ import android.support.v4.view.ViewPager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.rattlehead.cpufrequtils.app.dialogs.RootAlertDialog;
-import com.rattlehead.cpufrequtils.app.utils.Constants;
+import com.bugsense.trace.BugSenseHandler;
+import com.rattlehead.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
 import com.rattlehead.cpufrequtils.app.utils.RootUtils;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TitlePageIndicator;
-
-import com.bugsense.trace.BugSenseHandler;
 
 public class MainActivity extends SherlockFragmentActivity {
 
@@ -32,8 +30,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		mIndicator = (TitlePageIndicator) findViewById(R.id.indicator);
 		mIndicator.setViewPager(mPager);
 		if (!(RootUtils.isRooted()))
-			new RootAlertDialog().show(getSupportFragmentManager(), "Cpu Tuner");
-
+			new RootNotFoundAlertDialog().show(getSupportFragmentManager(),
+					"Cpu Tuner");
 
 	}
 

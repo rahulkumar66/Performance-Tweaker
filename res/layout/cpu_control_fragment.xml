@@ -11,14 +11,14 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="2dp" >
+        android:paddingTop="3dp" >
 
         <TextView
             android:id="@+id/maximumfrequency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Maximum Frequency"
-            android:textSize="20sp" />
+            android:textSize="19sp" />
 
         <antistatic.spinnerwheel.WheelHorizontalView
             android:id="@+id/mins"
@@ -29,9 +29,9 @@
             android:id="@+id/minimumfrequency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
+            android:paddingTop="8dp"
             android:text="Minimum Frequency"
-            android:textSize="20sp" />
+            android:textSize="19sp" />
 
         <antistatic.spinnerwheel.WheelHorizontalView
             android:id="@+id/minimumfreq_spinner"
@@ -42,9 +42,9 @@
             android:id="@+id/hello"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
+            android:paddingTop="8dp"
             android:text="Scaling Governor"
-            android:textSize="20sp" />
+            android:textSize="19sp" />
 
         <antistatic.spinnerwheel.WheelHorizontalView
             android:id="@+id/governor_spinner"

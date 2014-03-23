@@ -23,9 +23,9 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 	TimeInStateReader statesReader;
 
 	public TimeInStatesListAdapter(Context context) {
-		statesReader=new TimeInStateReader();
+		statesReader = new TimeInStateReader();
 		this.context = context;
-		states=statesReader.getCpuStateTime(true);
+		states = statesReader.getCpuStateTime(true);
 		totaltime = statesReader.getTotalTimeInState();
 	}
 
@@ -46,8 +46,9 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 		if (states.get(position).getFrequency() == 0)
 			frequencyTextView.setText("Deep Sleep");
 		else
-			frequencyTextView.setText((states.get(position)
-					.getFrequency()/1000)+" Mhz");
+			frequencyTextView
+					.setText((states.get(position).getFrequency() / 1000)
+							+ " Mhz");
 		mProgressBar.setMax((int) (totaltime));
 		mProgressBar.setProgress((int) (states.get(position).getTime()));
 		return rowView;

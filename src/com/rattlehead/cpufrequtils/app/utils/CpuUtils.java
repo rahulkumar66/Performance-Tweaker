@@ -3,14 +3,12 @@ package com.rattlehead.cpufrequtils.app.utils;
 import java.io.File;
 import java.util.ArrayList;
 
-import com.rattlehead.cpufrequtils.app.dialogs.RootAlertDialog;
-
 import android.content.Context;
 
 public class CpuUtils implements Constants {
 
 	public static String[] getAvailableFrequencies() {
-		String[] frequencies;
+		String[] frequencies = null;
 		if (new File(scaling_available_freq).exists()) {
 			frequencies = RootUtils.executeCommand(
 					"cat " + scaling_available_freq).split(" ");
@@ -26,7 +24,10 @@ public class CpuUtils implements Constants {
 			}
 			return frequencies;
 		} else {
-			return null;
+			frequencies = new String[2];
+			frequencies[0] = getCurrentMaxFrequeny();
+			frequencies[1] = getCurrentMinFrequency();
+			return frequencies;
 		}
 
 	}
@@ -43,7 +44,6 @@ public class CpuUtils implements Constants {
 	public static String[] getAvailableGovernors() {
 		return RootUtils.executeCommand("cat " + scaling_available_governors)
 				.split(" ");
-
 	}
 
 	public static String getCurrentScalingGovernor() {
@@ -107,8 +107,7 @@ public class CpuUtils implements Constants {
 		if (values != null) {
 			for (i = 0; i < values.length; i++) {
 				try {
-					frequency[i] = String.valueOf((Integer.parseInt(values[i]))
-							/ 1000 + " Mhz");
+					frequency[i] = (Integer.parseInt(values[i]) / 1000 + " Mhz");
 				} catch (NumberFormatException nfe) {
 					nfe.printStackTrace();
 					return new String[] {};

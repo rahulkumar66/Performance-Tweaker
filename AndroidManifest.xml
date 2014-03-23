@@ -15,7 +15,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.rattlehead.cpufrequtils.app.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.VPI" >
@@ -24,6 +24,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.rattlehead.cpufrequtils.app.TimeInStatePieGraph"
+            android:label="Time In States"
+            android:theme="@style/Sherlock.__Theme.DarkActionBar" >
         </activity>
     </application>
 

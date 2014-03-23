@@ -48,7 +48,6 @@ public class CustomListAdapter extends BaseAdapter {
 					.getFrequency()));
 		
 		mProgressBar.setMax((int) (totaltime));
-		// Log.d(Constants.tag,"inside adapter "+CpuUtils.getTotalTimeInState());
 		mProgressBar.setProgress((int) (states.get(position).getTime()));
 		return rowView;
 	}

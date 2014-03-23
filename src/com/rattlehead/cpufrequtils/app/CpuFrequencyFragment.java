@@ -13,7 +13,7 @@ import antistatic.spinnerwheel.AbstractWheel;
 import antistatic.spinnerwheel.adapters.ArrayWheelAdapter;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.rattlehead.cpufrequtils.app.dialogs.RootAlertDialog;
+import com.rattlehead.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
 import com.rattlehead.cpufrequtils.app.utils.Constants;
 import com.rattlehead.cpufrequtils.app.utils.CpuUtils;
 import com.rattlehead.cpufrequtils.app.utils.RootUtils;
@@ -96,7 +96,7 @@ public class CpuFrequencyFragment extends SherlockFragment {
 					updateValues();
 
 				} else {
-					new RootAlertDialog().show(getFragmentManager(),
+					new RootNotFoundAlertDialog().show(getFragmentManager(),
 							Constants.tag);
 				}
 			}

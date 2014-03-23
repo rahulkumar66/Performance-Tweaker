@@ -4,7 +4,10 @@
 
 	<item
     android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"
-    android:showAsAction="ifRoom">
+    android:showAsAction="ifRoom"
+    android:id="@+id/overflow_menu1"
+    android:orderInCategory="99"
+    android:title="Holy Wars">
     <menu>
         <item
 		android:id="@+id/report_issue_on_github"
