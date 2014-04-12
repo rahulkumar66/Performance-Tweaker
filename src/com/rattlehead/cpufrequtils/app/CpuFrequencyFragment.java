@@ -19,7 +19,7 @@ import com.rattlehead.cpufrequtils.app.utils.CpuUtils;
 import com.rattlehead.cpufrequtils.app.utils.RootUtils;
 
 public class CpuFrequencyFragment extends SherlockFragment {
-	ArrayWheelAdapter<String> minAdapter;
+	ArrayWheelAdapter<String> frequencyAdapter;
 	ArrayWheelAdapter<String> governorAdapter;
 
 	ArrayList<String> availableFrequencies;
@@ -27,7 +27,7 @@ public class CpuFrequencyFragment extends SherlockFragment {
 
 	String[] availablefreq;
 	String[] availableScalingGovernors;
-	String max, min, current_governor;
+	String maxFrequency, minFrequency, currentGovernor;
 
 	View mView;
 
@@ -47,11 +47,11 @@ public class CpuFrequencyFragment extends SherlockFragment {
 	}
 
 	private void updateValues() {
-		max = CpuUtils.getCurrentMaxFrequeny();
+		maxFrequency = CpuUtils.getCurrentMaxFrequeny();
 
-		min = CpuUtils.getCurrentMinFrequency();
+		minFrequency = CpuUtils.getCurrentMinFrequency();
 
-		current_governor = CpuUtils.getCurrentScalingGovernor();
+		currentGovernor = CpuUtils.getCurrentScalingGovernor();
 	}
 
 	@Override
@@ -71,17 +71,17 @@ public class CpuFrequencyFragment extends SherlockFragment {
 		minAdapter.setItemResource(R.layout.spinner_wheel_box_layout);
 		minAdapter.setItemTextResource(R.id.text);
 		maxFreq.setViewAdapter(minAdapter);
-		maxFreq.setCurrentItem(availableFrequencies.indexOf(max));
+		maxFreq.setCurrentItem(availableFrequencies.indexOf(maxFrequency));
 
 		minimum.setViewAdapter(minAdapter);
-		minimum.setCurrentItem(availableFrequencies.indexOf(min));
+		minimum.setCurrentItem(availableFrequencies.indexOf(minFrequency));
 
 		ArrayWheelAdapter<String> governorAdapter = new ArrayWheelAdapter<String>(
 				context, availableScalingGovernors);
 		governorAdapter.setItemResource(R.layout.spinner_wheel_box_layout);
 		governorAdapter.setItemTextResource(R.id.text);
 		governor.setViewAdapter(governorAdapter);
-		governor.setCurrentItem(availableGovernors.indexOf(current_governor));
+		governor.setCurrentItem(availableGovernors.indexOf(currentGovernor));
 
 		applyButton.setOnClickListener(new OnClickListener() {
 
@@ -91,13 +91,12 @@ public class CpuFrequencyFragment extends SherlockFragment {
 					CpuUtils.setFrequencyAndGovernor(
 							availableFrequencies.get(maxFreq.getCurrentItem()),
 							availableFrequencies.get(minimum.getCurrentItem()),
-							availableGovernors.get(governor.getCurrentItem()),
-							"", mView.getContext());
+							availableGovernors.get(governor.getCurrentItem()), mView.getContext());
 					updateValues();
 
 				} else {
 					new RootNotFoundAlertDialog().show(getFragmentManager(),
-							Constants.tag);
+							Constants.App_Tag);
 				}
 			}
 		});

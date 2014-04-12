@@ -56,8 +56,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:paddingBottom="2dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingBottom="2dp" >
 
         <Button
             android:id="@+id/button_apply"
@@ -66,14 +66,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Apply" />
-
-        <CheckBox
-            android:id="@+id/apply_on_boot"
-            style="@style/CheckBoxAppTheme"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Apply On Boot" />
     </LinearLayout>
 
 </RelativeLayout>

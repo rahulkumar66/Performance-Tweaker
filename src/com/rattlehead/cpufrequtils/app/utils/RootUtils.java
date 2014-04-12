@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import android.util.Log;
 
-public class RootUtils extends Thread implements Constants {
+public class RootUtils implements Constants {
 
 	public static boolean isRooted() {
 		if (new File("/system/bin/su").exists()
@@ -40,17 +40,6 @@ public class RootUtils extends Thread implements Constants {
 
 	}
 
-	public static BufferedReader getBufferedReader(String command) {
-		Process process = null;
-		try {
-			process = Runtime.getRuntime().exec(command);
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
-		return new BufferedReader(new InputStreamReader(
-				process.getInputStream()));
-	}
-
 	public static void executeRootCommand(ArrayList<String> commands) {
 		InputStream is = null;
 		DataOutputStream dos;
@@ -62,14 +51,11 @@ public class RootUtils extends Thread implements Constants {
 				dos.flush();
 			}
 			if (mProcess.waitFor() == 0) {
-				Log.d(tag, "rattle you goddamn head");
 				is = mProcess.getInputStream();
-
 			} else {
 				is = mProcess.getErrorStream();
 			}
 			dos.close();
-
 			if (is != null)
 				printOutputOnStdout(is);
 			is.close();
@@ -85,7 +71,7 @@ public class RootUtils extends Thread implements Constants {
 		String line = null;
 		try {
 			while ((line = br.readLine()) != null) {
-				Log.e(tag, line);
+				Log.e(App_Tag, line);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

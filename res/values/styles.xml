@@ -17,7 +17,7 @@
     <!-- Title on action bar -->
     <style name="TitleText">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">17dip</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
 </resources>

@@ -1,9 +1,12 @@
 package com.rattlehead.cpufrequtils.app.utils;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 public class CpuUtils implements Constants {
 
@@ -19,17 +22,13 @@ public class CpuUtils implements Constants {
 			states = new TimeInStateReader().getCpuStateTime(false);
 			frequencies = new String[states.size()];
 			for (CpuState object : states) {
-				frequencies[i] = object.getFrequency() + "";
+				frequencies[i] = String.valueOf(object.getFrequency());
 				i++;
 			}
 			return frequencies;
 		} else {
-			frequencies = new String[2];
-			frequencies[0] = getCurrentMaxFrequeny();
-			frequencies[1] = getCurrentMinFrequency();
-			return frequencies;
+			return new String[] {};
 		}
-
 	}
 
 	public static String getCurrentMaxFrequeny() {
@@ -51,8 +50,17 @@ public class CpuUtils implements Constants {
 	}
 
 	public static final String[] getAvailableIOScheduler() {
-		String[] schedulers = RootUtils.executeCommand(
-				"cat " + available_schedulers).split(" ");
+		String schedulerPath = new String();
+		if (new File(available_schedulers).exists()) {
+			schedulerPath = available_schedulers;
+
+		} else if (new File(available_schedulers_path).exists()) {
+			schedulerPath = available_schedulers_path;
+		} else {
+			return null;
+		}
+		String[] schedulers = RootUtils.executeCommand("cat " + schedulerPath)
+				.split(" ");
 		for (int i = 0; i < schedulers.length; i++) {
 			if (schedulers[i].contains("]")) {
 				String temp = schedulers[i].substring(1,
@@ -61,7 +69,6 @@ public class CpuUtils implements Constants {
 			}
 		}
 		return schedulers;
-
 	}
 
 	public static final String getCurrentIOScheduler() {
@@ -76,20 +83,81 @@ public class CpuUtils implements Constants {
 		return currentScheduler.substring(1, currentScheduler.length() - 1);
 	}
 
-	public static final void setFrequencyAndGovernor(String max_frequency,
-			String min_frequency, String governor, String ioscheduler,
-			Context context) {
+	public static String getDefaultReadAhead() {
+		String res = new String();
+		for (int i = 0; i < 2; i++) {
+			File device = new File(Constants.available_blockdevices + "mmcblk"
+					+ i);
+			if (device.exists()) {
+				device = new File(Constants.available_blockdevices + "mmcblk"
+						+ i + "/queue/read_ahead_kb");
+					res = RootUtils.executeCommand("cat " + device.getAbsolutePath());
+			}
+		}
+		return res;
+
+	}
+
+	public static final void setFrequencyAndGovernor(String maxFrequency,
+			String minFrequency, String governor, Context context) {
 		ArrayList<String> commands = new ArrayList<String>();
-		if (max_frequency != null && min_frequency != null && governor != null) {
+		if (maxFrequency != null && minFrequency != null && governor != null) {
 			commands.add("echo " + governor + " > " + CpuUtils.scaling_governor
 					+ "\n");
-			commands.add("echo " + min_frequency + " > "
+			commands.add("echo " + minFrequency + " > "
 					+ CpuUtils.scaling_min_freq + "\n");
-			commands.add("echo " + max_frequency + " > " + scaling_max_freq
+			commands.add("echo " + maxFrequency + " > " + scaling_max_freq
 					+ "\n");
 			commands.add("exit" + "\n");
 			RootUtils.executeRootCommand(commands);
+			Toast.makeText(context, "Values Successfully Applied",
+					Toast.LENGTH_SHORT).show();
+
 		}
+
+	}
+
+	public static void setDiskSchedulerandReadAhead(String ioScheduler,
+			String readAhead) {
+		ArrayList<String> mCommands = new ArrayList<String>();
+		File devices = new File(available_blockdevices);
+
+		String[] directories = devices.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File current, String name) {
+				return new File(current, name).isDirectory();
+			}
+		});
+		for (int i = 0; i < directories.length; i++) {
+			if (!(directories[i].contains("ram")
+					|| directories[i].contains("loop") || directories[i]
+						.contains("dm"))) {
+				File blockDevice = new File(available_blockdevices
+						+ directories[i] + "/queue/scheduler");
+				if (blockDevice.exists())
+					mCommands.add("echo " + ioScheduler + " > "
+							+ blockDevice.getAbsolutePath() + " \n ");
+			}
+		}
+		/*
+		 * prepare commands for changing the read ahead cache
+		 */
+		File block;
+		for (int i = 0; i < 2; i++) {
+			block = new File(available_blockdevices + "mmcblk" + i
+					+ "/queue/read_ahead_kb");
+			if (block.exists()) {
+				mCommands.add("echo " + readAhead + " > "
+						+ block.getAbsolutePath() + "\n");
+				
+			}
+		}
+		mCommands.add(" exit \n");
+		for (String string : mCommands) {
+			Log.d("reprisal", string);
+
+		}
+		RootUtils.executeRootCommand(mCommands);
 
 	}
 
@@ -102,10 +170,9 @@ public class CpuUtils implements Constants {
 	}
 
 	public static String[] toMhz(String[] values) {
-		int i = 0;
 		String[] frequency = new String[values.length];
 		if (values != null) {
-			for (i = 0; i < values.length; i++) {
+			for (int i = 0; i < values.length; i++) {
 				try {
 					frequency[i] = (Integer.parseInt(values[i]) / 1000 + " Mhz");
 				} catch (NumberFormatException nfe) {

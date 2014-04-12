@@ -1,7 +1,6 @@
 package com.rattlehead.cpufrequtils.app.adapters;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,12 +13,12 @@ import android.widget.TextView;
 import com.rattlehead.cpufrequtils.app.R;
 import com.rattlehead.cpufrequtils.app.utils.CpuState;
 import com.rattlehead.cpufrequtils.app.utils.TimeInStateReader;
+import com.rattlehead.cpufrequtils.app.utils.TimeUtils;
 
 public class TimeInStatesListAdapter extends BaseAdapter {
 	Context context;
 	ArrayList<CpuState> states;
 	long totaltime = 0;
-	long hours, minute, second;
 	TimeInStateReader statesReader;
 
 	public TimeInStatesListAdapter(Context context) {
@@ -40,9 +39,10 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 		ProgressBar mProgressBar = (ProgressBar) rowView
 				.findViewById(R.id.progress);
 		TextView time = (TextView) rowView.findViewById(R.id.time);
-
-		calculateTime(states.get(position).getTime());
-		time.setText("" + hours + " h " + minute + " m " + second + " s ");
+		TimeUtils timeUtils = new TimeUtils();
+		timeUtils.calculateTime(states.get(position).getTime());
+		time.setText(timeUtils.getHours() + " h " + timeUtils.getminutes()
+				+ " m " + timeUtils.getSeconds() + " s ");
 		if (states.get(position).getFrequency() == 0)
 			frequencyTextView.setText("Deep Sleep");
 		else
@@ -67,16 +67,6 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int position) {
 		return states.indexOf(position);
-	}
-
-	public void calculateTime(long seconds) {
-		int day = (int) TimeUnit.SECONDS.toDays(seconds);
-		hours = TimeUnit.SECONDS.toHours(seconds) - (day * 24);
-		minute = TimeUnit.SECONDS.toMinutes(seconds)
-				- (TimeUnit.SECONDS.toHours(seconds) * 60);
-		second = TimeUnit.SECONDS.toSeconds(seconds)
-				- (TimeUnit.SECONDS.toMinutes(seconds) * 60);
-
 	}
 
 }

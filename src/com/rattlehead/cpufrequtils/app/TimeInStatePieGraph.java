@@ -11,7 +11,6 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -26,7 +25,7 @@ import com.rattlehead.cpufrequtils.app.utils.TimeInStateReader;
 import com.rattlehead.cpufrequtils.app.utils.TimeUtils;
 
 public class TimeInStatePieGraph extends SherlockFragmentActivity {
-	ArrayList<CpuState> _states = new ArrayList<CpuState>();
+	ArrayList<CpuState> mStates = new ArrayList<CpuState>();
 
 	private static int[] COLORS = new int[] { Color.GREEN, Color.YELLOW,
 			Color.BLUE, Color.MAGENTA, Color.DKGRAY, Color.CYAN, Color.RED };
@@ -42,9 +41,8 @@ public class TimeInStatePieGraph extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d("sd",""+Toast.LENGTH_SHORT);
 		TimeInStateReader reader = new TimeInStateReader();
-		_states = reader.getCpuStateTime(true);
+		mStates = reader.getCpuStateTime(true);
 
 		setContentView(R.layout.piechart);
 		mRenderer.setLabelsTextSize((float) 21.00);
@@ -56,12 +54,12 @@ public class TimeInStatePieGraph extends SherlockFragmentActivity {
 		mRenderer.setStartAngle(0);
 		mRenderer.setDisplayValues(false);
 
-		for (int i = 0; i < _states.size(); i++) {
-			if (_states.get(i).getFrequency() == 0) {
-				mSeries.add("Deep Sleep ", _states.get(i).getTime());
+		for (int i = 0; i < mStates.size(); i++) {
+			if (mStates.get(i).getFrequency() == 0) {
+				mSeries.add("Deep Sleep ", mStates.get(i).getTime());
 			} else {
-				mSeries.add(((_states.get(i).getFrequency()) / 1000) + " Mhz",
-						_states.get(i).getTime());
+				mSeries.add(((mStates.get(i).getFrequency()) / 1000) + " Mhz",
+						mStates.get(i).getTime());
 			}
 			SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
 			renderer.setColor(COLORS[(mSeries.getItemCount() - 1)
@@ -85,9 +83,9 @@ public class TimeInStatePieGraph extends SherlockFragmentActivity {
 				if (mChartView != null) {
 					if (seriesSelection != null) {
 						int index = seriesSelection.getPointIndex();
-						if (_states.get(index).getFrequency() == 0) {
+						if (mStates.get(index).getFrequency() == 0) {
 							TimeUtils timeUtils = new TimeUtils();
-							long timeInSeconds = _states.get(index).getTime();
+							long timeInSeconds = mStates.get(index).getTime();
 							timeUtils.calculateTime(timeInSeconds);
 							Toast.makeText(
 									getBaseContext(),
@@ -98,16 +96,18 @@ public class TimeInStatePieGraph extends SherlockFragmentActivity {
 									Toast.LENGTH_SHORT).show();
 						} else {
 							TimeUtils timeUtils = new TimeUtils();
-							long timeInSeconds = _states.get(index).getTime();
+							long timeInSeconds = mStates.get(index).getTime();
 							timeUtils.calculateTime(timeInSeconds);
 
 							Toast.makeText(
 									getBaseContext(),
-									"Time Spent in " + timeInSeconds / 1000
-											+ " Mhz:" + timeUtils.getHours()
-											+ "h " + timeUtils.getminutes()
-											+ "m " + timeUtils.getSeconds()
-											+ "s ", Toast.LENGTH_SHORT).show();
+									"Time Spent in "
+											+ mStates.get(index).getFrequency()
+											/ 1000 + " Mhz : "
+											+ timeUtils.getHours() + "h "
+											+ timeUtils.getminutes() + "m "
+											+ timeUtils.getSeconds() + "s ",
+									Toast.LENGTH_SHORT).show();
 						}
 					}
 					for (int i = 0; i < mSeries.getItemCount(); i++) {

@@ -22,7 +22,7 @@ public class TimeInStatesFragment extends SherlockFragment {
 	View view;
 	ListView listView;
 	ArrayList<CpuState> states;
-	TimeInStatesListAdapter adapter;
+	TimeInStatesListAdapter timeInStateAdapter;
 	TimeInStateReader statesMonitor;
 
 	@Override
@@ -31,8 +31,8 @@ public class TimeInStatesFragment extends SherlockFragment {
 		setHasOptionsMenu(true);
 		view = inflater.inflate(R.layout.time_in_states, container, false);
 		listView = (ListView) view.findViewById(R.id.listview1);
-		adapter = new TimeInStatesListAdapter(view.getContext());
-		listView.setAdapter(adapter);
+		timeInStateAdapter = new TimeInStatesListAdapter(view.getContext());
+		listView.setAdapter(timeInStateAdapter);
 		return view;
 	}
 
