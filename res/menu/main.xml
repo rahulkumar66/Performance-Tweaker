@@ -12,13 +12,13 @@
         <item
 		android:id="@+id/report_issue_on_github"
 		android:showAsAction="always"
-		android:title="Report an Issue"
+		android:title="@string/report_to_github"
 		/>
-	<item
+<!-- 	<item
 		android:id="@+id/settings"
 		android:showAsAction="ifRoom"
 		android:title="Settings"/>
-	    
+	  -->   
 
 	<item
 		android:id="@+id/about"

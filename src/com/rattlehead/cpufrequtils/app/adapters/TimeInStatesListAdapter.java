@@ -39,6 +39,8 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 		ProgressBar mProgressBar = (ProgressBar) rowView
 				.findViewById(R.id.progress);
 		TextView time = (TextView) rowView.findViewById(R.id.time);
+		TextView percentage=(TextView) rowView.findViewById(R.id.percentage);
+		
 		TimeUtils timeUtils = new TimeUtils();
 		timeUtils.calculateTime(states.get(position).getTime());
 		time.setText(timeUtils.getHours() + " h " + timeUtils.getminutes()
@@ -51,6 +53,12 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 							+ " Mhz");
 		mProgressBar.setMax((int) (totaltime));
 		mProgressBar.setProgress((int) (states.get(position).getTime()));
+		
+		/*
+		 * calculate percentage of time 
+		 */
+		long percent=(states.get(position).getTime()*100)/totaltime;
+		percentage.setText(percent+"%");
 		return rowView;
 	}
 

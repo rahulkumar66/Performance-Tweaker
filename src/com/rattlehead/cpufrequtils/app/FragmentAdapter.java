@@ -37,7 +37,7 @@ class TestFragmentAdapter extends FragmentStatePagerAdapter {
 		case 1:
 			return "Cpu Control";
 		case 2:
-			return "Information";
+			return "Disk Control";
 		}
 		return "";
 	}

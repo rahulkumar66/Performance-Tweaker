@@ -27,8 +27,8 @@ import com.rattlehead.cpufrequtils.app.utils.TimeUtils;
 public class TimeInStatePieGraph extends SherlockFragmentActivity {
 	ArrayList<CpuState> mStates = new ArrayList<CpuState>();
 
-	private static int[] COLORS = new int[] { Color.GREEN, Color.YELLOW,
-			Color.BLUE, Color.MAGENTA, Color.DKGRAY, Color.CYAN, Color.RED };
+	private static int[] COLORS = new int[] { Color.YELLOW, Color.GREEN,
+		 Color.LTGRAY,Color.BLUE, Color.CYAN,Color.RED, Color.MAGENTA };
 
 	/** The main series that will include all the data. */
 	private CategorySeries mSeries = new CategorySeries("");
@@ -45,7 +45,7 @@ public class TimeInStatePieGraph extends SherlockFragmentActivity {
 		mStates = reader.getCpuStateTime(true);
 
 		setContentView(R.layout.piechart);
-		mRenderer.setLabelsTextSize((float) 21.00);
+		mRenderer.setLabelsTextSize((float) 18.00);
 		mRenderer.setDisplayValues(true);
 		mRenderer.setInScroll(true);
 		mRenderer.setClickEnabled(true);

@@ -40,8 +40,10 @@ public class TimeInStateReader implements Constants {
 					while ((line = bufferedReader.readLine()) != null) {
 						String entries[] = line.split(" ");
 						long time = Long.parseLong(entries[1]) / 100;
+						if(time>0) {
 						states.add(new CpuState(Integer.parseInt(entries[0]),
 								time));
+						}
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

@@ -13,7 +13,10 @@ import antistatic.spinnerwheel.AbstractWheel;
 import antistatic.spinnerwheel.adapters.ArrayWheelAdapter;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.rattlehead.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
+import com.rattlehead.cpufrequtils.app.utils.Constants;
 import com.rattlehead.cpufrequtils.app.utils.CpuUtils;
+import com.rattlehead.cpufrequtils.app.utils.RootUtils;
 
 public class DiskFragment extends SherlockFragment {
 	View mView;
@@ -72,9 +75,16 @@ public class DiskFragment extends SherlockFragment {
 		applyButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				CpuUtils.setDiskSchedulerandReadAhead(
-						schedulers.get(diskScheduler.getCurrentItem()),
-						availableReadAheadValues.get(readAhead.getCurrentItem()));
+				if (RootUtils.isRooted()) {
+					CpuUtils.setDiskSchedulerandReadAhead(schedulers
+							.get(diskScheduler.getCurrentItem()),
+							availableReadAheadValues.get(readAhead
+									.getCurrentItem()));
+				}
+				else {
+					new RootNotFoundAlertDialog().show(getFragmentManager(),
+							Constants.App_Tag);
+				}
 			}
 		});
 

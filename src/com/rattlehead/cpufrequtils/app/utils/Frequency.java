@@ -6,7 +6,6 @@ public class Frequency {
 
 	private Frequency(String frq) {
 		this.frequency = frq;
-
 	}
 
 	@Override

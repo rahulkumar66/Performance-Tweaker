@@ -3,7 +3,9 @@
 
     <string name="app_name">Cpu Tuner</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_time_in_s">TimeInS</string>
+    <string name="report_to_github">Report an Issue </string>
+    <string name="github_bugtracker">https://github.com/rahulkumar2048/Cpu-Tuner/issues/new</string>
+    <string name="about">Cpu Tuner Version Alpha 0.1 
+        \n\nAuthor:Phantom Lord\nIf you face any problem feel free to drop a mail at rahulkumar2048@gmail.com  </string>
 
 </resources>
