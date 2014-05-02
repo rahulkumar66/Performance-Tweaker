@@ -12,6 +12,7 @@ Simple Android App for
 
 
 =====To Downwload the App=====
+
  http://get.xda-developers.com/7Z8r2cbrKIbezNTsv7armg/1398750142/3/8/3/1/PerformanceTuner.apk
 
 
@@ -22,11 +23,13 @@ you wish. You can then issue a pull request via GitHub (please insure your
 branch is up-to-date with the master via a git rebase).
 
 There is also a discussion thread on XDA Developers:
+
 	http://forum.xda-developers.com/showthread.php?t=2728587
 
 
 
 === LICENSE ===
+
 See the LICENSE file.
    
 
