@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Cpu Tuner</string>
+    <string name="app_name">Performance Tuner</string>
     <string name="action_settings">Settings</string>
     <string name="report_to_github">Report an Issue </string>
     <string name="github_bugtracker">https://github.com/rahulkumar2048/Cpu-Tuner/issues/new</string>
-    <string name="about">Cpu Tuner Version Alpha 0.1 
-        \n\nAuthor:Phantom Lord\nIf you face any problem feel free to drop a mail at rahulkumar2048@gmail.com  </string>
-
+    <string name="about_content">Performance Tuner \nVersion 1.0a
+        \n\nCopyleft of Rahul Kumar aka PhantomLord\n\nIf you face any problem feel free to drop a mail at rahulkumar2048@gmail.com  </string>
+	<string name="okbutton">Ok</string>
+	<string name="about">About</string>
+	<string name="error">Error</string>
+	<string name="doesnt_support_cpufs">Your Phone Does Not Supports Cpu Freqeuncy Scaling</string>
+	<string name="continu">continue</string>
+	<string name="exit">exit</string>
+	<string name="noroot">Your Phone Does Not Have Root Access</string>
 </resources>

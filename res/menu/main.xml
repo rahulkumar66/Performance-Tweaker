@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    
 
-	<item
-    android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"
-    android:showAsAction="ifRoom"
-    android:id="@+id/overflow_menu1"
-    android:orderInCategory="99"
-    android:title="Holy Wars">
-    <menu>
-        <item
-		android:id="@+id/report_issue_on_github"
-		android:showAsAction="always"
-		android:title="@string/report_to_github"
-		/>
-<!-- 	<item
-		android:id="@+id/settings"
-		android:showAsAction="ifRoom"
-		android:title="Settings"/>
-	  -->   
-
-	<item
-		android:id="@+id/about"
-		android:showAsAction="ifRoom"
-		android:title="About"/>
-	
-    </menu>
-</item>
-	
+    <item
+        android:id="@+id/overflow_menu1"
+        android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"
+        android:orderInCategory="99"
+        android:showAsAction="ifRoom"
+        android:title="Phantom">
+        <menu>
+            <item
+                android:id="@+id/report_issue_on_github"
+                android:showAsAction="always"
+                android:title="@string/report_to_github"
+                />
+            <item
+                android:id="@+id/about"
+                android:showAsAction="ifRoom"
+                android:title="@string/about">
+            </item>
+        </menu>
+    </item>
 
 </menu>
