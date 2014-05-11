@@ -1,6 +1,8 @@
 package com.phantomLord.cpufrequtils.app;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -22,8 +24,8 @@ public class CpuFrequencyFragment extends SherlockFragment {
 	ArrayWheelAdapter<String> frequencyAdapter;
 	ArrayWheelAdapter<String> governorAdapter;
 
-	ArrayList<String> availableFrequencies;
-	ArrayList<String> availableGovernors;
+	List<String> availableFrequencies=new ArrayList<String>();
+	List<String> availableGovernors=new ArrayList<String>();
 
 	String[] availablefreq;
 	String[] availableScalingGovernors;
@@ -37,10 +39,10 @@ public class CpuFrequencyFragment extends SherlockFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		availablefreq = CpuUtils.getAvailableFrequencies();
-		availableFrequencies = CpuUtils.toArrayList(availablefreq);
+		availableFrequencies=Arrays.asList(availablefreq);
 
 		availableScalingGovernors = CpuUtils.getAvailableGovernors();
-		availableGovernors = CpuUtils.toArrayList(availableScalingGovernors);
+		availableGovernors=Arrays.asList(availableScalingGovernors);
 
 		updateValues();
 

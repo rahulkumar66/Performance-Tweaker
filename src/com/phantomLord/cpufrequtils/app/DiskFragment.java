@@ -1,6 +1,8 @@
 package com.phantomLord.cpufrequtils.app;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -25,8 +27,8 @@ public class DiskFragment extends SherlockFragment {
 	String[] availableSchedulers, readAheadValues;
 	ArrayWheelAdapter<String> schedulerAdapter, readAheadAdapter;
 	String currentScheduler;
-	ArrayList<String> schedulers = new ArrayList<String>();
-	ArrayList<String> availableReadAheadValues = new ArrayList<String>();
+	List<String> schedulers = new ArrayList<String>();
+	List<String> availableReadAheadValues = new ArrayList<String>();
 	Button applyButton;
 
 	@Override
@@ -34,11 +36,11 @@ public class DiskFragment extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		availableSchedulers = CpuUtils.getAvailableIOScheduler();
-		schedulers = CpuUtils.toArrayList(availableSchedulers);
+		schedulers=Arrays.asList(availableSchedulers);
 		currentScheduler = CpuUtils.getCurrentIOScheduler();
 		readAheadValues = new String[] { "32", "64", "128", "256", "512",
 				"1024", "2048", "3072", "4096" };
-		availableReadAheadValues = CpuUtils.toArrayList(readAheadValues);
+		availableReadAheadValues=Arrays.asList(readAheadValues);
 
 	}
 

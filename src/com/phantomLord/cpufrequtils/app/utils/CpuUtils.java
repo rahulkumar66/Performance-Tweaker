@@ -167,7 +167,7 @@ public class CpuUtils implements Constants {
 
 	}
 
-	public static ArrayList<String> toArrayList(String[] contents) {
+	/*public static ArrayList<String> toArrayList(String[] contents) {
 		ArrayList<String> data = new ArrayList<String>();
 		if (contents != null) {
 			for (String str : contents) {
@@ -176,6 +176,7 @@ public class CpuUtils implements Constants {
 		}
 		return data;
 	}
+	*/
 
 	public static String getKernelInfo() {
 		String data = RootUtils.executeCommand("cat /proc/version");
