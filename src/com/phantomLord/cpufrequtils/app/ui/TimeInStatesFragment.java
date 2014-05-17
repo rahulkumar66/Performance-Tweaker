@@ -1,4 +1,4 @@
-package com.phantomLord.cpufrequtils.app;
+package com.phantomLord.cpufrequtils.app.ui;
 
 import java.util.ArrayList;
 
@@ -14,6 +14,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.adapters.TimeInStatesListAdapter;
 import com.phantomLord.cpufrequtils.app.utils.CpuState;
 import com.phantomLord.cpufrequtils.app.utils.CpuUtils;
@@ -46,7 +47,7 @@ public class TimeInStatesFragment extends SherlockFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		menu.add("Show Pie Graph").setIcon(R.drawable.ic_menu_reset)
+		menu.add("Show Pie Graph").setIcon(R.drawable.bar_chart)
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 	}
 

@@ -1,4 +1,4 @@
-package com.phantomLord.cpufrequtils.app;
+package com.phantomLord.cpufrequtils.app.ui;
 
 import java.util.ArrayList;
 
@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.CpuState;
 import com.phantomLord.cpufrequtils.app.utils.TimeInStateReader;
 import com.phantomLord.cpufrequtils.app.utils.TimeUtils;

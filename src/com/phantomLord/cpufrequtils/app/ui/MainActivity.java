@@ -1,4 +1,4 @@
-package com.phantomLord.cpufrequtils.app;
+package com.phantomLord.cpufrequtils.app.ui;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,6 +9,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.bugsense.trace.BugSenseHandler;
+import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.dialogs.AboutDialogBox;
 import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
 import com.phantomLord.cpufrequtils.app.utils.RootUtils;

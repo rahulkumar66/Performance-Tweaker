@@ -1,4 +1,6 @@
-package com.phantomLord.cpufrequtils.app;
+package com.phantomLord.cpufrequtils.app.ui;
+
+import com.phantomLord.cpufrequtils.app.R;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

@@ -1,4 +1,4 @@
-package com.phantomLord.cpufrequtils.app;
+package com.phantomLord.cpufrequtils.app.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +15,7 @@ import antistatic.spinnerwheel.AbstractWheel;
 import antistatic.spinnerwheel.adapters.ArrayWheelAdapter;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.phantomLord.cpufrequtils.app.utils.CpuUtils;
