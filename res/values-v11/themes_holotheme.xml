@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="HoloTheme" parent="@style/_HoloTheme"/>
+
+  <style name="_HoloTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+
+    <item name="android:listChoiceIndicatorMultiple">@drawable/holotheme_btn_check_holo_light</item>
+
+    <item name="android:buttonStyle">@style/ButtonHoloTheme</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonHoloTheme</item>
+
+    <item name="android:dropDownSpinnerStyle">@style/SpinnerHoloTheme</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarHoloTheme</item>
+
+  </style>
+
+</resources>

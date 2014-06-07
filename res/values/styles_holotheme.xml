@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="CheckBoxHoloTheme" parent="android:Widget.CompoundButton.CheckBox">
+      <item name="android:button">@drawable/holotheme_btn_check_holo_light</item>
+  </style>
+
+  <style name="ButtonHoloTheme" parent="android:Widget.Button">
+	  <item name="android:background">@drawable/holotheme_btn_default_holo_light</item>
+	  <item name="android:minHeight">48dip</item>
+	  <item name="android:minWidth">64dip</item>
+	  <item name="android:textColor">#000000</item>
+  </style>
+
+  <style name="ImageButtonHoloTheme" parent="android:Widget.ImageButton">
+	  <item name="android:background">@drawable/holotheme_btn_default_holo_light</item>
+  </style>
+
+  <style name="SpinnerHoloTheme" parent="android:Widget.Spinner">
+      <item name="android:background">@drawable/holotheme_spinner_background_holo_light</item>
+      <item name="android:dropDownSelector">@drawable/holotheme_list_selector_holo_light</item>
+  </style>
+
+  <style name="SpinnerDropDownItemHoloTheme" parent="android:Widget.DropDownItem.Spinner">
+      <item name="android:checkMark">@drawable/holotheme_btn_radio_holo_light</item>
+  </style>
+  <style name="ProgressBarHoloTheme" parent="android:Widget.ProgressBar.Horizontal">
+      <item name="android:progressDrawable">@drawable/holotheme_progress_horizontal_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/holotheme_progress_indeterminate_horizontal_holo_light</item>
+      <item name="android:minHeight">16dip</item>
+      <item name="android:maxHeight">16dip</item>
+  </style>
+
+</resources>

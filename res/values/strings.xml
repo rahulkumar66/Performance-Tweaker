@@ -11,7 +11,7 @@
 	<string name="about">About</string>
 	<string name="error">Error</string>
 	<string name="doesnt_support_cpufs">Your Phone Does Not Supports Cpu Freqeuncy Scaling</string>
-	<string name="continu">continue</string>
-	<string name="exit">exit</string>
+	<string name="continu">Continue</string>
+	<string name="exit">Exit</string>
 	<string name="noroot">Your Phone Does Not Have Root Access</string>
 </resources>
