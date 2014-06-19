@@ -3,7 +3,10 @@ package com.phantomLord.cpufrequtils.app.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -13,31 +16,35 @@ import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.dialogs.AboutDialogBox;
 import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
 import com.phantomLord.cpufrequtils.app.utils.RootUtils;
-import com.viewpagerindicator.PageIndicator;
-import com.viewpagerindicator.TitlePageIndicator;
 
 public class MainActivity extends SherlockFragmentActivity {
-
-	TestFragmentAdapter mAdapter;
-	ViewPager mPager;
-	PageIndicator mIndicator;
+	private static final int CONTENT_VIEW_ID = 666;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		BugSenseHandler.initAndStartSession(MainActivity.this, "4cdc31a1");
-		setContentView(R.layout.title_tabs);
+		FrameLayout frame = new FrameLayout(this);
+		frame.setId(CONTENT_VIEW_ID);
+		setContentView(frame, new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT));
 
-		mAdapter = new TestFragmentAdapter(getSupportFragmentManager());
-		mPager = (ViewPager) findViewById(R.id.pager);
-		mPager.setAdapter(mAdapter);
+		if (savedInstanceState == null) {
+			setInitialFragment();
+		}
 
-		mIndicator = (TitlePageIndicator) findViewById(R.id.indicator);
-		mIndicator.setViewPager(mPager);
 		if (!(RootUtils.isRooted()))
 			new RootNotFoundAlertDialog().show(getSupportFragmentManager(),
 					"Cpu Tuner");
 
+	}
+
+	private void setInitialFragment() {
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.add(CONTENT_VIEW_ID, MainFragment.newInstance())
+				.commit();
 	}
 
 	@Override
@@ -47,7 +54,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.main, menu);
+		// getSupportMenuInflater().inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -57,12 +64,10 @@ public class MainActivity extends SherlockFragmentActivity {
 		if (title.equals(getString(R.string.report_to_github))) {
 			Uri uri = Uri.parse(getString(R.string.github_bugtracker));
 			Intent mIntent = new Intent(Intent.ACTION_VIEW, uri);
-			startActivity(mIntent);	
-		} 
-		else if (title.equals("Settings")) {
+			startActivity(mIntent);
+		} else if (title.equals("Settings")) {
 			startActivity(new Intent(getBaseContext(), SettingsActivity.class));
-		} 
-		else if (title.equals("About")) {
+		} else if (title.equals("About")) {
 			new AboutDialogBox().show(getSupportFragmentManager(), title);
 		}
 

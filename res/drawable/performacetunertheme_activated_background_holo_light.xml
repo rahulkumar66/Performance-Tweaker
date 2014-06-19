@@ -15,6 +15,6 @@
 -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_activated="true" android:drawable="@drawable/holotheme_list_activated_holo" />
+    <item android:state_activated="true" android:drawable="@drawable/performacetunertheme_list_activated_holo" />
     <item android:drawable="@android:color/transparent" />
 </selector>

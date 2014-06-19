@@ -24,8 +24,9 @@ public class RootUtils implements Constants {
 		String[] requiredFiles = { scaling_governor, scaling_max_freq,
 				scaling_min_freq };
 		for (String requiredFile : requiredFiles) {
-			if (!(new File(cpufreq_sys_dir+requiredFile)).exists()) {
-				Log.d(Constants.App_Tag,new File(cpufreq_sys_dir+requiredFile).getAbsolutePath().toString());
+			if (!(new File(cpufreq_sys_dir + requiredFile)).exists()) {
+				Log.d(Constants.App_Tag, new File(cpufreq_sys_dir
+						+ requiredFile).getAbsolutePath().toString());
 				return false;
 			}
 		}
@@ -76,6 +77,38 @@ public class RootUtils implements Constants {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static String executeRootCommandWithResult(String command) {
+		InputStream inputStream;
+		DataOutputStream dos;
+		String data = new String();
+		try {
+			Process process = prepareRootShell();
+			dos = new DataOutputStream(process.getOutputStream());
+			dos.writeBytes(command);
+			dos.flush();
+			dos.writeBytes("\n exit ");
+			dos.flush();
+			dos.close();
+			if (process.waitFor() == 0) {
+				inputStream = process.getInputStream();
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(inputStream));
+				String line;
+
+				while ((line = reader.readLine()) != null) {
+					data = line;
+				}
+			}
+
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return data;
+
 	}
 
 	private static void printOutputOnStdout(InputStream is) {

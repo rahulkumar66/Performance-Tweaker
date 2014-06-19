@@ -15,6 +15,6 @@
 -->
 
 <transition xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/holotheme_list_pressed_holo_light"  />
-    <item android:drawable="@drawable/holotheme_list_longpressed_holo"  />
+    <item android:drawable="@drawable/performacetunertheme_list_pressed_holo_light"  />
+    <item android:drawable="@drawable/performacetunertheme_list_longpressed_holo"  />
 </transition>

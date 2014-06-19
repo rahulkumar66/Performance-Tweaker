@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="PerformaceTunerTheme" parent="@style/_PerformaceTunerTheme"/>
+
+  <style name="_PerformaceTunerTheme" parent="Theme.Sherlock.Light.DarkActionBar">
+
+    <item name="android:checkboxStyle">@style/CheckBoxPerformaceTunerTheme</item>
+
+    <item name="android:buttonStyle">@style/ButtonPerformaceTunerTheme</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonPerformaceTunerTheme</item>
+
+    <item name="android:spinnerStyle">@style/SpinnerPerformaceTunerTheme</item>
+
+    <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemPerformaceTunerTheme</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarPerformaceTunerTheme</item>
+
+  </style>
+
+</resources>

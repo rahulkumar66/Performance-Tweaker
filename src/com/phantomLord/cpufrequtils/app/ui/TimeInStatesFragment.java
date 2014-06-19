@@ -47,7 +47,7 @@ public class TimeInStatesFragment extends SherlockFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		menu.add("Show Pie Graph").setIcon(R.drawable.bar_chart)
+		menu.add("Show Pie Graph").setIcon(R.drawable.ic_menu_reset)
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 	}
 

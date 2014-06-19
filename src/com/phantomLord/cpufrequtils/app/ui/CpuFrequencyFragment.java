@@ -25,8 +25,8 @@ public class CpuFrequencyFragment extends SherlockFragment {
 	ArrayWheelAdapter<String> frequencyAdapter;
 	ArrayWheelAdapter<String> governorAdapter;
 
-	List<String> availableFrequencies=new ArrayList<String>();
-	List<String> availableGovernors=new ArrayList<String>();
+	List<String> availableFrequencies = new ArrayList<String>();
+	List<String> availableGovernors = new ArrayList<String>();
 
 	String[] availablefreq;
 	String[] availableScalingGovernors;
@@ -40,20 +40,17 @@ public class CpuFrequencyFragment extends SherlockFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		availablefreq = CpuUtils.getAvailableFrequencies();
-		availableFrequencies=Arrays.asList(availablefreq);
+		availableFrequencies = Arrays.asList(availablefreq);
 
 		availableScalingGovernors = CpuUtils.getAvailableGovernors();
-		availableGovernors=Arrays.asList(availableScalingGovernors);
-
+		availableGovernors = Arrays.asList(availableScalingGovernors);
 		updateValues();
 
 	}
 
 	private void updateValues() {
 		maxFrequency = CpuUtils.getCurrentMaxFrequeny();
-
 		minFrequency = CpuUtils.getCurrentMinFrequency();
-
 		currentGovernor = CpuUtils.getCurrentScalingGovernor();
 	}
 
@@ -95,7 +92,8 @@ public class CpuFrequencyFragment extends SherlockFragment {
 					CpuUtils.setFrequencyAndGovernor(
 							availableFrequencies.get(maxFreq.getCurrentItem()),
 							availableFrequencies.get(minimum.getCurrentItem()),
-							availableGovernors.get(governor.getCurrentItem()), mView.getContext());
+							availableGovernors.get(governor.getCurrentItem()),
+							mView.getContext());
 					updateValues();
 
 				} else {

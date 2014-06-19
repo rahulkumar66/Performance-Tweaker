@@ -31,12 +31,19 @@ public class CpuUtils implements Constants {
 	}
 
 	public static String getCurrentMaxFrequeny() {
-
-		return RootUtils.executeCommand("cat " + scaling_max_freq);
-	}
+		if (new File(scaling_max_freq).canRead()) 
+			return RootUtils.executeCommand("cat " + scaling_max_freq);
+		 else 
+			return RootUtils.executeRootCommandWithResult("cat " + scaling_max_freq);
+		
+		}
 
 	public static String getCurrentMinFrequency() {
-		return RootUtils.executeCommand("cat " + scaling_min_freq);
+		if (new File(scaling_min_freq).canRead())
+			return RootUtils.executeCommand("cat " + scaling_min_freq);
+		else
+			return RootUtils.executeRootCommandWithResult("cat "+ scaling_min_freq);
+
 	}
 
 	public static String[] getAvailableGovernors() {
@@ -56,11 +63,11 @@ public class CpuUtils implements Constants {
 		} else if (new File(available_schedulers_path).exists()) {
 			schedulerPath = available_schedulers_path;
 			/*
-			 * Some devices dont have mmcblk0 so we use mtdblock0 to read the available 
-			 * schedulers
+			 * Some devices dont have mmcblk0 so we use mtdblock0 to read the
+			 * available schedulers
 			 */
 		} else if (new File(ioscheduler_mtd).exists()) {
-			schedulerPath=ioscheduler_mtd;
+			schedulerPath = ioscheduler_mtd;
 		} else {
 			return new String[] {};
 			/*
@@ -167,16 +174,11 @@ public class CpuUtils implements Constants {
 
 	}
 
-	/*public static ArrayList<String> toArrayList(String[] contents) {
-		ArrayList<String> data = new ArrayList<String>();
-		if (contents != null) {
-			for (String str : contents) {
-				data.add(str);
-			}
-		}
-		return data;
-	}
-	*/
+	/*
+	 * public static ArrayList<String> toArrayList(String[] contents) {
+	 * ArrayList<String> data = new ArrayList<String>(); if (contents != null) {
+	 * for (String str : contents) { data.add(str); } } return data; }
+	 */
 
 	public static String getKernelInfo() {
 		String data = RootUtils.executeCommand("cat /proc/version");
