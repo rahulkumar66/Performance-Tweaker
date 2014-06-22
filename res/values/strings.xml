@@ -6,12 +6,19 @@
     <string name="report_to_github">Report an Issue </string>
     <string name="github_bugtracker">https://github.com/rahulkumar2048/Cpu-Tuner/issues/new</string>
     <string name="about_content">Performance Tuner \nVersion 1.0a
-        \n\nCopyleft of Rahul Kumar aka PhantomLord\n\nIf you face any problem feel free to drop a mail at rahulkumar2048@gmail.com  </string>
-	<string name="okbutton">Ok</string>
-	<string name="about">About</string>
-	<string name="error">Error</string>
-	<string name="doesnt_support_cpufs">Your Phone Does Not Supports Cpu Freqeuncy Scaling</string>
-	<string name="continu">Continue</string>
-	<string name="exit">Exit</string>
-	<string name="noroot">Your Phone Does Not Have Root Access</string>
+        \n\nCopyleft of Rahul Kumar \n\nIf you face any problem feel free to drop a mail at rahulkumar2048@gmail.com  </string>
+    <string name="okbutton">Ok</string>
+    <string name="about">About</string>
+    <string name="error">Error</string>
+    <string name="doesnt_support_cpufs">Your Phone Does Not Supports Cpu Freqeuncy Scaling</string>
+    <string name="continu">Continue</string>
+    <string name="exit">Exit</string>
+    <string name="noroot">Your Phone Does Not Have Root Access</string>
+
+    <string-array name="spinneritems">
+        <item>Alarms</item>
+        <item>Partial Wakelocks</item>
+        <item>Kernel Wakelock</item>
+    </string-array>
+
 </resources>

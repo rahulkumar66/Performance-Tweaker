@@ -33,23 +33,70 @@ public class RootUtils implements Constants {
 		return true;
 	}
 
-	public static String executeCommand(String command) {
-
+	/*
+	 * public static String executeCommand(String command) {
+	 * 
+	 * StringBuffer buffer = new StringBuffer(); String data = null; Process
+	 * process; BufferedReader stdinput; try { process =
+	 * Runtime.getRuntime().exec(command); stdinput = new BufferedReader(new
+	 * InputStreamReader( process.getInputStream())); while ((data =
+	 * stdinput.readLine()) != null) { buffer.append(data); } } catch
+	 * (IOException e) { e.printStackTrace(); } return buffer.toString();
+	 * 
+	 * }
+	 */
+	public static String readOutputFromFile(String pathToFile) {
 		StringBuffer buffer = new StringBuffer();
 		String data = null;
 		Process process;
 		BufferedReader stdinput;
-		try {
-			process = Runtime.getRuntime().exec(command);
-			stdinput = new BufferedReader(new InputStreamReader(
-					process.getInputStream()));
-			while ((data = stdinput.readLine()) != null) {
-				buffer.append(data);
+		File file = new File(pathToFile);
+		if (file.canRead()) {
+			try {
+				process = Runtime.getRuntime().exec("cat " + pathToFile);
+				stdinput = new BufferedReader(new InputStreamReader(
+						process.getInputStream()));
+				while ((data = stdinput.readLine()) != null) {
+					buffer.append(data);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			return buffer.toString();
+
 		}
-		return buffer.toString();
+		/*
+		 * try reading the file as root
+		 */
+		else {
+			InputStream inputStream;
+			DataOutputStream dos;
+			try {
+				process = prepareRootShell();
+				dos = new DataOutputStream(process.getOutputStream());
+				dos.writeBytes("cat " + process);
+				dos.flush();
+				dos.writeBytes("\n exit ");
+				dos.flush();
+				dos.close();
+				if (process.waitFor() == 0) {
+					inputStream = process.getInputStream();
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(inputStream));
+					String line;
+
+					while ((line = reader.readLine()) != null) {
+						data = line;
+					}
+				}
+
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			return data;
+		}
 
 	}
 
@@ -77,38 +124,6 @@ public class RootUtils implements Constants {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static String executeRootCommandWithResult(String command) {
-		InputStream inputStream;
-		DataOutputStream dos;
-		String data = new String();
-		try {
-			Process process = prepareRootShell();
-			dos = new DataOutputStream(process.getOutputStream());
-			dos.writeBytes(command);
-			dos.flush();
-			dos.writeBytes("\n exit ");
-			dos.flush();
-			dos.close();
-			if (process.waitFor() == 0) {
-				inputStream = process.getInputStream();
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(inputStream));
-				String line;
-
-				while ((line = reader.readLine()) != null) {
-					data = line;
-				}
-			}
-
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		return data;
-
 	}
 
 	private static void printOutputOnStdout(InputStream is) {

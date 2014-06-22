@@ -12,8 +12,8 @@ public class CpuUtils implements Constants {
 	public static String[] getAvailableFrequencies() {
 		String[] frequencies = null;
 		if (new File(scaling_available_freq).exists()) {
-			frequencies = RootUtils.executeCommand(
-					"cat " + scaling_available_freq).split(" ");
+			frequencies = RootUtils.readOutputFromFile(scaling_available_freq)
+					.split(" ");
 			return frequencies;
 		} else if (new File(time_in_states).exists()) {
 			ArrayList<CpuState> states = new ArrayList<CpuState>();
@@ -31,28 +31,21 @@ public class CpuUtils implements Constants {
 	}
 
 	public static String getCurrentMaxFrequeny() {
-		if (new File(scaling_max_freq).canRead()) 
-			return RootUtils.executeCommand("cat " + scaling_max_freq);
-		 else 
-			return RootUtils.executeRootCommandWithResult("cat " + scaling_max_freq);
-		
-		}
+		return RootUtils.readOutputFromFile(scaling_max_freq);
+	}
 
 	public static String getCurrentMinFrequency() {
-		if (new File(scaling_min_freq).canRead())
-			return RootUtils.executeCommand("cat " + scaling_min_freq);
-		else
-			return RootUtils.executeRootCommandWithResult("cat "+ scaling_min_freq);
+		return RootUtils.readOutputFromFile(scaling_min_freq);
 
 	}
 
 	public static String[] getAvailableGovernors() {
-		return RootUtils.executeCommand("cat " + scaling_available_governors)
-				.split(" ");
+		return RootUtils.readOutputFromFile(scaling_available_governors).split(
+				" ");
 	}
 
 	public static String getCurrentScalingGovernor() {
-		return RootUtils.executeCommand("cat " + scaling_governor);
+		return RootUtils.readOutputFromFile(scaling_governor);
 	}
 
 	public static final String[] getAvailableIOScheduler() {
@@ -75,7 +68,7 @@ public class CpuUtils implements Constants {
 			 * widget would just crash if a null value is returned
 			 */
 		}
-		String[] schedulers = RootUtils.executeCommand("cat " + schedulerPath)
+		String[] schedulers = RootUtils.readOutputFromFile(schedulerPath)
 				.split(" ");
 		for (int i = 0; i < schedulers.length; i++) {
 			if (schedulers[i].contains("]")) {
@@ -89,8 +82,8 @@ public class CpuUtils implements Constants {
 
 	public static final String getCurrentIOScheduler() {
 		String currentScheduler = new String();
-		String[] schedulers = RootUtils.executeCommand(
-				"cat " + available_schedulers).split(" ");
+		String[] schedulers = RootUtils
+				.readOutputFromFile(available_schedulers).split(" ");
 		for (String string : schedulers) {
 			if (string.contains("[")) {
 				currentScheduler = string;
@@ -107,8 +100,7 @@ public class CpuUtils implements Constants {
 			if (device.exists()) {
 				device = new File(Constants.available_blockdevices + "mmcblk"
 						+ i + "/queue/read_ahead_kb");
-				res = RootUtils.executeCommand("cat "
-						+ device.getAbsolutePath());
+				res = RootUtils.readOutputFromFile(device.getAbsolutePath());
 			}
 		}
 		return res;
@@ -181,7 +173,7 @@ public class CpuUtils implements Constants {
 	 */
 
 	public static String getKernelInfo() {
-		String data = RootUtils.executeCommand("cat /proc/version");
+		String data = RootUtils.readOutputFromFile("/proc/version");
 		return data;
 	}
 

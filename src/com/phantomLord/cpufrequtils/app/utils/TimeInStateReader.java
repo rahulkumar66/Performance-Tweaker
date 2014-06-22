@@ -22,11 +22,11 @@ public class TimeInStateReader implements Constants {
 	public ArrayList<CpuState> getCpuStateTime(boolean withDeepSleep) {
 		states.clear();
 		BufferedReader bufferedReader;
+		Process process = null;
 		File statsFile = new File(time_in_states);
 		if (statsFile.exists()) {
 			if (statsFile.canRead()) {
 				String line;
-				Process process = null;
 				try {
 					process = Runtime.getRuntime()
 							.exec("cat " + time_in_states);
@@ -46,18 +46,23 @@ public class TimeInStateReader implements Constants {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+
+			} else {
 				/*
-				 * calculate deep sleep time
+				 * to do
 				 */
-				if (withDeepSleep) {
-					long deepSleepTime = (SystemClock.elapsedRealtime() - SystemClock
-							.uptimeMillis());
-					long seconds = TimeUnit.MILLISECONDS
-							.toSeconds(deepSleepTime);
-					if (deepSleepTime > 0)
-						states.add(new CpuState(0, seconds));
-				}
 			}
+		}
+		/*
+		 * calculate deep sleep time
+		 */
+
+		if (withDeepSleep) {
+			long deepSleepTime = (SystemClock.elapsedRealtime() - SystemClock
+					.uptimeMillis());
+			long seconds = TimeUnit.MILLISECONDS.toSeconds(deepSleepTime);
+			if (deepSleepTime > 0)
+				states.add(new CpuState(0, seconds));
 		}
 		return states;
 	}

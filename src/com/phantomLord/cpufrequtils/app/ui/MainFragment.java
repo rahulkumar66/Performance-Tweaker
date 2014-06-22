@@ -28,7 +28,7 @@ public class MainFragment extends SherlockFragment {
 	private DrawerLayout mDrawerLayout;
 	private ListView listView;
 
-	private ActionBarHelper mActionBar;
+	private ActionBarHelper actionBar;
 
 	private SherlockActionBarDrawerToggle mDrawerToggle;
 
@@ -58,7 +58,8 @@ public class MainFragment extends SherlockFragment {
 
 		listView.setAdapter(new ArrayAdapter<String>(this.getActivity(),
 				android.R.layout.simple_list_item_1, new String[] {
-						"Time In State", "Cpu Frequecny", "Disk Storage" }));
+						"Time In State", "Cpu Frequency", "SD Storage",
+						"Wakelocks" }));
 		listView.setOnItemClickListener(new DrawerItemClickListener());
 		listView.setCacheColorHint(0);
 		listView.setScrollingCacheEnabled(false);
@@ -66,8 +67,8 @@ public class MainFragment extends SherlockFragment {
 		listView.setFastScrollEnabled(true);
 		listView.setSmoothScrollbarEnabled(true);
 
-		mActionBar = createActionBarHelper();
-		mActionBar.init();
+		actionBar = createActionBarHelper();
+		actionBar.init();
 
 		// ActionBarDrawerToggle provides convenient helpers for tying together
 		// the
@@ -124,22 +125,26 @@ public class MainFragment extends SherlockFragment {
 			switch (position) {
 			case 0:
 				mfragment = new TimeInStatesFragment();
-				mActionBar.mActionBar.setTitle("Time In States");
+				actionBar.mActionBar.setTitle("Time In States");
 				break;
 			case 1:
 				mfragment = new CpuFrequencyFragment();
-				mActionBar.mActionBar.setTitle("Cpu Frequency");
+				actionBar.mActionBar.setTitle("Cpu Frequency");
 				break;
 			case 2:
 				mfragment = new DiskFragment();
-				mActionBar.mActionBar.setTitle("SD Card");
+				actionBar.mActionBar.setTitle("SD Storage");
+				break;
+			case 3:
+				mfragment = new WakeLocksDetectorFragment();
+				actionBar.mActionBar.setTitle("WakeLocks");
 				break;
 			}
 			FragmentManager fm = getSherlockActivity()
 					.getSupportFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.replace(R.id.linearlay1, mfragment);
-			ft.addToBackStack("tag");
+		//	ft.addToBackStack("tag");
 			ft.commit();
 			mDrawerLayout.closeDrawer(listView);
 		}
