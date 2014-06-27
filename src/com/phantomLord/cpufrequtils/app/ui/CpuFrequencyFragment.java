@@ -41,7 +41,6 @@ public class CpuFrequencyFragment extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		availablefreq = CpuUtils.getAvailableFrequencies();
 		availableFrequencies = Arrays.asList(availablefreq);
-
 		availableScalingGovernors = CpuUtils.getAvailableGovernors();
 		availableGovernors = Arrays.asList(availableScalingGovernors);
 		updateValues();

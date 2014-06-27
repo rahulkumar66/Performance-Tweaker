@@ -8,7 +8,8 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.phantomLord.cpufrequtils.app.R;
 
-public class CpuFrequencyScalingNotSupportedDialog extends SherlockDialogFragment {
+public class CpuFrequencyScalingNotSupportedDialog extends
+		SherlockDialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		return new AlertDialog.Builder(getActivity())

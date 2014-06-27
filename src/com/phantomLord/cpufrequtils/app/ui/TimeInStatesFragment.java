@@ -18,7 +18,7 @@ import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.adapters.TimeInStatesListAdapter;
 import com.phantomLord.cpufrequtils.app.utils.CpuState;
 import com.phantomLord.cpufrequtils.app.utils.CpuUtils;
-import com.phantomLord.cpufrequtils.app.utils.TimeInStateReader;
+import com.phantomLord.cpufrequtils.app.utils.TimeUtils;
 
 public class TimeInStatesFragment extends SherlockFragment {
 
@@ -26,8 +26,8 @@ public class TimeInStatesFragment extends SherlockFragment {
 	ListView listView;
 	ArrayList<CpuState> states;
 	TimeInStatesListAdapter timeInStateAdapter;
-	TimeInStateReader statesMonitor;
 	TextView kernelVersion;
+	TextView totalTimeInState;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,13 +35,21 @@ public class TimeInStatesFragment extends SherlockFragment {
 		setHasOptionsMenu(true);
 		view = inflater.inflate(R.layout.time_in_states, container, false);
 		listView = (ListView) view.findViewById(R.id.time_in_state_listView);
-
+		totalTimeInState = (TextView) view.findViewById(R.id.total_time);
 		kernelVersion = (TextView) view.findViewById(R.id.kernelInfo);
+		return view;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 		kernelVersion.setText(CpuUtils.getKernelInfo());
 		timeInStateAdapter = new TimeInStatesListAdapter(view.getContext());
 		listView.setAdapter(timeInStateAdapter);
+		TimeUtils timeutils = new TimeUtils();
+		timeutils.calculateTime(timeInStateAdapter.totaltime);
+		totalTimeInState.setText("Total Time :" + timeutils.toString());
 
-		return view;
 	}
 
 	@Override

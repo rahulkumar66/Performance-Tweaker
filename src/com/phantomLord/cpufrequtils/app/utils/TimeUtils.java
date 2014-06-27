@@ -26,4 +26,8 @@ public class TimeUtils {
 		return second;
 	}
 
+	@Override
+	public String toString() {
+		return hours + " h " + minute + " m " + second + " s ";
+	}
 }

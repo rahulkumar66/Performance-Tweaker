@@ -1,6 +1,7 @@
 package com.phantomLord.cpufrequtils.app.adapters;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,7 +19,7 @@ import com.phantomLord.cpufrequtils.app.utils.TimeUtils;
 public class TimeInStatesListAdapter extends BaseAdapter {
 	Context context;
 	ArrayList<CpuState> states;
-	long totaltime = 0;
+	public long totaltime = 0;
 	TimeInStateReader statesReader;
 
 	public TimeInStatesListAdapter(Context context) {
@@ -26,6 +27,7 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 		this.context = context;
 		states = statesReader.getCpuStateTime(true);
 		totaltime = statesReader.getTotalTimeInState();
+		Collections.sort(states);
 	}
 
 	@Override
@@ -39,8 +41,8 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 		ProgressBar mProgressBar = (ProgressBar) rowView
 				.findViewById(R.id.progress);
 		TextView time = (TextView) rowView.findViewById(R.id.time);
-		TextView percentage=(TextView) rowView.findViewById(R.id.percentage);
-		
+		TextView percentage = (TextView) rowView.findViewById(R.id.percentage);
+
 		TimeUtils timeUtils = new TimeUtils();
 		timeUtils.calculateTime(states.get(position).getTime());
 		time.setText(timeUtils.getHours() + " h " + timeUtils.getminutes()
@@ -53,12 +55,12 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 							+ " Mhz");
 		mProgressBar.setMax((int) (totaltime));
 		mProgressBar.setProgress((int) (states.get(position).getTime()));
-		
+
 		/*
-		 * calculate percentage of time 
+		 * calculate percentage of time
 		 */
-		long percent=(states.get(position).getTime()*100)/totaltime;
-		percentage.setText(percent+"%");
+		long percent = (states.get(position).getTime() * 100) / totaltime;
+		percentage.setText(percent + "%");
 		return rowView;
 	}
 

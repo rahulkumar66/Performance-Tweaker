@@ -37,11 +37,11 @@ public class DiskFragment extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		availableSchedulers = CpuUtils.getAvailableIOScheduler();
-		schedulers=Arrays.asList(availableSchedulers);
+		schedulers = Arrays.asList(availableSchedulers);
 		currentScheduler = CpuUtils.getCurrentIOScheduler();
 		readAheadValues = new String[] { "32", "64", "128", "256", "512",
 				"1024", "2048", "3072", "4096" };
-		availableReadAheadValues=Arrays.asList(readAheadValues);
+		availableReadAheadValues = Arrays.asList(readAheadValues);
 
 	}
 
@@ -83,8 +83,7 @@ public class DiskFragment extends SherlockFragment {
 							.get(diskScheduler.getCurrentItem()),
 							availableReadAheadValues.get(readAhead
 									.getCurrentItem()));
-				}
-				else {
+				} else {
 					new RootNotFoundAlertDialog().show(getFragmentManager(),
 							Constants.App_Tag);
 				}

@@ -1,6 +1,6 @@
 package com.phantomLord.cpufrequtils.app.utils;
 
-public class CpuState {
+public class CpuState implements Comparable<CpuState> {
 
 	private int frequency;
 	private long time;
@@ -16,6 +16,16 @@ public class CpuState {
 
 	public int getFrequency() {
 		return frequency;
+	}
+
+	@Override
+	public int compareTo(CpuState state) {
+		if (this.frequency < state.frequency)
+			return 1;
+		else if (this.frequency > state.frequency)
+			return -1;
+		else
+			return 0;
 	}
 
 }

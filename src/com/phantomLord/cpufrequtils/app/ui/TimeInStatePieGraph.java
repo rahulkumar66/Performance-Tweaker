@@ -29,7 +29,7 @@ public class TimeInStatePieGraph extends SherlockFragmentActivity {
 	ArrayList<CpuState> mStates = new ArrayList<CpuState>();
 
 	private static int[] COLORS = new int[] { Color.YELLOW, Color.GREEN,
-		 Color.LTGRAY,Color.BLUE, Color.CYAN,Color.RED, Color.MAGENTA };
+			Color.LTGRAY, Color.BLUE, Color.CYAN, Color.RED, Color.MAGENTA };
 
 	/** The main series that will include all the data. */
 	private CategorySeries mSeries = new CategorySeries("");

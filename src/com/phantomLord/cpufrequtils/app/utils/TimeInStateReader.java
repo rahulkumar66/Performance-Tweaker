@@ -12,7 +12,7 @@ import android.os.SystemClock;
 public class TimeInStateReader implements Constants {
 	private ArrayList<CpuState> states;
 
-	private static long totaltime;
+	private long totaltime;
 
 	public TimeInStateReader() {
 		states = new ArrayList<CpuState>();

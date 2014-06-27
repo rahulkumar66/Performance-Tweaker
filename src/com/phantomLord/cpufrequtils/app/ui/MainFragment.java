@@ -58,7 +58,7 @@ public class MainFragment extends SherlockFragment {
 
 		listView.setAdapter(new ArrayAdapter<String>(this.getActivity(),
 				android.R.layout.simple_list_item_1, new String[] {
-						"Time In State", "Cpu Frequency", "SD Storage",
+						"Cpu Frequency", "Time In State", "SD Storage",
 						"Wakelocks" }));
 		listView.setOnItemClickListener(new DrawerItemClickListener());
 		listView.setCacheColorHint(0);
@@ -78,9 +78,8 @@ public class MainFragment extends SherlockFragment {
 				mDrawerLayout, R.drawable.ic_drawer_light, R.string.about,
 				R.string.about_content);
 		mDrawerToggle.syncState();
-		Fragment timeInstateFragment = new TimeInStatesFragment();
 		getSherlockActivity().getSupportFragmentManager().beginTransaction()
-				.replace(R.id.linearlay1, timeInstateFragment).commit();
+				.replace(R.id.linearlay1, new CpuFrequencyFragment()).commit();
 
 		return view;
 	}
@@ -124,12 +123,12 @@ public class MainFragment extends SherlockFragment {
 			Fragment mfragment = new Fragment();
 			switch (position) {
 			case 0:
-				mfragment = new TimeInStatesFragment();
-				actionBar.mActionBar.setTitle("Time In States");
-				break;
-			case 1:
 				mfragment = new CpuFrequencyFragment();
 				actionBar.mActionBar.setTitle("Cpu Frequency");
+				break;
+			case 1:
+				mfragment = new TimeInStatesFragment();
+				actionBar.mActionBar.setTitle("Time In State");
 				break;
 			case 2:
 				mfragment = new DiskFragment();
@@ -143,10 +142,11 @@ public class MainFragment extends SherlockFragment {
 			FragmentManager fm = getSherlockActivity()
 					.getSupportFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
-			ft.replace(R.id.linearlay1, mfragment);
-		//	ft.addToBackStack("tag");
+			ft.replace(R.id.linearlay1, mfragment, "TAG");
+			ft.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
 			ft.commit();
 			mDrawerLayout.closeDrawer(listView);
+
 		}
 	}
 

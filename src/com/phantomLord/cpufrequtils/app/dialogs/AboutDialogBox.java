@@ -12,15 +12,15 @@ public class AboutDialogBox extends SherlockDialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		return new AlertDialog.Builder(getActivity())
-		.setTitle(getString(R.string.about))
-		.setMessage(getString(R.string.about_content))
-		.setPositiveButton(getString(R.string.okbutton),
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,
-							int whichButton) {
+				.setTitle(getString(R.string.about))
+				.setMessage(getString(R.string.about_content))
+				.setPositiveButton(getString(R.string.okbutton),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
 
-					}
-				}).create();
+							}
+						}).create();
 
 	}
 

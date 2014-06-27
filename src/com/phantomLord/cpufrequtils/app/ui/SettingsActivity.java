@@ -1,9 +1,9 @@
 package com.phantomLord.cpufrequtils.app.ui;
 
-import com.phantomLord.cpufrequtils.app.R;
-
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+
+import com.phantomLord.cpufrequtils.app.R;
 
 public class SettingsActivity extends PreferenceActivity {
 	@SuppressWarnings("deprecation")

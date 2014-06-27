@@ -2,26 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="1dp"
+    android:layout_marginLeft="2dp"
     android:paddingRight="1dp"
+    android:layout_marginTop="5dp"
     android:orientation="vertical" >
 
     <ListView
         android:id="@+id/time_in_state_listView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.7"
+        android:layout_weight="0.6"
         android:divider="@null"
         android:dividerHeight="0dp" >
     </ListView>
+    <TextView 
+        android:id="@+id/total_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:gravity="bottom"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="3dp"
         android:gravity="bottom"
         android:text="Kernel Info"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
@@ -29,9 +36,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="6dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
+        android:textSize="14sp"
         android:gravity="bottom" />
 
 </LinearLayout>
