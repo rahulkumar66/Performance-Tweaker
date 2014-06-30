@@ -22,8 +22,8 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.CpuState;
+import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
 import com.phantomLord.cpufrequtils.app.utils.TimeInStateReader;
-import com.phantomLord.cpufrequtils.app.utils.TimeUtils;
 
 public class TimeInStatePieGraph extends SherlockFragmentActivity {
 	ArrayList<CpuState> mStates = new ArrayList<CpuState>();
@@ -85,29 +85,26 @@ public class TimeInStatePieGraph extends SherlockFragmentActivity {
 					if (seriesSelection != null) {
 						int index = seriesSelection.getPointIndex();
 						if (mStates.get(index).getFrequency() == 0) {
-							TimeUtils timeUtils = new TimeUtils();
 							long timeInSeconds = mStates.get(index).getTime();
-							timeUtils.calculateTime(timeInSeconds);
+
 							Toast.makeText(
 									getBaseContext(),
-									"Time Spent in " + "Deep Sleep : "
-											+ timeUtils.getHours() + "h "
-											+ timeUtils.getminutes() + "m "
-											+ timeUtils.getSeconds() + "s ",
+									"Time Spent in "
+											+ "Deep Sleep : "
+											+ MiscUtils
+													.secToString(timeInSeconds),
 									Toast.LENGTH_SHORT).show();
 						} else {
-							TimeUtils timeUtils = new TimeUtils();
 							long timeInSeconds = mStates.get(index).getTime();
-							timeUtils.calculateTime(timeInSeconds);
 
 							Toast.makeText(
 									getBaseContext(),
 									"Time Spent in "
 											+ mStates.get(index).getFrequency()
-											/ 1000 + " Mhz : "
-											+ timeUtils.getHours() + "h "
-											+ timeUtils.getminutes() + "m "
-											+ timeUtils.getSeconds() + "s ",
+											/ 1000
+											+ " Mhz : "
+											+ MiscUtils
+													.secToString(timeInSeconds),
 									Toast.LENGTH_SHORT).show();
 						}
 					}

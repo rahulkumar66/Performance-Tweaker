@@ -2,7 +2,6 @@ package com.phantomLord.cpufrequtils.app.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +44,7 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		context = view.getContext();
-		alarmTriggers
-				.setAdapter(new AlarmTriggerAdapter(getSherlockActivity()));
+		alarmTriggers.setAdapter(new AlarmTriggerAdapter(context));
 
 		actionBar = getSherlockActivity().getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -71,14 +69,12 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 			alarmTriggers.setAdapter(new AlarmTriggerAdapter(context));
 			break;
 		case 1:
-			Log.d("hey", "hello");
 			alarmTriggers.setAdapter(new PartialWakelocksAdapter(context));
 			break;
 		case 2:
 			alarmTriggers.setAdapter(new KernelWakelockAdapter(context));
 			break;
 		}
-
 		return true;
 	}
 

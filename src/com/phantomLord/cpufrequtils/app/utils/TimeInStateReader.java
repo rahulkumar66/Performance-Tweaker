@@ -5,18 +5,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import android.os.SystemClock;
 
 public class TimeInStateReader implements Constants {
 	private ArrayList<CpuState> states;
 
-	private long totaltime;
+	private long totaltime = 0;
 
 	public TimeInStateReader() {
 		states = new ArrayList<CpuState>();
-		totaltime = 0;
 	}
 
 	public ArrayList<CpuState> getCpuStateTime(boolean withDeepSleep) {
@@ -47,10 +45,6 @@ public class TimeInStateReader implements Constants {
 					e.printStackTrace();
 				}
 
-			} else {
-				/*
-				 * to do
-				 */
 			}
 		}
 		/*
@@ -60,22 +54,23 @@ public class TimeInStateReader implements Constants {
 		if (withDeepSleep) {
 			long deepSleepTime = (SystemClock.elapsedRealtime() - SystemClock
 					.uptimeMillis());
-			long seconds = TimeUnit.MILLISECONDS.toSeconds(deepSleepTime);
 			if (deepSleepTime > 0)
-				states.add(new CpuState(0, seconds));
+				states.add(new CpuState(0, deepSleepTime/1000));
 		}
 		return states;
 	}
 
 	public long getTotalTimeInState() {
-
+		totaltime = 0;
 		for (CpuState state : states) {
 			totaltime += state.getTime();
+
 		}
 		return totaltime;
 	}
 
 	public void clearCpuStates() {
 		states.clear();
+		totaltime = 0;
 	}
 }

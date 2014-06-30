@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.CpuState;
+import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
 import com.phantomLord.cpufrequtils.app.utils.TimeInStateReader;
-import com.phantomLord.cpufrequtils.app.utils.TimeUtils;
 
 public class TimeInStatesListAdapter extends BaseAdapter {
 	Context context;
@@ -43,10 +43,7 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 		TextView time = (TextView) rowView.findViewById(R.id.time);
 		TextView percentage = (TextView) rowView.findViewById(R.id.percentage);
 
-		TimeUtils timeUtils = new TimeUtils();
-		timeUtils.calculateTime(states.get(position).getTime());
-		time.setText(timeUtils.getHours() + " h " + timeUtils.getminutes()
-				+ " m " + timeUtils.getSeconds() + " s ");
+		time.setText(MiscUtils.secToString(states.get(position).getTime()));
 		if (states.get(position).getFrequency() == 0)
 			frequencyTextView.setText("Deep Sleep");
 		else

@@ -16,7 +16,6 @@ import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
-import com.phantomLord.cpufrequtils.app.utils.TimeUtils;
 
 public class KernelWakelockAdapter extends BaseAdapter {
 	ArrayList<StatElement> kernelWakelocks;
@@ -52,10 +51,7 @@ public class KernelWakelockAdapter extends BaseAdapter {
 		mKernelWakelock.setText(kernelWakelock.substring(1,
 				kernelWakelock.length() - 1));
 
-		TimeUtils time = new TimeUtils();
-		time.calculateTime(nativeWakeLock.getDuration() / 1000);
-		WakeupInfo.setText(time.getHours() + " h " + time.getminutes() + " m "
-				+ time.getSeconds() + " s ");
+		WakeupInfo.setText(MiscUtils.secToString(nativeWakeLock.getDuration()/1000));
 		return rowView;
 	}
 

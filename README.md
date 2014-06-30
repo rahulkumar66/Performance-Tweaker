@@ -14,6 +14,8 @@ Simple Android App for
 
 ->Changing the various parameters of nand storage for better performance such as I/O Scheduler and Read Ahead.
 
+->Spot the applications or the sources which are causing battery drain.
+
 
 To Download the App
 
