@@ -12,9 +12,11 @@ public class TimeInStateReader implements Constants {
 	private ArrayList<CpuState> states;
 
 	private long totaltime = 0;
+	boolean nonZeroValuesOnly;
 
-	public TimeInStateReader() {
+	public TimeInStateReader(boolean getNonZeroValuesOnly) {
 		states = new ArrayList<CpuState>();
+		this.nonZeroValuesOnly = getNonZeroValuesOnly;
 	}
 
 	public ArrayList<CpuState> getCpuStateTime(boolean withDeepSleep) {
@@ -38,8 +40,15 @@ public class TimeInStateReader implements Constants {
 					while ((line = bufferedReader.readLine()) != null) {
 						String entries[] = line.split(" ");
 						long time = Long.parseLong(entries[1]) / 100;
-						states.add(new CpuState(Integer.parseInt(entries[0]),
-								time));
+						if (nonZeroValuesOnly) {
+							if (time != 0) {
+								states.add(new CpuState(Integer
+										.parseInt(entries[0]), time));
+							}
+						} else {
+							states.add(new CpuState(Integer
+									.parseInt(entries[0]), time));
+						}
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -55,16 +64,14 @@ public class TimeInStateReader implements Constants {
 			long deepSleepTime = (SystemClock.elapsedRealtime() - SystemClock
 					.uptimeMillis());
 			if (deepSleepTime > 0)
-				states.add(new CpuState(0, deepSleepTime/1000));
+				states.add(new CpuState(0, deepSleepTime / 1000));
 		}
 		return states;
 	}
 
 	public long getTotalTimeInState() {
-		totaltime = 0;
 		for (CpuState state : states) {
 			totaltime += state.getTime();
-
 		}
 		return totaltime;
 	}

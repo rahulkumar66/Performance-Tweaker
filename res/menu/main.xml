@@ -10,13 +10,20 @@
         <menu>
             <item
                 android:id="@+id/report_issue_on_github"
+                android:icon="@drawable/github"
                 android:showAsAction="always"
-                android:title="@string/report_to_github"
-                />
+                android:title="@string/report_to_github"/>
+            <item
+                android:id="@+id/preference_menu"
+                android:showAsAction="always"
+                android:title="Settings"
+                android:icon="@drawable/settings_one">
+            </item>
             <item
                 android:id="@+id/about"
                 android:showAsAction="ifRoom"
-                android:title="@string/about">
+                android:title="@string/about"
+                android:icon="@drawable/info">
             </item>
         </menu>
     </item>

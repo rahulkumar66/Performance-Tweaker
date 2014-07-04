@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.phantomLord.cpufrequtils.app.R;
+import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.phantomLord.cpufrequtils.app.utils.CpuState;
 import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
 import com.phantomLord.cpufrequtils.app.utils.TimeInStateReader;
@@ -21,20 +24,25 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 	ArrayList<CpuState> states;
 	public long totaltime = 0;
 	TimeInStateReader statesReader;
+	LayoutInflater infalter;
 
 	public TimeInStatesListAdapter(Context context) {
-		statesReader = new TimeInStateReader();
 		this.context = context;
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+
+		statesReader = new TimeInStateReader(prefs.getBoolean(
+				Constants.PREF_ZERO_VALS, true));
 		states = statesReader.getCpuStateTime(true);
 		totaltime = statesReader.getTotalTimeInState();
 		Collections.sort(states);
+		infalter = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater infalter = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = infalter.inflate(R.layout.custom_list_item1, parent,
+		View rowView = infalter.inflate(R.layout.time_in_stat_list_item, parent,
 				false);
 		TextView frequencyTextView = (TextView) rowView
 				.findViewById(R.id.frequency);

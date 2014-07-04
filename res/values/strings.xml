@@ -15,10 +15,20 @@
     <string name="exit">Exit</string>
     <string name="noroot">Your Phone Does Not Have Root Access</string>
 
-    <string-array name="spinneritems">
+    <string-array name="wakelock_actionbar_spinner_items">
         <item>Alarms</item>
         <item>Partial Wakelocks</item>
         <item>Kernel Wakelock</item>
+    </string-array>
+    <string-array name="prefTheme_entries">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>Light with Dark Action Bar</item>
+    </string-array>
+    <string-array name="pref_themes">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>Light_DarkActionBar</item>
     </string-array>
 
 </resources>

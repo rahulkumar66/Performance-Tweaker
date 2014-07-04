@@ -3,8 +3,6 @@ package com.phantomLord.cpufrequtils.app.ui;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -16,11 +14,11 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.phantomLord.cpufrequtils.app.R;
+import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.sherlock.navigationdrawer.compat.SherlockActionBarDrawerToggle;
 
 public class MainFragment extends SherlockFragment {
@@ -28,7 +26,7 @@ public class MainFragment extends SherlockFragment {
 	private DrawerLayout mDrawerLayout;
 	private ListView listView;
 
-	private ActionBarHelper actionBar;
+	private ActionBar actionBar;
 
 	private SherlockActionBarDrawerToggle mDrawerToggle;
 
@@ -47,8 +45,8 @@ public class MainFragment extends SherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_main_layout, container,
-				false);
+		View view = inflater.inflate(R.layout.fragment_main_layout_navbar,
+				container, false);
 
 		mDrawerLayout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
 		listView = (ListView) view.findViewById(R.id.left_drawer);
@@ -57,9 +55,7 @@ public class MainFragment extends SherlockFragment {
 				GravityCompat.START);
 
 		listView.setAdapter(new ArrayAdapter<String>(this.getActivity(),
-				android.R.layout.simple_list_item_1, new String[] {
-						"Cpu Frequency", "Time In State", "SD Storage",
-						"Wakelocks" }));
+				android.R.layout.simple_list_item_1, Constants.mFragmentsArray));
 		listView.setOnItemClickListener(new DrawerItemClickListener());
 		listView.setCacheColorHint(0);
 		listView.setScrollingCacheEnabled(false);
@@ -67,8 +63,9 @@ public class MainFragment extends SherlockFragment {
 		listView.setFastScrollEnabled(true);
 		listView.setSmoothScrollbarEnabled(true);
 
-		actionBar = createActionBarHelper();
-		actionBar.init();
+		actionBar = getSherlockActivity().getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
 
 		// ActionBarDrawerToggle provides convenient helpers for tying together
 		// the
@@ -86,8 +83,7 @@ public class MainFragment extends SherlockFragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater = ((SherlockFragmentActivity) getActivity())
-				.getSupportMenuInflater();
+		inflater = getSherlockActivity().getSupportMenuInflater();
 		inflater.inflate(R.menu.main, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
@@ -124,57 +120,27 @@ public class MainFragment extends SherlockFragment {
 			switch (position) {
 			case 0:
 				mfragment = new CpuFrequencyFragment();
-				actionBar.mActionBar.setTitle("Cpu Frequency");
+				actionBar.setTitle("Cpu Frequency");
 				break;
 			case 1:
 				mfragment = new TimeInStatesFragment();
-				actionBar.mActionBar.setTitle("Time In State");
+				actionBar.setTitle("Time In State");
 				break;
 			case 2:
 				mfragment = new DiskFragment();
-				actionBar.mActionBar.setTitle("SD Storage");
+				actionBar.setTitle("SD Storage");
 				break;
 			case 3:
 				mfragment = new WakeLocksDetectorFragment();
-				actionBar.mActionBar.setTitle("WakeLocks");
+				actionBar.setTitle("WakeLocks");
 				break;
 			}
-			FragmentManager fm = getSherlockActivity()
-					.getSupportFragmentManager();
-			FragmentTransaction ft = fm.beginTransaction();
-			ft.replace(R.id.linearlay1, mfragment, "TAG");
-			ft.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
-			ft.commit();
+			getSherlockActivity().getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.linearlay1, mfragment, "TAG").commit();
+
 			mDrawerLayout.closeDrawer(listView);
-
 		}
-	}
-
-	/**
-	 * Create a compatible helper that will manipulate the action bar if
-	 * available.
-	 */
-	private ActionBarHelper createActionBarHelper() {
-		return new ActionBarHelper();
-	}
-
-	private class ActionBarHelper {
-		private final ActionBar mActionBar;
-
-		private ActionBarHelper() {
-			mActionBar = ((SherlockFragmentActivity) getActivity())
-					.getSupportActionBar();
-		}
-
-		public void init() {
-			mActionBar.setDisplayHomeAsUpEnabled(true);
-			mActionBar.setHomeButtonEnabled(true);
-		}
-
-		/**
-		 * When the drawer is closed we restore the action bar state reflecting
-		 * the specific contents in view.
-		 */
 	}
 
 }

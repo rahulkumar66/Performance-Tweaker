@@ -42,7 +42,7 @@ public class TimeInStatePieGraph extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		TimeInStateReader reader = new TimeInStateReader();
+		TimeInStateReader reader = new TimeInStateReader(true);
 		mStates = reader.getCpuStateTime(true);
 
 		setContentView(R.layout.piechart);

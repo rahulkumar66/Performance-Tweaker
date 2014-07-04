@@ -1,5 +1,6 @@
 package com.phantomLord.cpufrequtils.app.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -49,10 +50,16 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 		actionBar = getSherlockActivity().getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		ArrayAdapter<CharSequence> mSpinnerAdapter = ArrayAdapter
-				.createFromResource(getSherlockActivity(),
-						R.array.spinneritems,
+				.createFromResource(context, R.array.wakelock_actionbar_spinner_items,
 						android.R.layout.simple_dropdown_item_1line);
 		actionBar.setListNavigationCallbacks(mSpinnerAdapter, this);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+
 	}
 
 	@Override
@@ -77,5 +84,4 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 		}
 		return true;
 	}
-
 }

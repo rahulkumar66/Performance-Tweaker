@@ -18,7 +18,7 @@ public class CpuUtils implements Constants {
 		} else if (new File(time_in_states).exists()) {
 			ArrayList<CpuState> states = new ArrayList<CpuState>();
 			int i = 0;
-			states = new TimeInStateReader().getCpuStateTime(false);
+			states = new TimeInStateReader(true).getCpuStateTime(false);
 			frequencies = new String[states.size()];
 			for (CpuState object : states) {
 				frequencies[i] = String.valueOf(object.getFrequency());

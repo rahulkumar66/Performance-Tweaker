@@ -24,6 +24,7 @@ public class AlarmTriggerAdapter extends BaseAdapter {
 		this.context = ctx;
 		alarms = AlarmsDumpsys.getAlarms();
 		alarms = MiscUtils.removeZeroValues(alarms);
+		
 		Collections.sort(alarms, new Comparator<StatElement>() {
 			@Override
 			public int compare(StatElement arg0, StatElement arg1) {
