@@ -1,5 +1,6 @@
 package com.phantomLord.cpufrequtils.app.ui;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.phantomLord.cpufrequtils.app.R;
+import com.phantomLord.cpufrequtils.app.adapters.NavigationDrawerListAdapter;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.sherlock.navigationdrawer.compat.SherlockActionBarDrawerToggle;
 
@@ -27,6 +29,8 @@ public class MainFragment extends SherlockFragment {
 	private ListView listView;
 
 	private ActionBar actionBar;
+
+	private Context context;
 
 	private SherlockActionBarDrawerToggle mDrawerToggle;
 
@@ -47,15 +51,14 @@ public class MainFragment extends SherlockFragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_main_layout_navbar,
 				container, false);
-
+		context = getSherlockActivity().getBaseContext();
 		mDrawerLayout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
 		listView = (ListView) view.findViewById(R.id.left_drawer);
 
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 				GravityCompat.START);
 
-		listView.setAdapter(new ArrayAdapter<String>(this.getActivity(),
-				android.R.layout.simple_list_item_1, Constants.mFragmentsArray));
+		listView.setAdapter(new NavigationDrawerListAdapter(context));
 		listView.setOnItemClickListener(new DrawerItemClickListener());
 		listView.setCacheColorHint(0);
 		listView.setScrollingCacheEnabled(false);
@@ -67,17 +70,13 @@ public class MainFragment extends SherlockFragment {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setHomeButtonEnabled(true);
 
-		// ActionBarDrawerToggle provides convenient helpers for tying together
-		// the
-		// prescribed interactions between a top-level sliding drawer and the
-		// action bar.
-		mDrawerToggle = new SherlockActionBarDrawerToggle(this.getActivity(),
-				mDrawerLayout, R.drawable.ic_drawer_light, R.string.about,
+		mDrawerToggle = new SherlockActionBarDrawerToggle(
+				getSherlockActivity(), mDrawerLayout,
+				R.drawable.ic_drawer_light, R.string.about,
 				R.string.about_content);
 		mDrawerToggle.syncState();
 		getSherlockActivity().getSupportFragmentManager().beginTransaction()
 				.replace(R.id.linearlay1, new CpuFrequencyFragment()).commit();
-
 		return view;
 	}
 
@@ -132,7 +131,7 @@ public class MainFragment extends SherlockFragment {
 				break;
 			case 3:
 				mfragment = new WakeLocksDetectorFragment();
-				actionBar.setTitle("WakeLocks");
+				actionBar.setTitle("");
 				break;
 			}
 			getSherlockActivity().getSupportFragmentManager()

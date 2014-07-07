@@ -3,7 +3,6 @@ package com.phantomLord.cpufrequtils.app.ui;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +53,7 @@ public class TimeInStatesFragment extends SherlockFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		menu.add("Show Pie Graph").setIcon(R.drawable.ic_menu_reset)
+		menu.add("Show Pie Graph").setIcon(R.drawable.chart)
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 	}
 

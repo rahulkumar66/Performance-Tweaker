@@ -20,6 +20,7 @@ import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
 public class KernelWakelockAdapter extends BaseAdapter {
 	ArrayList<StatElement> kernelWakelocks;
 	Context context;
+	LayoutInflater inflator;
 
 	public KernelWakelockAdapter(Context ctx) {
 		this.context = ctx;
@@ -32,12 +33,13 @@ public class KernelWakelockAdapter extends BaseAdapter {
 				return (int) (arg1.getMaxValue() - arg0.getMaxValue());
 			}
 		});
+		inflator = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
 	}
 
 	@Override
 	public View getView(int position, View arg1, ViewGroup arg2) {
-		LayoutInflater inflator = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflator.inflate(
 				R.layout.alarm_trigger_custom_list_item1, arg2, false);
 		NativeKernelWakelock nativeWakeLock = (NativeKernelWakelock) kernelWakelocks
@@ -51,7 +53,8 @@ public class KernelWakelockAdapter extends BaseAdapter {
 		mKernelWakelock.setText(kernelWakelock.substring(1,
 				kernelWakelock.length() - 1));
 
-		WakeupInfo.setText(MiscUtils.secToString(nativeWakeLock.getDuration()/1000));
+		WakeupInfo
+				.setText(MiscUtils.secToString(nativeWakeLock.getDuration() / 1000));
 		return rowView;
 	}
 

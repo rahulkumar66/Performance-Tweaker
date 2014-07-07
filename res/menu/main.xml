@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/overflow_menu1"
-        android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"
+        android:icon="@drawable/abs__ic_menu_moreoverflow_normal_holo_dark"
         android:orderInCategory="99"
         android:showAsAction="ifRoom"
         android:title="Phantom">
@@ -15,15 +15,15 @@
                 android:title="@string/report_to_github"/>
             <item
                 android:id="@+id/preference_menu"
+                android:icon="@drawable/prefs_widget"
                 android:showAsAction="always"
-                android:title="Settings"
-                android:icon="@drawable/settings_one">
+                android:title="Settings">
             </item>
             <item
                 android:id="@+id/about"
+                android:icon="@drawable/about"
                 android:showAsAction="ifRoom"
-                android:title="@string/about"
-                android:icon="@drawable/info">
+                android:title="@string/about">
             </item>
         </menu>
     </item>

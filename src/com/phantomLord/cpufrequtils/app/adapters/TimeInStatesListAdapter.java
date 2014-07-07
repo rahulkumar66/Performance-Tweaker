@@ -42,8 +42,8 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View rowView = infalter.inflate(R.layout.time_in_stat_list_item, parent,
-				false);
+		View rowView = infalter.inflate(R.layout.time_in_stat_list_item,
+				parent, false);
 		TextView frequencyTextView = (TextView) rowView
 				.findViewById(R.id.frequency);
 		ProgressBar mProgressBar = (ProgressBar) rowView

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Performance Tuner</string>
+    <string name="app_name">Performance Tweaker</string>
     <string name="action_settings">Settings</string>
     <string name="report_to_github">Report an Issue </string>
     <string name="github_bugtracker">https://github.com/rahulkumar2048/Cpu-Tuner/issues/new</string>
@@ -16,9 +16,9 @@
     <string name="noroot">Your Phone Does Not Have Root Access</string>
 
     <string-array name="wakelock_actionbar_spinner_items">
-        <item>Alarms</item>
-        <item>Partial Wakelocks</item>
         <item>Kernel Wakelock</item>
+        <item>Cpu Wakelocks</item>
+        <item>Alarm Triggers</item>
     </string-array>
     <string-array name="prefTheme_entries">
         <item>Dark</item>
@@ -29,6 +29,12 @@
         <item>Dark</item>
         <item>Light</item>
         <item>Light_DarkActionBar</item>
+    </string-array>
+    <string-array name="fragments">
+        <item>Cpu Frequency</item>
+        <item>Time In States</item>
+        <item>SD Storage</item>
+        <item>Wakelocks</item>
     </string-array>
 
 </resources>

@@ -1,8 +1,5 @@
 package com.phantomLord.cpufrequtils.app.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.phantomLord.cpufrequtils.app.R;
 
 public interface Constants {
@@ -35,13 +32,7 @@ public interface Constants {
 	public final static String App_Tag = "Performace Tweaker";
 	public final static String[] mFragmentsArray = new String[] {
 			"Cpu Frequency", "Time In State", "SD Storage", "Wakelocks" };
-	public static Map<String, Integer> THEMES_MAP = new HashMap<String, Integer>() {
-		{
-			put("Light", R.style.Theme_Sherlock_Light);
-			put("Dark", R.style.Theme_Sherlock);
-			put("Light_DarkActionBar",
-					R.style.Theme_Sherlock_Light_DarkActionBar);
-		}
-	};
+	public static final int icons[] = new int[] { R.drawable.meter,
+			R.drawable.bar_chart, R.drawable.backup, R.drawable.battery_med };
 
 }

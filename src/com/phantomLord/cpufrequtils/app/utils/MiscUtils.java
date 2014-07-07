@@ -1,10 +1,21 @@
 package com.phantomLord.cpufrequtils.app.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.asksven.android.common.privateapiproxies.StatElement;
+import com.phantomLord.cpufrequtils.app.R;
 
 public class MiscUtils {
+	public static final Map<String, Integer> THEMES_MAP = new HashMap<String, Integer>() {
+		{
+			put("Dark", R.style.Theme_Sherlock);
+			put("Light", R.style.Theme_Sherlock_Light);
+			put("Light_DarkActionBar",
+					R.style.Theme_Sherlock_Light_DarkActionBar);
+		}
+	};
 
 	public static ArrayList<StatElement> removeZeroValues(
 			ArrayList<StatElement> items) {

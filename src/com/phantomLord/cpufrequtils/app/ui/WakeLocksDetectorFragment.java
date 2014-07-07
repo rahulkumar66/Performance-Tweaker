@@ -1,6 +1,5 @@
 package com.phantomLord.cpufrequtils.app.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,7 +22,7 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 	ListView alarmTriggers;
 	ActionBar actionBar;
 	View view;
-	Context context;
+	Context themedContext, context;
 
 	@Override
 	public void onResume() {
@@ -44,22 +43,20 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		themedContext = getSherlockActivity().getSupportActionBar()
+				.getThemedContext();
 		context = view.getContext();
-		alarmTriggers.setAdapter(new AlarmTriggerAdapter(context));
+		alarmTriggers.setAdapter(new KernelWakelockAdapter(context));
 
 		actionBar = getSherlockActivity().getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		ArrayAdapter<CharSequence> mSpinnerAdapter = ArrayAdapter
-				.createFromResource(context, R.array.wakelock_actionbar_spinner_items,
-						android.R.layout.simple_dropdown_item_1line);
+				.createFromResource(themedContext,
+						R.array.wakelock_actionbar_spinner_items,
+						R.layout.sherlock_spinner_item);
+		mSpinnerAdapter
+				.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 		actionBar.setListNavigationCallbacks(mSpinnerAdapter, this);
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
-		super.onAttach(activity);
-
 	}
 
 	@Override
@@ -73,13 +70,13 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 
 		switch (itemPosition) {
 		case 0:
-			alarmTriggers.setAdapter(new AlarmTriggerAdapter(context));
+			alarmTriggers.setAdapter(new KernelWakelockAdapter(context));
 			break;
 		case 1:
 			alarmTriggers.setAdapter(new PartialWakelocksAdapter(context));
 			break;
 		case 2:
-			alarmTriggers.setAdapter(new KernelWakelockAdapter(context));
+			alarmTriggers.setAdapter(new AlarmTriggerAdapter(context));
 			break;
 		}
 		return true;

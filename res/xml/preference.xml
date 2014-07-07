@@ -6,10 +6,10 @@
             android:entries="@array/prefTheme_entries"
             android:entryValues="@array/pref_themes"
             android:key="listPref"
-            android:summary="Change Theme"
-            android:title="Themes"
             android:persistent="true"
-            android:defaultValue="Light with Dark Action Bar" />
+            android:summary="Change Theme"
+            android:title="Themes" 
+            android:defaultValue="Light_DarkActionBar"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="Cpu Frequency" >
         <CheckBoxPreference
