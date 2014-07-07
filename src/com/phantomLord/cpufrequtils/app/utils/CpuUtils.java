@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 public class CpuUtils implements Constants {
@@ -110,23 +111,14 @@ public class CpuUtils implements Constants {
 
 	public static final void setFrequencyAndGovernor(String maxFrequency,
 			String minFrequency, String governor, Context context) {
-		int noOfCpus = 0;
+		int noOfCpus = getCoreCount();
 		ArrayList<String> commands = new ArrayList<String>();
-		if (maxFrequency != null && minFrequency != null && governor != null) {
-			while (true) {
-				File f = new File(Constants.scaling_max_freq.replace("cpu",
-						"cpu" + noOfCpus));
-				if (f.exists()) {
-					noOfCpus++;
-				} else {
-					break;
-				}
-
-			}
-			/*
-			 * prepare commands for each core
-			 */
+		/*
+		 * prepare commands for each core
+		 */
+		if (maxFrequency != null)
 			for (int i = 0; i < noOfCpus; i++) {
+				Log.d("no of cpus", noOfCpus + "");
 				commands.add("chmod 0644 "
 						+ Constants.scaling_governor.replace("cpu0", "cpu" + i)
 						+ "\n");
@@ -136,26 +128,33 @@ public class CpuUtils implements Constants {
 				commands.add("chmod 0664 "
 						+ Constants.scaling_max_freq.replace("cpu0", "cpu" + i)
 						+ "\n");
-				commands.add("echo "
-						+ governor
-						+ " > "
-						+ CpuUtils.scaling_governor.replace("cpu", "cpu"
-								+ noOfCpus) + "\n");
-				commands.add("echo "
-						+ minFrequency
-						+ " > "
-						+ CpuUtils.scaling_min_freq.replace("cpu", "cpu"
-								+ noOfCpus) + "\n");
-				commands.add("echo "
-						+ maxFrequency.replace("cpu", "cpu" + noOfCpus) + " > "
-						+ scaling_max_freq + "\n");
+				commands.add("echo " + governor + " > "
+						+ CpuUtils.scaling_governor.replace("cpu0", "cpu" + i)
+						+ "\n");
+				commands.add("echo " + minFrequency + " > "
+						+ CpuUtils.scaling_min_freq.replace("cpu0", "cpu" + i)
+						+ "\n");
+				commands.add("echo " + maxFrequency.replace("cpu0", "cpu" + i)
+						+ " > " + scaling_max_freq + "\n");
 
 			}
 
-			commands.add("exit" + "\n");
-			RootUtils.executeRootCommand(commands);
-			Toast.makeText(context, "Values Successfully Applied",
-					Toast.LENGTH_SHORT).show();
+		commands.add("exit" + "\n");
+		RootUtils.executeRootCommand(commands);
+		Toast.makeText(context, "Values Successfully Applied",
+				Toast.LENGTH_SHORT).show();
+
+	}
+
+	public static int getCoreCount() {
+		int cores = 0;
+		while (true) {
+			File file = new File(Constants.cpufreq_sys_dir.replace("cpu0",
+					"cpu" + cores));
+			if (file.exists())
+				cores++;
+			else
+				return cores;
 		}
 	}
 
@@ -165,13 +164,12 @@ public class CpuUtils implements Constants {
 		ArrayList<String> mCommands = new ArrayList<String>();
 		if (ioScheduler != null) {
 			File[] devices = new File(available_blockdevices).listFiles();
-
 			for (int i = 0; i < devices.length; i++) {
-				if (!(devices[i].toString().contains("ram")
-						|| devices[i].toString().contains("loop") || devices[i]
-						.toString().contains("dm"))) {
-					File blockDevice = new File(available_blockdevices
-							+ devices[i].toString() + "/queue/scheduler");
+				String devicePath = devices[i].getAbsolutePath();
+				if (!(devicePath.contains("ram") || devicePath.contains("loop") || devicePath
+						.contains("dm"))) {
+					File blockDevice = new File(devices[i].getAbsolutePath()
+							+ "/queue/scheduler");
 					if (blockDevice.exists()) {
 						mCommands.add("chmod 0644 "
 								+ blockDevice.getAbsolutePath() + "\n");
@@ -202,12 +200,6 @@ public class CpuUtils implements Constants {
 		RootUtils.executeRootCommand(mCommands);
 	}
 
-	/*
-	 * public static ArrayList<String> toArrayList(String[] contents) {
-	 * ArrayList<String> data = new ArrayList<String>(); if (contents != null) {
-	 * for (String str : contents) { data.add(str); } } return data; }
-	 */
-
 	public static String getKernelInfo() {
 		String data = RootUtils.readOutputFromFile("/proc/version");
 		return data;
@@ -224,9 +216,8 @@ public class CpuUtils implements Constants {
 					return new String[] {};
 					/*
 					 * need to return an empty string in case an exception is
-					 * thrown while parsing the integer values if we return a
-					 * null value the spinner wheel widget would just crash and
-					 * we dont want that do we??
+					 * thrown , if we return a null value the spinner wheel
+					 * widget would just crash and we don't want that do we??
 					 */
 				}
 			}

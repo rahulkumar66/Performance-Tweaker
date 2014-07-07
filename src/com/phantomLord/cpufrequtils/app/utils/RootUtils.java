@@ -84,7 +84,6 @@ public class RootUtils implements Constants {
 					BufferedReader reader = new BufferedReader(
 							new InputStreamReader(inputStream));
 					String line;
-
 					while ((line = reader.readLine()) != null) {
 						data = line;
 					}
