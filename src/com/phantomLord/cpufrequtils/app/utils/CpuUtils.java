@@ -1,8 +1,8 @@
 package com.phantomLord.cpufrequtils.app.utils;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -19,6 +19,7 @@ public class CpuUtils implements Constants {
 			ArrayList<CpuState> states = new ArrayList<CpuState>();
 			int i = 0;
 			states = new TimeInStateReader(true).getCpuStateTime(false);
+			Collections.sort(states);
 			frequencies = new String[states.size()];
 			for (CpuState object : states) {
 				frequencies[i] = String.valueOf(object.getFrequency());
@@ -56,8 +57,8 @@ public class CpuUtils implements Constants {
 		} else if (new File(available_schedulers_path).exists()) {
 			schedulerPath = available_schedulers_path;
 			/*
-			 * Some devices dont have mmcblk0 so we use mtdblock0 to read the
-			 * available schedulers
+			 * Some devices don't have mmcblk0 block device so we instead use
+			 * mtdblock0 to read the available schedulers
 			 */
 		} else if (new File(ioscheduler_mtd).exists()) {
 			schedulerPath = ioscheduler_mtd;
@@ -109,61 +110,96 @@ public class CpuUtils implements Constants {
 
 	public static final void setFrequencyAndGovernor(String maxFrequency,
 			String minFrequency, String governor, Context context) {
+		int noOfCpus = 0;
 		ArrayList<String> commands = new ArrayList<String>();
 		if (maxFrequency != null && minFrequency != null && governor != null) {
-			commands.add("echo " + governor + " > " + CpuUtils.scaling_governor
-					+ "\n");
-			commands.add("echo " + minFrequency + " > "
-					+ CpuUtils.scaling_min_freq + "\n");
-			commands.add("echo " + maxFrequency + " > " + scaling_max_freq
-					+ "\n");
+			while (true) {
+				File f = new File(Constants.scaling_max_freq.replace("cpu",
+						"cpu" + noOfCpus));
+				if (f.exists()) {
+					noOfCpus++;
+				} else {
+					break;
+				}
+
+			}
+			/*
+			 * prepare commands for each core
+			 */
+			for (int i = 0; i < noOfCpus; i++) {
+				commands.add("chmod 0644 "
+						+ Constants.scaling_governor.replace("cpu0", "cpu" + i)
+						+ "\n");
+				commands.add("chmod 0664 "
+						+ Constants.scaling_min_freq.replace("cpu0", "cpu" + i)
+						+ "\n");
+				commands.add("chmod 0664 "
+						+ Constants.scaling_max_freq.replace("cpu0", "cpu" + i)
+						+ "\n");
+				commands.add("echo "
+						+ governor
+						+ " > "
+						+ CpuUtils.scaling_governor.replace("cpu", "cpu"
+								+ noOfCpus) + "\n");
+				commands.add("echo "
+						+ minFrequency
+						+ " > "
+						+ CpuUtils.scaling_min_freq.replace("cpu", "cpu"
+								+ noOfCpus) + "\n");
+				commands.add("echo "
+						+ maxFrequency.replace("cpu", "cpu" + noOfCpus) + " > "
+						+ scaling_max_freq + "\n");
+
+			}
+
 			commands.add("exit" + "\n");
 			RootUtils.executeRootCommand(commands);
 			Toast.makeText(context, "Values Successfully Applied",
 					Toast.LENGTH_SHORT).show();
-
 		}
-
 	}
 
 	public static void setDiskSchedulerandReadAhead(String ioScheduler,
 			String readAhead) {
-		ArrayList<String> mCommands = new ArrayList<String>();
-		File devices = new File(available_blockdevices);
 
-		String[] directories = devices.list(new FilenameFilter() {
-			@Override
-			public boolean accept(File current, String name) {
-				return new File(current, name).isDirectory();
-			}
-		});
-		for (int i = 0; i < directories.length; i++) {
-			if (!(directories[i].contains("ram")
-					|| directories[i].contains("loop") || directories[i]
-						.contains("dm"))) {
-				File blockDevice = new File(available_blockdevices
-						+ directories[i] + "/queue/scheduler");
-				if (blockDevice.exists())
-					mCommands.add("echo " + ioScheduler + " > "
-							+ blockDevice.getAbsolutePath() + " \n ");
+		ArrayList<String> mCommands = new ArrayList<String>();
+		if (ioScheduler != null) {
+			File[] devices = new File(available_blockdevices).listFiles();
+
+			for (int i = 0; i < devices.length; i++) {
+				if (!(devices[i].toString().contains("ram")
+						|| devices[i].toString().contains("loop") || devices[i]
+						.toString().contains("dm"))) {
+					File blockDevice = new File(available_blockdevices
+							+ devices[i].toString() + "/queue/scheduler");
+					if (blockDevice.exists()) {
+						mCommands.add("chmod 0644 "
+								+ blockDevice.getAbsolutePath() + "\n");
+						mCommands.add("echo " + ioScheduler + " > "
+								+ blockDevice.getAbsolutePath() + " \n ");
+					}
+				}
 			}
 		}
 		/*
 		 * prepare commands for changing the read ahead cache
 		 */
-		File block;
-		for (int i = 0; i < 2; i++) {
-			block = new File(available_blockdevices + "mmcblk" + i
-					+ "/queue/read_ahead_kb");
-			if (block.exists()) {
-				mCommands.add("echo " + readAhead + " > "
-						+ block.getAbsolutePath() + "\n");
+		if (readAhead != null) {
+			File block;
+			for (int i = 0; i < 2; i++) {
+				block = new File(available_blockdevices + "mmcblk" + i
+						+ "/queue/read_ahead_kb");
+				if (block.exists()) {
+					mCommands.add("chmod 0644 " + block.getAbsolutePath()
+							+ "\n");
+					mCommands.add("echo " + readAhead + " > "
+							+ block.getAbsolutePath() + "\n");
 
+				}
 			}
 		}
 		mCommands.add(" exit \n");
 		RootUtils.executeRootCommand(mCommands);
-
 	}
 
 	/*
