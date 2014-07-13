@@ -71,7 +71,10 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return states.size();
+		if (states != null)
+			return states.size();
+		else
+			return 0;
 	}
 
 	@Override

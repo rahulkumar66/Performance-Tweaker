@@ -116,7 +116,7 @@ public class CpuUtils implements Constants {
 		/*
 		 * prepare commands for each core
 		 */
-		if (maxFrequency != null)
+		if (maxFrequency != null && minFrequency != null)
 			for (int i = 0; i < noOfCpus; i++) {
 				Log.d("no of cpus", noOfCpus + "");
 				commands.add("chmod 0644 "

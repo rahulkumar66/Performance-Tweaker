@@ -1,12 +1,15 @@
 package com.phantomLord.cpufrequtils.app.adapters;
 
 import com.phantomLord.cpufrequtils.app.R;
+import com.phantomLord.cpufrequtils.app.utils.Constants;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class ActionBarSpinnerAdapter extends BaseAdapter {
 	private String[] itemNames;
@@ -38,8 +41,14 @@ public class ActionBarSpinnerAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int pos, View convertView, ViewGroup container) {
-	//View row=inflator.inflate(R.layout., root);
-		return null;
+		View row = inflator.inflate(R.layout.simple_action_bar_spinner_item,
+				container, false);
+		ImageView image = (ImageView) row
+				.findViewById(R.id.actionBar_spinner_image);
+		TextView text = (TextView) row.findViewById(R.id.spinnerItem);
+		text.setText(Constants.wakelockTypes[pos]);
+		image.setImageResource(Constants.actionBarIcons[pos]);
+		return row;
 	}
 
 }

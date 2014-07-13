@@ -41,6 +41,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Sherlock.Light.DarkActionBar" >
         </activity>
+
+        <service android:name="com.phantomLord.cpufrequtils.app.services.BootService" />
+
+        <receiver
+            android:name="com.phantomLord.cpufrequtils.app.BootReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

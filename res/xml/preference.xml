@@ -3,13 +3,13 @@
 
     <PreferenceCategory android:title="General" >
         <ListPreference
+            android:defaultValue="Light"
             android:entries="@array/prefTheme_entries"
             android:entryValues="@array/pref_themes"
             android:key="listPref"
             android:persistent="true"
             android:summary="Change Theme"
-            android:title="Themes" 
-            android:defaultValue="Light_DarkActionBar"/>
+            android:title="Themes" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Cpu Frequency" >
         <CheckBoxPreference

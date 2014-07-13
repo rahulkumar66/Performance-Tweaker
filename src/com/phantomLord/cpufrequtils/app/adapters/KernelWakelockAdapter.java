@@ -1,8 +1,6 @@
 package com.phantomLord.cpufrequtils.app.adapters;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,30 +10,21 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
-import com.asksven.android.common.kernelutils.Wakelocks;
-import com.asksven.android.common.privateapiproxies.StatElement;
 import com.phantomLord.cpufrequtils.app.R;
+import com.phantomLord.cpufrequtils.app.utils.BatteryStatsUtils;
 import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
 
 public class KernelWakelockAdapter extends BaseAdapter {
-	ArrayList<StatElement> kernelWakelocks;
+	ArrayList<NativeKernelWakelock> kernelWakelocks;
 	Context context;
 	LayoutInflater inflator;
 
 	public KernelWakelockAdapter(Context ctx) {
 		this.context = ctx;
-		kernelWakelocks = Wakelocks.parseProcWakelocks(ctx);
-		kernelWakelocks = MiscUtils.removeZeroValues(kernelWakelocks);
-
-		Collections.sort(kernelWakelocks, new Comparator<StatElement>() {
-			@Override
-			public int compare(StatElement arg0, StatElement arg1) {
-				return (int) (arg1.getMaxValue() - arg0.getMaxValue());
-			}
-		});
+		kernelWakelocks = BatteryStatsUtils.getNativeKernelWakelocks(context,
+				true);
 		inflator = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
 	}
 
 	@Override
@@ -52,7 +41,6 @@ public class KernelWakelockAdapter extends BaseAdapter {
 		String kernelWakelock = kernelWakelocks.get(position).getName();
 		mKernelWakelock.setText(kernelWakelock.substring(1,
 				kernelWakelock.length() - 1));
-
 		WakeupInfo
 				.setText(MiscUtils.secToString(nativeWakeLock.getDuration() / 1000));
 		return rowView;
@@ -60,7 +48,10 @@ public class KernelWakelockAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return kernelWakelocks.size();
+		if (kernelWakelocks != null)
+			return kernelWakelocks.size();
+		else
+			return 0;
 	}
 
 	@Override

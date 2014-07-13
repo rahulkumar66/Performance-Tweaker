@@ -9,8 +9,10 @@ import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -41,6 +43,10 @@ public class TimeInStatePieGraph extends SherlockFragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		SharedPreferences mPrefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		String key = mPrefs.getString("listPref", "");
+		this.setTheme(MiscUtils.THEMES_MAP.get(key));
 		super.onCreate(savedInstanceState);
 		TimeInStateReader reader = new TimeInStateReader(true);
 		mStates = reader.getCpuStateTime(true);

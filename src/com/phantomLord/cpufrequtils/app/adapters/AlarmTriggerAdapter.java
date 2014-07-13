@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.phantomLord.cpufrequtils.app.R;
-import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
 
 public class AlarmTriggerAdapter extends BaseAdapter {
 	ArrayList<StatElement> alarms;
@@ -23,7 +22,6 @@ public class AlarmTriggerAdapter extends BaseAdapter {
 	public AlarmTriggerAdapter(Context ctx) {
 		this.context = ctx;
 		alarms = AlarmsDumpsys.getAlarms();
-		alarms = MiscUtils.removeZeroValues(alarms);
 
 		Collections.sort(alarms, new Comparator<StatElement>() {
 			@Override
@@ -53,7 +51,10 @@ public class AlarmTriggerAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return alarms.size();
+		if (alarms != null)
+			return alarms.size();
+		else
+			return 0;
 	}
 
 	@Override

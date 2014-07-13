@@ -1,4 +1,4 @@
-Performance-Tuner
+Performance-Tweaker
 
 =======================
 
@@ -6,15 +6,11 @@ Performance-Tuner
 
 Simple Android App for 
 
-->overclocking/underclocking the cpu clocks.
+->overclocking/underclocking the cpu clocks and tweaking various other kernel parameters like I/O , Governor etc.
 
-->Switching between Various Governors.
+->Monitoring the time spent by a cpu state in each freqeuncy as well as current kernel information.
 
-->Monitoring the time spent in each freqeuncy state as well as current kernel information.
-
-->Changing the various parameters of nand storage for better performance such as I/O Scheduler and Read Ahead.
-
-->Spot the applications or the sources which are causing battery drain.
+->Spot rogue applications or sources which are causing battery drain i.e Battery and Wakelock Stats (Work In Progress).
 
 
 To Download the App
@@ -22,17 +18,22 @@ To Download the App
 http://forum.xda-developers.com/devdb/project/dl/?id=5724&task=get
 
 
+Third party libraries:
 
-TO CONTRIBUTE
-
-This project is open source, so feel free to fork the repo and make any changes
-you wish. You can then issue a pull request via GitHub (please insure your
-branch is up-to-date with the master via a git rebase).
+* aChartEngine
+* Sherlock-navigation-Drawer
+* Actionbar Sherlock
+* Android-Common (https://github.com/asksven/AndroidCommon)
+* Spinner-Wheel
+* BugSense (For analytics and stuff)
 
 There is also a discussion thread on XDA Developers:
 
 http://forum.xda-developers.com/showthread.php?t=2728587
 
+
+=== LICENSE ===
+See the LICENSE file.
 
 
 

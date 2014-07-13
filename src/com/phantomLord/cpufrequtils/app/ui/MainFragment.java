@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -20,7 +19,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.adapters.NavigationDrawerListAdapter;
-import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.sherlock.navigationdrawer.compat.SherlockActionBarDrawerToggle;
 
 public class MainFragment extends SherlockFragment {

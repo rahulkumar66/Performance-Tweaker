@@ -3,6 +3,7 @@ package com.phantomLord.cpufrequtils.app.utils;
 import com.phantomLord.cpufrequtils.app.R;
 
 public interface Constants {
+
 	public final static String cpufreq_sys_dir = "/sys/devices/system/cpu/cpu0/cpufreq/";
 	public final static String scaling_min_freq = cpufreq_sys_dir
 			+ "scaling_min_freq";
@@ -30,9 +31,18 @@ public interface Constants {
 	public final static String ioscheduler_mtd = "/sys/block/mtdblock0/queue/scheduler";
 	public final static String PREF_ZERO_VALS = "non_zero_vals_only";
 	public final static String App_Tag = "Performace Tweaker";
+
 	public final static String[] mFragmentsArray = new String[] {
 			"Cpu Frequency", "Time In State", "SD Storage", "Wakelocks" };
+	public final static String[] wakelockTypes = new String[] {
+			"Kernel Wakelocks", "Cpu Wakelocks", "Wakeup Triggers" };
+
 	public static final int icons[] = new int[] { R.drawable.meter,
 			R.drawable.bar_chart, R.drawable.backup, R.drawable.battery_med };
+	public static final int actionBarIcons[] = new int[] { R.drawable.sysctl,
+			R.drawable.main_cpu, R.drawable.changelog };
+	public static final int theme[] = new int[] { R.style.Theme_Sherlock,
+			R.style.Theme_Sherlock_Light,
+			R.style.Theme_Sherlock_Light_DarkActionBar };
 
 }

@@ -4,8 +4,8 @@
     <string name="app_name">Performance Tweaker</string>
     <string name="action_settings">Settings</string>
     <string name="report_to_github">Report an Issue </string>
-    <string name="github_bugtracker">https://github.com/rahulkumar2048/Cpu-Tuner/issues/new</string>
-    <string name="about_content">Performance Tuner \nVersion 1.0a
+    <string name="github_bugtracker">https://github.com/rahulkumar2048/Performance-Tweaker/issues/new</string>
+    <string name="about_content">Performance Tuner \nVersion 1.1a
         \n\nCopyleft of Rahul Kumar \n\nIf you face any problem feel free to drop a mail at rahulkumar2048@gmail.com  </string>
     <string name="okbutton">Ok</string>
     <string name="about">About</string>
