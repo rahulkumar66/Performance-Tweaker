@@ -15,7 +15,7 @@ Simple Android App for
 
 To Download the App
 
-http://forum.xda-developers.com/devdb/project/dl/?id=5724&task=get
+http://forum.xda-developers.com/devdb/project/dl/?id=7519&task=get
 
 
 Third party libraries:
