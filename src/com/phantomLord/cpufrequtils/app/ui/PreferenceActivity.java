@@ -11,7 +11,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.phantomLord.cpufrequtils.app.R;
-import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
+import com.phantomLord.cpufrequtils.app.utils.Constants;
 
 public class PreferenceActivity extends SherlockPreferenceActivity implements
 		OnPreferenceChangeListener {
@@ -22,8 +22,8 @@ public class PreferenceActivity extends SherlockPreferenceActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		SharedPreferences mPrefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
-		String key = mPrefs.getString("listPref", "");
-		this.setTheme(MiscUtils.THEMES_MAP.get(key));
+		String key = mPrefs.getString("listPref", "Light");
+		this.setTheme(Constants.THEMES_MAP.get(key));
 		super.onCreate(savedInstanceState);
 
 		addPreferencesFromResource(R.xml.preference);
@@ -40,13 +40,12 @@ public class PreferenceActivity extends SherlockPreferenceActivity implements
 		if (item.getItemId() == android.R.id.home) {
 			finish();
 		}
-
 		return false;
 	}
 
 	@Override
 	public boolean onPreferenceChange(Preference arg0, Object arg1) {
 
-		return false;
+		return true;
 	}
 }

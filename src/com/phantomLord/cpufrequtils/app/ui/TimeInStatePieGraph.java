@@ -23,6 +23,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.phantomLord.cpufrequtils.app.R;
+import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.phantomLord.cpufrequtils.app.utils.CpuState;
 import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
 import com.phantomLord.cpufrequtils.app.utils.TimeInStateReader;
@@ -45,8 +46,8 @@ public class TimeInStatePieGraph extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		SharedPreferences mPrefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
-		String key = mPrefs.getString("listPref", "");
-		this.setTheme(MiscUtils.THEMES_MAP.get(key));
+		String key = mPrefs.getString("listPref", "Light");
+		this.setTheme(Constants.THEMES_MAP.get(key));
 		super.onCreate(savedInstanceState);
 		TimeInStateReader reader = new TimeInStateReader(true);
 		mStates = reader.getCpuStateTime(true);

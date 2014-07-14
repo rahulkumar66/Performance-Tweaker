@@ -14,11 +14,10 @@ import android.widget.FrameLayout.LayoutParams;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.bugsense.trace.BugSenseHandler;
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.dialogs.AboutDialogBox;
 import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
-import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
+import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.phantomLord.cpufrequtils.app.utils.RootUtils;
 
 public class MainActivity extends SherlockFragmentActivity {
@@ -29,13 +28,12 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		PreferenceManager.setDefaultValues(this, R.xml.preference, false);
 		SharedPreferences mPrefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
-		key = mPrefs.getString("listPref", "");
-		this.setTheme(MiscUtils.THEMES_MAP.get(key));
+		key = mPrefs.getString("listPref", "Light");
+		this.setTheme(Constants.THEMES_MAP.get(key));
 		super.onCreate(savedInstanceState);
-		BugSenseHandler.initAndStartSession(MainActivity.this, "4cdc31a1");
+		// BugSenseHandler.initAndStartSession(MainActivity.this, "4cdc31a1");
 
 		themedContext = getSupportActionBar().getThemedContext();
 		context = getBaseContext();

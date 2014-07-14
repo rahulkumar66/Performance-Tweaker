@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import android.util.Log;
 
-public class RootUtils implements Constants {
+public class RootUtils {
 
 	public static boolean isRooted() {
 		if (new File("/system/bin/su").exists()
@@ -20,37 +20,16 @@ public class RootUtils implements Constants {
 			return false;
 	}
 
-	public static boolean hasSysfs() {
-		String[] requiredFiles = { scaling_governor, scaling_max_freq,
-				scaling_min_freq };
-		for (String requiredFile : requiredFiles) {
-			if (!(new File(cpufreq_sys_dir + requiredFile)).exists()) {
-				Log.d(Constants.App_Tag, new File(cpufreq_sys_dir
-						+ requiredFile).getAbsolutePath().toString());
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/*
-	 * public static String executeCommand(String command) {
-	 * 
-	 * StringBuffer buffer = new StringBuffer(); String data = null; Process
-	 * process; BufferedReader stdinput; try { process =
-	 * Runtime.getRuntime().exec(command); stdinput = new BufferedReader(new
-	 * InputStreamReader( process.getInputStream())); while ((data =
-	 * stdinput.readLine()) != null) { buffer.append(data); } } catch
-	 * (IOException e) { e.printStackTrace(); } return buffer.toString();
-	 * 
-	 * }
-	 */
 	public static String readOutputFromFile(String pathToFile) {
+
 		StringBuffer buffer = new StringBuffer();
 		String data = null;
 		Process process;
 		BufferedReader stdinput;
 		File file = new File(pathToFile);
+		if (!(file.exists())) {
+			return "";
+		}
 		if (file.canRead()) {
 			try {
 				process = Runtime.getRuntime().exec("cat " + pathToFile);
@@ -59,9 +38,10 @@ public class RootUtils implements Constants {
 				while ((data = stdinput.readLine()) != null) {
 					buffer.append(data);
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
 			return buffer.toString();
 
 		}
@@ -130,7 +110,7 @@ public class RootUtils implements Constants {
 		String line = null;
 		try {
 			while ((line = br.readLine()) != null) {
-				Log.e(App_Tag, line);
+				Log.e(Constants.App_Tag, line);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

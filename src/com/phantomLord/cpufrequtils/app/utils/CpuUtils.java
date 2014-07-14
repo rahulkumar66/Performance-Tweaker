@@ -5,18 +5,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
-public class CpuUtils implements Constants {
+public class CpuUtils {
 
 	public static String[] getAvailableFrequencies() {
 		String[] frequencies = null;
-		if (new File(scaling_available_freq).exists()) {
-			frequencies = RootUtils.readOutputFromFile(scaling_available_freq)
-					.split(" ");
+		if (new File(Constants.scaling_available_freq).exists()) {
+			frequencies = RootUtils.readOutputFromFile(
+					Constants.scaling_available_freq).split(" ");
 			return frequencies;
-		} else if (new File(time_in_states).exists()) {
+		} else if (new File(Constants.time_in_states).exists()) {
 			ArrayList<CpuState> states = new ArrayList<CpuState>();
 			int i = 0;
 			states = new TimeInStateReader(true).getCpuStateTime(false);
@@ -33,36 +32,36 @@ public class CpuUtils implements Constants {
 	}
 
 	public static String getCurrentMaxFrequeny() {
-		return RootUtils.readOutputFromFile(scaling_max_freq);
+		return RootUtils.readOutputFromFile(Constants.scaling_max_freq);
 	}
 
 	public static String getCurrentMinFrequency() {
-		return RootUtils.readOutputFromFile(scaling_min_freq);
+		return RootUtils.readOutputFromFile(Constants.scaling_min_freq);
 
 	}
 
 	public static String[] getAvailableGovernors() {
-		return RootUtils.readOutputFromFile(scaling_available_governors).split(
-				" ");
+		return RootUtils.readOutputFromFile(
+				Constants.scaling_available_governors).split(" ");
 	}
 
 	public static String getCurrentScalingGovernor() {
-		return RootUtils.readOutputFromFile(scaling_governor);
+		return RootUtils.readOutputFromFile(Constants.scaling_governor);
 	}
 
 	public static final String[] getAvailableIOScheduler() {
 		String schedulerPath = new String();
-		if (new File(available_schedulers).exists()) {
-			schedulerPath = available_schedulers;
+		if (new File(Constants.available_schedulers).exists()) {
+			schedulerPath = Constants.available_schedulers;
 
-		} else if (new File(available_schedulers_path).exists()) {
-			schedulerPath = available_schedulers_path;
+		} else if (new File(Constants.available_schedulers_path).exists()) {
+			schedulerPath = Constants.available_schedulers_path;
 			/*
 			 * Some devices don't have mmcblk0 block device so we instead use
 			 * mtdblock0 to read the available schedulers
 			 */
-		} else if (new File(ioscheduler_mtd).exists()) {
-			schedulerPath = ioscheduler_mtd;
+		} else if (new File(Constants.ioscheduler_mtd).exists()) {
+			schedulerPath = Constants.ioscheduler_mtd;
 		} else {
 			return new String[] {};
 			/*
@@ -83,15 +82,18 @@ public class CpuUtils implements Constants {
 	}
 
 	public static final String getCurrentIOScheduler() {
-		String currentScheduler = new String();
-		String[] schedulers = RootUtils
-				.readOutputFromFile(available_schedulers).split(" ");
+		String currentScheduler = null;
+		String[] schedulers = RootUtils.readOutputFromFile(
+				Constants.available_schedulers).split(" ");
 		for (String string : schedulers) {
 			if (string.contains("[")) {
 				currentScheduler = string;
 			}
 		}
-		return currentScheduler.substring(1, currentScheduler.length() - 1);
+		if (currentScheduler != null) {
+			return currentScheduler.substring(1, currentScheduler.length() - 1);
+		} else
+			return "";
 	}
 
 	public static String getDefaultReadAhead() {
@@ -118,7 +120,6 @@ public class CpuUtils implements Constants {
 		 */
 		if (maxFrequency != null && minFrequency != null)
 			for (int i = 0; i < noOfCpus; i++) {
-				Log.d("no of cpus", noOfCpus + "");
 				commands.add("chmod 0644 "
 						+ Constants.scaling_governor.replace("cpu0", "cpu" + i)
 						+ "\n");
@@ -129,13 +130,13 @@ public class CpuUtils implements Constants {
 						+ Constants.scaling_max_freq.replace("cpu0", "cpu" + i)
 						+ "\n");
 				commands.add("echo " + governor + " > "
-						+ CpuUtils.scaling_governor.replace("cpu0", "cpu" + i)
+						+ Constants.scaling_governor.replace("cpu0", "cpu" + i)
 						+ "\n");
 				commands.add("echo " + minFrequency + " > "
-						+ CpuUtils.scaling_min_freq.replace("cpu0", "cpu" + i)
+						+ Constants.scaling_min_freq.replace("cpu0", "cpu" + i)
 						+ "\n");
 				commands.add("echo " + maxFrequency.replace("cpu0", "cpu" + i)
-						+ " > " + scaling_max_freq + "\n");
+						+ " > " + Constants.scaling_max_freq + "\n");
 
 			}
 
@@ -163,7 +164,8 @@ public class CpuUtils implements Constants {
 
 		ArrayList<String> mCommands = new ArrayList<String>();
 		if (ioScheduler != null) {
-			File[] devices = new File(available_blockdevices).listFiles();
+			File[] devices = new File(Constants.available_blockdevices)
+					.listFiles();
 			for (int i = 0; i < devices.length; i++) {
 				String devicePath = devices[i].getAbsolutePath();
 				if (!(devicePath.contains("ram") || devicePath.contains("loop") || devicePath
@@ -185,16 +187,19 @@ public class CpuUtils implements Constants {
 		if (readAhead != null) {
 			File block;
 			for (int i = 0; i < 2; i++) {
-				block = new File(available_blockdevices + "mmcblk" + i
-						+ "/queue/read_ahead_kb");
+				block = new File(Constants.available_blockdevices + "mmcblk"
+						+ i + "/queue/read_ahead_kb");
 				if (block.exists()) {
 					mCommands.add("chmod 0644 " + block.getAbsolutePath()
 							+ "\n");
 					mCommands.add("echo " + readAhead + " > "
 							+ block.getAbsolutePath() + "\n");
-
 				}
 			}
+			mCommands.add("chmod 0644 " + Constants.SD_CACHE);
+			mCommands.add("echo " + readAhead + " > " + Constants.SD_CACHE
+					+ "\n");
+
 		}
 		mCommands.add(" exit \n");
 		RootUtils.executeRootCommand(mCommands);

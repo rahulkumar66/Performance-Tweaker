@@ -44,7 +44,11 @@ public class CpuFrequencyFragment extends SherlockFragment {
 		availableScalingGovernors = CpuUtils.getAvailableGovernors();
 		availableGovernors = Arrays.asList(availableScalingGovernors);
 		updateValues();
+	}
 
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 	}
 
 	private void updateValues() {

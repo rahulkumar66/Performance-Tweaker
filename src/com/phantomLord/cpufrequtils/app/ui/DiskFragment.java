@@ -39,8 +39,7 @@ public class DiskFragment extends SherlockFragment {
 		availableSchedulers = CpuUtils.getAvailableIOScheduler();
 		schedulers = Arrays.asList(availableSchedulers);
 		currentScheduler = CpuUtils.getCurrentIOScheduler();
-		readAheadValues = new String[] { "32", "64", "128", "256", "512",
-				"1024", "2048", "3072", "4096" };
+		readAheadValues = Constants.readAheadKb;
 		availableReadAheadValues = Arrays.asList(readAheadValues);
 
 	}

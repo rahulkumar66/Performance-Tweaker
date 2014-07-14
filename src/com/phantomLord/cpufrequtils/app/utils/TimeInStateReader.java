@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import android.os.SystemClock;
 
-public class TimeInStateReader implements Constants {
+public class TimeInStateReader {
 	private ArrayList<CpuState> states;
 
 	private long totaltime = 0;
@@ -23,13 +23,13 @@ public class TimeInStateReader implements Constants {
 		states.clear();
 		BufferedReader bufferedReader;
 		Process process = null;
-		File statsFile = new File(time_in_states);
+		File statsFile = new File(Constants.time_in_states);
 		if (statsFile.exists()) {
 			if (statsFile.canRead()) {
 				String line;
 				try {
-					process = Runtime.getRuntime()
-							.exec("cat " + time_in_states);
+					process = Runtime.getRuntime().exec(
+							"cat " + Constants.time_in_states);
 				} catch (IOException ioe) {
 					ioe.printStackTrace();
 				}
