@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.BatteryStatsUtils;
-import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
+import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
 public class KernelWakelockAdapter extends BaseAdapter {
 	ArrayList<NativeKernelWakelock> kernelWakelocks;
@@ -52,7 +52,7 @@ public class KernelWakelockAdapter extends BaseAdapter {
 		mKernelWakelock.setText(kernelWakelock.substring(1,
 				kernelWakelock.length() - 1));
 		WakeupInfo
-				.setText(MiscUtils.secToString(nativeWakeLock.getDuration() / 1000));
+				.setText(SysUtils.secToString(nativeWakeLock.getDuration() / 1000));
 		progress.setMax(totaltime);
 		progress.setProgress((int) nativeWakeLock.getDuration() / 1000);
 		wakeUpCount.setText("x" + nativeWakeLock.getCount() + " times");

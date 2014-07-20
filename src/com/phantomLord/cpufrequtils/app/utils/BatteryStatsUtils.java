@@ -110,7 +110,7 @@ public class BatteryStatsUtils {
 	public static ArrayList<Alarm> getAlarmStats(Context context) {
 		ArrayList<Alarm> myWakelocks = new ArrayList<>();
 		ArrayList<StatElement> alarms;
-		if (RootUtils.isRooted()) {
+		if (SysUtils.isRooted()) {
 			alarms = AlarmsDumpsys.getAlarms();
 		} else {
 			myWakelocks.add(new Alarm("Root Permissions Not Found"));
@@ -130,11 +130,11 @@ public class BatteryStatsUtils {
 	}
 
 	public static String getTimeSinceForKernelWakelocks() {
-		return MiscUtils.secToString(timeSinceForKernelWakelocks / 1000);
+		return SysUtils.secToString(timeSinceForKernelWakelocks / 1000);
 	}
 
 	public static String getTimeSinceForCpuWakelocks() {
-		return MiscUtils.secToString(timeSinceForCpuWakelocks / 1000);
+		return SysUtils.secToString(timeSinceForCpuWakelocks / 1000);
 	}
 
 }

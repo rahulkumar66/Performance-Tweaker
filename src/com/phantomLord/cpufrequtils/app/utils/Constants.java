@@ -34,8 +34,6 @@ public class Constants {
 	public final static String ioscheduler_mtd = "/sys/block/mtdblock0/queue/scheduler";
 	public static final String SD_CACHE = "/sys/devices/virtual/bdi/179:0/read_ahead_kb";
 
-	public final static String PREF_ZERO_VALS = "non_zero_vals_only";
-
 	public static final String[] readAheadKb = { "64", "128", "256", "384",
 			"512", "640", "768", "896", "1024", "1152", "1280", "1408", "1536",
 			"1664", "1792", "1920", "2048", "2176", "2304", "2432", "2560",
@@ -54,6 +52,11 @@ public class Constants {
 	public static final int theme[] = new int[] { R.style.Theme_Sherlock,
 			R.style.Theme_Sherlock_Light,
 			R.style.Theme_Sherlock_Light_DarkActionBar };
+	public static String CPU_0 = "Core 0";
+	public static String CPU_1 = "Core 1";
+	public static String CPU_2 = "Core 2";
+	public static String CPU_3 = "Core 3";
+	public static String CPU_ALL = "All Cores";
 
 	public static final Map<String, Integer> THEMES_MAP = new HashMap<String, Integer>() {
 
@@ -65,5 +68,15 @@ public class Constants {
 					R.style.Theme_Sherlock_Light_DarkActionBar);
 		}
 	};
-
+	/*
+	 * Constants related to preferences
+	 */
+	public final static String PREF_ZERO_VALS = "non_zero_vals_only";
+	public final static String PREF_MAX_FREQ = "max_freq";
+	public final static String PREF_MIN_FREQ = "min_freq";
+	public final static String PREF_GOV = "governor";
+	public final static String PREF_CPU_APPLY_ON_BOOT = "cpu_apply_on_boot";
+	public final static String PREF_IO_APPLY_ON_BOOT = "io_apply_boot";
+	public final static String PREF_IO_SCHEDULER = "io_scheduler";
+	public final static String PREF_READ_AHEAD = "read_ahead";
 }

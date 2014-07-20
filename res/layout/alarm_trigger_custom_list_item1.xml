@@ -21,14 +21,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/alarm_appname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/wakeup_count"
@@ -44,12 +44,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
         </ProgressBar>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:background="@color/lighter_gray" >
     </LinearLayout>
 
 </LinearLayout>

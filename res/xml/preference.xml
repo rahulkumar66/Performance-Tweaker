@@ -14,7 +14,7 @@
     <PreferenceCategory android:title="Cpu Frequency" >
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="checkboxPRef"
+            android:key="cpu_apply_on_boot"
             android:summary="Apply Cpu and Governor Settings on Boot"
             android:title="Apply On Boot" />
     </PreferenceCategory>
@@ -25,6 +25,15 @@
             android:persistent="true"
             android:summary="Show Non Zero Values Only"
             android:title="Filter Stats " />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="I/O Control" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="io_apply_boot"
+            android:summary="Apply I/O Settings on boot"
+            android:title="Apply On Boot" />
+    </PreferenceCategory>
+    <PreferenceCategory>
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -3,28 +3,40 @@ package com.phantomLord.cpufrequtils.app.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.phantomLord.cpufrequtils.app.R;
+import com.phantomLord.cpufrequtils.app.adapters.NavigationDrawerListAdapter;
 import com.phantomLord.cpufrequtils.app.dialogs.AboutDialogBox;
 import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
-import com.phantomLord.cpufrequtils.app.utils.RootUtils;
+import com.phantomLord.cpufrequtils.app.utils.SysUtils;
+import com.sherlock.navigationdrawer.compat.SherlockActionBarDrawerToggle;
 
 public class MainActivity extends SherlockFragmentActivity {
-	private static final int CONTENT_VIEW_ID = 666;
 	Context themedContext, context;
 	boolean isLight;
 	String key;
+
+	private DrawerLayout mDrawerLayout;
+	private ListView listView;
+
+	private ActionBar actionBar;
+
+	private SherlockActionBarDrawerToggle mDrawerToggle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,31 +45,60 @@ public class MainActivity extends SherlockFragmentActivity {
 		key = mPrefs.getString("listPref", "Light");
 		this.setTheme(Constants.THEMES_MAP.get(key));
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.fragment_main_layout_navbar);
 		// BugSenseHandler.initAndStartSession(MainActivity.this, "4cdc31a1");
 
 		themedContext = getSupportActionBar().getThemedContext();
 		context = getBaseContext();
-		FrameLayout frame = new FrameLayout(context);
-		frame.setId(CONTENT_VIEW_ID);
-		setContentView(frame, new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT));
 
-		if (savedInstanceState == null) {
-			setInitialFragment();
-		}
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		listView = (ListView) findViewById(R.id.left_drawer);
 
-		if (!(RootUtils.isRooted()))
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+				GravityCompat.START);
+
+		listView.setAdapter(new NavigationDrawerListAdapter(context));
+		listView.setOnItemClickListener(new DrawerItemClickListener());
+		listView.setCacheColorHint(0);
+		listView.setScrollingCacheEnabled(false);
+		listView.setScrollContainer(false);
+		listView.setFastScrollEnabled(true);
+		listView.setSmoothScrollbarEnabled(true);
+
+		actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
+
+		mDrawerToggle = new SherlockActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_drawer_light, R.string.about,
+				R.string.about_content);
+		mDrawerToggle.syncState();
+		this.getSupportFragmentManager().beginTransaction()
+				.replace(R.id.main_content, new CpuFrequencyFragment())
+				.commit();
+
+		if (!(SysUtils.isRooted()))
 			new RootNotFoundAlertDialog().show(getSupportFragmentManager(),
 					"Performance Tweaker");
-
 	}
 
-	private void setInitialFragment() {
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		fragmentTransaction.add(CONTENT_VIEW_ID, MainFragment.newInstance())
-				.commit();
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		this.getSupportMenuInflater().inflate(R.menu.main, menu);
+		super.onCreateOptionsMenu(menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		/*
+		 * The action bar home/up action should open or close the drawer.
+		 * mDrawerToggle will take care of this.
+		 */
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -84,6 +125,43 @@ public class MainActivity extends SherlockFragmentActivity {
 					.setIcon(R.drawable.abs__ic_menu_moreoverflow_normal_holo_light);
 		}
 		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	private class DrawerItemClickListener implements
+			ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			Fragment mfragment = new Fragment();
+			switch (position) {
+			case 0:
+				mfragment = new CpuFrequencyFragment();
+				actionBar.setTitle("Cpu Frequency");
+				break;
+			case 1:
+				mfragment = new TimeInStatesFragment();
+				actionBar.setTitle("Time In State");
+				break;
+			case 2:
+				mfragment = new IOControlFragment();
+				actionBar.setTitle("I/O Control");
+				break;
+			case 3:
+				mfragment = new WakeLocksDetectorFragment();
+				actionBar.setTitle("");
+				break;
+			}
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.main_content, mfragment).commit();
+
+			mDrawerLayout.closeDrawer(listView);
+		}
 	}
 
 }

@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,12 +16,14 @@ import android.widget.Button;
 import antistatic.spinnerwheel.AbstractWheel;
 import antistatic.spinnerwheel.adapters.ArrayWheelAdapter;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.phantomLord.cpufrequtils.app.R;
+import com.phantomLord.cpufrequtils.app.adapters.CpuControlActionBarSpinner;
 import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
-import com.phantomLord.cpufrequtils.app.utils.CpuUtils;
-import com.phantomLord.cpufrequtils.app.utils.RootUtils;
+import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
 public class CpuFrequencyFragment extends SherlockFragment {
 	ArrayWheelAdapter<String> frequencyAdapter;
@@ -33,28 +37,33 @@ public class CpuFrequencyFragment extends SherlockFragment {
 	String maxFrequency, minFrequency, currentGovernor;
 
 	View mView;
+	ActionBar actionBar;
 
 	AbstractWheel maxFreq, minimum, governor;
+
+	Context themedContext, context;
+	SharedPreferences prefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		availablefreq = CpuUtils.getAvailableFrequencies();
+		availablefreq = SysUtils.getAvailableFrequencies();
 		availableFrequencies = Arrays.asList(availablefreq);
-		availableScalingGovernors = CpuUtils.getAvailableGovernors();
+		availableScalingGovernors = SysUtils.getAvailableGovernors();
 		availableGovernors = Arrays.asList(availableScalingGovernors);
 		updateValues();
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+	public void onResume() {
+		super.onResume();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 	}
 
-	private void updateValues() {
-		maxFrequency = CpuUtils.getCurrentMaxFrequeny();
-		minFrequency = CpuUtils.getCurrentMinFrequency();
-		currentGovernor = CpuUtils.getCurrentScalingGovernor();
+	@Override
+	public void onPause() {
+		super.onPause();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 
 	@Override
@@ -64,13 +73,13 @@ public class CpuFrequencyFragment extends SherlockFragment {
 		mView = inflater.inflate(R.layout.cpu_control_fragment, container,
 				false);
 		Button applyButton = (Button) mView.findViewById(R.id.button_apply);
-		Context context = mView.getContext();
+		context = mView.getContext();
 		maxFreq = (AbstractWheel) mView.findViewById(R.id.mins);
 		minimum = (AbstractWheel) mView.findViewById(R.id.minimumfreq_spinner);
 		governor = (AbstractWheel) mView.findViewById(R.id.governor_spinner);
 
 		ArrayWheelAdapter<String> minAdapter = new ArrayWheelAdapter<String>(
-				context, CpuUtils.toMhz(availablefreq));
+				context, SysUtils.toMhz(availablefreq));
 		minAdapter.setItemResource(R.layout.spinner_wheel_box_layout);
 		minAdapter.setItemTextResource(R.id.text);
 		maxFreq.setViewAdapter(minAdapter);
@@ -90,14 +99,27 @@ public class CpuFrequencyFragment extends SherlockFragment {
 
 			@Override
 			public void onClick(View v) {
-
-				if (RootUtils.isRooted()) {
-					CpuUtils.setFrequencyAndGovernor(
-							availableFrequencies.get(maxFreq.getCurrentItem()),
-							availableFrequencies.get(minimum.getCurrentItem()),
-							availableGovernors.get(governor.getCurrentItem()),
+				if (SysUtils.isRooted()) {
+					String max = availableFrequencies.get(maxFreq
+							.getCurrentItem());
+					String min = availableFrequencies.get(minimum
+							.getCurrentItem());
+					String gov = availableGovernors.get(governor
+							.getCurrentItem());
+					SysUtils.setFrequencyAndGovernor(max, min, gov,
 							mView.getContext());
 					updateValues();
+					prefs = PreferenceManager
+							.getDefaultSharedPreferences(context);
+					boolean applyOnBoot = prefs.getBoolean(
+							Constants.PREF_CPU_APPLY_ON_BOOT, false);
+					if (applyOnBoot) {
+						SharedPreferences.Editor editor = prefs.edit();
+						editor.putString(Constants.PREF_MAX_FREQ, max);
+						editor.putString(Constants.PREF_MIN_FREQ, min);
+						editor.putString(Constants.PREF_GOV, gov);
+						editor.commit();
+					}
 
 				} else {
 					new RootNotFoundAlertDialog().show(getFragmentManager(),
@@ -107,4 +129,30 @@ public class CpuFrequencyFragment extends SherlockFragment {
 		});
 		return mView;
 	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		actionBar = getSherlockActivity().getSupportActionBar();
+		themedContext = getSherlockActivity().getSupportActionBar()
+				.getThemedContext();
+		actionBar.setListNavigationCallbacks(new CpuControlActionBarSpinner(
+				themedContext), new OnNavigationListener() {
+
+			@Override
+			public boolean onNavigationItemSelected(int itemPosition,
+					long itemId) {
+
+				return false;
+			}
+		});
+
+	}
+
+	private void updateValues() {
+		maxFrequency = SysUtils.getCurrentMaxFrequeny();
+		minFrequency = SysUtils.getCurrentMinFrequency();
+		currentGovernor = SysUtils.getCurrentScalingGovernor();
+	}
+
 }

@@ -3,7 +3,7 @@ package com.phantomLord.cpufrequtils.app.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.util.Log;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +15,13 @@ import android.widget.TextView;
 import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.BatteryStatsUtils;
-import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
+import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
 public class CpuWakelocksAdapter extends BaseAdapter {
 	ArrayList<Wakelock> partialWakelocks;
 	Context context;
 	int totaltime;
+	LayoutInflater infalter;
 
 	public CpuWakelocksAdapter(Context ctx) {
 		this.context = ctx;
@@ -33,6 +34,8 @@ public class CpuWakelocksAdapter extends BaseAdapter {
 		for (Wakelock wl : partialWakelocks) {
 			totaltime += wl.getDuration() / 1000;
 		}
+		infalter = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -55,8 +58,7 @@ public class CpuWakelocksAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater infalter = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
 		View row = infalter.inflate(R.layout.cpu_wakelock_row, parent, false);
 		TextView wakelockName = (TextView) row
 				.findViewById(R.id.cpu_wakelock_name);
@@ -69,19 +71,14 @@ public class CpuWakelocksAdapter extends BaseAdapter {
 				.findViewById(R.id.cpu_wakelock_progress);
 
 		Wakelock mWakelock = partialWakelocks.get(position);
-
-		String datax = mWakelock.getName() + " next "
-				+ mWakelock.getFullQualifiedName(context) + " hi "
-				+ mWakelock.getPackageName();
-		Log.d("data", datax);
-		if (mWakelock.getIcon(context) != null) {
-			icon.setImageDrawable(mWakelock.getIcon(context));
+		Drawable drawable = mWakelock.getIcon(context);
+		if (drawable != null) {
+			icon.setImageDrawable(drawable);
 		} else {
 			icon.setImageResource(R.drawable.logo);
 		}
-		// icon.setImageResource(R.drawable.logo);
 		wakelockName.setText(mWakelock.getName());
-		duration.setText(MiscUtils.secToString(mWakelock.getDuration() / 1000));
+		duration.setText(SysUtils.secToString(mWakelock.getDuration() / 1000));
 		wakeCount.setText("x" + mWakelock.getCount() + " times");
 		progress.setMax(totaltime);
 		progress.setProgress((int) mWakelock.getDuration() / 1000);

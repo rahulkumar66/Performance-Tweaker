@@ -30,18 +30,19 @@
             android:layout_below="@+id/cpu_wakelock_name"
             android:layout_marginLeft="2dp"
             android:layout_marginTop="5dp"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/cpu_wakelock_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
+            android:layout_below="@+id/cpu_wakelock_name"
+            android:layout_marginRight="2dp"
             android:layout_toRightOf="@+id/cpu_wakelock_duration"
             android:gravity="right"
-            android:paddingRight="2dp"
-            android:textSize="14sp" />
+            android:layout_marginTop="5dp"
+            android:textSize="13sp" />
 
         <ProgressBar
             android:id="@+id/cpu_wakelock_progress"

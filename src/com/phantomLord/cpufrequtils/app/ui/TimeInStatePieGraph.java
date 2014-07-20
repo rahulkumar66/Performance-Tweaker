@@ -25,7 +25,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.phantomLord.cpufrequtils.app.utils.CpuState;
-import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
+import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 import com.phantomLord.cpufrequtils.app.utils.TimeInStateReader;
 
 public class TimeInStatePieGraph extends SherlockFragmentActivity {
@@ -98,7 +98,7 @@ public class TimeInStatePieGraph extends SherlockFragmentActivity {
 									getBaseContext(),
 									"Time Spent in "
 											+ "Deep Sleep : "
-											+ MiscUtils
+											+ SysUtils
 													.secToString(timeInSeconds),
 									Toast.LENGTH_SHORT).show();
 						} else {
@@ -110,7 +110,7 @@ public class TimeInStatePieGraph extends SherlockFragmentActivity {
 											+ mStates.get(index).getFrequency()
 											/ 1000
 											+ " Mhz : "
-											+ MiscUtils
+											+ SysUtils
 													.secToString(timeInSeconds),
 									Toast.LENGTH_SHORT).show();
 						}

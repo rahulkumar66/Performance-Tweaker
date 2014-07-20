@@ -20,8 +20,7 @@ public class NavigationDrawerListAdapter extends BaseAdapter {
 
 	public NavigationDrawerListAdapter(Context ctx) {
 		this.context = ctx;
-		fragmentItems = context.getResources()
-				.getStringArray(R.array.fragments);
+		fragmentItems = Constants.mFragmentsArray;
 		inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}

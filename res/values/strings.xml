@@ -14,6 +14,7 @@
     <string name="continu">Continue</string>
     <string name="exit">Exit</string>
     <string name="noroot">Your Phone Does Not Have Root Access</string>
+    <string name="ok_message">Values Successfully Applied</string>
 
     <string-array name="wakelock_actionbar_spinner_items">
         <item>Kernel Wakelock</item>

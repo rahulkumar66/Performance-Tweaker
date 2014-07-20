@@ -17,8 +17,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.adapters.TimeInStatesListAdapter;
 import com.phantomLord.cpufrequtils.app.utils.CpuState;
-import com.phantomLord.cpufrequtils.app.utils.CpuUtils;
-import com.phantomLord.cpufrequtils.app.utils.MiscUtils;
+import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
 public class TimeInStatesFragment extends SherlockFragment {
 
@@ -43,11 +42,11 @@ public class TimeInStatesFragment extends SherlockFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		kernelVersion.setText(CpuUtils.getKernelInfo());
+		kernelVersion.setText(SysUtils.getKernelInfo());
 		timeInStateAdapter = new TimeInStatesListAdapter(view.getContext());
 		listView.setAdapter(timeInStateAdapter);
 		totalTimeInState.setText("Total Time :"
-				+ MiscUtils.secToString(timeInStateAdapter.totaltime));
+				+ SysUtils.secToString(timeInStateAdapter.totaltime));
 	}
 
 	@Override
