@@ -25,7 +25,8 @@ import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
-public class CpuFrequencyFragment extends SherlockFragment {
+public class CpuFrequencyFragment extends SherlockFragment implements
+		OnNavigationListener {
 	ArrayWheelAdapter<String> frequencyAdapter;
 	ArrayWheelAdapter<String> governorAdapter;
 
@@ -52,18 +53,6 @@ public class CpuFrequencyFragment extends SherlockFragment {
 		availableScalingGovernors = SysUtils.getAvailableGovernors();
 		availableGovernors = Arrays.asList(availableScalingGovernors);
 		updateValues();
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 
 	@Override
@@ -120,7 +109,6 @@ public class CpuFrequencyFragment extends SherlockFragment {
 						editor.putString(Constants.PREF_GOV, gov);
 						editor.commit();
 					}
-
 				} else {
 					new RootNotFoundAlertDialog().show(getFragmentManager(),
 							Constants.App_Tag);
@@ -134,19 +122,19 @@ public class CpuFrequencyFragment extends SherlockFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		actionBar = getSherlockActivity().getSupportActionBar();
-		themedContext = getSherlockActivity().getSupportActionBar()
-				.getThemedContext();
-		actionBar.setListNavigationCallbacks(new CpuControlActionBarSpinner(
-				themedContext), new OnNavigationListener() {
+		themedContext = actionBar.getThemedContext();
+		if (!(SysUtils.getCoreCount() == 1)) {
+			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+			actionBar.setListNavigationCallbacks(
+					new CpuControlActionBarSpinner(themedContext), this);
+		}
+	}
 
-			@Override
-			public boolean onNavigationItemSelected(int itemPosition,
-					long itemId) {
+	@Override
+	public void onDestroyView() {
 
-				return false;
-			}
-		});
-
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		super.onDestroyView();
 	}
 
 	private void updateValues() {
@@ -155,4 +143,12 @@ public class CpuFrequencyFragment extends SherlockFragment {
 		currentGovernor = SysUtils.getCurrentScalingGovernor();
 	}
 
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		switch (itemPosition) {
+		default:
+			break;
+		}
+		return false;
+	}
 }

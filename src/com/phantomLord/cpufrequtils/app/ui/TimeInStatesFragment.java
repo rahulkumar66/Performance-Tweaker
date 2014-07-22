@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -47,28 +48,6 @@ public class TimeInStatesFragment extends SherlockFragment {
 		listView.setAdapter(timeInStateAdapter);
 		totalTimeInState.setText("Total Time :"
 				+ SysUtils.secToString(timeInStateAdapter.totaltime));
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		menu.add("Show Pie Graph").setIcon(R.drawable.chart)
-				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case 0:
-			Intent intent = new Intent(getSherlockActivity(),
-					TimeInStatePieGraph.class);
-			startActivity(intent);
-			break;
-
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 }

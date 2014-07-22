@@ -34,7 +34,7 @@
     <string-array name="fragments">
         <item>Cpu Frequency</item>
         <item>Time In States</item>
-        <item>SD Storage</item>
+        <item>I/O Control</item>
         <item>Wakelocks</item>
     </string-array>
 

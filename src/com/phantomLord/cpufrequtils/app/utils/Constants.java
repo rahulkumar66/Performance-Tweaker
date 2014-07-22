@@ -47,8 +47,6 @@ public class Constants {
 
 	public static final int icons[] = new int[] { R.drawable.meter,
 			R.drawable.bar_chart, R.drawable.backup, R.drawable.battery_med };
-	public static final int actionBarIcons[] = new int[] { R.drawable.sysctl,
-			R.drawable.main_cpu, R.drawable.changelog };
 	public static final int theme[] = new int[] { R.style.Theme_Sherlock,
 			R.style.Theme_Sherlock_Light,
 			R.style.Theme_Sherlock_Light_DarkActionBar };

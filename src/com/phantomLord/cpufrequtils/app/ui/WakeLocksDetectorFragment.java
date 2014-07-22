@@ -2,12 +2,15 @@ package com.phantomLord.cpufrequtils.app.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -28,53 +31,40 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 	View view;
 	Context themedContext, context;
 	TextView timeSince;
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		actionBar = getSherlockActivity().getSupportActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-	}
+	BaseAdapter adapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.wakelocksfragment, container, false);
-
+		actionBar = getSherlockActivity().getSupportActionBar();
+		themedContext = actionBar.getThemedContext();
+		context = getSherlockActivity().getBaseContext();
 		wakelockList = (ListView) view
 				.findViewById(R.id.wakelock_data_listview1);
 		timeSince = (TextView) view.findViewById(R.id.stats_since);
-
 		return view;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		themedContext = getSherlockActivity().getSupportActionBar()
-				.getThemedContext();
-		context = getSherlockActivity().getBaseContext();
-
-		actionBar = getSherlockActivity().getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		actionBar.setListNavigationCallbacks(
-				new WakelockActionBarSpinnerAdapter(themedContext), this);
-		wakelockList.setAdapter(new KernelWakelockAdapter(context));
-		timeSince.setText("Time Since : "
-				+ BatteryStatsUtils.getTimeSinceForKernelWakelocks());
+		adapter = new WakelockActionBarSpinnerAdapter(themedContext);
+		actionBar.setListNavigationCallbacks(adapter, this);
+		actionBar.setSelectedNavigationItem(0);
 
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-		actionBar.setNavigationMode(ActionBar.DISPLAY_SHOW_TITLE);
+	public void onDestroyView() {
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		super.onDestroyView();
 	}
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		BaseAdapter adapter = null;
-
 		switch (itemPosition) {
 		case 0:
 			adapter = new KernelWakelockAdapter(context);
@@ -96,7 +86,6 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 			wakelockList.setVisibility(View.VISIBLE);
 			timeSince.setTextSize(15);
 			wakelockList.setAdapter(adapter);
-
 		} else {
 			wakelockList.setVisibility(View.GONE);
 			timeSince.setTextSize(20);

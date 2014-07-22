@@ -30,12 +30,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.phantomLord.cpufrequtils.app.ui.TimeInStatePieGraph"
-            android:label="Time In States"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Sherlock" >
-        </activity>
-        <activity
             android:name="com.phantomLord.cpufrequtils.app.ui.PreferenceActivity"
             android:label="@string/action_settings"
             android:screenOrientation="portrait"
@@ -45,7 +39,7 @@
         <service android:name="com.phantomLord.cpufrequtils.app.services.BootService" />
 
         <receiver
-            android:name="com.phantomLord.cpufrequtils.app.BootReceiver"
+            android:name="com.phantomLord.cpufrequtils.app.receivers.BootReceiver"
             android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

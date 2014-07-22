@@ -12,13 +12,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.phantomLord.cpufrequtils.app.R;
+import com.phantomLord.cpufrequtils.app.adapters.CpuControlActionBarSpinner;
 import com.phantomLord.cpufrequtils.app.adapters.NavigationDrawerListAdapter;
 import com.phantomLord.cpufrequtils.app.dialogs.AboutDialogBox;
 import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
@@ -64,6 +67,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		listView.setScrollContainer(false);
 		listView.setFastScrollEnabled(true);
 		listView.setSmoothScrollbarEnabled(true);
+		listView.setSelection(0);
 
 		actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -80,6 +84,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		if (!(SysUtils.isRooted()))
 			new RootNotFoundAlertDialog().show(getSupportFragmentManager(),
 					"Performance Tweaker");
+
 	}
 
 	@Override
@@ -134,11 +139,11 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
+			ListView.OnItemClickListener, OnNavigationListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			Fragment mfragment = new Fragment();
+			Fragment mfragment = null;
 			switch (position) {
 			case 0:
 				mfragment = new CpuFrequencyFragment();
@@ -153,6 +158,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				actionBar.setTitle("I/O Control");
 				break;
 			case 3:
+				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 				mfragment = new WakeLocksDetectorFragment();
 				actionBar.setTitle("");
 				break;
@@ -161,6 +167,12 @@ public class MainActivity extends SherlockFragmentActivity {
 					.replace(R.id.main_content, mfragment).commit();
 
 			mDrawerLayout.closeDrawer(listView);
+		}
+
+		@Override
+		public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+			// TODO Auto-generated method stub
+			return true;
 		}
 	}
 
