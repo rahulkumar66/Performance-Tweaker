@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/background_light" >
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@+id/diskLinearLayout1"
@@ -17,7 +16,7 @@
             android:id="@+id/ioText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I/O Scheduler"
+            android:text="@string/io_scheduler"
             android:textSize="19sp" />
 
         <antistatic.spinnerwheel.WheelHorizontalView
@@ -29,8 +28,8 @@
             android:id="@+id/readAheadText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Read Ahead"
             android:paddingTop="8dp"
+            android:text="@string/read_ahead_cache"
             android:textSize="19sp" />
 
         <antistatic.spinnerwheel.WheelHorizontalView
@@ -52,7 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Apply" />
+            android:text="@string/apply" >
+        </Button>
     </LinearLayout>
 
 </RelativeLayout>

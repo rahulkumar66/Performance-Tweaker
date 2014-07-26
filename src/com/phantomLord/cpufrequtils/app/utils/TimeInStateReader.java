@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.os.SystemClock;
-import android.util.Log;
 
 public class TimeInStateReader {
 	private ArrayList<CpuState> states = new ArrayList<>();
@@ -65,7 +64,6 @@ public class TimeInStateReader {
 			Collections.sort(states);
 		}
 
-		Log.d("size", newStates.size() + "");
 		if (newStates.size() > 0) {
 			for (int i = 0; i < newStates.size(); i++) {
 				states.get(i).time -= newStates.get(i).time;

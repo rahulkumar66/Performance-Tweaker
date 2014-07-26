@@ -18,12 +18,14 @@ public class CpuFrequencyScalingNotSupportedDialog extends
 				.setMessage(getString(R.string.doesnt_support_cpufs))
 				.setPositiveButton(getString(R.string.continu),
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
 							}
 						})
 				.setNegativeButton(getString(R.string.exit),
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
 								getActivity().finish();

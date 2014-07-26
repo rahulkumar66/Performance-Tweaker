@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import org.apache.http.impl.conn.tsccm.RefQueueWorker;
+
 import android.content.Context;
 import android.os.Build;
 
@@ -17,6 +19,7 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
+import com.phantomLord.cpufrequtils.app.R;
 
 public class BatteryStatsUtils {
 	/*
@@ -78,11 +81,10 @@ public class BatteryStatsUtils {
 			return myWakelocks;
 		}
 		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(context);
-
 		try {
 			cpuWakelocks = stats.getWakelockStats(context,
 					BatteryStatsTypes.WAKE_TYPE_PARTIAL,
-					BatteryStatsTypes.STATS_CURRENT, 0);
+					BatteryStatsTypes.STATS_SINCE_UNPLUGGED, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -113,7 +115,7 @@ public class BatteryStatsUtils {
 		if (SysUtils.isRooted()) {
 			alarms = AlarmsDumpsys.getAlarms();
 		} else {
-			myWakelocks.add(new Alarm("Root Permissions Not Found"));
+			myWakelocks.add(new Alarm(context.getString(R.string.noroot)));
 			return myWakelocks;
 		}
 
@@ -135,10 +137,6 @@ public class BatteryStatsUtils {
 
 	public static String getTimeSinceForCpuWakelocks() {
 		return SysUtils.secToString(timeSinceForCpuWakelocks / 1000);
-	}
-	
-	public static void getAlarmStats(){
-		
 	}
 
 }

@@ -132,7 +132,6 @@ public class CpuFrequencyFragment extends SherlockFragment implements
 
 	@Override
 	public void onDestroyView() {
-
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		super.onDestroyView();
 	}

@@ -11,14 +11,14 @@
         android:id="@+id/time_in_state_listView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.6"
- >
+        android:layout_weight="0.6" >
     </ListView>
 
     <TextView
         android:id="@+id/total_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:gravity="bottom"
         android:textSize="18sp" />
 
@@ -28,7 +28,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginTop="5dp"
         android:gravity="bottom"
-        android:text="Kernel Info"
+        android:text="@string/kernel_info"
         android:textSize="18sp"
         android:textStyle="bold" />
 

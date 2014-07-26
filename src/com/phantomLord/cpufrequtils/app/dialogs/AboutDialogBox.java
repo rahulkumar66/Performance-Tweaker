@@ -16,6 +16,7 @@ public class AboutDialogBox extends SherlockDialogFragment {
 				.setMessage(getString(R.string.about_content))
 				.setPositiveButton(getString(R.string.okbutton),
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
 

@@ -18,6 +18,7 @@ public class RootNotFoundAlertDialog extends SherlockDialogFragment {
 				.setMessage(getString(R.string.noroot))
 				.setPositiveButton(getString(R.string.continu),
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
 
@@ -25,6 +26,7 @@ public class RootNotFoundAlertDialog extends SherlockDialogFragment {
 						})
 				.setNegativeButton(R.string.exit,
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
 								getActivity().finish();

@@ -7,7 +7,7 @@
     <string name="github_bugtracker">https://github.com/rahulkumar2048/Performance-Tweaker/issues/new</string>
     <string name="about_content">Performance Tuner \nVersion 1.1a
         \n\nCopyleft of Rahul Kumar \n\nIf you face any problem feel free to drop a mail at rahulkumar2048@gmail.com  </string>
-    <string name="okbutton">Ok</string>
+    <string name="okbutton">OK</string>
     <string name="about">About</string>
     <string name="error">Error</string>
     <string name="doesnt_support_cpufs">Your Phone Does Not Supports Cpu Freqeuncy Scaling</string>
@@ -15,6 +15,21 @@
     <string name="exit">Exit</string>
     <string name="noroot">Your Phone Does Not Have Root Access</string>
     <string name="ok_message">Values Successfully Applied</string>
+    <string name="total_time">Total Time</string>
+    <string name="deep_sleep">Deep Sleep</string>
+    <string name="time_since">Time Since</string>
+    <string name="kernel_info">Kernel Info</string>
+    <string name="wakeups">WakeUps</string>
+    <string name="times">times</string>
+    <string name="stats_not_available">Statistics are not available yet , Please Give it some time</string>
+    <string name="core">Core</string>
+    <string name="image_description">Image Icon</string>
+    <string name="max_frequency">Maximum Frequency</string>
+    <string name="min_frequency">Minimum Frequency</string>
+    <string name="scaling_governor">Scaling Governor</string>
+    <string name="apply">Apply</string>
+    <string name="io_scheduler">I/O Scheduler</string>
+    <string name="read_ahead_cache">Read Ahead Cache</string>
 
     <string-array name="wakelock_actionbar_spinner_items">
         <item>Kernel Wakelock</item>
@@ -36,6 +51,7 @@
         <item>Time In States</item>
         <item>I/O Control</item>
         <item>Wakelocks</item>
+        <item>Settings</item>
     </string-array>
 
 </resources>

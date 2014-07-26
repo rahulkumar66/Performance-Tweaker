@@ -27,7 +27,7 @@ public class CpuControlActionBarSpinner extends BaseAdapter {
 			cores[noOfCpuCores] = Constants.CPU_ALL;
 		}
 		for (int i = 0; i < noOfCpuCores; i++) {
-			cores[i] = "Core " + i;
+			cores[i] = context.getString(R.string.core) + i;
 		}
 		inflator = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

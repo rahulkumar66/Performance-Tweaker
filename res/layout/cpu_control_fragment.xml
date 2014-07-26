@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/background_light" >
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@+id/linear1"
@@ -17,7 +16,7 @@
             android:id="@+id/maximumfrequency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Maximum Frequency"
+            android:text="@string/max_frequency"
             android:textSize="19sp" />
 
         <antistatic.spinnerwheel.WheelHorizontalView
@@ -30,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:text="Minimum Frequency"
+            android:text="@string/min_frequency"
             android:textSize="19sp" />
 
         <antistatic.spinnerwheel.WheelHorizontalView
@@ -43,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:text="Scaling Governor"
+            android:text="@string/scaling_governor"
             android:textSize="19sp" />
 
         <antistatic.spinnerwheel.WheelHorizontalView
@@ -65,7 +64,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Apply" />
+            android:text="@string/apply" >
+        </Button>
     </LinearLayout>
 
 </RelativeLayout>

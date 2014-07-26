@@ -105,23 +105,24 @@ public class MainActivity extends SherlockFragmentActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			Fragment mfragment = null;
+			String[] fragmentNames = Constants.mFragmentsArray;
 			switch (position) {
 			case 0:
 				mfragment = new CpuFrequencyFragment();
-				actionBar.setTitle("Cpu Frequency");
+				actionBar.setTitle(fragmentNames[position]);
 				break;
 			case 1:
 				mfragment = new TimeInStatesFragment();
-				actionBar.setTitle("Time In State");
+				actionBar.setTitle(fragmentNames[position]);
 				break;
 			case 2:
 				mfragment = new IOControlFragment();
-				actionBar.setTitle("I/O Control");
+				actionBar.setTitle(fragmentNames[position]);
 				break;
 			case 3:
 				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 				mfragment = new WakeLocksDetectorFragment();
-				actionBar.setTitle("");
+				actionBar.setTitle(fragmentNames[position]);
 				break;
 			case 4:
 				startActivity(new Intent(MainActivity.this,

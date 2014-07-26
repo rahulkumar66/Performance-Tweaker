@@ -19,6 +19,7 @@ import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 import com.phantomLord.cpufrequtils.app.utils.TimeInStateReader;
 
 public class TimeInStatesListAdapter extends BaseAdapter {
+
 	Context context;
 	ArrayList<CpuState> states = new ArrayList<>();
 	public long totaltime = 0;
@@ -53,7 +54,7 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 		TextView percentage = (TextView) rowView.findViewById(R.id.percentage);
 
 		if (states.get(position).getFrequency() == 0)
-			frequencyTextView.setText("Deep Sleep");
+			frequencyTextView.setText(context.getString(R.string.deep_sleep));
 		else
 			frequencyTextView
 					.setText((states.get(position).getFrequency() / 1000)

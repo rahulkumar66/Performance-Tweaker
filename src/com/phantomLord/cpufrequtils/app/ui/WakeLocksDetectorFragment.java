@@ -50,7 +50,6 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 		adapter = new WakelockActionBarSpinnerAdapter(themedContext);
 		actionBar.setListNavigationCallbacks(adapter, this);
 		actionBar.setSelectedNavigationItem(0);
-
 	}
 
 	@Override
@@ -65,17 +64,17 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 		switch (itemPosition) {
 		case 0:
 			adapter = new KernelWakelockAdapter(context);
-			timeSince.setText("Time Since : "
+			timeSince.setText(getString(R.string.time_since) + " "
 					+ BatteryStatsUtils.getTimeSinceForKernelWakelocks());
 			break;
 		case 1:
 			adapter = new CpuWakelocksAdapter(context);
-			timeSince.setText("Time Since : "
+			timeSince.setText(getString(R.string.time_since) + " "
 					+ BatteryStatsUtils.getTimeSinceForCpuWakelocks());
 			break;
 		case 2:
 			adapter = new AlarmTriggerAdapter(context);
-			timeSince.setText("Time Since : "
+			timeSince.setText(getString(R.string.time_since) + " "
 					+ BatteryStatsUtils.getTimeSinceForKernelWakelocks());
 			break;
 		}
@@ -87,8 +86,7 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 			wakelockList.setVisibility(View.GONE);
 			timeSince.setTextSize(20);
 			timeSince.setGravity(Gravity.CENTER);
-			timeSince
-					.setText("Statistics are not available yet , Please Give it some time");
+			timeSince.setText(getString(R.string.stats_not_available));
 		}
 		return true;
 	}

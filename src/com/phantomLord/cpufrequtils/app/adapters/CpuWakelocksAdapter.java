@@ -79,7 +79,8 @@ public class CpuWakelocksAdapter extends BaseAdapter {
 		}
 		wakelockName.setText(mWakelock.getName());
 		duration.setText(SysUtils.secToString(mWakelock.getDuration() / 1000));
-		wakeCount.setText("x" + mWakelock.getCount() + " times");
+		wakeCount.setText("x" + mWakelock.getCount()
+				+ context.getString(R.string.times));
 		progress.setMax(totaltime);
 		progress.setProgress((int) mWakelock.getDuration() / 1000);
 		return row;

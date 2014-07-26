@@ -2,10 +2,10 @@ package com.phantomLord.cpufrequtils.app.ui;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +32,7 @@ public class TimeInStatesFragment extends SherlockFragment {
 	TextView totalTimeInState;
 
 	SharedPreferences prefs;
+	Context context;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,10 +49,10 @@ public class TimeInStatesFragment extends SherlockFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		kernelVersion.setText(SysUtils.getKernelInfo());
-		timeInStateAdapter = new TimeInStatesListAdapter(view.getContext());
+		context = view.getContext();
+		timeInStateAdapter = new TimeInStatesListAdapter(context);
 
-		prefs = PreferenceManager
-				.getDefaultSharedPreferences(view.getContext());
+		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		String previousStats = prefs.getString(Constants.PREF_TIS_RESET_STATS,
 				null);
 
@@ -62,7 +63,7 @@ public class TimeInStatesFragment extends SherlockFragment {
 		listView.setAdapter(timeInStateAdapter);
 		timeInStateAdapter.refresh();
 
-		totalTimeInState.setText("Total Time :"
+		totalTimeInState.setText(getString(R.string.total_time) + " "
 				+ SysUtils.secToString(timeInStateAdapter.totaltime / 100));
 		timeInStateAdapter.refresh();
 	}
@@ -75,21 +76,23 @@ public class TimeInStatesFragment extends SherlockFragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		String title = item.getTitle().toString();
-		switch (title) {
-		case "Refresh":
+		int id = item.getItemId();
+		switch (id) {
+		case R.id.refresh:
 			timeInStateAdapter.refresh();
-			totalTimeInState.setText("Total Time :"
+			totalTimeInState.setText(getString(R.string.total_time) + " "
 					+ SysUtils.secToString(timeInStateAdapter.totaltime / 100));
 			break;
-			
-		case "Reset Timers":
+
+		case R.id.reset_timers:
 			timeInStateAdapter.reset();
+			totalTimeInState.setText(getString(R.string.total_time) + " "
+					+ SysUtils.secToString(timeInStateAdapter.totaltime / 100));
 			break;
-			
-		case "Restore Timers":
-			Log.d("ads", "removeoff");
+
+		case R.id.restore_timers:
 			timeInStateAdapter.removeOffsets();
+			timeInStateAdapter.refresh();
 		default:
 			break;
 		}
