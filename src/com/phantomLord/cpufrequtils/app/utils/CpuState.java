@@ -2,8 +2,8 @@ package com.phantomLord.cpufrequtils.app.utils;
 
 public class CpuState implements Comparable<CpuState> {
 
-	private int frequency;
-	private long time;
+	public int frequency;
+	public long time;
 
 	public CpuState(int freq, long t) {
 		this.frequency = freq;

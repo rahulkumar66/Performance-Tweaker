@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -12,18 +11,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.phantomLord.cpufrequtils.app.R;
-import com.phantomLord.cpufrequtils.app.adapters.CpuControlActionBarSpinner;
 import com.phantomLord.cpufrequtils.app.adapters.NavigationDrawerListAdapter;
-import com.phantomLord.cpufrequtils.app.dialogs.AboutDialogBox;
 import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
@@ -88,13 +82,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		this.getSupportMenuInflater().inflate(R.menu.main, menu);
-		super.onCreateOptionsMenu(menu);
-		return true;
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		/*
 		 * The action bar home/up action should open or close the drawer.
@@ -107,39 +94,13 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		String title = item.getTitle().toString();
-		if (title.equals(getString(R.string.report_to_github))) {
-			Uri uri = Uri.parse(getString(R.string.github_bugtracker));
-			Intent mIntent = new Intent(Intent.ACTION_VIEW, uri);
-			startActivity(mIntent);
-		} else if (title.equals("Settings")) {
-			startActivity(new Intent(getBaseContext(), PreferenceActivity.class));
-		} else if (title.equals("About")) {
-			new AboutDialogBox().show(getSupportFragmentManager(), title);
-		}
-		return super.onMenuItemSelected(featureId, item);
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-
-		if (key.equals("Light")) {
-			MenuItem myMenuItem = menu.findItem(R.id.overflow_menu1);
-			myMenuItem
-					.setIcon(R.drawable.abs__ic_menu_moreoverflow_normal_holo_light);
-		}
-		return super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
 	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener, OnNavigationListener {
+			ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -162,18 +123,18 @@ public class MainActivity extends SherlockFragmentActivity {
 				mfragment = new WakeLocksDetectorFragment();
 				actionBar.setTitle("");
 				break;
+			case 4:
+				startActivity(new Intent(MainActivity.this,
+						PreferenceActivity.class));
+				break;
 			}
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.main_content, mfragment).commit();
-
+			if (mfragment != null) {
+				getSupportFragmentManager().beginTransaction()
+						.replace(R.id.main_content, mfragment).commit();
+			}
 			mDrawerLayout.closeDrawer(listView);
 		}
 
-		@Override
-		public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-			// TODO Auto-generated method stub
-			return true;
-		}
 	}
 
 }

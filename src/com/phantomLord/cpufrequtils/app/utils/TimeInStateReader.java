@@ -5,18 +5,22 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 public class TimeInStateReader {
-	private ArrayList<CpuState> states;
+	private ArrayList<CpuState> states = new ArrayList<>();
+	private ArrayList<CpuState> newStates = new ArrayList<>();
 
-	private long totaltime = 0;
-	boolean nonZeroValuesOnly;
+	private long totaltime;
 
-	public TimeInStateReader(boolean getNonZeroValuesOnly) {
-		states = new ArrayList<CpuState>();
-		this.nonZeroValuesOnly = getNonZeroValuesOnly;
+	public TimeInStateReader() {
+	}
+
+	public TimeInStateReader getInstance() {
+		return new TimeInStateReader();
 	}
 
 	public ArrayList<CpuState> getCpuStateTime(boolean withDeepSleep) {
@@ -35,25 +39,16 @@ public class TimeInStateReader {
 				}
 				bufferedReader = new BufferedReader(new InputStreamReader(
 						process.getInputStream()));
-
 				try {
 					while ((line = bufferedReader.readLine()) != null) {
 						String entries[] = line.split(" ");
-						long time = Long.parseLong(entries[1]) / 100;
-						if (nonZeroValuesOnly) {
-							if (time != 0) {
-								states.add(new CpuState(Integer
-										.parseInt(entries[0]), time));
-							}
-						} else {
-							states.add(new CpuState(Integer
-									.parseInt(entries[0]), time));
-						}
+						long time = Long.parseLong(entries[1]);
+						states.add(new CpuState(Integer.parseInt(entries[0]),
+								time));
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
 			}
 		}
 		/*
@@ -62,22 +57,38 @@ public class TimeInStateReader {
 
 		if (withDeepSleep) {
 			long deepSleepTime = (SystemClock.elapsedRealtime() - SystemClock
-					.uptimeMillis());
+					.uptimeMillis()) / 10;
 			if (deepSleepTime > 0)
-				states.add(new CpuState(0, deepSleepTime / 1000));
+				states.add(new CpuState(0, deepSleepTime));
+		}
+		if (states != null) {
+			Collections.sort(states);
+		}
+
+		Log.d("size", newStates.size() + "");
+		if (newStates.size() > 0) {
+			for (int i = 0; i < newStates.size(); i++) {
+				states.get(i).time -= newStates.get(i).time;
+			}
 		}
 		return states;
 	}
 
 	public long getTotalTimeInState() {
+		totaltime = 0;
 		for (CpuState state : states) {
 			totaltime += state.getTime();
 		}
 		return totaltime;
 	}
 
-	public void clearCpuStates() {
-		states.clear();
-		totaltime = 0;
+	public void setNewStates(ArrayList<CpuState> state) {
+		clearNewStates();
+		newStates = state;
 	}
+
+	public void clearNewStates() {
+		newStates.clear();
+	}
+
 }

@@ -1,7 +1,6 @@
 package com.phantomLord.cpufrequtils.app.adapters;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,21 +20,23 @@ import com.phantomLord.cpufrequtils.app.utils.TimeInStateReader;
 
 public class TimeInStatesListAdapter extends BaseAdapter {
 	Context context;
-	ArrayList<CpuState> states;
+	ArrayList<CpuState> states = new ArrayList<>();
 	public long totaltime = 0;
 	TimeInStateReader statesReader;
 	LayoutInflater infalter;
+	SharedPreferences prefs;
+	boolean filterNonZeroVals;
 
 	public TimeInStatesListAdapter(Context context) {
 		this.context = context;
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
-
-		statesReader = new TimeInStateReader(prefs.getBoolean(
-				Constants.PREF_ZERO_VALS, true));
+		prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		filterNonZeroVals = prefs.getBoolean(Constants.PREF_ZERO_VALS, true);
+		statesReader = new TimeInStateReader();
 		states = statesReader.getCpuStateTime(true);
 		totaltime = statesReader.getTotalTimeInState();
-		Collections.sort(states);
+		/*
+		 * remove zero values
+		 */
 		infalter = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -51,13 +52,14 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 		TextView time = (TextView) rowView.findViewById(R.id.time);
 		TextView percentage = (TextView) rowView.findViewById(R.id.percentage);
 
-		time.setText(SysUtils.secToString(states.get(position).getTime()));
 		if (states.get(position).getFrequency() == 0)
 			frequencyTextView.setText("Deep Sleep");
 		else
 			frequencyTextView
 					.setText((states.get(position).getFrequency() / 1000)
 							+ " Mhz");
+		time.setText(SysUtils.secToString(states.get(position).getTime() / 100));
+
 		mProgressBar.setMax((int) (totaltime));
 		mProgressBar.setProgress((int) (states.get(position).getTime()));
 
@@ -66,6 +68,7 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 		 */
 		long percent = (states.get(position).getTime() * 100) / totaltime;
 		percentage.setText(percent + "%");
+
 		return rowView;
 	}
 
@@ -87,4 +90,53 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 		return states.indexOf(position);
 	}
 
+	public void refresh() {
+		states = statesReader.getCpuStateTime(true);
+		totaltime = statesReader.getTotalTimeInState();
+		notifyDataSetChanged();
+	}
+
+	public void saveOffsets() {
+		String data = "";
+		ArrayList<CpuState> newStates = statesReader.getCpuStateTime(true);
+		for (CpuState state : newStates) {
+			data += state.getFrequency() + " " + state.getTime() + ",";
+		}
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString(Constants.PREF_TIS_RESET_STATS, data);
+		editor.commit();
+	}
+
+	public void reset() {
+		removeOffsets();
+		saveOffsets();
+		loadPreviousStats();
+		states = statesReader.getCpuStateTime(true);
+		totaltime = statesReader.getTotalTimeInState();
+		refresh();
+	}
+
+	public void loadPreviousStats() {
+		ArrayList<CpuState> newStates = new ArrayList<>();
+		String data = prefs.getString(Constants.PREF_TIS_RESET_STATS, null);
+
+		if (data.length() > 0) {
+			String[] line = data.split(",");
+			for (String str : line) {
+				String[] val = str.split(" ");
+				newStates.add(new CpuState(Integer.parseInt(val[0]), Long
+						.parseLong(val[1])));
+			}
+		}
+		statesReader.setNewStates(newStates);
+	}
+
+	public void removeOffsets() {
+		if (prefs.getString(Constants.PREF_TIS_RESET_STATS, null) != null) {
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putString(Constants.PREF_TIS_RESET_STATS, null);
+			editor.commit();
+		}
+		statesReader.clearNewStates();
+	}
 }

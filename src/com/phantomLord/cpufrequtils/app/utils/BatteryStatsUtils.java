@@ -136,5 +136,9 @@ public class BatteryStatsUtils {
 	public static String getTimeSinceForCpuWakelocks() {
 		return SysUtils.secToString(timeSinceForCpuWakelocks / 1000);
 	}
+	
+	public static void getAlarmStats(){
+		
+	}
 
 }

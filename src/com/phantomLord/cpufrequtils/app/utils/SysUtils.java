@@ -26,7 +26,7 @@ public class SysUtils {
 		} else if (new File(Constants.time_in_states).exists()) {
 			ArrayList<CpuState> states = new ArrayList<CpuState>();
 			int i = 0;
-			states = new TimeInStateReader(true).getCpuStateTime(false);
+			states = new TimeInStateReader().getCpuStateTime(false);
 			Collections.sort(states);
 			frequencies = new String[states.size()];
 			for (CpuState object : states) {

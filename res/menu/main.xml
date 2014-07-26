@@ -4,15 +4,10 @@
     <item
         android:id="@+id/overflow_menu1"
         android:icon="@drawable/abs__ic_menu_moreoverflow_normal_holo_dark"
-        android:orderInCategory="99"
+        android:orderInCategory="0"
         android:showAsAction="ifRoom"
-        android:title="Phantom">
+        android:title="Options">
         <menu>
-            <item
-                android:id="@+id/report_issue_on_github"
-                android:icon="@drawable/github"
-                android:showAsAction="always"
-                android:title="@string/report_to_github"/>
             <item
                 android:id="@+id/preference_menu"
                 android:icon="@drawable/prefs_widget"

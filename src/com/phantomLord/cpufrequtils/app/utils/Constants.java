@@ -15,6 +15,7 @@ public class Constants {
 			+ "cpuinfo_min_freq";
 	public final static String scaling_max_freq = cpufreq_sys_dir
 			+ "scaling_max_freq";
+
 	public final static String cpuinfo_max_freq = cpufreq_sys_dir
 			+ "cpuinfo_max_freq";
 	public final static String scaling_cur_freq = cpufreq_sys_dir
@@ -41,12 +42,14 @@ public class Constants {
 			"3712", "3840", "3968", "4096" };
 
 	public final static String[] mFragmentsArray = new String[] {
-			"Cpu Frequency", "Time In State", "I/0 Control", "Wakelocks" };
+			"Cpu Frequency", "Time In State", "I/0 Control", "Wakelocks",
+			"Settings" };
 	public final static String[] wakelockTypes = new String[] {
 			"Kernel Wakelocks", "Cpu Wakelocks", "Wakeup Triggers" };
 
 	public static final int icons[] = new int[] { R.drawable.meter,
-			R.drawable.bar_chart, R.drawable.backup, R.drawable.battery_med };
+			R.drawable.bar_chart, R.drawable.backup, R.drawable.battery_med,
+			R.drawable.prefs_widget };
 	public static final int theme[] = new int[] { R.style.Theme_Sherlock,
 			R.style.Theme_Sherlock_Light,
 			R.style.Theme_Sherlock_Light_DarkActionBar };
@@ -77,4 +80,6 @@ public class Constants {
 	public final static String PREF_IO_APPLY_ON_BOOT = "io_apply_boot";
 	public final static String PREF_IO_SCHEDULER = "io_scheduler";
 	public final static String PREF_READ_AHEAD = "read_ahead";
+	public final static String PREF_TIS_RESET_STATS = "tis_reset_stats";
+
 }
