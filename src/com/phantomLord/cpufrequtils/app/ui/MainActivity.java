@@ -1,7 +1,6 @@
 package com.phantomLord.cpufrequtils.app.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -77,7 +76,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		if (!(SysUtils.isRooted()))
 			new RootNotFoundAlertDialog().show(getSupportFragmentManager(),
-					"Performance Tweaker");
+					getString(R.string.app_name));
 
 	}
 
@@ -125,8 +124,8 @@ public class MainActivity extends SherlockFragmentActivity {
 				actionBar.setTitle(fragmentNames[position]);
 				break;
 			case 4:
-				startActivity(new Intent(MainActivity.this,
-						PreferenceActivity.class));
+				mfragment = new SettingsFragment();
+				actionBar.setTitle(getString(R.string.action_settings));
 				break;
 			}
 			if (mfragment != null) {
