@@ -46,16 +46,14 @@ public class KernelWakelockAdapter extends BaseAdapter {
 		ProgressBar progress = (ProgressBar) rowView
 				.findViewById(R.id.kernel_progress);
 
-		NativeKernelWakelock nativeWakeLock = kernelWakelocks
-				.get(position);
+		NativeKernelWakelock nativeWakeLock = kernelWakelocks.get(position);
 		String kernelWakelock = kernelWakelocks.get(position).getName();
-		mKernelWakelock.setText(kernelWakelock.substring(1,
-				kernelWakelock.length() - 1));
+		mKernelWakelock.setText(kernelWakelock);
 		WakeupInfo
 				.setText(SysUtils.secToString(nativeWakeLock.getDuration() / 1000));
 		progress.setMax(totaltime);
 		progress.setProgress((int) nativeWakeLock.getDuration() / 1000);
-		wakeUpCount.setText("x" + nativeWakeLock.getCount()
+		wakeUpCount.setText("x" + nativeWakeLock.getCount() + " "
 				+ context.getString(R.string.times));
 
 		return rowView;

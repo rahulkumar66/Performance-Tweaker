@@ -11,7 +11,8 @@
         android:id="@+id/time_in_state_listView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.6" >
+        android:layout_weight="0.6"
+        android:divider="@null" >
     </ListView>
 
     <TextView

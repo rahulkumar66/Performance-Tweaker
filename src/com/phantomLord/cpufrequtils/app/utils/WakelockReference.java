@@ -1,0 +1,31 @@
+package com.phantomLord.cpufrequtils.app.utils;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.asksven.android.common.privateapiproxies.StatElement;
+
+public class WakelockReference implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private String STATS_TYPE;
+	private String STATS_SINCE_UNPLUGGED = "since_unplugged";
+	private String STATS_SINCE_BOOT = "since_boot";
+	private String STAT_CUSTOM_REFERENCE = "custom_red";
+
+	protected ArrayList<StatElement> mRefWakelocks = null;
+	protected ArrayList<StatElement> mRefKernelWakelock = null;
+	protected ArrayList<StatElement> mRefAlarms = null;
+
+	protected long timeSince = 100;
+
+	private WakelockReference() {
+		
+	}
+
+	public WakelockReference(String statsType) {
+
+	}
+
+}

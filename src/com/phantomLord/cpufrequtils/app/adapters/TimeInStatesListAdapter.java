@@ -1,7 +1,9 @@
 package com.phantomLord.cpufrequtils.app.adapters;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -18,10 +20,12 @@ import com.phantomLord.cpufrequtils.app.utils.CpuState;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 import com.phantomLord.cpufrequtils.app.utils.TimeInStateReader;
 
+@SuppressLint("UseSparseArrays")
 public class TimeInStatesListAdapter extends BaseAdapter {
 
 	Context context;
 	ArrayList<CpuState> states = new ArrayList<>();
+	HashMap<Integer, Long> _states = new HashMap<Integer, Long>();
 	public long totaltime = 0;
 	TimeInStateReader statesReader;
 	LayoutInflater infalter;
@@ -32,12 +36,13 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 		this.context = context;
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		filterNonZeroVals = prefs.getBoolean(Constants.PREF_ZERO_VALS, true);
-		statesReader = new TimeInStateReader();
-		states = statesReader.getCpuStateTime(true);
+		statesReader = TimeInStateReader.TimeInStatesReader();
+		states = statesReader.getCpuStateTime(true, filterNonZeroVals);
 		totaltime = statesReader.getTotalTimeInState();
 		/*
 		 * remove zero values
 		 */
+
 		infalter = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -52,7 +57,6 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 				.findViewById(R.id.progress);
 		TextView time = (TextView) rowView.findViewById(R.id.time);
 		TextView percentage = (TextView) rowView.findViewById(R.id.percentage);
-
 		if (states.get(position).getFrequency() == 0)
 			frequencyTextView.setText(context.getString(R.string.deep_sleep));
 		else
@@ -92,14 +96,15 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 	}
 
 	public void refresh() {
-		states = statesReader.getCpuStateTime(true);
+		states = statesReader.getCpuStateTime(true, filterNonZeroVals);
 		totaltime = statesReader.getTotalTimeInState();
 		notifyDataSetChanged();
 	}
 
 	public void saveOffsets() {
 		String data = "";
-		ArrayList<CpuState> newStates = statesReader.getCpuStateTime(true);
+		ArrayList<CpuState> newStates = statesReader.getCpuStateTime(true,
+				filterNonZeroVals);
 		for (CpuState state : newStates) {
 			data += state.getFrequency() + " " + state.getTime() + ",";
 		}
@@ -112,24 +117,22 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 		removeOffsets();
 		saveOffsets();
 		loadPreviousStats();
-		states = statesReader.getCpuStateTime(true);
+		states = statesReader.getCpuStateTime(true, filterNonZeroVals);
 		totaltime = statesReader.getTotalTimeInState();
 		refresh();
 	}
 
 	public void loadPreviousStats() {
-		ArrayList<CpuState> newStates = new ArrayList<>();
 		String data = prefs.getString(Constants.PREF_TIS_RESET_STATS, null);
 
 		if (data.length() > 0) {
 			String[] line = data.split(",");
 			for (String str : line) {
 				String[] val = str.split(" ");
-				newStates.add(new CpuState(Integer.parseInt(val[0]), Long
-						.parseLong(val[1])));
+				_states.put(Integer.parseInt(val[0]), Long.parseLong(val[1]));
 			}
 		}
-		statesReader.setNewStates(newStates);
+		statesReader.newStates = _states;
 	}
 
 	public void removeOffsets() {

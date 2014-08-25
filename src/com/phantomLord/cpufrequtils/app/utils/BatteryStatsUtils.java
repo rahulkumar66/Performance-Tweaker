@@ -1,10 +1,11 @@
 package com.phantomLord.cpufrequtils.app.utils;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import org.apache.http.impl.conn.tsccm.RefQueueWorker;
 
 import android.content.Context;
 import android.os.Build;
@@ -26,8 +27,6 @@ public class BatteryStatsUtils {
 	 * This class acts as a bridge between Android-Common Library and the rest
 	 * of the Application
 	 */
-	private static long timeSinceForKernelWakelocks;
-	private static long timeSinceForCpuWakelocks;
 
 	public static ArrayList<NativeKernelWakelock> getNativeKernelWakelocks(
 			Context mContext, boolean filterZeroValues) {
@@ -42,7 +41,6 @@ public class BatteryStatsUtils {
 
 		for (StatElement statElement : kernelWakelocks) {
 			NativeKernelWakelock wakelock = (NativeKernelWakelock) statElement;
-			timeSinceForKernelWakelocks = wakelock.getTotal();
 
 			if (filterZeroValues) {
 				if (wakelock.getDuration() / 1000 > 0) {
@@ -84,13 +82,12 @@ public class BatteryStatsUtils {
 		try {
 			cpuWakelocks = stats.getWakelockStats(context,
 					BatteryStatsTypes.WAKE_TYPE_PARTIAL,
-					BatteryStatsTypes.STATS_SINCE_UNPLUGGED, 0);
+					BatteryStatsTypes.STATS_CURRENT, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		for (int i = 0; i < cpuWakelocks.size(); i++) {
 			Wakelock wl = (Wakelock) cpuWakelocks.get(i);
-			timeSinceForCpuWakelocks = wl.getTotal();
 			if (filterZeroValues) {
 				if ((wl.getDuration() / 1000) > 0) {
 					myWakelocks.add(wl);
@@ -127,16 +124,21 @@ public class BatteryStatsUtils {
 
 		}
 		Collections.sort(myWakelocks);
+
 		return myWakelocks;
 
 	}
 
-	public static String getTimeSinceForKernelWakelocks() {
-		return SysUtils.secToString(timeSinceForKernelWakelocks / 1000);
-	}
+	static void serializeReferences(WakelockReference wr, Context context) {
+		try {
+			FileOutputStream fos = context.openFileOutput("aaa",
+					Context.MODE_PRIVATE);
+			ObjectOutputStream outputStream = new ObjectOutputStream(fos);
+			outputStream.writeObject(wr);
+			outputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-	public static String getTimeSinceForCpuWakelocks() {
-		return SysUtils.secToString(timeSinceForCpuWakelocks / 1000);
 	}
-
 }

@@ -1,35 +1,32 @@
 package com.phantomLord.cpufrequtils.app.services;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
 
 import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
-public class BootService extends Service {
+public class BootService extends IntentService {
+
 	SharedPreferences prefs;
 	Context context;
 
-	@Override
-	public IBinder onBind(Intent arg0) {
-		return null;
+	public BootService() {
+		super("Boot Service");
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public void onStart(Intent intent, int startId) {
-		super.onStart(intent, startId);
+	protected void onHandleIntent(Intent intent) {
 		context = getApplicationContext();
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putString(Constants.PREF_TIS_RESET_STATS, null);
 		editor.commit();
 		try {
-			Thread.sleep(20000);
+			Thread.sleep(30000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

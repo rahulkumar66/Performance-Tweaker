@@ -15,12 +15,11 @@ Simple Android App for
 
 To Download the App
 
-http://forum.xda-developers.com/devdb/project/dl/?id=5724&task=get
+http://forum.xda-developers.com/devdb/project/dl/?id=7519&task=get
 
 
 Third party libraries:
 
-* aChartEngine
 * Sherlock-navigation-Drawer
 * Actionbar Sherlock
 * Android-Common (https://github.com/asksven/AndroidCommon)
@@ -33,6 +32,7 @@ http://forum.xda-developers.com/showthread.php?t=2728587
 
 
 === LICENSE ===
+
 See the LICENSE file.
 
 

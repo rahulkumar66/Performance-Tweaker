@@ -18,7 +18,6 @@ import com.phantomLord.cpufrequtils.app.adapters.AlarmTriggerAdapter;
 import com.phantomLord.cpufrequtils.app.adapters.CpuWakelocksAdapter;
 import com.phantomLord.cpufrequtils.app.adapters.KernelWakelockAdapter;
 import com.phantomLord.cpufrequtils.app.adapters.WakelockActionBarSpinnerAdapter;
-import com.phantomLord.cpufrequtils.app.utils.BatteryStatsUtils;
 
 public class WakeLocksDetectorFragment extends SherlockFragment implements
 		OnNavigationListener {
@@ -61,27 +60,23 @@ public class WakeLocksDetectorFragment extends SherlockFragment implements
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		BaseAdapter adapter = null;
+
 		switch (itemPosition) {
 		case 0:
 			adapter = new KernelWakelockAdapter(context);
-			timeSince.setText(getString(R.string.time_since) + " "
-					+ BatteryStatsUtils.getTimeSinceForKernelWakelocks());
 			break;
 		case 1:
 			adapter = new CpuWakelocksAdapter(context);
-			timeSince.setText(getString(R.string.time_since) + " "
-					+ BatteryStatsUtils.getTimeSinceForCpuWakelocks());
 			break;
 		case 2:
 			adapter = new AlarmTriggerAdapter(context);
-			timeSince.setText(getString(R.string.time_since) + " "
-					+ BatteryStatsUtils.getTimeSinceForKernelWakelocks());
 			break;
 		}
 		if (adapter.getCount() != 0) {
 			wakelockList.setVisibility(View.VISIBLE);
 			timeSince.setTextSize(15);
 			wakelockList.setAdapter(adapter);
+
 		} else {
 			wakelockList.setVisibility(View.GONE);
 			timeSince.setTextSize(20);

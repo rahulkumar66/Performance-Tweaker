@@ -6,23 +6,28 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 public class TimeInStateReader {
 	private ArrayList<CpuState> states = new ArrayList<>();
-	private ArrayList<CpuState> newStates = new ArrayList<>();
+	private ArrayList<CpuState> _states = new ArrayList<>();
+	public Map<Integer, Long> newStates = new HashMap<Integer, Long>();
 
 	private long totaltime;
 
-	public TimeInStateReader() {
+	private TimeInStateReader() {
 	}
 
-	public TimeInStateReader getInstance() {
+	public static TimeInStateReader TimeInStatesReader() {
 		return new TimeInStateReader();
 	}
 
-	public ArrayList<CpuState> getCpuStateTime(boolean withDeepSleep) {
+	public ArrayList<CpuState> getCpuStateTime(boolean withDeepSleep,
+			boolean filterZeroValues) {
 		states.clear();
 		BufferedReader bufferedReader;
 		Process process = null;
@@ -63,13 +68,28 @@ public class TimeInStateReader {
 		if (states != null) {
 			Collections.sort(states);
 		}
-
+		Log.d("bloody", "sabbath " + newStates.size());
 		if (newStates.size() > 0) {
-			for (int i = 0; i < newStates.size(); i++) {
-				states.get(i).time -= newStates.get(i).time;
+			int index = 0;
+			for (CpuState iterable_element : states) {
+				if (newStates.containsKey(iterable_element.frequency)) {
+					states.get(index).time -= newStates
+							.get(iterable_element.frequency);
+				}
+				index++;
 			}
 		}
-		return states;
+		return removeZeroValues();
+	}
+
+	private ArrayList<CpuState> removeZeroValues() {
+		_states.clear();
+		for (CpuState s : states) {
+			if (s.time > 0) {
+				_states.add(s);
+			}
+		}
+		return _states;
 	}
 
 	public long getTotalTimeInState() {
@@ -80,9 +100,11 @@ public class TimeInStateReader {
 		return totaltime;
 	}
 
-	public void setNewStates(ArrayList<CpuState> state) {
+	public void setNewStates(HashMap<Integer, Long> state) {
 		clearNewStates();
+		Log.d("sizeofnew", state.size() + "");
 		newStates = state;
+
 	}
 
 	public void clearNewStates() {
