@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/fragmentImage"
+        android:layout_width="50dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"
+        android:contentDescription="@string/image_description" />
+
+    <TextView
+        android:id="@+id/fragmentName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="3dp"
+        android:gravity="center_vertical"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black" />
+
+</LinearLayout>

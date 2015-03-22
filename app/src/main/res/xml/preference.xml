@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="General">
+        <ListPreference
+            android:defaultValue="Light"
+            android:entries="@array/prefTheme_entries"
+            android:entryValues="@array/pref_themes"
+            android:key="listPref"
+            android:persistent="true"
+            android:summary="Change Theme"
+            android:title="Themes" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Cpu Frequency">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="cpu_apply_on_boot"
+            android:summary="Apply Cpu and Governor Settings on Boot"
+            android:title="Apply On Boot" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Time In States">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="non_zero_vals_only"
+            android:persistent="true"
+            android:summary="Show Non Zero Values Only"
+            android:title="Filter Stats " />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="I/O Control">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="io_apply_boot"
+            android:summary="Apply I/O Settings on boot"
+            android:title="Apply On Boot" />
+    </PreferenceCategory>
+    <PreferenceCategory></PreferenceCategory>
+
+</PreferenceScreen>
