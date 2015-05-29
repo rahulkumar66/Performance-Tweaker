@@ -1,8 +1,8 @@
 package com.phantomLord.cpufrequtils.app.ui;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
@@ -19,7 +19,7 @@ import com.phantomLord.cpufrequtils.app.adapters.AlarmTriggerAdapter;
 import com.phantomLord.cpufrequtils.app.adapters.CpuWakelocksAdapter;
 import com.phantomLord.cpufrequtils.app.adapters.KernelWakelockAdapter;
 
-public class WakeLocksDetectorFragment extends Fragment implements
+public class WakeLocksFragment extends Fragment implements
         ActionBar.OnNavigationListener {
 
     ListView wakelockList;

@@ -65,11 +65,11 @@ public class Constants {
         private static final long serialVersionUID = 1552737519285513057L;
 
         {
-    /*		put("Dark", R.style.Theme_Sherlock);
-            put("Light", R.style.Theme_Sherlock_Light);
+    		put("Dark", R.style.Theme_AppCompat);
+            put("Light", R.style.Theme_AppCompat_Light);
 			put("Light_DarkActionBar",
-					R.style.Theme_Sherlock_Light_DarkActionBar);
-					*/
+					R.style.Theme_AppCompat_Light_DarkActionBar);
+
 
         }
     };

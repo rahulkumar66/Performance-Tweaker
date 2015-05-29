@@ -1,6 +1,7 @@
 package com.phantomLord.cpufrequtils.app.ui;
 
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -8,7 +9,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -28,9 +28,10 @@ import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
 public class MainActivity extends ActionBarActivity {
-    Context themedContext, context;
-    boolean isLight;
-    String key;
+    private Context themedContext, context;
+
+    private boolean isLight;
+    private String key;
     private boolean isDrawerOpened;
 
     private DrawerLayout mDrawerLayout;
@@ -46,18 +47,24 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences mPrefs = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext());
         key = mPrefs.getString("listPref", "Light");
-//		this.setTheme(Constants.THEMES_MAP.get(key));
+        this.setTheme(Constants.THEMES_MAP.get(key));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main_layout_navbar);
+
         // BugSenseHandler.initAndStartSession(MainActivity.this, "4cdc31a1");
         themedContext = getSupportActionBar().getThemedContext();
         context = getBaseContext();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         listView = (ListView) findViewById(R.id.left_drawer);
-
-        materialMenu = new MaterialMenuIconCompat(this, Color.DKGRAY,
-                MaterialMenuDrawable.Stroke.THIN);
+        if(Constants.THEMES_MAP.get(key).equals(R.style.Theme_AppCompat)) {
+            materialMenu = new MaterialMenuIconCompat(this, Color.WHITE,
+                    MaterialMenuDrawable.Stroke.THIN);
+        }
+        else {
+            materialMenu = new MaterialMenuIconCompat(this, Color.DKGRAY,
+                    MaterialMenuDrawable.Stroke.THIN);
+        }
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
 
@@ -73,7 +80,7 @@ public class MainActivity extends ActionBarActivity {
             new RootNotFoundAlertDialog().show(getSupportFragmentManager(),
                     getString(R.string.app_name));
 
-        this.getSupportFragmentManager().beginTransaction()
+        this.getFragmentManager().beginTransaction()
                 .replace(R.id.main_content, new CpuFrequencyFragment())
                 .commit();
 
@@ -165,16 +172,16 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 case 3:
                     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-                    mfragment = new WakeLocksDetectorFragment();
+                    mfragment = new WakeLocksFragment();
                     actionBar.setTitle(fragmentNames[position]);
                     break;
                 case 4:
-                    //	mfragment = new SettingsFragment();
+                    mfragment = new SettingsFragment();
                     actionBar.setTitle(getString(R.string.action_settings));
                     break;
             }
             if (mfragment != null) {
-                getSupportFragmentManager().beginTransaction()
+                getFragmentManager().beginTransaction()
                         .replace(R.id.main_content, mfragment).commit();
             }
             mDrawerLayout.closeDrawer(listView);
