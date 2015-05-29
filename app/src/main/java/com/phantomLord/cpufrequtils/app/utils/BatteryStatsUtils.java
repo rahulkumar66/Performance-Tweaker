@@ -24,7 +24,7 @@ import java.util.Comparator;
 
 public class BatteryStatsUtils {
     /*
-	 * This class acts as a bridge between Android-Common Library and the rest
+     * This class acts as a bridge between Android-Common Library and the rest
 	 * of the Application
 	 */
 

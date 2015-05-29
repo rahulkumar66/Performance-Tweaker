@@ -66,7 +66,7 @@ public class Constants {
 
         {
     /*		put("Dark", R.style.Theme_Sherlock);
-			put("Light", R.style.Theme_Sherlock_Light);
+            put("Light", R.style.Theme_Sherlock_Light);
 			put("Light_DarkActionBar",
 					R.style.Theme_Sherlock_Light_DarkActionBar);
 					*/

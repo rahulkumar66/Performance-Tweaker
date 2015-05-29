@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,7 +18,6 @@ import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.adapters.AlarmTriggerAdapter;
 import com.phantomLord.cpufrequtils.app.adapters.CpuWakelocksAdapter;
 import com.phantomLord.cpufrequtils.app.adapters.KernelWakelockAdapter;
-import com.phantomLord.cpufrequtils.app.adapters.WakelockActionBarSpinnerAdapter;
 
 public class WakeLocksDetectorFragment extends Fragment implements
         ActionBar.OnNavigationListener {
@@ -36,6 +36,7 @@ public class WakeLocksDetectorFragment extends Fragment implements
         actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         themedContext = actionBar.getThemedContext();
         context = getActivity().getBaseContext();
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("");
         wakelockList = (ListView) view
                 .findViewById(R.id.wakelock_data_listview1);
         timeSince = (TextView) view.findViewById(R.id.stats_since);
@@ -46,7 +47,10 @@ public class WakeLocksDetectorFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        adapter = new WakelockActionBarSpinnerAdapter(themedContext);
+        //  adapter = new WakelockActionBarSpinnerAdapter(themedContext);
+        adapter = new ArrayAdapter<String>(themedContext,android.R.layout.simple_spinner_dropdown_item,
+                context.getResources().getStringArray(
+                        R.array.wakelock_actionbar_spinner_items));
         actionBar.setListNavigationCallbacks(adapter, this);
         actionBar.setSelectedNavigationItem(0);
     }

@@ -124,7 +124,7 @@ public class CpuFrequencyFragment extends Fragment implements
         actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         themedContext = actionBar.getThemedContext();
         /*
-		if (!(SysUtils.getCoreCount() == 1)) {
+        if (!(SysUtils.getCoreCount() == 1)) {
 			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 			actionBar.setListNavigationCallbacks(
 					new CpuControlActionBarSpinner(themedContext), this);

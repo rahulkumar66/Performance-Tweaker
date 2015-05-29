@@ -43,7 +43,7 @@ public class WakelockActionBarSpinnerAdapter extends BaseAdapter {
         View row = inflator.inflate(R.layout.simple_action_bar_spinner_item,
                 container, false);
         /*
-		 * ImageView image = (ImageView) row
+         * ImageView image = (ImageView) row
 		 * .findViewById(R.id.actionBar_spinner_image);
 		 */
         TextView text = (TextView) row.findViewById(R.id.spinnerItem);

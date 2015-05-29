@@ -40,9 +40,8 @@ public class TimeInStatesListAdapter extends BaseAdapter {
         states = statesReader.getCpuStateTime(true, filterNonZeroVals);
         totaltime = statesReader.getTotalTimeInState();
         /*
-		 * remove zero values
+         * remove zero values
 		 */
-
         infalter = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

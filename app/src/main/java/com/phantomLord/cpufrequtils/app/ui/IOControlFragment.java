@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
@@ -46,8 +45,8 @@ public class IOControlFragment extends Fragment {
                              Bundle savedInstanceState) {
         //	mView = inflater.inflate(R.layout.disk_control_fragment, container,
         //			false);
-        mContext = mView.getContext();
-        applyButton = (Button) mView.findViewById(R.id.disk_apply);
+//        mContext = mView.getContext();
+        //   applyButton = (Button) mView.findViewById(R.id.disk_apply);
         return mView;
     }
 
@@ -55,7 +54,7 @@ public class IOControlFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         /*diskScheduler = (AbstractWheel) mView.findViewById(R.id.ioscheduler);
-		readAhead = (AbstractWheel) mView.findViewById(R.id.readahead1);
+        readAhead = (AbstractWheel) mView.findViewById(R.id.readahead1);
 		schedulerAdapter = new ArrayWheelAdapter<String>(mContext,
 				availableSchedulers);
 		schedulerAdapter.setItemResource(R.layout.spinner_wheel_box_layout);

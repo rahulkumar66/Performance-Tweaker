@@ -56,7 +56,7 @@ public class TimeInStateReader {
             }
         }
         /*
-		 * calculate deep sleep time
+         * calculate deep sleep time
 		 */
 
         if (withDeepSleep) {
