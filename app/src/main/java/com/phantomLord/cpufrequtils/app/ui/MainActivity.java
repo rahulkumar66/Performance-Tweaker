@@ -4,19 +4,23 @@ package com.phantomLord.cpufrequtils.app.ui;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.balysv.materialmenu.MaterialMenuDrawable;
+import com.balysv.materialmenu.extras.toolbar.MaterialMenuIconCompat;
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.adapters.NavigationDrawerListAdapter;
 import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
@@ -27,13 +31,14 @@ public class MainActivity extends ActionBarActivity {
     Context themedContext, context;
     boolean isLight;
     String key;
+    private boolean isDrawerOpened;
 
     private DrawerLayout mDrawerLayout;
     private ListView listView;
 
     private ActionBar actionBar;
 
-    private ActionBarDrawerToggle mDrawerToggle;
+    private MaterialMenuIconCompat materialMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,61 +50,97 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main_layout_navbar);
         // BugSenseHandler.initAndStartSession(MainActivity.this, "4cdc31a1");
-
         themedContext = getSupportActionBar().getThemedContext();
-
         context = getBaseContext();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         listView = (ListView) findViewById(R.id.left_drawer);
 
+        materialMenu = new MaterialMenuIconCompat(this, Color.DKGRAY,
+                MaterialMenuDrawable.Stroke.THIN);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
 
         listView.setAdapter(new NavigationDrawerListAdapter(context));
         listView.setOnItemClickListener(new DrawerItemClickListener());
-        listView.setCacheColorHint(0);
-        listView.setScrollingCacheEnabled(false);
-        listView.setScrollContainer(false);
-        listView.setFastScrollEnabled(true);
-        listView.setSmoothScrollbarEnabled(true);
         listView.setSelection(0);
 
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.ic_drawer_light, R.string.about,
-                R.string.about_content);
-        mDrawerToggle.syncState();
-        this.getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_content, new CpuFrequencyFragment())
-                .commit();
-
         if (!(SysUtils.isRooted()))
             new RootNotFoundAlertDialog().show(getSupportFragmentManager(),
                     getString(R.string.app_name));
 
+        this.getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_content, new CpuFrequencyFragment())
+                .commit();
+
+
+        mDrawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                materialMenu.setTransformationOffset(
+                        MaterialMenuDrawable.AnimationState.BURGER_ARROW,
+                        isDrawerOpened ? 2 - slideOffset : slideOffset
+                );
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                isDrawerOpened = true;
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                isDrawerOpened = false;
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                if (newState == DrawerLayout.STATE_IDLE) {
+                    if (isDrawerOpened)
+                        materialMenu.setState(MaterialMenuDrawable.IconState.ARROW);
+                    else
+                        materialMenu.setState(MaterialMenuDrawable.IconState.BURGER);
+                }
+            }
+        });
+
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        materialMenu.onSaveInstanceState(outState);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*
-         * The action bar home/up action should open or close the drawer.
-		 * mDrawerToggle will take care of this.
-		 */
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
+        if (item.getItemId() == android.R.id.home) {
+            if (!(isDrawerOpened)) {
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            } else if (isDrawerOpened) {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            }
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        isDrawerOpened = mDrawerLayout.isDrawerOpen(Gravity.START); // or END, LEFT, RIGHT
+        materialMenu.syncState(savedInstanceState);
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     private class DrawerItemClickListener implements
