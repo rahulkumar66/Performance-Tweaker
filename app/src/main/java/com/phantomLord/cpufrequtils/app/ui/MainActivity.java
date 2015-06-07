@@ -53,11 +53,13 @@ public class MainActivity extends ActionBarActivity {
 
         // BugSenseHandler.initAndStartSession(MainActivity.this, "4cdc31a1");
         themedContext = getSupportActionBar().getThemedContext();
+        actionBar = getSupportActionBar();
         context = getBaseContext();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         listView = (ListView) findViewById(R.id.left_drawer);
-        if(Constants.THEMES_MAP.get(key).equals(R.style.Theme_AppCompat)) {
+        if(Constants.THEMES_MAP.get(key).equals(R.style.Theme_AppCompat) ||
+                Constants.THEMES_MAP.get(key).equals(R.style.Theme_AppCompat_Light_DarkActionBar) ) {
             materialMenu = new MaterialMenuIconCompat(this, Color.WHITE,
                     MaterialMenuDrawable.Stroke.THIN);
         }
@@ -68,11 +70,10 @@ public class MainActivity extends ActionBarActivity {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
 
-        listView.setAdapter(new NavigationDrawerListAdapter(context));
+        listView.setAdapter(new NavigationDrawerListAdapter(themedContext));
         listView.setOnItemClickListener(new DrawerItemClickListener());
         listView.setSelection(0);
 
-        actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
