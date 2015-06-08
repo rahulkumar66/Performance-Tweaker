@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_cpu"
+            android:icon="@drawable/ic_action_meter"
+            android:title="Cpu Frequency" />
+        <item
+            android:id="@+id/nav_tis"
+            android:icon="@drawable/ic_action_bar_chart"
+            android:title="Time In State" />
+        <item
+            android:id="@+id/nav_iocontrol"
+            android:icon="@drawable/ic_action_backup"
+            android:title="I/O Control" />
+        <item
+            android:title="Settings"
+            android:id="@+id/nav_wakelocks"
+            android:icon="@drawable/ic_action_prefs_widget" />
+    </group>
+</menu>

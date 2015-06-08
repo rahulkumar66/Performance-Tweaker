@@ -48,7 +48,7 @@ public class WakeLocksFragment extends Fragment implements
         super.onActivityCreated(savedInstanceState);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         //  adapter = new WakelockActionBarSpinnerAdapter(themedContext);
-        adapter = new ArrayAdapter<String>(themedContext,android.R.layout.simple_spinner_dropdown_item,
+        adapter = new ArrayAdapter<String>(themedContext, android.R.layout.simple_spinner_dropdown_item,
                 context.getResources().getStringArray(
                         R.array.wakelock_actionbar_spinner_items));
         actionBar.setListNavigationCallbacks(adapter, this);

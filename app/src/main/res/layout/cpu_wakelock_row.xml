@@ -38,9 +38,9 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/cpu_wakelock_name"
             android:layout_marginRight="2dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/cpu_wakelock_duration"
             android:gravity="right"
-            android:layout_marginTop="5dp"
             android:textSize="13sp" />
 
         <ProgressBar

@@ -115,7 +115,7 @@ public class AppRater
 		ll.addView(b2);
 
 		Button b3 = new Button(ctx);
-		b3.setText(R.string.label_button_no);
+		b3.setText("");
 		b3.setOnClickListener(new Button.OnClickListener()
 		{
 			public void onClick(View v)

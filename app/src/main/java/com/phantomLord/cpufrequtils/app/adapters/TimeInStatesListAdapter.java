@@ -23,10 +23,10 @@ import java.util.HashMap;
 @SuppressLint("UseSparseArrays")
 public class TimeInStatesListAdapter extends BaseAdapter {
 
+    public long totaltime = 0;
     Context context;
     ArrayList<CpuState> states = new ArrayList<CpuState>();
     HashMap<Integer, Long> _states = new HashMap<Integer, Long>();
-    public long totaltime = 0;
     TimeInStateReader statesReader;
     LayoutInflater infalter;
     SharedPreferences prefs;
@@ -68,7 +68,7 @@ public class TimeInStatesListAdapter extends BaseAdapter {
         mProgressBar.setProgress((int) (states.get(position).getTime()));
 
 		/*
-		 * calculate percentage of time
+         * calculate percentage of time
 		 */
         long percent = (states.get(position).getTime() * 100) / totaltime;
         percentage.setText(percent + "%");

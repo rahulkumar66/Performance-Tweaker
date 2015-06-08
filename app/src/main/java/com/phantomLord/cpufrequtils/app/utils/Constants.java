@@ -44,31 +44,21 @@ public class Constants {
     public final static String[] mFragmentsArray = new String[]{
             "Cpu Frequency", "Time In State", "I/0 Control", "Wakelocks",
             "Settings"};
+    public static final int icons[] = new int[]{R.drawable.ic_action_meter,
+            R.drawable.ic_action_bar_chart, R.drawable.ic_action_backup,
+            R.drawable.ic_action_battery_med,
+            R.drawable.ic_action_prefs_widget};
     public final static String[] wakelockTypes = new String[]{
             "Kernel Wakelocks", "Cpu Wakelocks", "Wakeup Triggers"};
-
-    public static final int icons[] = new int[]{R.drawable.meter,
-            R.drawable.bar_chart, R.drawable.backup, R.drawable.battery_med,
-            R.drawable.prefs_widget};
-    /*public static final int theme[] = new int[] { R.style.Theme_Sherlock,
-            R.style.Theme_Sherlock_Light,
-            R.style.Theme_Sherlock_Light_DarkActionBar };
-            */
-    public static String CPU_0 = "Core 0";
-    public static String CPU_1 = "Core 1";
-    public static String CPU_2 = "Core 2";
-    public static String CPU_3 = "Core 3";
-    public static String CPU_ALL = "All Cores";
-
     public static final Map<String, Integer> THEMES_MAP = new HashMap<String, Integer>() {
 
         private static final long serialVersionUID = 1552737519285513057L;
 
         {
-    		put("Dark", R.style.Theme_AppCompat);
+            put("Dark", R.style.Theme_AppCompat);
             put("Light", R.style.Theme_AppCompat_Light);
-			put("Light_DarkActionBar",
-					R.style.Theme_AppCompat_Light_DarkActionBar);
+            put("Light_DarkActionBar",
+                    R.style.Theme_AppCompat_Light_DarkActionBar);
 
 
         }
@@ -85,5 +75,14 @@ public class Constants {
     public final static String PREF_IO_SCHEDULER = "io_scheduler";
     public final static String PREF_READ_AHEAD = "read_ahead";
     public final static String PREF_TIS_RESET_STATS = "tis_reset_stats";
+    /*public static final int theme[] = new int[] { R.style.Theme_Sherlock,
+            R.style.Theme_Sherlock_Light,
+            R.style.Theme_Sherlock_Light_DarkActionBar };
+            */
+    public static String CPU_0 = "Core 0";
+    public static String CPU_1 = "Core 1";
+    public static String CPU_2 = "Core 2";
+    public static String CPU_3 = "Core 3";
+    public static String CPU_ALL = "All Cores";
 
 }

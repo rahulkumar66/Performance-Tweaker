@@ -12,11 +12,11 @@ import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
 
 public class NavigationDrawerListAdapter extends BaseAdapter {
-    private String[] fragmentItems;
     Context context;
     LayoutInflater inflater;
     ImageView imageIcon;
     TextView fragmentName;
+    private String[] fragmentItems;
 
     public NavigationDrawerListAdapter(Context ctx) {
         this.context = ctx;

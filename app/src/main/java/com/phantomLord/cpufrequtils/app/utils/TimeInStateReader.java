@@ -13,10 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TimeInStateReader {
+    public Map<Integer, Long> newStates = new HashMap<Integer, Long>();
     private ArrayList<CpuState> states = new ArrayList<CpuState>();
     private ArrayList<CpuState> _states = new ArrayList<CpuState>();
-    public Map<Integer, Long> newStates = new HashMap<Integer, Long>();
-
     private long totaltime;
 
     private TimeInStateReader() {

@@ -22,6 +22,6 @@ dependencies {
     compile files('libs/bugsense-3.6.jar')
     compile project(':androidCommon')
     compile 'com.android.support:appcompat-v7:21.0.+'
-    compile 'com.balysv.materialmenu:material-menu-toolbar:1.5.0'
     compile 'com.github.machinarius:preferencefragment:0.1.1'
+    compile 'com.android.support:design:22.2.0'
 }
