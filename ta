@@ -1,0 +1,137 @@
+[33mcommit 1b407012895db50c7d9a3e720540e8434ba3e726[m
+Author: rahul kumar <rahulkumar2048@gmail.com>
+Date:   Mon Jun 8 12:16:19 2015 +0530
+
+    changed ListView in app drawer to Navigation View
+
+[33mcommit 1c947cbc4cd56aef25d532dee9d6c47a07cd4145[m
+Author: rahul kumar <rahulkumar2048@gmail.com>
+Date:   Sun Jun 7 16:17:25 2015 +0530
+
+    updated androidCommon Library
+
+[33mcommit 945b2ec86e1ad5d636fc966d637e8e8b7e4415c1[m
+Author: rahul kumar <rahulkumar2048@gmail.com>
+Date:   Fri May 29 16:49:12 2015 +0530
+
+    fixed preferences and change theme options
+
+[33mcommit 486227c0329731b591dc13a9726b6a0aee9a9e6e[m
+Author: rahul kumar <rahulkumar2048@gmail.com>
+Date:   Fri May 29 16:07:08 2015 +0530
+
+    added material menu
+
+[33mcommit ccce61e5544b169ccb9a992170667989a20fa2a2[m
+Author: rahul kumar <rahulkumar2048@gmail.com>
+Date:   Fri May 29 15:33:58 2015 +0530
+
+    minor ui changes
+
+[33mcommit 731b7631c4dfb0fef76c5bef9bed472260ada86d[m
+Author: rahul kumar <rahulkumar2048@gmail.com>
+Date:   Sun Mar 22 23:04:45 2015 +0530
+
+    i am back bitches
+
+[33mcommit 13547d590f65c688fecaca317a1c9b6d1a281552[m
+Author: rahul kumar <rahulkumar2048@gmail.com>
+Date:   Sun Mar 22 22:48:04 2015 +0530
+
+    changed to gradle
+
+[33mcommit 20492b22f9f13bff9cbcd67633c41abcc21e7618[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Mon Aug 25 19:26:24 2014 +0530
+
+    fixed the time in state reset bug
+
+[33mcommit 2df4efd3565e1316caece89c907290588ed1ceab[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Sun Jul 27 19:13:38 2014 +0530
+
+    switched from preference activity to preference fragment
+
+[33mcommit aaee0cb31490cb7b52faa71360499c28de32794f[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Sun Jul 27 01:46:17 2014 +0530
+
+    derp strings
+
+[33mcommit dc62ff361436c66a9a39b0254d6decb42a77d8be[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Sun Jul 27 00:06:19 2014 +0530
+
+    added reset stats in time in stats
+
+[33mcommit 129eb34a1382699ea9d580bad188dd27b449d909[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Tue Jul 22 17:25:40 2014 +0530
+
+    removed time in state pie graph
+
+[33mcommit 1397a5e57571853bc5263d896b3e3bc7ab47dc0f[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Sun Jul 20 21:55:15 2014 +0530
+
+    added option for applying settings on boot and did a little refactoring and cleanup
+
+[33mcommit a4492316399cf5794a6a4821cf744d410366dc6a[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Mon Jul 14 14:47:38 2014 +0530
+
+    so far so good... Now what ??
+
+[33mcommit 45c303d3a268c9269bca2d0d423198b6e32a5577[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Sun Jul 13 17:07:23 2014 +0530
+
+    update download link in the readme
+
+[33mcommit 04b290e3389c616b0f4255abe227dd5989675c14[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Sun Jul 13 17:02:32 2014 +0530
+
+    improved wakelock stats and made some ui changes
+
+[33mcommit 2dd1e29e47cfdd3cad7eeacd3ed3672b41c2caa5[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Mon Jul 7 16:46:01 2014 +0530
+
+    made some ui changes
+
+[33mcommit 45838160622a80ea14cc677242e0c776c0aae03a[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Mon Jul 7 16:38:16 2014 +0530
+
+    fixed the wrong core count bug
+
+[33mcommit c24ac8d3e3d7a8f0b068cd006ff310a8450da714[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Mon Jul 7 11:37:19 2014 +0530
+
+    added support for multicore cpu freqeuncy and governor tweaking
+
+[33mcommit 290c98291db32ccd0602525f13e93eb339314fca[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Fri Jul 4 17:44:33 2014 +0530
+
+    added preference for changing themes and did some cleaup so as to reduce the size of the app
+
+[33mcommit 404acf7ad8642665e49e3cd9090dd587dad8ba11[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Mon Jun 30 19:51:47 2014 +0530
+
+    Fixed the deep sleep stats not working bug in time in stats
+
+[33mcommit 17f565321bc117871c287e833a82899db48ebef8[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Fri Jun 27 13:03:53 2014 +0530
+
+    added kernel wakelocks and partial wakelocks reader
+
+[33mcommit 0e22b6664b7589546d363d1047aad5ad28b64042[m
+Author: Rahul Kumar <rahulkumar2048@gmail.com>
+Date:   Sun Jun 22 21:01:27 2014 +0530
+
+    added wakelock trigger related functionality

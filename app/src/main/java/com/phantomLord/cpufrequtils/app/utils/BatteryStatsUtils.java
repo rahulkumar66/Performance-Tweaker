@@ -51,7 +51,7 @@ public class BatteryStatsUtils {
             }
         }
         /*
-		 * sort the data on the basis of duration
+         * sort the data on the basis of duration
 		 */
         Comparator<NativeKernelWakelock> timeComaprator = new NativeKernelWakelock.TimeComparator();
         Collections.sort(nativeKernelWakelocks, timeComaprator);

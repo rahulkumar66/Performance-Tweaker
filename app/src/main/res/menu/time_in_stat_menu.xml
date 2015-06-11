@@ -1,29 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/time_in_state_overflow_menu"
-        android:icon="@drawable/abs__ic_menu_moreoverflow_normal_holo_light"
-        android:orderInCategory="0"
-        android:showAsAction="ifRoom"
-        android:title="Options">
-        <menu>
-            <item
-                android:id="@+id/refresh"
-                android:icon="@drawable/action_refresh"
-                android:showAsAction="always"
-                android:title="Refresh"></item>
-            <item
-                android:id="@+id/reset_timers"
-                android:icon="@drawable/ic_action_discard"
-                android:showAsAction="ifRoom"
-                android:title="Reset Timers"></item>
-            <item
-                android:id="@+id/restore_timers"
-                android:icon="@drawable/ic_action_undo"
-                android:showAsAction="ifRoom"
-                android:title="Restore Timers"></item>
-        </menu>
-    </item>
+        android:id="@+id/refresh"
+        android:icon="@drawable/action_refresh"
+        android:title="Refresh"
+        app:showAsAction="never"></item>
+    <item
+        android:id="@+id/reset_timers"
+        android:icon="@drawable/ic_action_discard"
+        android:title="Reset Timers"
+        app:showAsAction="never"></item>
+    <item
+        android:id="@+id/restore_timers"
+        android:icon="@drawable/ic_action_undo"
+        android:title="Restore Timers"
+        app:showAsAction="never"></item>
+
 
 </menu>

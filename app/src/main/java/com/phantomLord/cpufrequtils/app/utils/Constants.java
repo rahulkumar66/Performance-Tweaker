@@ -59,8 +59,6 @@ public class Constants {
             put("Light", R.style.Theme_AppCompat_Light);
             put("Light_DarkActionBar",
                     R.style.Theme_AppCompat_Light_DarkActionBar);
-
-
         }
     };
     /*
@@ -75,10 +73,7 @@ public class Constants {
     public final static String PREF_IO_SCHEDULER = "io_scheduler";
     public final static String PREF_READ_AHEAD = "read_ahead";
     public final static String PREF_TIS_RESET_STATS = "tis_reset_stats";
-    /*public static final int theme[] = new int[] { R.style.Theme_Sherlock,
-            R.style.Theme_Sherlock_Light,
-            R.style.Theme_Sherlock_Light_DarkActionBar };
-            */
+
     public static String CPU_0 = "Core 0";
     public static String CPU_1 = "Core 1";
     public static String CPU_2 = "Core 2";
