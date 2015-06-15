@@ -16,7 +16,6 @@ import android.view.View;
 
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
-import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
 public class MainActivity extends ActionBarActivity {

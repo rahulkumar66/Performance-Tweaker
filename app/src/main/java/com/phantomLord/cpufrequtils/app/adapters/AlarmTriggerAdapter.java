@@ -24,7 +24,7 @@ public class AlarmTriggerAdapter extends BaseAdapter {
 
     public AlarmTriggerAdapter(Context ctx) {
         this.context = ctx;
-        alarms = BatteryStatsUtils.getAlarmStats(context);
+        alarms = BatteryStatsUtils.getInstance(context).getAlarmStats();
         totaltime = 0;
         for (Alarm e : alarms) {
             totaltime += e.getWakeups();

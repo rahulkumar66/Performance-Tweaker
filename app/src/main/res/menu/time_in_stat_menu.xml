@@ -18,5 +18,4 @@
         android:title="Restore Timers"
         app:showAsAction="never"></item>
 
-
 </menu>

@@ -25,8 +25,8 @@ public class CpuWakelocksAdapter extends BaseAdapter {
 
     public CpuWakelocksAdapter(Context ctx) {
         this.context = ctx;
-        partialWakelocks = BatteryStatsUtils
-                .getCpuWakelocksStats(context, true);
+        partialWakelocks = BatteryStatsUtils.getInstance(context)
+                .getCpuWakelocksStats(true);
         /*
          * calculate total time
 		 */

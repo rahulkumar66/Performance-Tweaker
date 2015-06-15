@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Cpu Frequency">
+        <ListPreference
+            android:key="listPref"
+            android:persistent="true"
+            android:summary="Change Cpu Maximum Frquency"
+            android:title="CPU Freqeuncy" />
+    </PreferenceCategory>
+</PreferenceScreen>

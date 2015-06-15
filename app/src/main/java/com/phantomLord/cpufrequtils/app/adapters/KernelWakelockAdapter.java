@@ -23,8 +23,7 @@ public class KernelWakelockAdapter extends BaseAdapter {
 
     public KernelWakelockAdapter(Context ctx) {
         this.context = ctx;
-        kernelWakelocks = BatteryStatsUtils.getNativeKernelWakelocks(context,
-                true);
+        kernelWakelocks = BatteryStatsUtils.getInstance(context).getNativeKernelWakelocks(true);
         totaltime = 0;
         for (NativeKernelWakelock element : kernelWakelocks) {
             totaltime += (int) element.getDuration() / 1000;

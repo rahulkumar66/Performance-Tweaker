@@ -123,7 +123,7 @@ public class SysUtils {
                                                      String minFrequency, String governor, Context context) {
         int noOfCpus = getCoreCount();
         ArrayList<String> commands = new ArrayList<String>();
-		/*
+        /*
 		 * prepare commands for each core
 		 */
         if (maxFrequency != null && minFrequency != null)

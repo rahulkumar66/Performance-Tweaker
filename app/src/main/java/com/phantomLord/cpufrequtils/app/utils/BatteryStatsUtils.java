@@ -24,19 +24,35 @@ import java.util.Comparator;
 
 public class BatteryStatsUtils {
     /*
-     * This class acts as a bridge between Android-Common Library and the rest
+     * This Singleton class acts as a bridge between Android-Common Library and the rest
 	 * of the Application
 	 */
 
-    public static ArrayList<NativeKernelWakelock> getNativeKernelWakelocks(
-            Context mContext, boolean filterZeroValues) {
+    private static BatteryStatsUtils batteryStatsUtils=null;
+    private static Context context;
+
+    private BatteryStatsUtils() {  }
+
+    public static BatteryStatsUtils getInstance(Context ctx) {
+        if(batteryStatsUtils==null) {
+            context=ctx;
+            batteryStatsUtils=new BatteryStatsUtils();
+            return batteryStatsUtils;
+        }
+        else {
+            return batteryStatsUtils;
+        }
+    }
+
+
+    public ArrayList<NativeKernelWakelock> getNativeKernelWakelocks(boolean filterZeroValues) {
 
         ArrayList<NativeKernelWakelock> nativeKernelWakelocks = new ArrayList<NativeKernelWakelock>();
         ArrayList<StatElement> kernelWakelocks;
         if (Wakelocks.fileExists()) {
-            kernelWakelocks = Wakelocks.parseProcWakelocks(mContext);
+            kernelWakelocks = Wakelocks.parseProcWakelocks(context);
         } else {
-            kernelWakelocks = WakeupSources.parseWakeupSources(mContext);
+            kernelWakelocks = WakeupSources.parseWakeupSources(context);
         }
 
         for (StatElement statElement : kernelWakelocks) {
@@ -58,11 +74,10 @@ public class BatteryStatsUtils {
         return nativeKernelWakelocks;
     }
 
-    public static ArrayList<Wakelock> getCpuWakelocksStats(Context context,
-                                                           boolean filterZeroValues) {
+    public ArrayList<Wakelock> getCpuWakelocksStats(boolean filterZeroValues) {
         ArrayList<Wakelock> myWakelocks = new ArrayList<Wakelock>();
         ArrayList<StatElement> cpuWakelocks = new ArrayList<StatElement>();
-		/*
+        /*
 		 * code for kitkat is missing
 		 */
         if (Build.VERSION.SDK_INT >= 19) {
@@ -106,7 +121,7 @@ public class BatteryStatsUtils {
         return myWakelocks;
     }
 
-    public static ArrayList<Alarm> getAlarmStats(Context context) {
+    public ArrayList<Alarm> getAlarmStats() {
         ArrayList<Alarm> myWakelocks = new ArrayList<Alarm>();
         ArrayList<StatElement> alarms;
         if (SysUtils.isRooted()) {
@@ -129,7 +144,7 @@ public class BatteryStatsUtils {
 
     }
 
-    static void serializeReferences(WakelockReference wr, Context context) {
+    public void serializeReferences(WakelockReference wr) {
         try {
             FileOutputStream fos = context.openFileOutput("aaa",
                     Context.MODE_PRIVATE);
