@@ -23,23 +23,24 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class BatteryStatsUtils {
+
     /*
      * This Singleton class acts as a bridge between Android-Common Library and the rest
 	 * of the Application
 	 */
 
-    private static BatteryStatsUtils batteryStatsUtils=null;
+    private static BatteryStatsUtils batteryStatsUtils = null;
     private static Context context;
 
-    private BatteryStatsUtils() {  }
+    private BatteryStatsUtils() {
+    }
 
     public static BatteryStatsUtils getInstance(Context ctx) {
-        if(batteryStatsUtils==null) {
-            context=ctx;
-            batteryStatsUtils=new BatteryStatsUtils();
+        if (batteryStatsUtils == null) {
+            context = ctx;
+            batteryStatsUtils = new BatteryStatsUtils();
             return batteryStatsUtils;
-        }
-        else {
+        } else {
             return batteryStatsUtils;
         }
     }
@@ -78,7 +79,7 @@ public class BatteryStatsUtils {
         ArrayList<Wakelock> myWakelocks = new ArrayList<Wakelock>();
         ArrayList<StatElement> cpuWakelocks = new ArrayList<StatElement>();
         /*
-		 * code for kitkat is missing
+         * code for kitkat is missing
 		 */
         if (Build.VERSION.SDK_INT >= 19) {
             try {

@@ -3,9 +3,24 @@
 
     <PreferenceCategory android:title="Cpu Frequency">
         <ListPreference
-            android:key="listPref"
+            android:key="cpu_min_freq_pref"
             android:persistent="true"
-            android:summary="Change Cpu Maximum Frquency"
-            android:title="CPU Freqeuncy" />
+            android:summary="Change Cpu Minimum Frequency"
+            android:title="Minimum Frequency" />
+        <ListPreference
+            android:key="cpu_max_freq_pref"
+            android:persistent="true"
+            android:summary="Change Cpu Maximum Frequency"
+            android:title="Maximum Frequency" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Cpu Governor">
+        <ListPreference
+            android:key="governor_pref"
+            android:persistent="true"
+            android:summary="Change Scaling Governor"
+            android:title="Governors" />
+
     </PreferenceCategory>
 </PreferenceScreen>

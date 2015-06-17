@@ -67,7 +67,6 @@ public class TimeInStateReader {
         if (states != null) {
             Collections.sort(states);
         }
-        Log.d("bloody", "sabbath " + newStates.size());
         if (newStates.size() > 0) {
             int index = 0;
             for (CpuState iterable_element : states) {

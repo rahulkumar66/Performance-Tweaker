@@ -116,7 +116,6 @@ public class SysUtils {
             }
         }
         return res;
-
     }
 
     public static final void setFrequencyAndGovernor(String maxFrequency,
@@ -124,7 +123,7 @@ public class SysUtils {
         int noOfCpus = getCoreCount();
         ArrayList<String> commands = new ArrayList<String>();
         /*
-		 * prepare commands for each core
+         * prepare commands for each core
 		 */
         if (maxFrequency != null && minFrequency != null)
             for (int i = 0; i < noOfCpus; i++) {
@@ -235,11 +234,7 @@ public class SysUtils {
                 } catch (NumberFormatException nfe) {
                     nfe.printStackTrace();
                     return new String[]{};
-					/*
-					 * need to return an empty string in case an exception is
-					 * thrown , if we return a null value the spinner wheel
-					 * widget would just crash and we don't want that do we??
-					 */
+                    //TODO properly handle null values
                 }
             }
 
@@ -256,7 +251,6 @@ public class SysUtils {
     }
 
     public static String readOutputFromFile(String pathToFile) {
-
         StringBuffer buffer = new StringBuffer();
         String data = null;
         Process process;
@@ -303,7 +297,6 @@ public class SysUtils {
                         data = line;
                     }
                 }
-
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             } catch (InterruptedException e) {
@@ -311,7 +304,6 @@ public class SysUtils {
             }
             return data;
         }
-
     }
 
     public static boolean executeRootCommand(ArrayList<String> commands) {
@@ -352,11 +344,10 @@ public class SysUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    public static Process prepareRootShell() throws IOException {
-        Process mProcess = Runtime.getRuntime().exec(getSUbinaryPath());
+    public static Process prepareRootShell() throws IOException,NullPointerException {
+        Process mProcess=Runtime.getRuntime().exec(getSUbinaryPath());
         return mProcess;
     }
 
@@ -386,6 +377,5 @@ public class SysUtils {
         sDur += s;
 
         return sDur;
-
     }
 }
