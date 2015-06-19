@@ -17,10 +17,7 @@ import android.widget.TextView;
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.adapters.TimeInStatesListAdapter;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
-import com.phantomLord.cpufrequtils.app.utils.CpuState;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
-
-import java.util.ArrayList;
 
 public class TimeInStatesFragment extends Fragment {
 

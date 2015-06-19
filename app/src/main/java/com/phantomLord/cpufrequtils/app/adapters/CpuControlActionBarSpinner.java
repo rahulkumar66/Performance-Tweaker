@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
-import com.phantomLord.cpufrequtils.app.utils.SysUtils;
+import com.phantomLord.cpufrequtils.app.utils.CpuFrequencyUtils;
 
 public class CpuControlActionBarSpinner extends BaseAdapter {
     int noOfCpuCores = 0;
@@ -18,7 +18,7 @@ public class CpuControlActionBarSpinner extends BaseAdapter {
 
     public CpuControlActionBarSpinner(Context ctx) {
         this.context = ctx;
-        noOfCpuCores = SysUtils.getCoreCount();
+        noOfCpuCores = CpuFrequencyUtils.getCoreCount();
         if (noOfCpuCores == 1) {
             cores = new String[noOfCpuCores];
         } else {

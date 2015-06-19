@@ -53,5 +53,8 @@
         <item>Wakelocks</item>
         <item>Settings</item>
     </string-array>
+    <string name="title_activity_governor_tuning">GovernorTuningActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

@@ -53,7 +53,7 @@ public class AlarmTriggerAdapter extends BaseAdapter {
                 packageName));
         name.setText(packageName);
         WakeupCount.setText("x"
-                + alarm.getWakeups()+" times");
+                + alarm.getWakeups() + " times");
         progress.setMax(totaltime);
         progress.setProgress((int) alarm.getWakeups());
         return row;

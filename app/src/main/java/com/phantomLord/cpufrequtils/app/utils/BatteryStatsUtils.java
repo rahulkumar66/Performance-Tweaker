@@ -13,7 +13,6 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
-import com.phantomLord.cpufrequtils.app.R;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -89,8 +88,8 @@ public class BatteryStatsUtils {
                 e.printStackTrace();
             }
 
-        //    myWakelocks.add(new Wakelock(1,
-          //          "Feature not currently supported for kitkat", 0, 0, 0));
+            //    myWakelocks.add(new Wakelock(1,
+            //          "Feature not currently supported for kitkat", 0, 0, 0));
 
             return myWakelocks;
         }
@@ -128,7 +127,7 @@ public class BatteryStatsUtils {
         if (SysUtils.isRooted()) {
             alarms = AlarmsDumpsys.getAlarms();
         } else {
-           // myWakelocks.add(new Alarm(context.getString(R.string.noroot)));
+            // myWakelocks.add(new Alarm(context.getString(R.string.noroot)));
             return myWakelocks;
         }
 

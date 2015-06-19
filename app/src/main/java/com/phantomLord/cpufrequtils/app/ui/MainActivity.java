@@ -93,7 +93,8 @@ public class MainActivity extends ActionBarActivity {
                 }
                 if (mfragment != null) {
                     getFragmentManager().beginTransaction()
-                            .replace(R.id.main_content, mfragment).commit();
+                            .replace(R.id.main_content, mfragment)
+                            .commit();
                 }
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 return true;

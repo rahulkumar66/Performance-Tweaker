@@ -2,9 +2,6 @@ package com.phantomLord.cpufrequtils.app.utils;
 
 import com.phantomLord.cpufrequtils.app.R;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Constants {
 
     public final static String App_Tag = "Performace Tweaker";
@@ -28,6 +25,7 @@ public class Constants {
             + "scaling_available_frequencies";
     public final static String scaling_available_governors = cpufreq_sys_dir
             + "scaling_available_governors";
+    public final static String governor_prop_dir = "/sys/devices/system/cpu/cpufreq/";
     public final static String available_blockdevices = "/sys/block/";
     public final static String available_schedulers = "/sys/block/mmcblk0/queue/scheduler";
     public final static String available_schedulers_path = "/sys/block/mmcblk1/queue/scheduler";
@@ -50,17 +48,6 @@ public class Constants {
             R.drawable.ic_action_prefs_widget};
     public final static String[] wakelockTypes = new String[]{
             "Kernel Wakelocks", "Cpu Wakelocks", "Wakeup Triggers"};
-    public static final Map<String, Integer> THEMES_MAP = new HashMap<String, Integer>() {
-
-        private static final long serialVersionUID = 1552737519285513057L;
-
-        {
-            put("Dark", R.style.Theme_AppCompat);
-            put("Light", R.style.Theme_AppCompat_Light);
-            put("Light_DarkActionBar",
-                    R.style.Theme_AppCompat_Light_DarkActionBar);
-        }
-    };
     /*
      * Constants related to preferences
      */

@@ -19,8 +19,13 @@
         <ListPreference
             android:key="governor_pref"
             android:persistent="true"
-            android:summary="Change Scaling Governor"
-            android:title="Governors" />
-
+            android:summary="Change Current Scaling Governor"
+            android:title="Change Governor" />
+        <Preference
+            android:key="governor_tune"
+            android:persistent="true"
+            android:summary="Change Current Scaling Governor Properties"
+            android:title="Fine Tune Current Governor" />
     </PreferenceCategory>
+
 </PreferenceScreen>

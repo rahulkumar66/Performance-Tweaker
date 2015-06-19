@@ -11,6 +11,5 @@
             android:persistent="true"
             android:summary="Change SD Card Read Ahead Cache"
             android:title="Read Ahead Cache" />
-
     </PreferenceCategory>
 </PreferenceScreen>

@@ -30,7 +30,7 @@ public class CpuWakelocksAdapter extends BaseAdapter {
         /*
          * calculate total time
 		 */
-        if(partialWakelocks!=null && partialWakelocks.size()!=0) {
+        if (partialWakelocks != null && partialWakelocks.size() != 0) {
             totaltime = 0;
             for (Wakelock wl : partialWakelocks) {
                 totaltime += wl.getDuration() / 1000;

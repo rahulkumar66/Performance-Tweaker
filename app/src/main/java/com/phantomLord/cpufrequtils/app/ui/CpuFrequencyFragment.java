@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.phantomLord.cpufrequtils.app.R;
-import com.phantomLord.cpufrequtils.app.utils.SysUtils;
+import com.phantomLord.cpufrequtils.app.utils.CpuFrequencyUtils;
 
 public class CpuFrequencyFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
@@ -21,6 +21,7 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
     ListPreference CpuMaxFreqPreference;
     ListPreference CpuMinFreqPreference;
     ListPreference GovernorPreference;
+    Preference preferenceScreen;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,21 +32,31 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
         CpuMaxFreqPreference = (ListPreference) findPreference("cpu_max_freq_pref");
         CpuMinFreqPreference = (ListPreference) findPreference("cpu_min_freq_pref");
         GovernorPreference = (ListPreference) findPreference("governor_pref");
+        preferenceScreen = findPreference("governor_tune");
         populatePreferences();
 
         CpuMaxFreqPreference.setOnPreferenceChangeListener(this);
         CpuMinFreqPreference.setOnPreferenceChangeListener(this);
         GovernorPreference.setOnPreferenceChangeListener(this);
 
+        preferenceScreen.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                getFragmentManager().beginTransaction().replace(R.id.main_content, new GovernorTuningFragment())
+                        .addToBackStack(null)
+                        .commit();
+                return true;
+            }
+        });
 
     }
 
     public void populatePreferences() {
-        availablefreq = SysUtils.getAvailableFrequencies();
-        availableGovernors = SysUtils.getAvailableGovernors();
-        currentGovernor = SysUtils.getCurrentScalingGovernor();
-//        maxFrequency = SysUtils.getCurrentMaxFrequeny();
-        //      minFrequency = SysUtils.getCurrentMinFrequency();
+        availablefreq = CpuFrequencyUtils.getAvailableFrequencies();
+        availableGovernors = CpuFrequencyUtils.getAvailableGovernors();
+        currentGovernor = CpuFrequencyUtils.getCurrentScalingGovernor();
+        maxFrequency = CpuFrequencyUtils.getCurrentMaxFrequeny();
+        minFrequency = CpuFrequencyUtils.getCurrentMinFrequency();
 
         if (availablefreq != null) {
             CpuMaxFreqPreference.setEntries(availablefreq);
@@ -58,9 +69,9 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
             GovernorPreference.setEntryValues(availableGovernors);
         }
         if (maxFrequency != null && minFrequency != null && currentGovernor != null) {
-            CpuMaxFreqPreference.setDefaultValue(SysUtils.getCurrentMaxFrequeny());
-            CpuMinFreqPreference.setDefaultValue(SysUtils.getCurrentMinFrequency());
-            GovernorPreference.setDefaultValue(SysUtils.getCurrentScalingGovernor());
+            CpuMaxFreqPreference.setDefaultValue(maxFrequency);
+            CpuMinFreqPreference.setDefaultValue(minFrequency);
+            GovernorPreference.setDefaultValue(currentGovernor);
         }
     }
 

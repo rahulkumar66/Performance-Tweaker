@@ -7,7 +7,7 @@ import android.preference.PreferenceFragment;
 
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
-import com.phantomLord.cpufrequtils.app.utils.SysUtils;
+import com.phantomLord.cpufrequtils.app.utils.IOUtils;
 
 
 public class IOControlFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
@@ -38,10 +38,10 @@ public class IOControlFragment extends PreferenceFragment implements Preference.
     }
 
     private void populatePreferences() {
-        availableSchedulers = SysUtils.getAvailableIOScheduler();
-        currentScheduler = SysUtils.getCurrentIOScheduler();
+        availableSchedulers = IOUtils.getAvailableIOScheduler();
+        currentScheduler = IOUtils.getCurrentIOScheduler();
         readAheadValues = Constants.readAheadKb;
-        currentReadAhead = SysUtils.getReadAhead();
+        currentReadAhead = IOUtils.getReadAhead();
 
         if (availableSchedulers != null) {
             IOScheduler.setEntries(availableSchedulers);
