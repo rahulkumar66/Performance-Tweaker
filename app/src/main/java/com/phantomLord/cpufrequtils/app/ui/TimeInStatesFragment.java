@@ -26,9 +26,7 @@ public class TimeInStatesFragment extends Fragment {
 
     View view;
     ListView listView;
-    ArrayList<CpuState> states;
     TimeInStatesListAdapter timeInStateAdapter;
-    TextView kernelVersion;
     TextView totalTimeInState;
 
     SharedPreferences prefs;
@@ -41,15 +39,12 @@ public class TimeInStatesFragment extends Fragment {
         view = inflater.inflate(R.layout.time_in_states, container, false);
         listView = (ListView) view.findViewById(R.id.time_in_state_listView);
         totalTimeInState = (TextView) view.findViewById(R.id.total_time);
-        kernelVersion = (TextView) view.findViewById(R.id.kernelInfo);
         return view;
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        kernelVersion.setText(SysUtils.getKernelInfo());
         context = view.getContext();
         timeInStateAdapter = new TimeInStatesListAdapter(context);
 
@@ -99,7 +94,6 @@ public class TimeInStatesFragment extends Fragment {
             default:
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

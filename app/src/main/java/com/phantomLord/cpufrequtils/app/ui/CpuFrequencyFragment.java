@@ -1,17 +1,12 @@
 package com.phantomLord.cpufrequtils.app.ui;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.phantomLord.cpufrequtils.app.R;
@@ -50,7 +45,7 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
         availableGovernors = SysUtils.getAvailableGovernors();
         currentGovernor = SysUtils.getCurrentScalingGovernor();
 //        maxFrequency = SysUtils.getCurrentMaxFrequeny();
-  //      minFrequency = SysUtils.getCurrentMinFrequency();
+        //      minFrequency = SysUtils.getCurrentMinFrequency();
 
         if (availablefreq != null) {
             CpuMaxFreqPreference.setEntries(availablefreq);
@@ -62,7 +57,7 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
             GovernorPreference.setEntries(availableGovernors);
             GovernorPreference.setEntryValues(availableGovernors);
         }
-        if (maxFrequency != null && minFrequency != null && currentGovernor!=null) {
+        if (maxFrequency != null && minFrequency != null && currentGovernor != null) {
             CpuMaxFreqPreference.setDefaultValue(SysUtils.getCurrentMaxFrequeny());
             CpuMinFreqPreference.setDefaultValue(SysUtils.getCurrentMinFrequency());
             GovernorPreference.setDefaultValue(SysUtils.getCurrentScalingGovernor());
@@ -72,13 +67,13 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-        if(preference.getKey().equals("cpu_min_freq_pref")) {
+        if (preference.getKey().equals("cpu_min_freq_pref")) {
 
         }
-        if(preference.equals("cpu_max_freq_pref")) {
+        if (preference.equals("cpu_max_freq_pref")) {
 
         }
-        if(preference.equals("governor_pref")) {
+        if (preference.equals("governor_pref")) {
 
         }
         return true;

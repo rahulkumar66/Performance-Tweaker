@@ -89,8 +89,8 @@ public class BatteryStatsUtils {
                 e.printStackTrace();
             }
 
-            myWakelocks.add(new Wakelock(1,
-                    "Feature not currently supported for kitkat", 0, 0, 0));
+        //    myWakelocks.add(new Wakelock(1,
+          //          "Feature not currently supported for kitkat", 0, 0, 0));
 
             return myWakelocks;
         }
@@ -114,7 +114,7 @@ public class BatteryStatsUtils {
         }
 
 		/*
-		 * Sort the data
+         * Sort the data
 		 */
         Comparator<Wakelock> comparator = new Wakelock.WakelockTimeComparator();
         Collections.sort(myWakelocks, comparator);
@@ -128,24 +128,25 @@ public class BatteryStatsUtils {
         if (SysUtils.isRooted()) {
             alarms = AlarmsDumpsys.getAlarms();
         } else {
-            myWakelocks.add(new Alarm(context.getString(R.string.noroot)));
+           // myWakelocks.add(new Alarm(context.getString(R.string.noroot)));
             return myWakelocks;
         }
 
         for (StatElement statElement : alarms) {
             Alarm alarm = (Alarm) statElement;
-
+            //alarm.getMaxValue();
             if (alarm.getWakeups() > 0)
                 myWakelocks.add(alarm);
-
         }
         Collections.sort(myWakelocks);
 
         return myWakelocks;
-
     }
 
     public void serializeReferences(WakelockReference wr) {
+        /*
+        Work in progress
+         */
         try {
             FileOutputStream fos = context.openFileOutput("aaa",
                     Context.MODE_PRIVATE);

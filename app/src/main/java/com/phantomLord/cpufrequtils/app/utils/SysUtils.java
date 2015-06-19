@@ -189,7 +189,7 @@ public class SysUtils {
                 }
             }
         }
-		/*
+        /*
 		 * prepare commands for changing the read ahead cache
 		 */
         if (readAhead != null) {
@@ -346,8 +346,8 @@ public class SysUtils {
         }
     }
 
-    public static Process prepareRootShell() throws IOException,NullPointerException {
-        Process mProcess=Runtime.getRuntime().exec(getSUbinaryPath());
+    public static Process prepareRootShell() throws IOException, NullPointerException {
+        Process mProcess = Runtime.getRuntime().exec(getSUbinaryPath());
         return mProcess;
     }
 

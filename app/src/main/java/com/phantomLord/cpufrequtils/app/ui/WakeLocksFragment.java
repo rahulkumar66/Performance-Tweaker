@@ -25,7 +25,7 @@ public class WakeLocksFragment extends Fragment implements
     ListView wakelockList;
     ActionBar actionBar;
     View view;
-    Context themedContext, context;
+    Context context;
     TextView timeSince;
     BaseAdapter adapter;
 
@@ -34,9 +34,8 @@ public class WakeLocksFragment extends Fragment implements
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.wakelocksfragment, container, false);
         actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        themedContext = actionBar.getThemedContext();
         context = getActivity().getBaseContext();
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("");
+        actionBar.setTitle("");
         wakelockList = (ListView) view
                 .findViewById(R.id.wakelock_data_listview1);
         timeSince = (TextView) view.findViewById(R.id.stats_since);
@@ -47,8 +46,8 @@ public class WakeLocksFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        //  adapter = new WakelockActionBarSpinnerAdapter(themedContext);
-        adapter = new ArrayAdapter<String>(themedContext, android.R.layout.simple_spinner_dropdown_item,
+
+        adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,
                 context.getResources().getStringArray(
                         R.array.wakelock_actionbar_spinner_items));
         actionBar.setListNavigationCallbacks(adapter, this);
@@ -80,6 +79,7 @@ public class WakeLocksFragment extends Fragment implements
             wakelockList.setVisibility(View.VISIBLE);
             timeSince.setTextSize(15);
             wakelockList.setAdapter(adapter);
+            timeSince.setText("");
 
         } else {
             wakelockList.setVisibility(View.GONE);

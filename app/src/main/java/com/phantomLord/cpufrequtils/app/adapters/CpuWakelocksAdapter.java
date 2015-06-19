@@ -30,9 +30,11 @@ public class CpuWakelocksAdapter extends BaseAdapter {
         /*
          * calculate total time
 		 */
-        totaltime = 0;
-        for (Wakelock wl : partialWakelocks) {
-            totaltime += wl.getDuration() / 1000;
+        if(partialWakelocks!=null && partialWakelocks.size()!=0) {
+            totaltime = 0;
+            for (Wakelock wl : partialWakelocks) {
+                totaltime += wl.getDuration() / 1000;
+            }
         }
         infalter = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

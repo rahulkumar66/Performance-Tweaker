@@ -52,8 +52,8 @@ public class AlarmTriggerAdapter extends BaseAdapter {
         AlarmPackageName.setText(new UidNameResolver().getLabel(context,
                 packageName));
         name.setText(packageName);
-        WakeupCount.setText(context.getString(R.string.wakeups) + " "
-                + alarm.getWakeups());
+        WakeupCount.setText("x"
+                + alarm.getWakeups()+" times");
         progress.setMax(totaltime);
         progress.setProgress((int) alarm.getWakeups());
         return row;

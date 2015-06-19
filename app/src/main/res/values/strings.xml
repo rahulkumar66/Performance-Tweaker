@@ -19,7 +19,7 @@
     <string name="deep_sleep">Deep Sleep</string>
     <string name="time_since">Time Since</string>
     <string name="kernel_info">Kernel Info</string>
-    <string name="wakeups">WakeUps</string>
+
     <string name="times">times</string>
     <string name="stats_not_available">Statistics are not available yet , Please Give it some time</string>
     <string name="core">Core</string>

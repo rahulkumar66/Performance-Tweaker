@@ -16,6 +16,7 @@
         android:id="@+id/wakelock_data_listview1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="3dp"
         android:layout_marginTop="8dp"
         android:divider="@null"></ListView>
 
