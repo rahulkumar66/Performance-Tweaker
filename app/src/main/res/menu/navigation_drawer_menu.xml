@@ -21,5 +21,9 @@
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_action_prefs_widget"
             android:title="Settings" />
+        <item
+            android:id="@+id/nav_gpu"
+            android:icon="@drawable/ic_launcher"
+            android:title="GPU Frequency"/>
     </group>
 </menu>

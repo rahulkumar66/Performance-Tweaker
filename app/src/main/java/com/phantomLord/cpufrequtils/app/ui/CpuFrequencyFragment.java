@@ -48,7 +48,6 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
                 return true;
             }
         });
-
     }
 
     public void populatePreferences() {
@@ -59,9 +58,9 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
         minFrequency = CpuFrequencyUtils.getCurrentMinFrequency();
 
         if (availablefreq != null) {
-            CpuMaxFreqPreference.setEntries(availablefreq);
+            CpuMaxFreqPreference.setEntries(CpuFrequencyUtils.toMhz(availablefreq));
             CpuMaxFreqPreference.setEntryValues(availablefreq);
-            CpuMinFreqPreference.setEntries(availablefreq);
+            CpuMinFreqPreference.setEntries(CpuFrequencyUtils.toMhz(availablefreq));
             CpuMinFreqPreference.setEntryValues(availablefreq);
         }
         if (availableGovernors != null) {
@@ -69,6 +68,7 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
             GovernorPreference.setEntryValues(availableGovernors);
         }
         if (maxFrequency != null && minFrequency != null && currentGovernor != null) {
+            //cyrus
             CpuMaxFreqPreference.setDefaultValue(maxFrequency);
             CpuMinFreqPreference.setDefaultValue(minFrequency);
             GovernorPreference.setDefaultValue(currentGovernor);
@@ -105,6 +105,5 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
                         .show();
         }
         return super.onOptionsItemSelected(item);
-
     }
 }

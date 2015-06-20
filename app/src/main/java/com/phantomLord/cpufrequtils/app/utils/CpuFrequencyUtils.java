@@ -14,13 +14,13 @@ public class CpuFrequencyUtils {
 
 
     public static String[] getAvailableFrequencies() {
-        String[] frequencies = null;
+        String[] frequencies;
         if (new File(Constants.scaling_available_freq).exists()) {
             frequencies = SysUtils.readOutputFromFile(Constants.scaling_available_freq)
                     .split(" ");
             return frequencies;
         } else if (new File(Constants.time_in_states).exists()) {
-            ArrayList<CpuState> states = new ArrayList<CpuState>();
+            ArrayList<CpuState> states;
             int i = 0;
             states = TimeInStateReader.TimeInStatesReader().getCpuStateTime(
                     false, false);

@@ -90,6 +90,10 @@ public class MainActivity extends ActionBarActivity {
                         mfragment = new SettingsFragment();
                         actionBar.setTitle(getString(R.string.action_settings));
                         break;
+                    case R.id.nav_gpu:
+                        mfragment = new GpuControlFragment();
+                        actionBar.setTitle("GPU Settings");
+                        break;
                 }
                 if (mfragment != null) {
                     getFragmentManager().beginTransaction()

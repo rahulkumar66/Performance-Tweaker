@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="GPU Frequency">
+        <ListPreference
+            android:key="gpu_min_freq_pref"
+            android:persistent="true"
+            android:summary="Change Gpu Minimum Frequency"
+            android:title="Minimum GPU Frequency" />
+        <ListPreference
+            android:key="gpu_max_freq_pref"
+            android:persistent="true"
+            android:summary="Change Gpu Maximum Frequency"
+            android:title="Maximum GPU Frequency" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="GPU Governor">
+        <ListPreference
+            android:key="gpu_governor_pref"
+            android:persistent="true"
+            android:summary="Change GPU Current Scaling Governor"
+            android:title="Change GPU Governor" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
