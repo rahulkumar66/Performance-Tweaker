@@ -62,14 +62,6 @@
         <service android:name=".services.BootService" />
         <service android:name=".services.SaveSinceUnpluggedReferenceService" />
 
-        <activity
-            android:name=".ui.GovernorTuningActivity"
-            android:label="@string/title_activity_governor_tuning"
-            android:parentActivityName=".ui.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.phantomLord.cpufrequtils.app.ui.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

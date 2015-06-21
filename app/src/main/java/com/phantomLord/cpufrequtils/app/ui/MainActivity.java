@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
+import com.phantomLord.cpufrequtils.app.utils.GpuUtils;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
 public class MainActivity extends ActionBarActivity {
@@ -45,6 +46,11 @@ public class MainActivity extends ActionBarActivity {
         if (!(SysUtils.isRooted()))
             new RootNotFoundAlertDialog().show(getSupportFragmentManager(),
                     getString(R.string.app_name));
+
+
+        if (GpuUtils.isGpuFrequencyScalingSupported()) {
+            navigationView.getMenu().getItem(1).setVisible(true);
+        }
 
         this.getFragmentManager().beginTransaction()
                 .replace(R.id.main_content, new CpuFrequencyFragment())
@@ -99,6 +105,7 @@ public class MainActivity extends ActionBarActivity {
                     getFragmentManager().beginTransaction()
                             .replace(R.id.main_content, mfragment)
                             .commit();
+
                 }
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 return true;
@@ -106,4 +113,5 @@ public class MainActivity extends ActionBarActivity {
 
         });
     }
+
 }

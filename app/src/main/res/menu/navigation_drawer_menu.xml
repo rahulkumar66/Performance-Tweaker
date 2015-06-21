@@ -1,10 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_drawer_grp1"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_cpu"
             android:icon="@drawable/ic_action_meter"
-            android:title="Cpu Frequency" />
+            android:title="CPU Control" />
+
+        <item
+            android:id="@+id/nav_gpu"
+            android:icon="@drawable/ic_launcher"
+            android:title="GPU Control"
+            android:visible="false"></item>
         <item
             android:id="@+id/nav_tis"
             android:icon="@drawable/ic_action_bar_chart"
@@ -21,9 +29,7 @@
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_action_prefs_widget"
             android:title="Settings" />
-        <item
-            android:id="@+id/nav_gpu"
-            android:icon="@drawable/ic_launcher"
-            android:title="GPU Frequency"/>
+
+
     </group>
 </menu>

@@ -1,8 +1,10 @@
 package com.phantomLord.cpufrequtils.app.ui;
 
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.CpuFrequencyUtils;
+import com.phantomLord.cpufrequtils.app.utils.GovernorProperties;
 
 public class CpuFrequencyFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
@@ -22,6 +25,10 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
     ListPreference CpuMinFreqPreference;
     ListPreference GovernorPreference;
     Preference preferenceScreen;
+    PreferenceCategory preferenceCategory;
+    EditTextPreference editTextPreferences[];
+    GovernorProperties[] governorProperties;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,22 +39,13 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
         CpuMaxFreqPreference = (ListPreference) findPreference("cpu_max_freq_pref");
         CpuMinFreqPreference = (ListPreference) findPreference("cpu_min_freq_pref");
         GovernorPreference = (ListPreference) findPreference("governor_pref");
-        preferenceScreen = findPreference("governor_tune");
+        preferenceCategory = (PreferenceCategory) findPreference("governor_tune_pref");
         populatePreferences();
 
         CpuMaxFreqPreference.setOnPreferenceChangeListener(this);
         CpuMinFreqPreference.setOnPreferenceChangeListener(this);
         GovernorPreference.setOnPreferenceChangeListener(this);
 
-        preferenceScreen.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                getFragmentManager().beginTransaction().replace(R.id.main_content, new GovernorTuningFragment())
-                        .addToBackStack(null)
-                        .commit();
-                return true;
-            }
-        });
     }
 
     public void populatePreferences() {
@@ -68,10 +66,26 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
             GovernorPreference.setEntryValues(availableGovernors);
         }
         if (maxFrequency != null && minFrequency != null && currentGovernor != null) {
-            //cyrus
             CpuMaxFreqPreference.setDefaultValue(maxFrequency);
             CpuMinFreqPreference.setDefaultValue(minFrequency);
             GovernorPreference.setDefaultValue(currentGovernor);
+        }
+
+        governorProperties = CpuFrequencyUtils.getGovernorProperties();
+        if (governorProperties != null && governorProperties.length != 0) {
+            editTextPreferences = new EditTextPreference[governorProperties.length];
+            for (int i = 0; i < editTextPreferences.length; i++) {
+                editTextPreferences[i] = new EditTextPreference(getActivity());
+                editTextPreferences[i].setKey(governorProperties[i].getGovernorProperty());
+                editTextPreferences[i].setTitle(governorProperties[i].getGovernorProperty());
+                editTextPreferences[i].setSummary(governorProperties[i].getGovernorPropertyValue());
+                editTextPreferences[i].setDialogTitle(governorProperties[i].getGovernorProperty());
+                editTextPreferences[i].setDefaultValue(governorProperties[i].getGovernorPropertyValue());
+                editTextPreferences[i].setOnPreferenceChangeListener(this);
+                editTextPreferences[i].setPersistent(true);
+
+                preferenceCategory.addPreference(editTextPreferences[i]);
+            }
         }
     }
 
