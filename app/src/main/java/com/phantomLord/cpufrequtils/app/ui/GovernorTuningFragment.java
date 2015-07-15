@@ -6,7 +6,6 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
-import android.util.Log;
 
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.CpuFrequencyUtils;
@@ -47,7 +46,6 @@ public class GovernorTuningFragment extends PreferenceFragment implements Prefer
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-        Log.d("" + preference, o + "");
         return true;
     }
 

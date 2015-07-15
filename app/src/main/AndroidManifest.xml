@@ -39,8 +39,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".services.BootService" />
-
         <receiver
             android:name=".receivers.BootReceiver"
             android:exported="false" >
@@ -62,6 +60,14 @@
         <service android:name=".services.BootService" />
         <service android:name=".services.SaveSinceUnpluggedReferenceService" />
 
+        <activity
+            android:name=".ui.GovernorTuningActivity"
+            android:label="@string/title_activity_governer_tuner_preference"
+            android:parentActivityName=".ui.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.phantomLord.cpufrequtils.app.ui.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

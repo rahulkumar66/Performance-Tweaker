@@ -21,11 +21,13 @@
             android:persistent="true"
             android:summary="Change Current Scaling Governor"
             android:title="Change Governor" />
+        <Preference
+            android:key="governor_tune_pref"
+            android:persistent="true"
+            android:summary="Fine Tune Governor Parameters"
+            android:title="Governor Parameters" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:key="governor_tune_pref"
-        android:title="CPU Governor Tuning "></PreferenceCategory>
 
 </PreferenceScreen>

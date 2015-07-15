@@ -1,10 +1,10 @@
 package com.phantomLord.cpufrequtils.app.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.CpuFrequencyUtils;
-import com.phantomLord.cpufrequtils.app.utils.GovernorProperties;
 
 public class CpuFrequencyFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
@@ -21,14 +20,12 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
     String[] availableGovernors;
     String maxFrequency, minFrequency, currentGovernor;
 
+    Context context;
+
     ListPreference CpuMaxFreqPreference;
     ListPreference CpuMinFreqPreference;
     ListPreference GovernorPreference;
-    Preference preferenceScreen;
-    PreferenceCategory preferenceCategory;
-    EditTextPreference editTextPreferences[];
-    GovernorProperties[] governorProperties;
-
+    Preference preference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,12 +36,22 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
         CpuMaxFreqPreference = (ListPreference) findPreference("cpu_max_freq_pref");
         CpuMinFreqPreference = (ListPreference) findPreference("cpu_min_freq_pref");
         GovernorPreference = (ListPreference) findPreference("governor_pref");
-        preferenceCategory = (PreferenceCategory) findPreference("governor_tune_pref");
+        preference = findPreference("governor_tune_pref");
         populatePreferences();
 
         CpuMaxFreqPreference.setOnPreferenceChangeListener(this);
         CpuMinFreqPreference.setOnPreferenceChangeListener(this);
         GovernorPreference.setOnPreferenceChangeListener(this);
+        preference.setOnPreferenceChangeListener(this);
+        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Toast.makeText(getView().getContext(), "revelations", Toast.LENGTH_SHORT)
+                        .show();
+                startActivity(new Intent(getActivity(), GovernorTuningActivity.class));
+                return true;
+            }
+        });
 
     }
 
@@ -66,39 +73,28 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
             GovernorPreference.setEntryValues(availableGovernors);
         }
         if (maxFrequency != null && minFrequency != null && currentGovernor != null) {
-            CpuMaxFreqPreference.setDefaultValue(maxFrequency);
-            CpuMinFreqPreference.setDefaultValue(minFrequency);
-            GovernorPreference.setDefaultValue(currentGovernor);
+            CpuMaxFreqPreference.setValue(maxFrequency);
+            CpuMinFreqPreference.setValue(minFrequency);
+            GovernorPreference.setValue(currentGovernor);
         }
 
-        governorProperties = CpuFrequencyUtils.getGovernorProperties();
-        if (governorProperties != null && governorProperties.length != 0) {
-            editTextPreferences = new EditTextPreference[governorProperties.length];
-            for (int i = 0; i < editTextPreferences.length; i++) {
-                editTextPreferences[i] = new EditTextPreference(getActivity());
-                editTextPreferences[i].setKey(governorProperties[i].getGovernorProperty());
-                editTextPreferences[i].setTitle(governorProperties[i].getGovernorProperty());
-                editTextPreferences[i].setSummary(governorProperties[i].getGovernorPropertyValue());
-                editTextPreferences[i].setDialogTitle(governorProperties[i].getGovernorProperty());
-                editTextPreferences[i].setDefaultValue(governorProperties[i].getGovernorPropertyValue());
-                editTextPreferences[i].setOnPreferenceChangeListener(this);
-                editTextPreferences[i].setPersistent(true);
-
-                preferenceCategory.addPreference(editTextPreferences[i]);
-            }
-        }
     }
 
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
         if (preference.getKey().equals("cpu_min_freq_pref")) {
+            CpuFrequencyUtils.setMinFrequency(CpuMinFreqPreference.getValue(), getView().getContext());
+        }
+        if (preference.getKey().equals("cpu_max_freq_pref")) {
+            CpuFrequencyUtils.setMaxFrequency(CpuMaxFreqPreference.getValue(), getView().getContext());
+        }
+        if (preference.getKey().equals("governor_pref")) {
+            CpuFrequencyUtils.setGovernor(GovernorPreference.getValue(), getView().getContext());
 
         }
-        if (preference.equals("cpu_max_freq_pref")) {
+        if (preference.getKey().equals("governor_tune_pref")) {
 
-        }
-        if (preference.equals("governor_pref")) {
 
         }
         return true;

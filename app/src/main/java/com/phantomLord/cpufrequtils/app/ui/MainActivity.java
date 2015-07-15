@@ -8,8 +8,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +19,7 @@ import com.phantomLord.cpufrequtils.app.dialogs.RootNotFoundAlertDialog;
 import com.phantomLord.cpufrequtils.app.utils.GpuUtils;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     private Context context;
 
     private DrawerLayout mDrawerLayout;

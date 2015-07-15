@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.phantomLord.cpufrequtils.app.utils.Constants;
-import com.phantomLord.cpufrequtils.app.utils.CpuFrequencyUtils;
 import com.phantomLord.cpufrequtils.app.utils.IOUtils;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
@@ -40,7 +39,7 @@ public class BootService extends IntentService {
                 gov = prefs.getString(Constants.PREF_GOV, null);
 
                 if (max != null || min != null || gov != null) {
-                    CpuFrequencyUtils.setFrequencyAndGovernor(max, min, gov, context);
+
                 }
             }
             if (prefs.getBoolean(Constants.PREF_IO_APPLY_ON_BOOT, false)) {

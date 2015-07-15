@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class SysUtils {
+public class SysUtils implements Constants {
 
     public static boolean isRooted() {
         if (new File("/system/bin/su").exists()
@@ -25,6 +25,9 @@ public class SysUtils {
         String data = null;
         Process process;
         BufferedReader stdinput;
+        if (debug) {
+            Log.d(App_Tag, "Reading Output from " + pathToFile);
+        }
         File file = new File(pathToFile);
         if (!(file.exists())) {
             return "";
@@ -50,10 +53,11 @@ public class SysUtils {
         else {
             InputStream inputStream;
             DataOutputStream dos;
+
             try {
                 process = prepareRootShell();
                 dos = new DataOutputStream(process.getOutputStream());
-                dos.writeBytes("cat " + process);
+                dos.writeBytes("cat " + pathToFile);
                 dos.flush();
                 dos.writeBytes("\n exit ");
                 dos.flush();
@@ -81,6 +85,7 @@ public class SysUtils {
     public static boolean executeRootCommand(ArrayList<String> commands) {
         InputStream is;
         DataOutputStream dos;
+
         try {
             Process mProcess = prepareRootShell();
             if (mProcess == null)
@@ -89,6 +94,9 @@ public class SysUtils {
             for (String cmd : commands) {
                 dos.writeBytes(cmd);
                 dos.flush();
+                if (debug) {
+                    Log.d(Constants.App_Tag, cmd);
+                }
             }
             if (mProcess.waitFor() == 0) {
                 return true;

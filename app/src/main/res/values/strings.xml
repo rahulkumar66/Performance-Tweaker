@@ -56,5 +56,6 @@
     <string name="title_activity_governor_tuning">GovernorTuningActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_governer_tuner_preference">GovernerTunerPreference</string>
 
 </resources>
