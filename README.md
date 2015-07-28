@@ -1,5 +1,7 @@
 # Performance-Tweaker
 
+[![Build Status](https://travis-ci.org/rattlehead666/Performance-Tweaker.svg?branch=master)](https://travis-ci.org/rattlehead666/Performance-Tweaker)
+
 (c) 2014 Rahul Kumar rahulkumar2048@gmail.com
 
 Simple Android App for
