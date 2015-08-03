@@ -20,6 +20,7 @@ import com.phantomLord.cpufrequtils.app.utils.GpuUtils;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
 public class MainActivity extends AppCompatActivity {
+
     private Context context;
 
     private DrawerLayout mDrawerLayout;
