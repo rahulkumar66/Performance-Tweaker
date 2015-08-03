@@ -26,6 +26,6 @@ android {
 dependencies {
     compile files('libs/bugsense-3.6.jar')
     compile project(':androidCommon')
-    compile 'com.android.support:appcompat-v7:21.0.+'
-    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:design:22.2.1'
 }
