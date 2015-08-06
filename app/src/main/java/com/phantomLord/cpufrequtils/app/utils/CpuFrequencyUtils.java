@@ -13,7 +13,6 @@ import java.util.Collections;
 
 public class CpuFrequencyUtils {
 
-
     public static String[] getAvailableFrequencies() {
         String[] frequencies;
         if (new File(Constants.scaling_available_freq).exists()) {

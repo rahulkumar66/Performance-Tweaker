@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -48,7 +47,7 @@ public class WakeLocksFragment extends Fragment implements
         super.onActivityCreated(savedInstanceState);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-        adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,
+        adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
                 context.getResources().getStringArray(
                         R.array.wakelock_actionbar_spinner_items));
         actionBar.setListNavigationCallbacks(adapter, this);
@@ -76,7 +75,7 @@ public class WakeLocksFragment extends Fragment implements
                 adapter = new AlarmTriggerAdapter(context);
                 break;
         }
-        if (adapter.getCount() != 0) {
+        if (adapter.getCount()>0) {
             wakelockList.setVisibility(View.VISIBLE);
             timeSince.setTextSize(15);
             wakelockList.setAdapter(adapter);

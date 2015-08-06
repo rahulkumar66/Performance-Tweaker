@@ -45,7 +45,6 @@ public class SysUtils implements Constants {
             }
 
             return buffer.toString();
-
         }
         /*
          * try reading the file as root

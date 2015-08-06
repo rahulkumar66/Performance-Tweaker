@@ -2,6 +2,7 @@ package com.phantomLord.cpufrequtils.app.utils;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
@@ -131,13 +132,15 @@ public class BatteryStatsUtils {
             return myWakelocks;
         }
 
-        for (StatElement statElement : alarms) {
-            Alarm alarm = (Alarm) statElement;
-            //alarm.getMaxValue();
-            if (alarm.getWakeups() > 0)
-                myWakelocks.add(alarm);
-        }
-        Collections.sort(myWakelocks);
+            for (StatElement statElement : alarms) {
+                Log.d("out", alarms.size()+"");
+                Log.d("out", statElement.toString()+"");
+                Alarm alarm = (Alarm) statElement;
+                //alarm.getMaxValue();
+                if (alarm.getWakeups() > 0)
+                    myWakelocks.add(alarm);
+            }
+            Collections.sort(myWakelocks);
 
         return myWakelocks;
     }

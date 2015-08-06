@@ -1,8 +1,5 @@
 package com.phantomLord.cpufrequtils.app.utils;
 
-/**
- * Created by rahul on 19/6/15.
- */
 public class GovernorProperties {
 
     private String GovernorProperty;

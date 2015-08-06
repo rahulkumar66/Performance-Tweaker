@@ -46,8 +46,6 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
         preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Toast.makeText(getView().getContext(), "revelations", Toast.LENGTH_SHORT)
-                        .show();
                 startActivity(new Intent(getActivity(), GovernorTuningActivity.class));
                 return true;
             }

@@ -53,9 +53,6 @@
         <item>Wakelocks</item>
         <item>Settings</item>
     </string-array>
-    <string name="title_activity_governor_tuning">GovernorTuningActivity</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_governer_tuner_preference">GovernerTunerPreference</string>
+    <string name="title_activity_governer_tuner_preference">Cpu Governor Tuning</string>
 
 </resources>

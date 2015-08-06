@@ -13,7 +13,7 @@ public class RootNotFoundAlertDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity())
-                .setIcon(R.drawable.ic_launcher)
+            //   .setIcon(R.drawable.ic_launcher)
                 .setTitle(getString(R.string.error))
                 .setMessage(getString(R.string.noroot))
                 .setPositiveButton(getString(R.string.continu),
