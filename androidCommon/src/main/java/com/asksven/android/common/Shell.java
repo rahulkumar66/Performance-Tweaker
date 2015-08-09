@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,21 @@
  */
 package com.asksven.android.common;
 
+import java.util.List;
+
+import junit.framework.TestCase;
+
 /**
  * @author sven
  *
  */
-public class CommonLogSettings
+public class Shell extends TestCase
 {
-	public static final String LOGGING_TAG = "AndoidCommon";
-	public static boolean DEBUG = false;
-	public static boolean TRACE = false;
+	public void testShell()
+	{
+		List<String> res = NonRootShell.getInstance().run("ls -l /");
+		assertTrue(res !=null);
+		assertTrue(!res.isEmpty());
+	}
 
 }

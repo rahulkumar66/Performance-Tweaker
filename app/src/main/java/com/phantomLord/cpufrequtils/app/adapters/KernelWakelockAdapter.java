@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.asksven.android.common.kernelutils.NativeKernelWakelock;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.BatteryStatsUtils;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
@@ -16,6 +16,7 @@ import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 import java.util.ArrayList;
 
 public class KernelWakelockAdapter extends BaseAdapter {
+
     ArrayList<NativeKernelWakelock> kernelWakelocks;
     Context context;
     LayoutInflater inflator;

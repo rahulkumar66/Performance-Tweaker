@@ -17,15 +17,29 @@
 package com.asksven.android.common.kernelutils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.lang.Math;
 
+import com.asksven.android.common.dto.AlarmDto;
+import com.asksven.android.common.dto.NativeKernelWakelockDto;
+import com.asksven.android.common.nameutils.UidInfo;
+import com.asksven.android.common.nameutils.UidNameResolver;
+import com.asksven.android.common.privateapiproxies.AlarmItem;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.StringUtils;
 import com.google.gson.annotations.SerializedName;
 
-import android.content.Context;
+
+
+
+
+
+
+
+import android.os.Build;
+//import android.content.Context;
 import android.util.Log;
 
 /**
@@ -103,6 +117,11 @@ public class NativeKernelWakelock extends StatElement implements Comparable<Nati
 	@SerializedName("last_change")
 	private long m_lastChange;
 
+	public NativeKernelWakelock()
+	{
+		
+	}
+	
 	/**
 	 * Creates a wakelock instance
 	 * @param wakeType the type of wakelock (partial or full)
@@ -134,6 +153,42 @@ public class NativeKernelWakelock extends StatElement implements Comparable<Nati
 		setTotal(time);
 	}
 	
+	public NativeKernelWakelock(NativeKernelWakelockDto source)
+	{
+		
+		this.setUid(source.m_uid);
+		this.m_activeSince 	= source.m_activeSince;
+		this.m_count 		= source.m_count;
+		this.m_details 		= source.m_details;
+		this.m_expireCount 	= source.m_expireCount;
+		this.m_lastChange 	= source.m_lastChange;
+		this.m_maxTime 		= source.m_maxTime;
+		this.m_name 		= source.m_name;
+		this.m_sleepTime 	= source.m_sleepTime;
+		this.m_ttlTime 		= source.m_ttlTime;
+		this.m_wakeCount 	= source.m_wakeCount;
+		setTotal(source.m_total);
+	
+	}
+
+	public NativeKernelWakelockDto toDto()
+	{
+		NativeKernelWakelockDto ret = new NativeKernelWakelockDto();
+		ret.m_uid			= this.getuid();
+		ret.m_activeSince 	= this.m_activeSince;
+		ret.m_count 		= this.m_count;
+		ret.m_details 		= this.m_details;
+		ret.m_expireCount 	= this.m_expireCount;
+		ret.m_lastChange 	= this.m_lastChange;
+		ret.m_maxTime 		= this.m_maxTime;
+		ret.m_name 			= this.m_name;
+		ret.m_sleepTime 	= this.m_sleepTime;
+		ret.m_ttlTime 		= this.m_ttlTime;
+		ret.m_wakeCount 	= this.m_wakeCount;
+		ret.m_total			= this.getTotal();
+		return ret;
+	}
+
 	public NativeKernelWakelock clone()
 	{
 		NativeKernelWakelock clone = new NativeKernelWakelock(m_name, m_details, m_count, m_expireCount, m_wakeCount, m_activeSince, m_ttlTime,
@@ -301,17 +356,16 @@ public class NativeKernelWakelock extends StatElement implements Comparable<Nati
 	public String toString() 
 	{
 		return getName() + " ["
-//				+ "m_name=" + m_name + ", "
-//				+ "m_count=" + m_count + ", "
-//				+ "m_expire_count=" + m_expireCount + ", "
-//				+ "m_wake_count=" + m_wakeCount + ", "
-//				+ "m_active_since="+ m_activeSince + ", "
-//				+ "m_total_time="+ m_ttlTime + ", "
-//				+ "m_sleep_time=" + m_sleepTime + ", "
-//				+ "m_max_time=" + m_maxTime + ", "
-//				+ "m_last_change=" + m_lastChange + ", "
-//				+ "m_total_time=" + m_totalTime
-				+ getData()
+				+ "m_name=" + m_name + ", "
+				+ "m_count=" + m_count + ", "
+				+ "m_expire_count=" + m_expireCount + ", "
+				+ "m_wake_count=" + m_wakeCount + ", "
+				+ "m_active_since="+ m_activeSince + ", "
+				+ "m_total_time="+ m_ttlTime + ", "
+				+ "m_sleep_time=" + m_sleepTime + ", "
+				+ "m_max_time=" + m_maxTime + ", "
+				+ "m_last_change=" + m_lastChange + ", "
+
 				+ "]";
 	}
 	
@@ -331,7 +385,7 @@ public class NativeKernelWakelock extends StatElement implements Comparable<Nati
 	 * Returns the full qualified name (default, can be overwritten)
 	 * @return the full qualified name
 	 */
-	public String getFqn(Context context)
+	public String getFqn(UidNameResolver resolver)
 	{
 		// we need to do some formating here as m_details may be of the form "a, b, a, c, b"
 		if (m_details.equals(""))
@@ -356,14 +410,14 @@ public class NativeKernelWakelock extends StatElement implements Comparable<Nati
 	/**
 	 * returns a string representation of the data
 	 */
-	public String getData()
+	public String getData(long totalTime)
 	{
 		return this.formatDuration(getDuration()) 
 			+ " (" + getDuration()/1000 + " s)"
 			+ " Cnt:(c/wc/ec)" + getCount() + "/" + m_wakeCount + "/" + m_expireCount
-			+ " " + this.formatRatio(getDuration(), getTotal());
+			+ " " + this.formatRatio(getDuration(), totalTime);
 	}
-	
+
 	/** 
 	 * returns the values of the data
 	 */	

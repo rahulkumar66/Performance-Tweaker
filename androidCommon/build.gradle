@@ -5,9 +5,8 @@ android {
     buildToolsVersion "21.0.1"
 
     defaultConfig {
-
         minSdkVersion 8
-        targetSdkVersion 18
+        targetSdkVersion 14
     }
 
     buildTypes {
@@ -19,6 +18,9 @@ android {
 }
 
 dependencies {
+    compile 'com.android.support:support-v4:22.+'
+    compile 'com.android.support:appcompat-v7:22.+'
     compile 'com.google.code.gson:gson:2.2.2'
-    compile files('libs/RootTools-2.6.jar')
+    compile files('libs/RootTools-3.4.jar')
+    compile files('libs/jackson-all-1.9.11.jar')
 }

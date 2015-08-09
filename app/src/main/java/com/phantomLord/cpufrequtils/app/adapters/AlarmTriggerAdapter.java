@@ -17,10 +17,12 @@ import com.phantomLord.cpufrequtils.app.utils.BatteryStatsUtils;
 import java.util.ArrayList;
 
 public class AlarmTriggerAdapter extends BaseAdapter {
+
     ArrayList<Alarm> alarms;
     Context context;
     int totaltime;
     LayoutInflater infalter;
+    UidNameResolver uidNameResolver;
 
     public AlarmTriggerAdapter(Context ctx) {
         this.context = ctx;
@@ -31,6 +33,7 @@ public class AlarmTriggerAdapter extends BaseAdapter {
         }
         infalter = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        uidNameResolver=UidNameResolver.getInstance(context);
     }
 
     @Override
@@ -47,10 +50,9 @@ public class AlarmTriggerAdapter extends BaseAdapter {
                 .findViewById(R.id.alrm_progress);
         Alarm alarm = alarms.get(position);
 
-        icon.setImageDrawable(alarm.getIcon(context));
+        icon.setImageDrawable(alarm.getIcon(uidNameResolver));
         String packageName = alarm.getPackageName();
-        AlarmPackageName.setText(new UidNameResolver().getLabel(context,
-                packageName));
+        AlarmPackageName.setText(uidNameResolver.getLabel(packageName));
         name.setText(packageName);
         WakeupCount.setText("x"
                 + alarm.getWakeups() + " times");

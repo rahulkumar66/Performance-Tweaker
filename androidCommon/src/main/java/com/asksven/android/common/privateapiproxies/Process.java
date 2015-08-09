@@ -19,10 +19,18 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 
+import com.asksven.android.common.dto.ProcessDto;
+import com.asksven.android.common.nameutils.UidInfo;
+import com.asksven.android.common.nameutils.UidNameResolver;
 import com.google.gson.annotations.SerializedName;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
+
+
+
+
+
+//import android.content.Context;
+//import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -76,7 +84,30 @@ public class Process extends StatElement implements Comparable<Process>, Seriali
 		m_systemTime	= systemTime;
 		m_starts		= starts;
 	}
+
+	public Process(ProcessDto source)
+	{
+		
+		this.setUid(source.m_uid);
+		this.m_name 		= source.m_name;
+		this.m_starts 		= source.m_starts;
+		this.m_systemTime	= source.m_systemTime;
+		this.m_userTime		= source.m_userTime;
+		this.setTotal(source.m_total);
+	}
+
+	public ProcessDto toDto()
+	{
+		ProcessDto ret = new ProcessDto();
+		ret.m_uid			= this.getuid();
+		ret.m_name 			= this.m_name;
+		ret.m_starts 		= this.m_starts;
+		ret.m_systemTime 	= this.m_systemTime;
+		ret.m_userTime		= this.m_userTime;
 	
+		return ret;
+	}
+
 	public Process clone()
 	{
 		Process clone = new Process(m_name, m_userTime, m_systemTime, m_starts);
@@ -180,17 +211,17 @@ public class Process extends StatElement implements Comparable<Process>, Seriali
 	/**
 	 * returns a string representation of the data
 	 */
-	public String getData()
+	public String getData(long totalTime)
 	{
-		
-		return "Uid: " + this.getuid() + " Sys: " + this.formatDuration(getSystemTime()) + " (" + getSystemTime()/1000 + " s)"
-		+ " Us: " + this.formatDuration(getUserTime()) + " (" + getUserTime()/1000 + " s)"
+		return "Uid: " + this.getuid() + " Sys: " + this.formatDuration(getSystemTime())  
+		+ " Us: " + this.formatDuration(getUserTime())
 		+ " Starts: " + String.valueOf(getStarts());
 	}
 
 	/** 
 	 * returns the values of the data
 	 */	
+
 	public double[] getValues()
 	{
 		double[] retVal = new double[2];
@@ -216,28 +247,19 @@ public class Process extends StatElement implements Comparable<Process>, Seriali
 		}
 	}
 	
-	public Drawable getIcon(Context ctx)
+	public Drawable getIcon(UidNameResolver resolver)
 	{
 		if (m_icon == null)
 		{
 			// retrieve and store the icon for that package
-			if (m_uidInfo != null)
+			try
 			{
 				String myPackage = m_uidInfo.getNamePackage();
-				if (!myPackage.equals(""))
-				{
-					PackageManager manager = ctx.getPackageManager();
-					try
-					{
-						m_icon = manager.getApplicationIcon(myPackage);
-					}
-					catch (Exception e)
-					{
-						// nop: no icon found
-						m_icon = null;
-					}
-					
-				}
+				m_icon = resolver.getIcon(myPackage);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "Icon for process could not be retrieved");
 			}
 		}
 		return m_icon;

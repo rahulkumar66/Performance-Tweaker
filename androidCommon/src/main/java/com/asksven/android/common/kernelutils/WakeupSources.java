@@ -6,14 +6,17 @@ package com.asksven.android.common.kernelutils;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.asksven.andoid.common.contrib.Shell;
 import com.asksven.andoid.common.contrib.Util;
 import com.asksven.android.common.CommonLogSettings;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.shellutils.Exec;
@@ -24,6 +27,7 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -169,11 +173,37 @@ public class WakeupSources extends Wakelocks
 						}
 					}
 				}
-
-    			NativeKernelWakelock wl = new NativeKernelWakelock(
-    					name, details, count, expire_count, wake_count,
-    					active_since, total_time, sleep_time, max_time,
-    					last_change, msSinceBoot);
+            	if (CommonLogSettings.DEBUG)
+            	{
+	            	Log.d(TAG, "Native Kernel wakelock parsed"  
+	            		+ " name=" + name
+	            		+ " details=" + details
+	            		+ " count=" + count
+	            		+ " expire_count=" + expire_count
+	            		+ " wake_count=" + wake_count
+    					+ " active_since=" + active_since
+    					+ " total_time=" + total_time
+    					+ " sleep_time=" + sleep_time
+    					+ " max_time=" + max_time
+    					+ "last_change=" + last_change
+    					+ "ms_since_boot=" + msSinceBoot);
+            	}
+            	NativeKernelWakelock wl = null;
+            	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            	{
+            		// on L sleep time is always 0 so use total time instead
+            		wl = new NativeKernelWakelock(
+	    					name, details, count, expire_count, wake_count,
+	    					active_since, total_time, total_time, max_time,
+	    					last_change, msSinceBoot);
+            	}
+            	else
+            	{
+	    			wl = new NativeKernelWakelock(
+	    					name, details, count, expire_count, wake_count,
+	    					active_since, total_time, sleep_time, max_time,
+	    					last_change, msSinceBoot);
+            	}
     			myRet.add(wl);
     		}
     		catch (Exception e)
@@ -182,5 +212,44 @@ public class WakeupSources extends Wakelocks
     		}
     	}
     	return myRet;
+    }
+    
+    public static boolean fileExists()
+    {
+    	boolean exists = false;
+    	FileReader fr = null;
+    	try
+    	{
+			fr = new FileReader(FILE_PATH);
+			exists = true;
+    	}
+    	catch (Exception e)
+    	{
+    		List<String> res = Shell.SU.run("cat " + FILE_PATH);
+    		
+    		if ((res == null)||(res.size()==0))
+    		{
+    			exists = false;
+    		}
+    		else
+    		{
+    			exists = true;
+    		}
+    	}
+    	finally
+    	{
+    		if (fr != null && exists)
+    		{
+    			try
+    			{
+					fr.close();
+				}
+    			catch (IOException e)
+    			{
+					// do nothing
+				}
+    		}
+    	}
+		return exists;
     }
 }

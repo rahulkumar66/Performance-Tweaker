@@ -70,18 +70,16 @@ public class Netstats
 	private static final String KEY_TX_PACKETS = "tx_packets";
 	
 
-	/**
-	 * Returns a list of alarm value objects
-	 * @return
-	 * @throws Exception
-	 */
 	public static ArrayList<StatElement> parseNetstats()
 	{
+		List<String> stats = getStats();
+		return parseNetstats(stats);
+	}
+	
+	public static ArrayList<StatElement> parseNetstats(List<String> stats)
+	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
-//		ExecResult res = Exec.execPrint(new String[]{"su", "-c", "cat /proc/net/xt_qtaguid/stats"});
-		List<String> res = RootShell.getInstance().run("cat /proc/net/xt_qtaguid/stats");
-				//Util.run("su", "cat /proc/net/xt_qtaguid/stats");
-		if ((res != null) && (res.size() != 0))
+		if ((stats != null) && (stats.size() != 0))
 		{
 //			String strRes = res.getResultLine(); 
 			if (true) //(!strRes.contains("Permission Denial"))
@@ -105,21 +103,28 @@ public class Netstats
 				
 				// process the file, starting on line 2
 				long totalBytes = 0;
-				for (int i=1; i < res.size(); i++)
+				for (int i=1; i < stats.size(); i++)
 				{
-					String line = res.get(i);
+					String line = stats.get(i);
 					StringUtils.splitLine(line, values);
 					StringUtils.parseLine(keys, values, parsed);
 					
-					//Netstat entry = new Netstat();
-					NetworkUsage entry = new NetworkUsage(
-							StringUtils.getParsedInt(parsed, KEY_UID),
-							parsed.get(KEY_IFACE),
-							StringUtils.getParsedLong(parsed, KEY_RX_BYTES),
-							StringUtils.getParsedLong(parsed, KEY_TX_BYTES));
-					
-					myStats = addToStats(myStats, entry);
-					totalBytes += entry.getTotalBytes();
+					try
+					{
+						//Netstat entry = new Netstat();
+						NetworkUsage entry = new NetworkUsage(
+								StringUtils.getParsedInt(parsed, KEY_UID),
+								parsed.get(KEY_IFACE),
+								StringUtils.getParsedLong(parsed, KEY_RX_BYTES),
+								StringUtils.getParsedLong(parsed, KEY_TX_BYTES));
+						
+						myStats = addToStats(myStats, entry);
+						totalBytes += entry.getTotalBytes();
+					}
+					catch (Exception e)
+					{
+						Log.e(TAG, "An error occured while parsing " + line + ": " + e.getMessage());
+					}
 				}
 				
 				// set the total so that we can calculate the ratio
@@ -134,6 +139,13 @@ public class Netstats
 		return myStats;
 	}
 	
+	private static List<String> getStats()
+	{
+//		ExecResult res = Exec.execPrint(new String[]{"su", "-c", "cat /proc/net/xt_qtaguid/stats"});
+		List<String> res = RootShell.getInstance().run("cat /proc/net/xt_qtaguid/stats");
+				//Util.run("su", "cat /proc/net/xt_qtaguid/stats");
+		return res;
+	}
 	
 	/**
 	 * Stats may be duplicate for one uid+iface so we sum them up

@@ -20,10 +20,20 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 
+import com.asksven.android.common.dto.ProcessDto;
+import com.asksven.android.common.dto.WakelockDto;
+import com.asksven.android.common.nameutils.UidInfo;
+import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.utils.StringUtils;
 import com.google.gson.annotations.SerializedName;
 
-import android.content.Context;
+
+
+
+
+
+
+//import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -65,6 +75,7 @@ public class Wakelock extends StatElement implements Comparable<Wakelock>, Seria
 	@SerializedName("count")
 	private int m_count;
 	
+	
 	/**
 	 * Creates a wakelock instance
 	 * @param wakeType the type of wakelock (partial or full)
@@ -73,6 +84,7 @@ public class Wakelock extends StatElement implements Comparable<Wakelock>, Seria
 	 * @param time the battery realtime 
 	 * @param count the number of time the wakelock was active
 	 */
+
 	public Wakelock(int wakeType, String name, long duration, long time, int count)
 	{
 		m_wakeType	= wakeType;
@@ -83,7 +95,32 @@ public class Wakelock extends StatElement implements Comparable<Wakelock>, Seria
 		setTotal(time);
 		m_count		= count;
 	}
+
+	public Wakelock(WakelockDto source)
+	{
+		
+		this.setUid(source.m_uid);
+		this.m_name 		= source.m_name;
+		this.m_count 		= source.m_count;
+		this.m_duration		= source.m_duration;
+		this.m_wakeType		= source.m_wakeType;
+		this.setTotal(source.m_total);
+	}
+
+	public WakelockDto toDto()
+	{
+		WakelockDto ret = new WakelockDto();
+		ret.m_uid			= this.getuid();
+		ret.m_name 			= this.m_name;
+		ret.m_count 		= this.m_count;
+		ret.m_duration 		= this.m_duration;
+		ret.m_wakeType		= this.m_wakeType;
+		ret.m_total		 	= this.getTotal();
+
 	
+		return ret;
+	}
+
 	public Wakelock clone()
 	{
 		Wakelock clone = new Wakelock(m_wakeType, m_name, m_duration, getTotal(), m_count);
@@ -165,14 +202,14 @@ public class Wakelock extends StatElement implements Comparable<Wakelock>, Seria
 	public int getCount() {
 		return m_count;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "Wakelock [m_wakeType=" + m_wakeType + ", m_name=" + m_name
-				+ ", m_duration=" + m_duration + "]";
+				+ ", m_duration=" + m_duration + ", m_total=" + getTotal() + "]";
 	}
 	
 	 /**
@@ -190,17 +227,16 @@ public class Wakelock extends StatElement implements Comparable<Wakelock>, Seria
 	/**
 	 * returns a string representation of the data
 	 */
-	public String getData()
+	public String getData(long totalTime)
 	{
 		return this.formatDuration(getDuration()) 
-			+ " (" + getDuration()/1000 + " s)"
 			+ " Count:" + getCount()
-			+ " " + this.formatRatio(getDuration(), getTotal());
+			+ " " + this.formatRatio(getDuration(), totalTime);
 	}
-	
+
 	/** 
 	 * returns the values of the data
-	 */	
+	 */
 	public double[] getValues()
 	{
 		double[] retVal = new double[2];
@@ -224,7 +260,7 @@ public class Wakelock extends StatElement implements Comparable<Wakelock>, Seria
 		}
 	}
 	
-	public Drawable getIcon(Context ctx)
+	public Drawable getIcon(UidNameResolver resolver)
 	{
 		if (m_icon == null)
 		{
@@ -232,20 +268,7 @@ public class Wakelock extends StatElement implements Comparable<Wakelock>, Seria
 			if (m_uidInfo != null)
 			{
 				String myPackage = m_uidInfo.getNamePackage();
-				if (!myPackage.equals(""))
-				{
-					PackageManager manager = ctx.getPackageManager();
-					try
-					{
-						m_icon = manager.getApplicationIcon(myPackage);
-					}
-					catch (Exception e)
-					{
-						// nop: no icon found
-						m_icon = null;
-					}
-					
-				}
+				m_icon = resolver.getIcon(myPackage);
 			}
 		}
 		return m_icon;

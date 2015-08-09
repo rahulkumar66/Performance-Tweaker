@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.BatteryStatsUtils;
@@ -18,10 +19,12 @@ import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 import java.util.ArrayList;
 
 public class CpuWakelocksAdapter extends BaseAdapter {
+
     ArrayList<Wakelock> partialWakelocks;
     Context context;
     int totaltime;
-    LayoutInflater infalter;
+    LayoutInflater inflater;
+    UidNameResolver uidNameResolver;
 
     public CpuWakelocksAdapter(Context ctx) {
         this.context = ctx;
@@ -36,8 +39,9 @@ public class CpuWakelocksAdapter extends BaseAdapter {
                 totaltime += wl.getDuration() / 1000;
             }
         }
-        infalter = (LayoutInflater) context
+        inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        uidNameResolver=UidNameResolver.getInstance(context);
     }
 
     @Override
@@ -61,7 +65,7 @@ public class CpuWakelocksAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View row = infalter.inflate(R.layout.cpu_wakelock_row, parent, false);
+        View row = inflater.inflate(R.layout.cpu_wakelock_row, parent, false);
         TextView wakelockName = (TextView) row
                 .findViewById(R.id.cpu_wakelock_name);
         TextView duration = (TextView) row
@@ -73,7 +77,7 @@ public class CpuWakelocksAdapter extends BaseAdapter {
                 .findViewById(R.id.cpu_wakelock_progress);
 
         Wakelock mWakelock = partialWakelocks.get(position);
-        Drawable drawable = mWakelock.getIcon(context);
+        Drawable drawable = mWakelock.getIcon(uidNameResolver);
         if (drawable != null) {
             icon.setImageDrawable(drawable);
         } else {

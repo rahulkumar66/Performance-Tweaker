@@ -63,6 +63,19 @@ public class BatteryStatsProxy
 	private Class m_ClassDefinition = null;
 	
 	private static final String TAG = "BatteryStatsProxy";
+
+    /**
+     * Type to be passed to getNetworkActivityCount for different
+     * stats.
+     */
+    private static final int NETWORK_MOBILE_RX_BYTES = 0;   // received bytes using mobile data
+
+    private static final int NETWORK_MOBILE_TX_BYTES = 1;   // transmitted bytes using mobile data
+
+    private static final int NETWORK_WIFI_RX_BYTES = 2;     // received bytes using wifi
+
+    private static final int NETWORK_WIFI_TX_BYTES = 3;     // transmitted bytes using wifi
+
 	/*
 	 * The UID stats are kept here as their methods / data can not be accessed
 	 * outside of this class due to non-public types (Uid, Proc, etc.)
@@ -72,7 +85,6 @@ public class BatteryStatsProxy
 	/** 
 	 * An instance to the UidNameResolver 
 	 */
-	private UidNameResolver m_nameResolver;
 	private static BatteryStatsProxy m_proxy = null;
 	
 	synchronized public static BatteryStatsProxy getInstance(Context ctx)
@@ -127,9 +139,7 @@ public class BatteryStatsProxy
          *  }
          * }
 		 */
-		
-		m_nameResolver = new UidNameResolver();
-		
+				
 		try
 		{
 	          ClassLoader cl = context.getClassLoader();
@@ -149,9 +159,9 @@ public class BatteryStatsProxy
 			  Method methodGetService = serviceManagerClass.getMethod("getService", paramTypesGetService);
 	          
 	          String service = "";
-	          if (Build.VERSION.SDK_INT == 19)
+	          if (Build.VERSION.SDK_INT >= 19)
 	          {
-	        	  // kitkat
+	        	  // kitkat and following
 	        	  service = "batterystats";
 	          }
 	          else
@@ -1149,34 +1159,34 @@ public class BatteryStatsProxy
 	
 	}
 
-    /**
-     * Return whether we are currently running on battery.
-     */	    
-	public boolean getIsOnBattery(Context context) throws BatteryInfoUnavailableException
-	{
-    	boolean ret = false;
-
-        try
-        { 
-	    	@SuppressWarnings("unchecked")	
-	    	Method method = m_ClassDefinition.getMethod("getIsOnBattery");
-
-        	Boolean oRet = (Boolean) method.invoke(m_Instance);
-        	ret = oRet.booleanValue();
-
-        }
-        catch( IllegalArgumentException e )
-        {
-            throw e;
-        }
-        catch( Exception e )
-        {
-            ret = false;
-            throw new BatteryInfoUnavailableException();
-        }    
-        
-        return ret;
-	}
+//    /**
+//     * Return whether we are currently running on battery.
+//     */	    
+//	public boolean getIsOnBattery(Context context) throws BatteryInfoUnavailableException
+//	{
+//    	boolean ret = false;
+//
+//        try
+//        { 
+//	    	@SuppressWarnings("unchecked")	
+//	    	Method method = m_ClassDefinition.getMethod("getIsOnBattery");
+//
+//        	Boolean oRet = (Boolean) method.invoke(m_Instance);
+//        	ret = oRet.booleanValue();
+//
+//        }
+//        catch( IllegalArgumentException e )
+//        {
+//            throw e;
+//        }
+//        catch( Exception e )
+//        {
+//            ret = false;
+//            throw new BatteryInfoUnavailableException();
+//        }    
+//        
+//        return ret;
+//	}
     
     /**
      * Returns the current battery percentage level if we are in a discharge cycle, otherwise
@@ -1226,6 +1236,37 @@ public class BatteryStatsProxy
         catch( IllegalArgumentException e )
         {
         	Log.e(TAG, "An exception occured in startIteratingHistoryLocked(). Message: " + e.getMessage() + ", cause: " + e.getCause().getMessage());
+            throw e;
+        }
+        catch( Exception e )
+        {
+            ret = false;
+            throw new BatteryInfoUnavailableException();
+        }
+
+        return ret;
+
+	
+	}
+    
+    /**
+     * Initalizes the collection of history items
+     */
+    public boolean finishIteratingHistoryLocked() throws BatteryInfoUnavailableException
+	{
+    	Boolean ret = false;
+
+        try
+        {
+          @SuppressWarnings("unchecked")
+		  Method method = m_ClassDefinition.getMethod("finishIteratingHistoryLocked");
+
+          ret= (Boolean) method.invoke(m_Instance);
+
+        }
+        catch( IllegalArgumentException e )
+        {
+        	Log.e(TAG, "An exception occured in finishIteratingHistoryLocked(). Message: " + e.getMessage() + ", cause: " + e.getCause().getMessage());
             throw e;
         }
         catch( Exception e )
@@ -1404,7 +1445,17 @@ public class BatteryStatsProxy
 								break;
 						}
 						
-						Wakelock myWl = new Wakelock(iWakeType, wakelockEntry.getKey(), wakelockTime, uSec / 1000, wakelockCount);
+						// On L Preview partial wakelocks are expressed in milliseconds
+						Wakelock myWl = null;
+						if (Build.VERSION.SDK_INT >= 20)
+						{
+							myWl = new Wakelock(iWakeType, wakelockEntry.getKey(), wakelockTime, uSec, wakelockCount);
+								
+						}
+						else
+						{
+							myWl = new Wakelock(iWakeType, wakelockEntry.getKey(), wakelockTime, uSec / 1000, wakelockCount);
+						}
 						
 						// opt for lazy loading: do no populate UidInfo, just uid. UidInfo will be fetched on demand
 						myWl.setUid(uid);
@@ -1426,17 +1477,16 @@ public class BatteryStatsProxy
 	/**
 	 * Obtain the wakelock stats as a list of Wakelocks (@see com.asksven.android.common.privateapiproxies.Wakelock}
 	 * @param context a Context
-	 * @param iWakeType a type of wakelock @see com.asksven.android.common.privateapiproxies.BatteryStatsTypes 
+	 * @param iWakeType a type of wakelock @see com.asksven.android.common.privateapiproxies.BatteryStatsTypes
 	 * @param iStatType a type of stat @see com.asksven.android.common.privateapiproxies.BatteryStatsTypes
 	 * @return a List of Wakelock s
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public ArrayList<KernelWakelock> getKernelWakelockStats(Context context, int iStatType, int iWlPctRef, boolean bAlternate) throws Exception
+	public ArrayList<StatElement> getKernelWakelockStats(Context context, int iStatType, boolean bAlternate) throws Exception
 	{
 		// type checks
-		boolean validTypes = (BatteryStatsTypes.assertValidStatType(iStatType)
-				&& BatteryStatsTypes.assertValidWakelockPctRef(iWlPctRef));
+		boolean validTypes = BatteryStatsTypes.assertValidStatType(iStatType);
 		if (!validTypes)
 		{
 			Log.e(TAG, "Invalid WakeType or StatType");
@@ -1444,13 +1494,13 @@ public class BatteryStatsProxy
 		}
 		
 		Log.d(TAG, "getWakelockStats was called with params "
-				+"[iStatType] = " + iStatType
-				+ "[iWlPctRef] = " + iWlPctRef);
+				+"[iStatType] = " + iStatType);
 		
-		ArrayList<KernelWakelock> myStats = new ArrayList<KernelWakelock>();
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
 		long uSecBatteryTime = this.computeBatteryRealtime(SystemClock.elapsedRealtime() * 1000, iStatType);
-		long msSinceBoot = SystemClock.elapsedRealtime();
+		//long uSecBatteryTime = this.computeBatteryRealtime(SystemClock.elapsedRealtime() * 1000, iStatType);
+		//long msSinceBoot = SystemClock.elapsedRealtime();
 		 
         try
         {			
@@ -1467,14 +1517,14 @@ public class BatteryStatsProxy
 			Field currentReportedTotalTime  	= classSamplingTimer.getDeclaredField("mCurrentReportedTotalTime");
 			Field unpluggedReportedCount  		= classSamplingTimer.getDeclaredField("mUnpluggedReportedCount");
 			Field unpluggedReportedTotalTime  	= classSamplingTimer.getDeclaredField("mUnpluggedReportedTotalTime");
-			Field inDischarge  					= classSamplingTimer.getDeclaredField("mInDischarge");
+			//Field inDischarge  					= classSamplingTimer.getDeclaredField("mInDischarge");
 			Field trackingReportedValues  		= classSamplingTimer.getDeclaredField("mTrackingReportedValues");
 			
 			currentReportedCount.setAccessible(true);
 			currentReportedTotalTime.setAccessible(true);
 			unpluggedReportedCount.setAccessible(true);
 			unpluggedReportedTotalTime.setAccessible(true);
-			inDischarge.setAccessible(true);
+			//inDischarge.setAccessible(true);
 			trackingReportedValues.setAccessible(true);
 			
 			//Parameters
@@ -1501,7 +1551,7 @@ public class BatteryStatsProxy
             	Integer unpluggedReportedCountVal 	= (Integer) unpluggedReportedCount.get(params[0]);
             	Long unpluggedReportedTotalTimeVal 	= (Long) unpluggedReportedTotalTime.get(params[0]);
             	
-            	Boolean inDischargeVal 				= (Boolean) inDischarge.get(params[0]);
+            	//Boolean inDischargeVal 				= (Boolean) inDischarge.get(params[0]);
             	Boolean trackingReportedValuesVal 	= (Boolean) trackingReportedValues.get(params[0]);
             	
             	if (CommonLogSettings.DEBUG)
@@ -1512,7 +1562,7 @@ public class BatteryStatsProxy
 	            			+ " [currentReportedTotalTimeVal] = " + currentReportedTotalTimeVal
 	            			+ " [unpluggedReportedCountVal] = " + unpluggedReportedCountVal
 	            			+ " [mUnpluggedReportedTotalTimeVal] = " + unpluggedReportedTotalTimeVal
-	            			+ " [mInDischarge] = " + inDischargeVal
+	            			//+ " [mInDischarge] = " + inDischargeVal
 	            			+ " [mTrackingReportedValues] = " + trackingReportedValuesVal);
             	}
             	
@@ -1557,22 +1607,27 @@ public class BatteryStatsProxy
 					Log.d(TAG, "Kernel wakelock: " + wakelockEntry.getKey() + " wakelock [s] " + wake / 1000
 							+ " count " + count);
 				}
-
+				
+				// public NativeKernelWakelock(String name, String details, int count, int expire_count, int wake_count,
+				// long active_since, long total_time, long sleep_time, long max_time, long last_change, long time)
+				//public KernelWakelock(String name, long duration, long time, int count)
 				// return the data depending on the method 
-				if (!bAlternate)
-				{
-					KernelWakelock myWl = new KernelWakelock(wakelockEntry.getKey(), wake / 1000, uSecBatteryTime / 1000, count);
-					myStats.add(myWl);	
-				}
-				else
-				{
-					KernelWakelock myWl = new KernelWakelock(
-							wakelockEntry.getKey(),
-							unpluggedReportedTotalTimeVal / 1000,
-							msSinceBoot,
-							unpluggedReportedCountVal);
+				//if (!bAlternate)
+				//{
+					//KernelWakelock myWl = new KernelWakelock(wakelockEntry.getKey(), wake / 1000, uSecBatteryTime / 1000, count);
+				
+//					NativeKernelWakelock myWl = new NativeKernelWakelock(wakelockEntry.getKey() + " *api*", "", count.intValue(), 0, 0, 
+//							0L, wake/1000, wake/1000, 0L, 0L, uSecBatteryTime / 1000);
+//					myStats.add(myWl);	
+				//}
+//				else
+//				{
+				NativeKernelWakelock myWl = new NativeKernelWakelock(
+							wakelockEntry.getKey(), "*api*", unpluggedReportedCountVal, 0, 0, 0L, 
+							unpluggedReportedTotalTimeVal / 1000, unpluggedReportedTotalTimeVal / 1000, 0L, 0L,
+							uSecBatteryTime / 1000);
 					myStats.add(myWl);
-				}	
+//				}	
             }
         }
         catch( Exception e )
@@ -1707,6 +1762,113 @@ public class BatteryStatsProxy
 	}
 
 	/**
+	 * Obtain the wakeup stats as a list of Alarms (@see com.asksven.android.common.privateapiproxies.Alarm}
+	 * @param context a Context
+	 * @param iStatType a type of stat @see com.asksven.android.common.privateapiproxies.BatteryStatsTypes
+	 * @return a List of Process es
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public ArrayList<StatElement> getWakeupStats(Context context, int iStatType) throws Exception
+	{
+		// type checks
+		boolean validTypes = BatteryStatsTypes.assertValidStatType(iStatType);
+		if (!validTypes)
+		{
+			Log.e(TAG, "Invalid WakeType or StatType");
+			throw new Exception("Invalid StatType");
+		}
+		
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		
+		this.collectUidStats();
+		if (m_uidStats != null)
+		{
+            try
+            {			
+				ClassLoader cl = context.getClassLoader();
+				@SuppressWarnings("rawtypes")
+				Class iBatteryStatsUid = cl.loadClass("com.android.internal.os.BatteryStatsImpl$Uid");
+				int NU = m_uidStats.size();
+		        for (int iu = 0; iu < NU; iu++)
+		        {
+		        	// Object is an instance of BatteryStats.Uid
+		            Object myUid = m_uidStats.valueAt(iu);
+	            
+	            	Method methodGetPackageStats = iBatteryStatsUid.getMethod("getPackageStats");
+	            	
+	            	Method methodGetUid	= iBatteryStatsUid.getMethod("getUid");
+					Integer uid 		= (Integer) methodGetUid.invoke(myUid);
+					
+					// Map of String, BatteryStats.Uid.Proc
+					Map<String, ? extends Object> packageStats = (Map<String, ? extends Object>)  methodGetPackageStats.invoke(myUid);
+					
+					if (packageStats.size() > 0)
+					{
+					    for (Map.Entry<String, ? extends Object> ent : packageStats.entrySet())
+					    {
+					    	if (CommonLogSettings.TRACE)
+					    	{
+					    		Log.d(TAG, "Package name = " + ent.getKey());
+					    	}
+						    // Object is a BatteryStatsTypes.Uid.Proc
+						    Object ps = ent.getValue();
+							@SuppressWarnings("rawtypes")
+							Class batteryStatsUidPkg = cl.loadClass("com.android.internal.os.BatteryStatsImpl$Uid$Pkg");
+
+							//Parameters Types
+							@SuppressWarnings("rawtypes")
+							Class[] paramTypesGetWakeups= new Class[1];
+							paramTypesGetWakeups[0]= int.class; 
+							
+							Method methodGetWakeups 	= batteryStatsUidPkg.getMethod("getWakeups", paramTypesGetWakeups);
+	
+							//Parameters
+							Object[] paramsGetWakeups= new Object[1];
+							paramsGetWakeups[0]= new Integer(iStatType);
+							
+							int wakeups = (Integer) methodGetWakeups.invoke(ps, paramsGetWakeups);
+							
+							if (CommonLogSettings.TRACE)
+							{
+								Log.d(TAG, "uid = " + uid);
+								Log.d(TAG, "wkeups = " + wakeups);
+							}
+							
+							boolean ignore = false;
+
+							if ((wakeups) > 0)
+							{
+								Alarm myWakeup = new Alarm(ent.getKey());
+								myWakeup.setWakeups(wakeups);
+								// opt for lazy loading: do no populate UidInfo, just uid. UidInfo will be fetched on demand
+								myWakeup.setUid(uid);
+								// try resolving names
+//								String myName = m_nameResolver.getLabel(context, ent.getKey());
+								
+								myStats.add(myWakeup);
+							}
+							else
+							{
+								if (CommonLogSettings.TRACE)
+								{
+									Log.d(TAG, "Process " + ent.getKey() + " was discarded (CPU time =0)");
+								}
+							}
+					    }		
+		            }
+		        }
+            }
+            catch( Exception e )
+            {
+            	Log.e(TAG, "An exception occured in getWakeupStats(). Message: " + e.getMessage() + ", cause: " + e.getCause().getMessage());
+                throw e;
+            }
+		}	
+		return myStats;
+	}
+
+	/**
 	 * Obtain the network usage stats as a list of NetworkUsages (@see com.asksven.android.common.privateapiproxies.NetworkUsage}
 	 * @param context a Context
 	 * @param iStatType a type of stat @see com.asksven.android.common.privateapiproxies.BatteryStatsTypes
@@ -1740,32 +1902,58 @@ public class BatteryStatsProxy
 		        	// Object is an instance of BatteryStats.Uid
 		            Object myUid = m_uidStats.valueAt(iu);
 
-					//Parameters Types
-					@SuppressWarnings("rawtypes")
-					Class[] paramTypesGetTcpBytesXxx= new Class[1];
-					paramTypesGetTcpBytesXxx[0]= int.class; 
+                    Long bytesReceived;
+                    Long bytesSent;
 
-	            	Method methodGetTcpBytesReceived 	= iBatteryStatsUid.getMethod("getTcpBytesReceived", paramTypesGetTcpBytesXxx);
-	            	Method methodGetTcpBytesSent 		= iBatteryStatsUid.getMethod("getTcpBytesSent", paramTypesGetTcpBytesXxx);
+                    // getTcpBytesReceived and getTcpBytesSent are available in API level < 19.
+                    // They are replaced by getNetworkActivityCount in API level >= 19.
+                    if (Build.VERSION.SDK_INT < 19) {
+                        //Parameters Types
+                        @SuppressWarnings("rawtypes")
+                        Class[] paramTypesGetTcpBytesXxx = new Class[1];
+                        paramTypesGetTcpBytesXxx[0] = int.class;
 
-					//Parameters
-					Object[] paramGetTcpBytesXxx = new Object[1];
-					paramGetTcpBytesXxx[0]= new Integer(iStatType);
-					
-					Long tcpBytesReceived 	= (Long) methodGetTcpBytesReceived.invoke(myUid, paramGetTcpBytesXxx);
-					Long tcpBytesSent		= (Long) methodGetTcpBytesSent.invoke(myUid, paramGetTcpBytesXxx);
+                        Method methodGetTcpBytesReceived = iBatteryStatsUid.getMethod("getTcpBytesReceived", paramTypesGetTcpBytesXxx);
+                        Method methodGetTcpBytesSent = iBatteryStatsUid.getMethod("getTcpBytesSent", paramTypesGetTcpBytesXxx);
+
+                        //Parameters
+                        Object[] paramGetTcpBytesXxx = new Object[1];
+                        paramGetTcpBytesXxx[0] = new Integer(iStatType);
+
+                        bytesReceived = (Long) methodGetTcpBytesReceived.invoke(myUid, paramGetTcpBytesXxx);
+                        bytesSent = (Long) methodGetTcpBytesSent.invoke(myUid, paramGetTcpBytesXxx);
+                    } else {
+                        @SuppressWarnings("rawtypes")
+                        Class[] paramTypesGetNetworkActivity = new Class[] {int.class, int.class};
+                        Method methodGetNetworkActivity = iBatteryStatsUid.getMethod("getNetworkActivityCount",
+                                paramTypesGetNetworkActivity);
+                        // Parameters for getting received bytes from mobile
+                        Object paramGetNetworkActivityCount [] = {NETWORK_MOBILE_RX_BYTES,
+                                iStatType};
+                        bytesReceived = (Long) methodGetNetworkActivity.invoke(myUid, paramGetNetworkActivityCount);
+                        // change parameter to get received bytes from wifi
+                        paramGetNetworkActivityCount[0] = NETWORK_WIFI_RX_BYTES;
+                        // add together for now
+                        bytesReceived += (Long) methodGetNetworkActivity.invoke(myUid, paramGetNetworkActivityCount);
+
+                        // same for transmitted bytes
+                        paramGetNetworkActivityCount[0] = NETWORK_MOBILE_TX_BYTES;
+                        bytesSent = (Long) methodGetNetworkActivity.invoke(myUid, paramGetNetworkActivityCount);
+                        paramGetNetworkActivityCount[0] = NETWORK_WIFI_TX_BYTES;
+                        bytesSent += (Long) methodGetNetworkActivity.invoke(myUid, paramGetNetworkActivityCount);
+                    }
 
 					Method methodGetUid	= iBatteryStatsUid.getMethod("getUid");
 					Integer uid 		= (Integer) methodGetUid.invoke(myUid);
 				
 					if (CommonLogSettings.DEBUG)
 					{
-						Log.d(TAG, "Uid = " + uid + ": received:" + tcpBytesReceived + ", sent: " + tcpBytesSent);
+						Log.d(TAG, "Uid = " + uid + ": received:" + bytesReceived + ", sent: " + bytesSent);
 					}
 
-					NetworkUsage myData = new NetworkUsage(uid, tcpBytesReceived, tcpBytesSent);
+					NetworkUsage myData = new NetworkUsage(uid, bytesReceived, bytesSent);
 					// try resolving names
-					UidInfo myInfo = m_nameResolver.getNameForUid(context, uid);
+					UidInfo myInfo = UidNameResolver.getInstance(context).getNameForUid(uid);
 					myData.setUidInfo(myInfo);
 					myStats.add(myData);
 		        }
@@ -1844,10 +2032,18 @@ public class BatteryStatsProxy
 			// if (stats.startIteratingHistoryLocked()) {
             // final HistoryItem rec = new HistoryItem();
             // while (stats.getNextHistoryLocked(rec)) {
-			
+			int statsType = 0;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+			{
+				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+			}
+			else
+			{
+				statsType = BatteryStatsTypes.STATS_CURRENT;
+			}	
 			// read the time of query for history
 	        Long statTimeRef = Long.valueOf(this.computeBatteryRealtime(SystemClock.elapsedRealtime() * 1000,
-	                BatteryStatsTypes.STATS_SINCE_CHARGED));
+	                statsType));
 	        statTimeRef = System.currentTimeMillis(); 
 	        
 	        if (CommonLogSettings.DEBUG)
@@ -1873,10 +2069,22 @@ public class BatteryStatsProxy
 					// process only valid items
 					byte updateCmd = 0;
 					
-					// ICS has a different implementation of HistoryItems constants
-					if (AndroidVersion.isIcs())
+					// different versions -> different HistoryItem constants
+					if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) )
 					{
 						updateCmd = HistoryItemIcs.CMD_UPDATE;
+					}
+					else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT_WATCH) )
+					{
+						updateCmd = HistoryItemKitKat.CMD_UPDATE;
+					}
+					else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR1) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2))
+					{
+						updateCmd = HistoryItemJellyBean.CMD_UPDATE;
+					}
+					else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) )
+					{
+						updateCmd = HistoryItemLolipop.CMD_UPDATE;
 					}
 					else
 					{
@@ -1914,10 +2122,28 @@ public class BatteryStatsProxy
 
 					        HistoryItem myItem = null;
 					        
-					        // ICS has a different implementation of HistoryItems constants
-							if (AndroidVersion.isIcs())
+							// different versions -> different HistoryItem constants
+							if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) )
 							{
 								myItem = new HistoryItemIcs(timeValue, cmdValue, batteryLevelValue,
+						        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+						        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+							}
+							else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT_WATCH) )
+							{
+								myItem = new HistoryItemKitKat(timeValue, cmdValue, batteryLevelValue,
+						        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+						        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+							}
+							else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR1) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2))
+							{
+								myItem = new HistoryItemJellyBean(timeValue, cmdValue, batteryLevelValue,
+						        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+						        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+							}
+							else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP)
+							{
+								myItem = new HistoryItemLolipop(timeValue, cmdValue, batteryLevelValue,
 						        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
 						        		batteryTemperatureValue, batteryVoltageValue, statesValue);
 							}
@@ -1972,6 +2198,188 @@ public class BatteryStatsProxy
 			
 		return myStats;
 	}
+	
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<HistoryItem> dumpHistory(Context context) throws Exception
+	{
+		
+		ArrayList<HistoryItem> myStats = new ArrayList<HistoryItem>();
+	        	 
+        try
+        {			
+			ClassLoader cl = context.getClassLoader();
+			@SuppressWarnings("rawtypes")
+			Class classHistoryItem = cl.loadClass("android.os.BatteryStats$HistoryItem");
+												   
+			
+			// get constructor
+			Constructor cctor = classHistoryItem.getConstructor();
+			
+			Object myHistoryItem = cctor.newInstance();
+
+			// prepare the method call for getNextHistoryItem
+			//Parameters Types
+			@SuppressWarnings("rawtypes")
+			Class[] paramTypes= new Class[1];
+			paramTypes[0]= classHistoryItem;
+
+
+			@SuppressWarnings("unchecked")
+			Method methodNext = m_ClassDefinition.getMethod("getNextHistoryLocked", paramTypes);
+
+			//Parameters
+			Object[] params= new Object[1];
+
+			// initalize hist and iterate like this
+			// if (stats.startIteratingHistoryLocked()) {
+            // final HistoryItem rec = new HistoryItem();
+            // while (stats.getNextHistoryLocked(rec)) {
+			int statsType = 0;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+			{
+				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+			}
+			else
+			{
+				statsType = BatteryStatsTypes.STATS_CURRENT;
+			}
+			
+			// read the time of query for history
+	        Long statTimeRef = Long.valueOf(this.computeBatteryRealtime(SystemClock.elapsedRealtime() * 1000,
+	                statsType));
+	        statTimeRef = System.currentTimeMillis(); 
+	        
+	        if (CommonLogSettings.DEBUG)
+	        {	
+	        	Log.d(TAG, "Reference time (" + statTimeRef + ": " + DateUtils.format(DateUtils.DATE_FORMAT_NOW, statTimeRef));
+	        }
+	        // statTimeLast stores the timestamp of the last sample
+	        Long statTimeLast = Long.valueOf(0);
+	        
+			if (this.startIteratingHistoryLocked())
+			{
+				params[0]= myHistoryItem;
+				Boolean bNext = (Boolean) methodNext.invoke(m_Instance, params);
+				while (bNext)
+				{
+					// process stats: create HistoryItems from params
+					Field timeField 				= classHistoryItem.getField("time"); 			// long
+					
+					
+					Field cmdField 					= classHistoryItem.getField("cmd"); 			// byte
+					Byte cmdValue = (Byte) cmdField.get(params[0]);
+					
+					// process only valid items
+					byte updateCmd = 0;
+					
+					// ICS has a different implementation of HistoryItems constants
+					if (AndroidVersion.isIcs())
+					{
+						updateCmd = HistoryItemIcs.CMD_UPDATE;
+					}
+					else
+					{
+						updateCmd = HistoryItem.CMD_UPDATE;
+					}
+					
+					if (true) //(cmdValue == updateCmd)
+					{
+				        Field batteryLevelField 		= classHistoryItem.getField("batteryLevel"); 	// byte
+				        Field batteryStatusField 		= classHistoryItem.getField("batteryStatus"); 	// byte
+				        Field batteryHealthField 		= classHistoryItem.getField("batteryHealth"); 	// byte
+				        Field batteryPlugTypeField 		= classHistoryItem.getField("batteryPlugType"); // byte
+				        
+				        Field batteryTemperatureField 	= classHistoryItem.getField("batteryTemperature"); // char
+				        Field batteryVoltageField 		= classHistoryItem.getField("batteryVoltage"); 	// char
+				        
+				        Field statesField 				= classHistoryItem.getField("states"); 			// int
+				        
+				        // retrieve all values
+				        @SuppressWarnings("rawtypes")
+				        Long timeValue = (Long) timeField.get(params[0]);
+				        
+				        Byte batteryLevelValue = (Byte) batteryLevelField.get(params[0]);
+				        Byte batteryStatusValue = (Byte) batteryStatusField.get(params[0]);
+				        Byte batteryHealthValue = (Byte) batteryHealthField.get(params[0]);
+				        Byte batteryPlugTypeValue = (Byte) batteryPlugTypeField.get(params[0]);
+				        
+				        String batteryTemperatureValue = String.valueOf(batteryTemperatureField.get(params[0]));
+				        String batteryVoltageValue = String.valueOf(batteryVoltageField.get(params[0]));
+				        
+				        Integer statesValue = (Integer) statesField.get(params[0]);
+
+				        HistoryItem myItem = null;
+				        
+				        // There different implementation of HistoryItems constants
+				        if (AndroidVersion.isLolipop())
+						{
+							myItem = new HistoryItemLolipop(timeValue, cmdValue, batteryLevelValue,
+					        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+					        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+						}
+				        if (AndroidVersion.isKitKat())
+						{
+							myItem = new HistoryItemKitKat(timeValue, cmdValue, batteryLevelValue,
+					        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+					        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+						}
+				        else if (AndroidVersion.isIcs())
+						{
+							myItem = new HistoryItemIcs(timeValue, cmdValue, batteryLevelValue,
+					        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+					        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+						}
+						else
+						{
+							myItem = new HistoryItem(timeValue, cmdValue, batteryLevelValue,
+					        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+					        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+						}
+						
+				        myStats.add(myItem);
+					}
+					else
+					{
+						Log.d(TAG, "Skipped item");
+					}
+					
+					bNext = (Boolean) methodNext.invoke(m_Instance, params);
+				}
+				
+				// norm the time of each sample
+				// stat time last is the number of millis since
+				// the stats is being collected
+				// the ref time is a full plain time (with date)
+				Long offset = statTimeRef - statTimeLast;
+				
+				// be sure to release 
+//				this.finishIteratingHistoryLocked();
+				
+				for (int i=0; i < myStats.size(); i++)
+				{
+					myStats.get(i).setOffset(offset);
+				}
+				
+			}
+        }
+        catch( Exception e )
+        {
+        	Log.e(TAG, "An exception occured in dumpHistory(). Message: " + e.getMessage() + ", cause: " + e.getCause().getMessage());
+            throw e;
+        }
+			
+        int oldVal = 0;
+        // iterate over myStats
+        for (int i=0; i < myStats.size(); i++)
+        {
+        	HistoryItem myItem = myStats.get(i);
+        	Log.i(TAG, myItem.toString() + " " + myItem.printBitDescriptions(oldVal, myItem.m_statesValue));
+        	oldVal = myItem.m_statesValue;
+        }
+        	return myStats;
+	}
+
 
 }
 

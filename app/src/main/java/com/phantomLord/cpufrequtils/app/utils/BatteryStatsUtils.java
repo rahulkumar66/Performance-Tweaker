@@ -2,16 +2,15 @@ package com.phantomLord.cpufrequtils.app.utils;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
-import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.kernelutils.WakeupSources;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
 
@@ -48,7 +47,7 @@ public class BatteryStatsUtils {
 
     public ArrayList<NativeKernelWakelock> getNativeKernelWakelocks(boolean filterZeroValues) {
 
-        ArrayList<NativeKernelWakelock> nativeKernelWakelocks = new ArrayList<NativeKernelWakelock>();
+        ArrayList<NativeKernelWakelock> nativeKernelWakelocks = new ArrayList<>();
         ArrayList<StatElement> kernelWakelocks;
         if (Wakelocks.fileExists()) {
             kernelWakelocks = Wakelocks.parseProcWakelocks(context);
@@ -76,8 +75,8 @@ public class BatteryStatsUtils {
     }
 
     public ArrayList<Wakelock> getCpuWakelocksStats(boolean filterZeroValues) {
-        ArrayList<Wakelock> myWakelocks = new ArrayList<Wakelock>();
-        ArrayList<StatElement> cpuWakelocks = new ArrayList<StatElement>();
+        ArrayList<Wakelock> myWakelocks = new ArrayList<>();
+        ArrayList<StatElement> cpuWakelocks = new ArrayList<>();
         /*
          * code for kitkat is missing
 		 */
@@ -126,15 +125,14 @@ public class BatteryStatsUtils {
         ArrayList<Alarm> myWakelocks = new ArrayList<Alarm>();
         ArrayList<StatElement> alarms;
         if (SysUtils.isRooted()) {
-            alarms = AlarmsDumpsys.getAlarms();
+            alarms = AlarmsDumpsys.getAlarms(true);
         } else {
             // myWakelocks.add(new Alarm(context.getString(R.string.noroot)));
             return myWakelocks;
         }
 
             for (StatElement statElement : alarms) {
-                Log.d("out", alarms.size()+"");
-                Log.d("out", statElement.toString()+"");
+
                 Alarm alarm = (Alarm) statElement;
                 //alarm.getMaxValue();
                 if (alarm.getWakeups() > 0)

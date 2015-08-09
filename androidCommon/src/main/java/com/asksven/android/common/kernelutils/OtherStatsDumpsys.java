@@ -16,8 +16,10 @@ import android.util.Log;
 
 
 
+
 //import com.asksven.andoid.common.contrib.Shell;
 import com.asksven.andoid.common.contrib.Util;
+import com.asksven.android.common.NonRootShell;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
@@ -42,21 +44,30 @@ public class OtherStatsDumpsys
 	 * @return
 	 * @throws Exception
 	 */
-	public static ArrayList<StatElement> getOtherStats(boolean showWifi, boolean showBt)
+	public static ArrayList<StatElement> getOtherStats(boolean showWifi, boolean showBt, boolean useRoot)
 	{
 		final String START_PATTERN = "Statistics since last charge";
 		final String STOP_PATTERN = "Statistics since last unplugged";
 		
-		ArrayList<StatElement> myWakelocks = null;
+		ArrayList<StatElement> myOther = null;
 		long nTotalCount = 0;
-
-		List<String> res = RootShell.getInstance().run("dumpsys batterystats");
+		List<String> res = null;
+		
+		if (useRoot)
+		{
+			res = RootShell.getInstance().run("dumpsys batterystats");
+		}
+		else
+		{
+			res = NonRootShell.getInstance().run("dumpsys batterystats");
+		}
+			
 		//List<String> res = getTestData();
 		
 		if ((res != null) && (res.size() != 0))
 
 		{
-			if (true) //strRes.contains("Permission Denial"))
+			if (res.contains("Permission Denial"))
 			{
 				Pattern begin = Pattern.compile(START_PATTERN);
 				Pattern end = Pattern.compile(STOP_PATTERN);
@@ -73,7 +84,7 @@ public class OtherStatsDumpsys
 				Pattern patternScreenOn	= Pattern.compile("\\s\\sScreen on:\\s(.*) \\(.*\\sActive phone call:\\s(.*)\\s\\(.*");
 				Pattern patternWifiOn	= Pattern.compile("\\s\\sWifi on:\\s(.*) \\(.*\\sWifi running:\\s(.*)\\s\\(.*\\sBluetooth on:\\s(.*)\\s\\(.*");
 				
-				myWakelocks = new ArrayList<StatElement>();
+				myOther = new ArrayList<StatElement>();
 				Misc myMisc = null;
 				
 				// process the file
@@ -104,12 +115,12 @@ public class OtherStatsDumpsys
 								long durationInCall 	= DateUtils.durationToLong(screenOnMatcher.group(2));
 																
 								myMisc = new Misc("Screen On", durationScreenOn, SystemClock.elapsedRealtime());
-								myWakelocks.add(myMisc);
+								myOther.add(myMisc);
 
 								myMisc = new Misc("Phone On", durationInCall, SystemClock.elapsedRealtime());
-								myWakelocks.add(myMisc);
+								myOther.add(myMisc);
 
-								Log.i(TAG, "Adding partial wakelock: " + myMisc.getData());
+								Log.i(TAG, "Adding partial wakelock: " + myMisc.toString());
 							}
 							catch (Exception e)
 							{
@@ -130,18 +141,18 @@ public class OtherStatsDumpsys
 								if (showWifi)
 								{
 									myMisc = new Misc("Wifi On", durationWifiOn, SystemClock.elapsedRealtime());
-									myWakelocks.add(myMisc);
+									myOther.add(myMisc);
 	
 									myMisc = new Misc("Wifi Running", durationWifiRunning, SystemClock.elapsedRealtime());
-									myWakelocks.add(myMisc);
+									myOther.add(myMisc);
 								}
 								
 								if (showBt)
 								{
 									myMisc = new Misc("Bluetooth On", durationBtRunning, SystemClock.elapsedRealtime());
-									myWakelocks.add(myMisc);
+									myOther.add(myMisc);
 								}
-								Log.i(TAG, "Adding partial wakelock: " + myMisc.getData());
+								Log.i(TAG, "Adding partial wakelock: " + myMisc.toString());
 							}
 							catch (Exception e)
 							{
@@ -162,27 +173,27 @@ public class OtherStatsDumpsys
 				}
 				
 				// set the total
-				for (int i=0; i < myWakelocks.size(); i++)
+				for (int i=0; i < myOther.size(); i++)
 				{
-					myWakelocks.get(i).setTotal(total);
+					myOther.get(i).setTotal(total);
 				}
 			}
 			else
 			{
-				myWakelocks = new ArrayList<StatElement>();
-				Wakelock myWl = new Wakelock(0, PERMISSION_DENIED, 1, 1, 0);
-				myWakelocks.add(myWl);
+				myOther = new ArrayList<StatElement>();
+				Misc myWl = new Misc(PERMISSION_DENIED, 1, 1);
+				myOther.add(myWl);
 			}
 		}
 		else
 		{
-			myWakelocks = new ArrayList<StatElement>();
-			Wakelock myWl = new Wakelock(0, PERMISSION_DENIED, 1, 1, 0);
-			myWakelocks.add(myWl);
+			myOther = new ArrayList<StatElement>();
+			Misc myWl = new Misc(PERMISSION_DENIED, 1, 1);
+			myOther.add(myWl);
 
 		}
 		
-		return myWakelocks;
+		return myOther;
 	}
 
 

@@ -19,7 +19,6 @@ package com.asksven.android.common.privateapiproxies;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
-
 import com.google.gson.annotations.SerializedName;
 
 import android.util.Log;
@@ -160,14 +159,14 @@ public class KernelWakelock extends StatElement implements Comparable<KernelWake
 	/**
 	 * returns a string representation of the data
 	 */
-	public String getData()
+	public String getData(long totalTime)
 	{
 		return this.formatDuration(getDuration()) 
 			+ " (" + getDuration()/1000 + " s)"
 			+ " Count:" + getCount()
-			+ " " + this.formatRatio(getDuration(), getTotal());
+			+ " " + this.formatRatio(getDuration(), totalTime);
 	}
-	
+
 	/** 
 	 * returns the values of the data
 	 */	

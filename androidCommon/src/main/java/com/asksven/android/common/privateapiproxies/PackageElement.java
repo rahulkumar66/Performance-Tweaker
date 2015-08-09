@@ -21,10 +21,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.asksven.android.common.nameutils.UidInfo;
+import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.utils.StringUtils;
 import com.google.gson.annotations.SerializedName;
 
-import android.content.Context;
+
+//import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -227,14 +229,14 @@ public class PackageElement extends StatElement implements Comparable<PackageEle
 	/**
 	 * returns a string representation of the data
 	 */
-	public String getData()
+	public String getData(long totalTime)
 	{
 		return this.formatDuration(getDuration()) 
 			+ " Wakeups:" + m_wakeups
 			+ " Data:" + formatVolume(m_rxtx)
-			+ " " + this.formatRatio(getDuration(), getTotal());
+			+ " " + this.formatRatio(getDuration(), totalTime);
 	}
-	
+
 	/**
 	 * Formats data volumes 
 	 * @param bytes
@@ -298,49 +300,13 @@ public class PackageElement extends StatElement implements Comparable<PackageEle
 		}
 	}
 	
-	public Drawable getIcon(Context ctx)
+	public Drawable getIcon(UidNameResolver resolver)
 	{
 		if (m_icon == null)
 		{
 			// retrieve and store the icon for that package
-			if (m_uidInfo != null)
-			{
-				String myPackage = m_uidInfo.getNamePackage();
-				if (!myPackage.equals(""))
-				{
-					PackageManager manager = ctx.getPackageManager();
-					try
-					{
-						m_icon = manager.getApplicationIcon(myPackage);
-					}
-					catch (Exception e)
-					{
-						// nop: no icon found
-						m_icon = null;
-					}
-					
-				}
-			}
-			else
-			{
-				// retrieve and store the icon for that package
 				String myPackage = m_packageName;
-				if (!myPackage.equals(""))
-				{
-					PackageManager manager = ctx.getPackageManager();
-					try
-					{
-						m_icon = manager.getApplicationIcon(myPackage);
-					}
-					catch (Exception e)
-					{
-						// nop: no icon found
-						m_icon = null;
-					}
-					
-				}
-
-			}
+				m_icon = resolver.getIcon(m_packageName);
 		}
 		return m_icon;
 	}

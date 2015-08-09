@@ -75,7 +75,7 @@ public class WakeLocksFragment extends Fragment implements
                 adapter = new AlarmTriggerAdapter(context);
                 break;
         }
-        if (adapter.getCount()>0) {
+        if (adapter.getCount()>0 ) {
             wakelockList.setVisibility(View.VISIBLE);
             timeSince.setTextSize(15);
             wakelockList.setAdapter(adapter);

@@ -14,12 +14,25 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar"></include>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/loading_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
         <LinearLayout
             android:id="@+id/main_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:scrollbarStyle="outsideOverlay"></LinearLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
 

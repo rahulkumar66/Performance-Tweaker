@@ -6,14 +6,18 @@ package com.asksven.android.common.kernelutils;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.asksven.andoid.common.contrib.Shell;
 import com.asksven.andoid.common.contrib.Util;
 import com.asksven.android.common.CommonLogSettings;
+import com.asksven.android.common.RootShell;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.shellutils.Exec;
@@ -174,7 +178,20 @@ public class Wakelocks
     	}
     	catch (Exception e)
     	{
+    		Log.i(TAG, "An error occured while parsing " + filePath + ": " + e.getMessage() + ". Retrying with root");
     		
+    		// retry with root
+
+			List<String> res = Shell.SU.run("cat " + filePath);
+			for (int i=0; i < res.size(); i++)
+			{
+				rows.add(res.get(i).split(delimiter));
+    		}
+			
+			if (res.isEmpty())
+			{
+				Log.i(TAG, "Wakelocks could not be read from " + filePath + ", even with root");
+			}
     	}
 		return rows;
     }
@@ -182,14 +199,29 @@ public class Wakelocks
     public static boolean fileExists()
     {
     	boolean exists = false;
+    	FileReader fr = null;
     	try
     	{
-			FileReader fr = new FileReader(FILE_PATH);
+			fr = new FileReader(FILE_PATH);
 			exists = true;
     	}
     	catch (Exception e)
     	{
     		exists = false;
+    	}
+    	finally
+    	{
+    		if (exists)
+    		{
+    			try
+    			{
+					fr.close();
+				}
+    			catch (IOException e)
+    			{
+					// do nothing
+				}
+    		}
     	}
 		return exists;
     }
