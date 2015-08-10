@@ -33,7 +33,7 @@ public class AlarmTriggerAdapter extends BaseAdapter {
         }
         infalter = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        uidNameResolver=UidNameResolver.getInstance(context);
+        uidNameResolver = UidNameResolver.getInstance(context);
     }
 
     @Override

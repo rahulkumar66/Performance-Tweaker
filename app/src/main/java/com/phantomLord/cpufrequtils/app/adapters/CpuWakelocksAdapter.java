@@ -41,7 +41,7 @@ public class CpuWakelocksAdapter extends BaseAdapter {
         }
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        uidNameResolver=UidNameResolver.getInstance(context);
+        uidNameResolver = UidNameResolver.getInstance(context);
     }
 
     @Override

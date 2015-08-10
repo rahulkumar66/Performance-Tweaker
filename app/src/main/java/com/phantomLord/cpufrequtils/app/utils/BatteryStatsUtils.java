@@ -131,14 +131,14 @@ public class BatteryStatsUtils {
             return myWakelocks;
         }
 
-            for (StatElement statElement : alarms) {
+        for (StatElement statElement : alarms) {
 
-                Alarm alarm = (Alarm) statElement;
-                //alarm.getMaxValue();
-                if (alarm.getWakeups() > 0)
-                    myWakelocks.add(alarm);
-            }
-            Collections.sort(myWakelocks);
+            Alarm alarm = (Alarm) statElement;
+            //alarm.getMaxValue();
+            if (alarm.getWakeups() > 0)
+                myWakelocks.add(alarm);
+        }
+        Collections.sort(myWakelocks);
 
         return myWakelocks;
     }

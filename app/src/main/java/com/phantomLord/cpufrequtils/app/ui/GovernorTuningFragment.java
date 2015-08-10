@@ -34,9 +34,9 @@ public class GovernorTuningFragment extends PreferenceFragment implements
         addPreferencesFromResource(R.xml.governor_tuning_preferences);
 
         preferenceCategory = (PreferenceCategory) findPreference("governor_tune_pref");
-        governorPropertiesContainer=(FrameLayout) getActivity()
+        governorPropertiesContainer = (FrameLayout) getActivity()
                 .findViewById(R.id.frame_layout_preference);
-        progressBar=(ProgressBar)getActivity().findViewById(R.id.loading);
+        progressBar = (ProgressBar) getActivity().findViewById(R.id.loading);
         context = getActivity();
 
         new GetGovernorPropertiesTask().execute();
@@ -54,7 +54,7 @@ public class GovernorTuningFragment extends PreferenceFragment implements
         return true;
     }
 
-    private class GetGovernorPropertiesTask extends AsyncTask<Void,Void,GovernorProperties[]> {
+    private class GetGovernorPropertiesTask extends AsyncTask<Void, Void, GovernorProperties[]> {
 
         @Override
         protected void onPreExecute() {
@@ -86,7 +86,7 @@ public class GovernorTuningFragment extends PreferenceFragment implements
                     editTextPreferences[i].setSummary(governorProperties[i].getGovernorPropertyValue());
                     editTextPreferences[i].setDialogTitle(governorProperties[i].getGovernorProperty());
                     editTextPreferences[i].setDefaultValue(governorProperties[i].getGovernorPropertyValue());
-                 //   editTextPreferences[i].setOnPreferenceChangeListener();
+                    //   editTextPreferences[i].setOnPreferenceChangeListener();
                     editTextPreferences[i].setPersistent(true);
 
                     preferenceCategory.addPreference(editTextPreferences[i]);

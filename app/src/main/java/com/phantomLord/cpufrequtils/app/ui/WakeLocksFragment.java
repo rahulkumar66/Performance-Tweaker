@@ -30,12 +30,28 @@ public class WakeLocksFragment extends Fragment implements
     BaseAdapter adapter;
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+
+        actionBar.setTitle("");
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+        adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
+                context.getResources().getStringArray(
+                        R.array.wakelock_actionbar_spinner_items));
+        actionBar.setListNavigationCallbacks(adapter, this);
+        actionBar.setSelectedNavigationItem(0);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.wakelocksfragment, container, false);
-        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+
         context = getActivity().getBaseContext();
-        actionBar.setTitle("");
         wakelockList = (ListView) view
                 .findViewById(R.id.wakelock_data_listview1);
         timeSince = (TextView) view.findViewById(R.id.stats_since);
@@ -45,13 +61,6 @@ public class WakeLocksFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-        adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
-                context.getResources().getStringArray(
-                        R.array.wakelock_actionbar_spinner_items));
-        actionBar.setListNavigationCallbacks(adapter, this);
-        actionBar.setSelectedNavigationItem(0);
     }
 
     @Override
@@ -75,7 +84,7 @@ public class WakeLocksFragment extends Fragment implements
                 adapter = new AlarmTriggerAdapter(context);
                 break;
         }
-        if (adapter.getCount()>0 ) {
+        if (adapter.getCount() > 0) {
             wakelockList.setVisibility(View.VISIBLE);
             timeSince.setTextSize(15);
             wakelockList.setAdapter(adapter);
