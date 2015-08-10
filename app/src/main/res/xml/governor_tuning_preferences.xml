@@ -3,6 +3,8 @@
 
     <PreferenceCategory
         android:key="governor_tune_pref"
-        android:title="CPU Governor Tuning "></PreferenceCategory>
+        android:title="CPU Governor Tuning ">
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

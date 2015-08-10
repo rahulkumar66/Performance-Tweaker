@@ -122,7 +122,7 @@ public class BatteryStatsUtils {
     }
 
     public ArrayList<Alarm> getAlarmStats() {
-        ArrayList<Alarm> myWakelocks = new ArrayList<Alarm>();
+        ArrayList<Alarm> myWakelocks = new ArrayList<>();
         ArrayList<StatElement> alarms;
         if (SysUtils.isRooted()) {
             alarms = AlarmsDumpsys.getAlarms(true);

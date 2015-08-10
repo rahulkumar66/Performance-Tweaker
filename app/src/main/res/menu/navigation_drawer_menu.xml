@@ -12,7 +12,7 @@
             android:id="@+id/nav_gpu"
             android:icon="@drawable/ic_action_meter"
             android:title="GPU Control"
-            android:visible="false"></item>
+            android:visible="false"/>
         <item
             android:id="@+id/nav_tis"
             android:icon="@drawable/ic_action_bar_chart"

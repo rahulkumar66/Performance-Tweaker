@@ -84,7 +84,6 @@ public class WakeLocksFragment extends Fragment implements
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        BaseAdapter adapter = null;
         String wakelockType = null;
 
         switch (itemPosition) {

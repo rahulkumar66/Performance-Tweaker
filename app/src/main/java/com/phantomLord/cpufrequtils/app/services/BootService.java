@@ -24,7 +24,7 @@ public class BootService extends IntentService {
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(Constants.PREF_TIS_RESET_STATS, null);
-        editor.commit();
+        editor.apply();
         try {
             Thread.sleep(30000);
         } catch (InterruptedException e) {

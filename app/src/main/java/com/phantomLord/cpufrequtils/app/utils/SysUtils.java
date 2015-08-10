@@ -13,15 +13,12 @@ import java.util.ArrayList;
 public class SysUtils implements Constants {
 
     public static boolean isRooted() {
-        if (new File("/system/bin/su").exists()
-                || new File("/system/xbin/su").exists())
-            return true;
-        else
-            return false;
+        return new File("/system/bin/su").exists()
+                || new File("/system/xbin/su").exists();
     }
 
     public static String readOutputFromFile(String pathToFile) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         String data = null;
         Process process;
         BufferedReader stdinput;
@@ -70,12 +67,8 @@ public class SysUtils implements Constants {
                         data = line;
                     }
                 }
-            } catch (IOException ioe) {
+            } catch (IOException | InterruptedException ioe) {
                 ioe.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
             return data;
         }
@@ -103,15 +96,12 @@ public class SysUtils implements Constants {
                 is = mProcess.getErrorStream();
             }
             dos.close();
-            if (is != null)
+            if (is != null) {
                 printOutputOnStdout(is);
-            is.close();
+                is.close();
+            }
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+        } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
         return false;
@@ -130,8 +120,7 @@ public class SysUtils implements Constants {
     }
 
     public static Process prepareRootShell() throws IOException {
-        Process mProcess = Runtime.getRuntime().exec(getSUbinaryPath());
-        return mProcess;
+        return Runtime.getRuntime().exec(getSUbinaryPath());
     }
 
     public static String getSUbinaryPath() {

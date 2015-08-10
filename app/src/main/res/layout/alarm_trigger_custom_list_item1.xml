@@ -44,7 +44,7 @@
             android:id="@+id/alrm_progress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></ProgressBar>
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </LinearLayout>

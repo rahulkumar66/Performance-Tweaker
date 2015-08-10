@@ -25,8 +25,8 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 
     public long totaltime = 0;
     Context context;
-    ArrayList<CpuState> states = new ArrayList<CpuState>();
-    HashMap<Integer, Long> _states = new HashMap<Integer, Long>();
+    ArrayList<CpuState> states = new ArrayList<>();
+    HashMap<Integer, Long> _states = new HashMap<>();
     TimeInStateReader statesReader;
     LayoutInflater infalter;
     SharedPreferences prefs;
@@ -109,7 +109,7 @@ public class TimeInStatesListAdapter extends BaseAdapter {
         }
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(Constants.PREF_TIS_RESET_STATS, data);
-        editor.commit();
+        editor.apply();
     }
 
     public void reset() {
@@ -138,7 +138,7 @@ public class TimeInStatesListAdapter extends BaseAdapter {
         if (prefs.getString(Constants.PREF_TIS_RESET_STATS, null) != null) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString(Constants.PREF_TIS_RESET_STATS, null);
-            editor.commit();
+            editor.apply();
         }
         statesReader.clearNewStates();
     }

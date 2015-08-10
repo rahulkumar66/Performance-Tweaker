@@ -2,7 +2,6 @@ package com.phantomLord.cpufrequtils.app.ui;
 
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,8 +22,6 @@ import com.stericson.RootTools.RootTools;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    private Context context;
 
     private DrawerLayout mDrawerLayout;
 
@@ -49,7 +46,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         // BugSenseHandler.initAndStartSession(MainActivity.this, "4cdc31a1");
-        context = getBaseContext();
         actionBar = getSupportActionBar();
 
         progressBar.setVisibility(View.VISIBLE);

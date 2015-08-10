@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class IOUtils {
 
-    public static final String[] getAvailableIOScheduler() {
+    public static String[] getAvailableIOScheduler() {
         String schedulerPath;
         if (new File(Constants.available_schedulers).exists()) {
             schedulerPath = Constants.available_schedulers;
@@ -37,7 +37,7 @@ public class IOUtils {
         return schedulers;
     }
 
-    public static final String getCurrentIOScheduler() {
+    public static String getCurrentIOScheduler() {
         String currentScheduler = null;
         String[] schedulers = SysUtils.readOutputFromFile(Constants.available_schedulers)
                 .split(" ");
@@ -54,7 +54,7 @@ public class IOUtils {
 
     public static String getReadAhead() {
 
-        String res = new String();
+        String res = null;
 
         for (int i = 0; i < 2; i++) {
 
@@ -72,7 +72,7 @@ public class IOUtils {
 
     public static void setDiskScheduler(String ioScheduler, Context context) {
 
-        ArrayList<String> mCommands = new ArrayList<String>();
+        ArrayList<String> mCommands = new ArrayList<>();
 
         if (ioScheduler != null) {
 
@@ -111,7 +111,7 @@ public class IOUtils {
 
     public static void setReadAhead(String readAhead, Context ctx) {
 
-        ArrayList<String> mCommands = new ArrayList<String>();
+        ArrayList<String> mCommands = new ArrayList<>();
         /*
          * prepare commands for changing the read ahead cache
 		 */

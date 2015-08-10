@@ -80,8 +80,6 @@ public class CpuWakelocksAdapter extends BaseAdapter {
         Drawable drawable = mWakelock.getIcon(uidNameResolver);
         if (drawable != null) {
             icon.setImageDrawable(drawable);
-        } else {
-            //icon.setImageResource(R.drawable.logo);
         }
         wakelockName.setText(mWakelock.getName());
         duration.setText(SysUtils.secToString(mWakelock.getDuration() / 1000));

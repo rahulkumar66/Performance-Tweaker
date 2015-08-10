@@ -54,7 +54,7 @@ public class CpuFrequencyUtils {
         return SysUtils.readOutputFromFile(Constants.scaling_governor);
     }
 
-    public static final void setMinFrequency(String minFrequency, Context context) {
+    public static void setMinFrequency(String minFrequency, Context context) {
         getCoreCount();
         ArrayList<String> commands = new ArrayList<>();
         /*
@@ -79,10 +79,10 @@ public class CpuFrequencyUtils {
     }
 
 
-    public static final void setMaxFrequency(String maxFrequency, Context context) {
+    public static void setMaxFrequency(String maxFrequency, Context context) {
         getCoreCount();
         Log.d("status", getCoreCount() + "");
-        ArrayList<String> commands = new ArrayList<String>();
+        ArrayList<String> commands = new ArrayList<>();
         /*
          * prepare commands for each core
 		 */
@@ -104,9 +104,9 @@ public class CpuFrequencyUtils {
         }
     }
 
-    public static final void setGovernor(String governor, Context context) {
+    public static void setGovernor(String governor, Context context) {
         getCoreCount();
-        ArrayList<String> commands = new ArrayList<String>();
+        ArrayList<String> commands = new ArrayList<>();
         /*
          * prepare commands for each core
 		 */

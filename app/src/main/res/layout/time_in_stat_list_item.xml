@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="15dp"
         android:layout_below="@+id/frequency"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal"/>
 
     <ProgressBar
         android:id="@+id/progress"
