@@ -14,17 +14,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
-    <FrameLayout
-        android:id="@+id/frame_layout_preference"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/frame_layout_preference"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
     </FrameLayout>
 
 </LinearLayout>
