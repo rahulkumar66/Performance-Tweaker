@@ -24,11 +24,7 @@ public class IOUtils {
         } else if (new File(Constants.ioscheduler_mtd).exists()) {
             schedulerPath = Constants.ioscheduler_mtd;
         } else {
-            return new String[]{};
-            /*
-             * need to return an empty string to prevent unwanted behaviour
-             * in non-rooted devices
-			 */
+            return null;
         }
         String[] schedulers = SysUtils.readOutputFromFile(schedulerPath).split(" ");
         for (int i = 0; i < schedulers.length; i++) {
@@ -57,11 +53,15 @@ public class IOUtils {
     }
 
     public static String getReadAhead() {
+
         String res = new String();
+
         for (int i = 0; i < 2; i++) {
+
             File device = new File(Constants.available_blockdevices + "mmcblk"
                     + i);
             if (device.exists()) {
+
                 device = new File(Constants.available_blockdevices + "mmcblk"
                         + i + "/queue/read_ahead_kb");
                 res = SysUtils.readOutputFromFile(device.getAbsolutePath());
@@ -70,27 +70,48 @@ public class IOUtils {
         return res;
     }
 
-    public static void setDiskSchedulerandReadAhead(String ioScheduler,
-                                                    String readAhead, Context ctx) {
+    public static void setDiskScheduler(String ioScheduler, Context context) {
+
         ArrayList<String> mCommands = new ArrayList<String>();
+
         if (ioScheduler != null) {
+
             File[] devices = new File(Constants.available_blockdevices)
                     .listFiles();
+
             for (int i = 0; i < devices.length; i++) {
+
                 String devicePath = devices[i].getAbsolutePath();
+
                 if (!(devicePath.contains("ram") || devicePath.contains("loop") || devicePath
                         .contains("dm"))) {
+
                     File blockDevice = new File(devices[i].getAbsolutePath()
                             + "/queue/scheduler");
+
                     if (blockDevice.exists()) {
+
                         mCommands.add("chmod 0644 "
                                 + blockDevice.getAbsolutePath() + "\n");
+
                         mCommands.add("echo " + ioScheduler + " > "
                                 + blockDevice.getAbsolutePath() + " \n ");
                     }
                 }
             }
+            mCommands.add(" exit \n");
+
+            boolean success = SysUtils.executeRootCommand(mCommands);
+            if (success) {
+                String msg = context.getString(R.string.ok_message, getCurrentIOScheduler());
+                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+            }
         }
+    }
+
+    public static void setReadAhead(String readAhead, Context ctx) {
+
+        ArrayList<String> mCommands = new ArrayList<String>();
         /*
          * prepare commands for changing the read ahead cache
 		 */
@@ -113,8 +134,7 @@ public class IOUtils {
         mCommands.add(" exit \n");
         boolean success = SysUtils.executeRootCommand(mCommands);
         if (success) {
-            String msg = ctx.getString(R.string.ok_message,
-                    getCurrentIOScheduler(), getReadAhead());
+            String msg = ctx.getString(R.string.ok_message, getReadAhead());
             Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
         }
     }

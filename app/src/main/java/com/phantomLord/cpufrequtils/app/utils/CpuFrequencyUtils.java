@@ -124,7 +124,7 @@ public class CpuFrequencyUtils {
 
             boolean success = SysUtils.executeRootCommand(commands);
             if (success) {
-                String msg = context.getString(R.string.ok_message);
+                String msg = context.getString(R.string.governor_applied);
                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
             }
         }
@@ -170,15 +170,15 @@ public class CpuFrequencyUtils {
     }
 
     public static String[] toMhz(String[] values) {
+
         String[] frequency = new String[values.length];
+
         if (values != null) {
             for (int i = 0; i < values.length; i++) {
                 try {
                     frequency[i] = (Integer.parseInt(values[i]) / 1000 + " Mhz");
                 } catch (NumberFormatException nfe) {
                     nfe.printStackTrace();
-                    return new String[]{};
-                    //TODO properly handle null values
                 }
             }
         }

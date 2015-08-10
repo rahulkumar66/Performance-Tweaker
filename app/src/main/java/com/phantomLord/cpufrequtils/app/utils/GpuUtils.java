@@ -2,9 +2,6 @@ package com.phantomLord.cpufrequtils.app.utils;
 
 import java.io.File;
 
-/**
- * Created by rahul on 20/6/15.
- */
 public class GpuUtils {
 
     public static String[] getAvailableGpuFrequencies() {
@@ -77,4 +74,21 @@ public class GpuUtils {
         }
         return false;
     }
+
+    public static String[] toMhz(String[] values) {
+
+        String[] frequency = new String[values.length];
+
+        if (values != null) {
+            for (int i = 0; i < values.length; i++) {
+                try {
+                    frequency[i] = (Integer.parseInt(values[i]) / (1000 * 1000) + " Mhz");
+                } catch (NumberFormatException nfe) {
+                    nfe.printStackTrace();
+                }
+            }
+        }
+        return frequency;
+    }
+
 }

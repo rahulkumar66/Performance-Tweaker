@@ -1,5 +1,6 @@
 package com.phantomLord.cpufrequtils.app.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -18,23 +19,22 @@ public class IOControlFragment extends PreferenceFragment implements Preference.
 
     ListPreference IOScheduler;
     ListPreference ReadAheadCache;
-
+    Context context;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         addPreferencesFromResource(R.xml.io_preferences);
         IOScheduler = (ListPreference) findPreference("disk_scheduler");
         ReadAheadCache = (ListPreference) findPreference("read_ahead_cache");
 
-        IOScheduler.setOnPreferenceChangeListener(this);
-        ReadAheadCache.setOnPreferenceChangeListener(this);
+        context = getActivity().getBaseContext();
 
         populatePreferences();
 
-
+        IOScheduler.setOnPreferenceChangeListener(this);
+        ReadAheadCache.setOnPreferenceChangeListener(this);
     }
 
     private void populatePreferences() {
@@ -52,23 +52,21 @@ public class IOControlFragment extends PreferenceFragment implements Preference.
 
         }
         if (currentScheduler != null) {
-            IOScheduler.setDefaultValue(currentScheduler);
+            IOScheduler.setValue(currentScheduler);
         }
 
         if (currentReadAhead != null) {
-            ReadAheadCache.setDefaultValue(currentReadAhead);
+            ReadAheadCache.setValue(currentReadAhead);
         }
-
     }
-
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
         if (preference.getKey().equals("disk_scheduler")) {
-
+            IOUtils.setDiskScheduler(o.toString(), context);
         }
         if (preference.getKey().equals("read_ahead_cache")) {
-
+            IOUtils.setReadAhead(o.toString(), context);
         }
         return true;
     }

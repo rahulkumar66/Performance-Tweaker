@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.phantomLord.cpufrequtils.app.utils.Constants;
-import com.phantomLord.cpufrequtils.app.utils.IOUtils;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 
 public class BootService extends IntentService {
@@ -49,8 +48,8 @@ public class BootService extends IntentService {
                         null);
 
                 if (ioscheduler != null || readAhead != null) {
-                    IOUtils.setDiskSchedulerandReadAhead(ioscheduler,
-                            readAhead, context);
+                    //   IOUtils.setDiskSchedulerandReadAhead(ioscheduler,
+                    //         readAhead, context);
                 }
             }
         }

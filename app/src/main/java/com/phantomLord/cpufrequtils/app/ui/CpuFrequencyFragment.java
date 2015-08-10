@@ -20,18 +20,18 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
     String[] availableGovernors;
     String maxFrequency, minFrequency, currentGovernor;
 
-    Context context;
-
     ListPreference CpuMaxFreqPreference;
     ListPreference CpuMinFreqPreference;
     ListPreference GovernorPreference;
     Preference preference;
+    Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         addPreferencesFromResource(R.xml.cpu_freq_preference);
+        context = getActivity().getBaseContext();
 
         CpuMaxFreqPreference = (ListPreference) findPreference("cpu_max_freq_pref");
         CpuMinFreqPreference = (ListPreference) findPreference("cpu_min_freq_pref");
@@ -82,18 +82,13 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
         if (preference.getKey().equals("cpu_min_freq_pref")) {
-            CpuFrequencyUtils.setMinFrequency(CpuMinFreqPreference.getValue(), getView().getContext());
+            CpuFrequencyUtils.setMinFrequency(o.toString(), context);
         }
         if (preference.getKey().equals("cpu_max_freq_pref")) {
-            CpuFrequencyUtils.setMaxFrequency(CpuMaxFreqPreference.getValue(), getView().getContext());
+            CpuFrequencyUtils.setMaxFrequency(o.toString(), context);
         }
         if (preference.getKey().equals("governor_pref")) {
-            CpuFrequencyUtils.setGovernor(GovernorPreference.getValue(), getView().getContext());
-
-        }
-        if (preference.getKey().equals("governor_tune_pref")) {
-
-
+            CpuFrequencyUtils.setGovernor(o.toString(), context);
         }
         return true;
     }
