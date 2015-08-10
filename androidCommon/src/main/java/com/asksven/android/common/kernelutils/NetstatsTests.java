@@ -3,12 +3,12 @@
  */
 package com.asksven.android.common.kernelutils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.asksven.android.common.privateapiproxies.StatElement;
 
 import junit.framework.TestCase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author sven

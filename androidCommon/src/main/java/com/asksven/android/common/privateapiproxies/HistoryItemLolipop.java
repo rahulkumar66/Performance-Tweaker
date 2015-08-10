@@ -16,13 +16,9 @@ package com.asksven.android.common.privateapiproxies;
  */
 
 
-import java.io.Serializable;
-
-import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.asksven.android.common.privateapiproxies.HistoryItem.BitDescription;
-import com.asksven.android.common.utils.DateUtils;
+import java.io.Serializable;
 
 /**
  * ICS specific Value holder for BatteryStats$HistoryItem

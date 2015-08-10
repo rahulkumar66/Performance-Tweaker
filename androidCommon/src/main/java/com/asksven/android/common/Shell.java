@@ -15,9 +15,9 @@
  */
 package com.asksven.android.common;
 
-import java.util.List;
-
 import junit.framework.TestCase;
+
+import java.util.List;
 
 /**
  * @author sven

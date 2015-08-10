@@ -1,5 +1,8 @@
 package com.asksven.android.common.utils;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,9 +12,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 
 public class SharedPreferencesUtils {
 

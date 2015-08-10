@@ -15,9 +15,9 @@
  */
 package com.asksven.android.common.utils;
 
-import java.util.Formatter;
-
 import android.location.Location;
+
+import java.util.Formatter;
 
 /**
  * A collection of math functions

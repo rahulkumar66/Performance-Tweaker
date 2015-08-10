@@ -16,12 +16,10 @@
 
 package com.asksven.android.common.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.asksven.android.common.nameutils.UidInfo;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * A DTO class for Alarms

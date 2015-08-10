@@ -15,17 +15,15 @@
  */
 package com.asksven.android.common.kernelutils;
 
-import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.util.List;
-
 import android.util.Log;
 
 import com.asksven.android.common.dto.StateDto;
-import com.asksven.android.common.nameutils.UidInfo;
-import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.util.List;
 
 
 /**

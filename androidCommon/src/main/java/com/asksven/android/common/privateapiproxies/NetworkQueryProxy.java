@@ -17,25 +17,15 @@
 package com.asksven.android.common.privateapiproxies;
 
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Map;
-
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.SystemClock;
 import android.util.Log;
 import android.util.SparseArray;
 
-import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.nameutils.UidNameResolver;
-import com.asksven.android.common.utils.DateUtils;
+
+import java.lang.reflect.Method;
 
 
 

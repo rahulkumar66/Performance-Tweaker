@@ -16,6 +16,8 @@
 
 package com.asksven.android.common.utils;
 
+import android.util.Log;
+
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -24,9 +26,6 @@ import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import android.provider.Settings;
-import android.util.Log;
 
 /**
  * @author sven

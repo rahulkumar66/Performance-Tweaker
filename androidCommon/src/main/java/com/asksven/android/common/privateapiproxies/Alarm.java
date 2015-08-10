@@ -16,28 +16,23 @@
 
 package com.asksven.android.common.privateapiproxies;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
-
-
-
-
-//import android.content.Context;
-//import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.dto.AlarmDto;
 import com.asksven.android.common.dto.AlarmItemDto;
-import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.nameutils.UidNameResolver;
-import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+//import android.content.Context;
+//import android.content.pm.PackageManager;
 
 /**
  * @author sven

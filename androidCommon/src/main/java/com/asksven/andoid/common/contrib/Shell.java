@@ -16,6 +16,11 @@
 
 package com.asksven.andoid.common.contrib;
 
+import android.os.Handler;
+import android.os.Looper;
+
+import com.asksven.andoid.common.contrib.StreamGobbler.OnLineListener;
+
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,11 +36,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import android.os.Handler;
-import android.os.Looper;
-
-import com.asksven.andoid.common.contrib.StreamGobbler.OnLineListener;
 
 /**
  * Class providing functionality to execute commands in a (root) shell

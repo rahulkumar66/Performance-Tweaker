@@ -15,21 +15,18 @@
  */
 package com.asksven.android.common.kernelutils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import android.util.Log;
 
-//import com.asksven.andoid.common.contrib.Shell;
-import com.asksven.andoid.common.contrib.Util;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.android.common.shellutils.Exec;
-import com.asksven.android.common.shellutils.ExecResult;
 import com.asksven.android.common.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+//import com.asksven.andoid.common.contrib.Shell;
 
 /**
  * Parses the content of /proc/net/xt_qtaguid/stats

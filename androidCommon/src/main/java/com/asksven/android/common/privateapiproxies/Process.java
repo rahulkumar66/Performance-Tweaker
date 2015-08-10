@@ -15,24 +15,19 @@
  */
 package com.asksven.android.common.privateapiproxies;
 
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+
+import com.asksven.android.common.dto.ProcessDto;
+import com.asksven.android.common.nameutils.UidNameResolver;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 
-import com.asksven.android.common.dto.ProcessDto;
-import com.asksven.android.common.nameutils.UidInfo;
-import com.asksven.android.common.nameutils.UidNameResolver;
-import com.google.gson.annotations.SerializedName;
-
-
-
-
-
-
 //import android.content.Context;
 //import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 /**
  * @author sven
