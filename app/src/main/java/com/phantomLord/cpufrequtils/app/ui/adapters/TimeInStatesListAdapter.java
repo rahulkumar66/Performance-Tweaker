@@ -1,4 +1,4 @@
-package com.phantomLord.cpufrequtils.app.adapters;
+package com.phantomLord.cpufrequtils.app.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

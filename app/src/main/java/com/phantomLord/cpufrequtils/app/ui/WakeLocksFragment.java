@@ -17,9 +17,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.phantomLord.cpufrequtils.app.R;
-import com.phantomLord.cpufrequtils.app.adapters.AlarmTriggerAdapter;
-import com.phantomLord.cpufrequtils.app.adapters.CpuWakelocksAdapter;
-import com.phantomLord.cpufrequtils.app.adapters.KernelWakelockAdapter;
+import com.phantomLord.cpufrequtils.app.ui.adapters.AlarmTriggerAdapter;
+import com.phantomLord.cpufrequtils.app.ui.adapters.CpuWakelocksAdapter;
+import com.phantomLord.cpufrequtils.app.ui.adapters.KernelWakelockAdapter;
 
 public class WakeLocksFragment extends Fragment implements
         ActionBar.OnNavigationListener {

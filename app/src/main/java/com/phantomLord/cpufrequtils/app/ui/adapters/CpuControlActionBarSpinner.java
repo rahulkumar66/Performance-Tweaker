@@ -1,4 +1,4 @@
-package com.phantomLord.cpufrequtils.app.adapters;
+package com.phantomLord.cpufrequtils.app.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
