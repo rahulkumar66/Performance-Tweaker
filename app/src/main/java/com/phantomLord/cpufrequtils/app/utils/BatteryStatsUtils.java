@@ -2,6 +2,7 @@ package com.phantomLord.cpufrequtils.app.utils;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.Wakelocks;
@@ -69,8 +70,8 @@ public class BatteryStatsUtils {
         /*
          * sort the data on the basis of duration
 		 */
-        Comparator<NativeKernelWakelock> timeComaprator = new NativeKernelWakelock.TimeComparator();
-        Collections.sort(nativeKernelWakelocks, timeComaprator);
+        Comparator<NativeKernelWakelock> timeComparator = new NativeKernelWakelock.TimeComparator();
+        Collections.sort(nativeKernelWakelocks, timeComparator);
         return nativeKernelWakelocks;
     }
 
@@ -81,17 +82,21 @@ public class BatteryStatsUtils {
          * code for kitkat is missing
 		 */
         if (Build.VERSION.SDK_INT >= 19) {
-            try {
+        /*    try {
                 throw new BatteryInfoUnavailableException(
                         "Battery info not available");
             } catch (BatteryInfoUnavailableException e) {
                 e.printStackTrace();
             }
 
+
+
             //    myWakelocks.add(new Wakelock(1,
             //          "Feature not currently supported for kitkat", 0, 0, 0));
 
             return myWakelocks;
+            */
+
         }
         BatteryStatsProxy stats = BatteryStatsProxy.getInstance(context);
         try {
