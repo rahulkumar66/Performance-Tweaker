@@ -10,6 +10,17 @@ import java.util.ArrayList;
 
 public class GpuUtils {
 
+    public static String getGpuPath() {
+        String possiblePath[] = Constants.GPU_PATH;
+
+        for (String s : possiblePath) {
+            if (new File(s).exists()) {
+                return s;
+            }
+        }
+        return "";
+    }
+
     public static String[] getAvailableGpuFrequencies() {
         String[] possiblePath = Constants.gpu_freqs_avail;
         String gpu_path = getGpuPath();
@@ -88,29 +99,6 @@ public class GpuUtils {
         return "";
     }
 
-    public static String getMinGpuFrequency() {
-        String possiblePath[] = Constants.gpu_freqs_min;
-        String gpu_path = getGpuPath();
-
-        for (String s : possiblePath) {
-            if (new File(gpu_path + s).exists()) {
-                return SysUtils.readOutputFromFile(gpu_path + s);
-            }
-        }
-        return "";
-
-    }
-
-    public static String getGpuPath() {
-        String possiblePath[] = Constants.GPU_PATH;
-
-        for (String s : possiblePath) {
-            if (new File(s).exists()) {
-                return s;
-            }
-        }
-        return "";
-    }
 
     public static void setMaxGpuFrequency(String maxFrequency, Context context) {
         ArrayList<String> commands = new ArrayList<>();
@@ -138,6 +126,19 @@ public class GpuUtils {
                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public static String getMinGpuFrequency() {
+        String possiblePath[] = Constants.gpu_freqs_min;
+        String gpu_path = getGpuPath();
+
+        for (String s : possiblePath) {
+            if (new File(gpu_path + s).exists()) {
+                return SysUtils.readOutputFromFile(gpu_path + s);
+            }
+        }
+        return "";
+
     }
 
     public static void setMinFrequency(String minFrequency, Context context) {
