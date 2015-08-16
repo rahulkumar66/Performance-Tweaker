@@ -4,12 +4,10 @@
         <ListPreference
             android:key="disk_scheduler"
             android:persistent="true"
-            android:summary="Change Disk I/O Scheduler"
             android:title="Disk I/O Scheduler" />
         <ListPreference
             android:key="read_ahead_cache"
             android:persistent="true"
-            android:summary="Change SD Card Read Ahead Cache"
             android:title="Read Ahead Cache" />
     </PreferenceCategory>
 </PreferenceScreen>

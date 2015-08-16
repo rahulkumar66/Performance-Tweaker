@@ -38,10 +38,8 @@ public class IOControlFragment extends PreferenceFragment implements Preference.
     }
 
     private void populatePreferences() {
-        availableSchedulers = IOUtils.getAvailableIOScheduler();
-        currentScheduler = IOUtils.getCurrentIOScheduler();
-        readAheadValues = Constants.readAheadKb;
-        currentReadAhead = IOUtils.getReadAhead();
+
+        updateData();
 
         if (availableSchedulers != null) {
             IOScheduler.setEntries(availableSchedulers);
@@ -53,21 +51,40 @@ public class IOControlFragment extends PreferenceFragment implements Preference.
         }
         if (currentScheduler != null) {
             IOScheduler.setValue(currentScheduler);
+            IOScheduler.setSummary(currentScheduler);
         }
 
         if (currentReadAhead != null) {
             ReadAheadCache.setValue(currentReadAhead);
+            ReadAheadCache.setSummary(currentReadAhead);
         }
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
+
         if (preference.getKey().equals("disk_scheduler")) {
             IOUtils.setDiskScheduler(o.toString(), context);
         }
         if (preference.getKey().equals("read_ahead_cache")) {
             IOUtils.setReadAhead(o.toString(), context);
         }
+
+        updateData();
+        updatePreferences();
         return true;
+    }
+
+
+    public void updateData() {
+        availableSchedulers = IOUtils.getAvailableIOScheduler();
+        currentScheduler = IOUtils.getCurrentIOScheduler();
+        readAheadValues = Constants.readAheadKb;
+        currentReadAhead = IOUtils.getReadAhead();
+    }
+
+    public void updatePreferences() {
+        IOScheduler.setSummary(currentScheduler);
+        ReadAheadCache.setSummary(currentReadAhead);
     }
 }

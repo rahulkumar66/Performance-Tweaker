@@ -101,7 +101,7 @@ public class SysUtils implements Constants {
                 is.close();
             }
 
-        } catch (InterruptedException | IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;

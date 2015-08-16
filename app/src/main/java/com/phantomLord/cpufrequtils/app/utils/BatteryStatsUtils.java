@@ -2,13 +2,11 @@ package com.phantomLord.cpufrequtils.app.utils;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.kernelutils.WakeupSources;
 import com.asksven.android.common.privateapiproxies.Alarm;
-import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
@@ -102,7 +100,7 @@ public class BatteryStatsUtils {
         try {
             cpuWakelocks = stats.getWakelockStats(context,
                     BatteryStatsTypes.WAKE_TYPE_PARTIAL,
-                    BatteryStatsTypes.STATS_CURRENT, 0);
+                    BatteryStatsTypes.STATS_SINCE_CHARGED, 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -132,7 +130,6 @@ public class BatteryStatsUtils {
         if (SysUtils.isRooted()) {
             alarms = AlarmsDumpsys.getAlarms(true);
         } else {
-            // myWakelocks.add(new Alarm(context.getString(R.string.noroot)));
             return myWakelocks;
         }
 

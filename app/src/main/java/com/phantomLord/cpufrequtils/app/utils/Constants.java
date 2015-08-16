@@ -5,11 +5,11 @@ import com.phantomLord.cpufrequtils.app.R;
 
 public interface Constants {
 
-    String App_Tag = "Performace Tweaker";
+    String App_Tag = "Performance Tweaker";
     boolean debug = BuildConfig.DEBUG;
     /*
     Cpu
-     */
+    */
     String cpufreq_sys_dir = "/sys/devices/system/cpu/cpu0/cpufreq/";
     String scaling_min_freq = cpufreq_sys_dir
             + "scaling_min_freq";

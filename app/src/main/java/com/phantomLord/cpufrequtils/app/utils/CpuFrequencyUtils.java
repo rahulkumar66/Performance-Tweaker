@@ -2,7 +2,6 @@ package com.phantomLord.cpufrequtils.app.utils;
 
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.phantomLord.cpufrequtils.app.R;
@@ -36,7 +35,7 @@ public class CpuFrequencyUtils {
         }
     }
 
-    public static String getCurrentMaxFrequeny() {
+    public static String getCurrentMaxFrequency() {
         return SysUtils.readOutputFromFile(Constants.scaling_max_freq);
     }
 
@@ -55,7 +54,6 @@ public class CpuFrequencyUtils {
     }
 
     public static void setMinFrequency(String minFrequency, Context context) {
-        getCoreCount();
         ArrayList<String> commands = new ArrayList<>();
         /*
          * prepare commands for each core
@@ -80,8 +78,6 @@ public class CpuFrequencyUtils {
 
 
     public static void setMaxFrequency(String maxFrequency, Context context) {
-        getCoreCount();
-        Log.d("status", getCoreCount() + "");
         ArrayList<String> commands = new ArrayList<>();
         /*
          * prepare commands for each core
@@ -105,7 +101,7 @@ public class CpuFrequencyUtils {
     }
 
     public static void setGovernor(String governor, Context context) {
-        getCoreCount();
+
         ArrayList<String> commands = new ArrayList<>();
         /*
          * prepare commands for each core

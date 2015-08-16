@@ -12,7 +12,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
+            layout="@layout/toolbar" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -30,17 +30,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textStyle="bold"
                 android:textSize="20sp"
-                android:visibility="gone"/>
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/main_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:scrollbarStyle="outsideOverlay">
-            </LinearLayout>
+                android:scrollbarStyle="outsideOverlay"/>
 
         </FrameLayout>
 

@@ -54,11 +54,8 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
     }
 
     public void populatePreferences() {
-        availablefreq = CpuFrequencyUtils.getAvailableFrequencies();
-        availableGovernors = CpuFrequencyUtils.getAvailableGovernors();
-        currentGovernor = CpuFrequencyUtils.getCurrentScalingGovernor();
-        maxFrequency = CpuFrequencyUtils.getCurrentMaxFrequeny();
-        minFrequency = CpuFrequencyUtils.getCurrentMinFrequency();
+
+        updateData();
 
         if (availablefreq != null) {
             CpuMaxFreqPreference.setEntries(CpuFrequencyUtils.toMhz(availablefreq));
@@ -71,11 +68,28 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
             GovernorPreference.setEntryValues(availableGovernors);
         }
         if (maxFrequency != null && minFrequency != null && currentGovernor != null) {
-            CpuMaxFreqPreference.setValue(maxFrequency);
-            CpuMinFreqPreference.setValue(minFrequency);
-            GovernorPreference.setValue(currentGovernor);
+            updatePreferences();
         }
 
+    }
+
+    public void updatePreferences() {
+
+        CpuMaxFreqPreference.setValue(maxFrequency);
+        CpuMinFreqPreference.setValue(minFrequency);
+        GovernorPreference.setValue(currentGovernor);
+
+        CpuMinFreqPreference.setSummary((Integer.parseInt(minFrequency) / 1000) + " Mhz");
+        CpuMaxFreqPreference.setSummary((Integer.parseInt(maxFrequency) / 1000) + " Mhz");
+        GovernorPreference.setSummary(currentGovernor);
+    }
+
+    public void updateData() {
+        availablefreq = CpuFrequencyUtils.getAvailableFrequencies();
+        availableGovernors = CpuFrequencyUtils.getAvailableGovernors();
+        currentGovernor = CpuFrequencyUtils.getCurrentScalingGovernor();
+        maxFrequency = CpuFrequencyUtils.getCurrentMaxFrequency();
+        minFrequency = CpuFrequencyUtils.getCurrentMinFrequency();
     }
 
 
@@ -90,6 +104,8 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
         if (preference.getKey().equals("governor_pref")) {
             CpuFrequencyUtils.setGovernor(o.toString(), context);
         }
+        updateData();
+        updatePreferences();
         return true;
     }
 
