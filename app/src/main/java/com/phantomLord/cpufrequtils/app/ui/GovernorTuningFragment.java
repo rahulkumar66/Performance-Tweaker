@@ -13,14 +13,14 @@ import android.widget.ProgressBar;
 
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.CpuFrequencyUtils;
-import com.phantomLord.cpufrequtils.app.utils.GovernorProperties;
+import com.phantomLord.cpufrequtils.app.utils.GovernorProperty;
 
 public class GovernorTuningFragment extends PreferenceFragment implements
         Preference.OnPreferenceChangeListener {
 
     PreferenceCategory preferenceCategory;
     EditTextPreference editTextPreferences[];
-    GovernorProperties[] governorProperties;
+    GovernorProperty[] governorProperties;
 
     FrameLayout governorPropertiesContainer;
 
@@ -46,15 +46,17 @@ public class GovernorTuningFragment extends PreferenceFragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
+        CpuFrequencyUtils.setGovernorProperty(new GovernorProperty(preference.getKey()
+                , o.toString()), getActivity());
+        preference.setSummary(o.toString());
         return true;
     }
 
-    private class GetGovernorPropertiesTask extends AsyncTask<Void, Void, GovernorProperties[]> {
+    private class GetGovernorPropertiesTask extends AsyncTask<Void, Void, GovernorProperty[]> {
 
         @Override
         protected void onPreExecute() {
@@ -65,13 +67,13 @@ public class GovernorTuningFragment extends PreferenceFragment implements
         }
 
         @Override
-        protected GovernorProperties[] doInBackground(Void... params) {
+        protected GovernorProperty[] doInBackground(Void... params) {
             governorProperties = CpuFrequencyUtils.getGovernorProperties();
             return governorProperties;
         }
 
         @Override
-        protected void onPostExecute(GovernorProperties[] governorProperties) {
+        protected void onPostExecute(GovernorProperty[] governorProperties) {
             super.onPostExecute(governorProperties);
 
             progressBar.setVisibility(View.GONE);
@@ -86,8 +88,7 @@ public class GovernorTuningFragment extends PreferenceFragment implements
                     editTextPreferences[i].setSummary(governorProperties[i].getGovernorPropertyValue());
                     editTextPreferences[i].setDialogTitle(governorProperties[i].getGovernorProperty());
                     editTextPreferences[i].setDefaultValue(governorProperties[i].getGovernorPropertyValue());
-                    //   editTextPreferences[i].setOnPreferenceChangeListener();
-                    editTextPreferences[i].setPersistent(true);
+                    editTextPreferences[i].setOnPreferenceChangeListener(GovernorTuningFragment.this);
 
                     preferenceCategory.addPreference(editTextPreferences[i]);
                 }

@@ -138,31 +138,39 @@ public class CpuFrequencyUtils {
         }
     }
 
-    public static GovernorProperties[] getGovernorProperties() {
-        GovernorProperties[] governorProperties = null;
+    public static GovernorProperty[] getGovernorProperties() {
+        GovernorProperty[] governorProperties = null;
         File f = new File(Constants.governor_prop_dir + getCurrentScalingGovernor());
 
         if (f.exists()) {
             File[] govProperties = f.listFiles();
 
             if (govProperties != null && govProperties.length != 0) {
-                governorProperties = new GovernorProperties[govProperties.length];
+                governorProperties = new GovernorProperty[govProperties.length];
 
                 for (int i = 0; i < governorProperties.length; i++) {
-                    governorProperties[i] = new GovernorProperties();
-                    governorProperties[i].setGovernorProperty(govProperties[i].getName());
-                    governorProperties[i].setGovernorPropertyValue(SysUtils.
-                            readOutputFromFile(govProperties[i].getAbsolutePath()));
+                    governorProperties[i] = new GovernorProperty(govProperties[i].getName()
+                            , SysUtils.readOutputFromFile(govProperties[i].getAbsolutePath()));
                 }
             }
         }
         return governorProperties;
     }
 
-    public static void setGovernorProperty(GovernorProperties property) {
-        String path = Constants.governor_prop_dir + "/" + getCurrentScalingGovernor()
-                + property.getGovernorProperty();
-        //TODO
+    public static void setGovernorProperty(GovernorProperty property, Context context) {
+        String path = Constants.governor_prop_dir + getCurrentScalingGovernor()
+                + "/" + property.getGovernorProperty();
+        ArrayList<String> commands = new ArrayList<>();
+
+        commands.add("chmod 0644 " + path + "\n");
+        commands.add("echo " + property.getGovernorPropertyValue() + " > " + path + "\n");
+        commands.add("exit" + "\n");
+
+        if (SysUtils.executeRootCommand(commands)) {
+            String msg = context.getString(R.string.governor_applied);
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public static String[] toMhz(String[] values) {

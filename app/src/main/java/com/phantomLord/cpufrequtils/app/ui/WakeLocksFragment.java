@@ -32,6 +32,16 @@ public class WakeLocksFragment extends Fragment implements
     BaseAdapter adapter;
     ProgressBar progressBar;
 
+    String KERNEL_WAKELOCK = "kernel_wakelock_task";
+    String CPU_WAKELOCK = "cpu_wakelock_task";
+    String ALARM_WAKELOCKS = "alarm_wakelock_task";
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,33 +88,21 @@ public class WakeLocksFragment extends Fragment implements
 
         switch (itemPosition) {
             case 0:
-                wakelockAdapter=new KernelWakelockAdapter(context);
+                wakelockType = KERNEL_WAKELOCK;
                 break;
             case 1:
-                wakelockAdapter=new CpuWakelocksAdapter(context);
+                wakelockType = CPU_WAKELOCK;
                 break;
             case 2:
-                wakelockAdapter=new AlarmTriggerAdapter(context);
+                wakelockType = ALARM_WAKELOCKS;
                 break;
         }
 
-        if (wakelockAdapter != null) {
-            progressBar.setVisibility(View.GONE);
-
-            if (wakelockAdapter != null && wakelockAdapter.getCount() != 0) {
-                wakelockList.setVisibility(View.VISIBLE);
-                timeSince.setTextSize(15);
-                wakelockList.setAdapter(wakelockAdapter);
-                timeSince.setText("");
-
-            } else {
-                wakelockList.setVisibility(View.GONE);
-                timeSince.setTextSize(20);
-                timeSince.setGravity(Gravity.CENTER);
-                timeSince.setText(getString(R.string.stats_not_available));
-            }
+        if (wakelockType != null) {
+            new FetchWakelocksTask().execute(wakelockType);
         }
 
         return true;
+    }
     }
 }
