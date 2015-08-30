@@ -32,16 +32,6 @@ public class WakeLocksFragment extends Fragment implements
     BaseAdapter adapter;
     ProgressBar progressBar;
 
-    String KERNEL_WAKELOCK = "kernel_wakelock_task";
-    String CPU_WAKELOCK = "cpu_wakelock_task";
-    String ALARM_WAKELOCKS = "alarm_wakelock_task";
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,65 +68,33 @@ public class WakeLocksFragment extends Fragment implements
 
     @Override
     public void onDestroyView() {
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         super.onDestroyView();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
     }
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        String wakelockType = null;
+        BaseAdapter wakelockAdapter=null;
 
         switch (itemPosition) {
             case 0:
-                wakelockType = KERNEL_WAKELOCK;
+                wakelockAdapter=new KernelWakelockAdapter(context);
                 break;
             case 1:
-                wakelockType = CPU_WAKELOCK;
+                wakelockAdapter=new CpuWakelocksAdapter(context);
                 break;
             case 2:
-                wakelockType = ALARM_WAKELOCKS;
+                wakelockAdapter=new AlarmTriggerAdapter(context);
                 break;
         }
 
-        if (wakelockType != null) {
-            new FetchWakelocksTask().execute(wakelockType);
-        }
-
-        return true;
-    }
-
-    private class FetchWakelocksTask extends AsyncTask<String, Void, BaseAdapter> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected BaseAdapter doInBackground(String... params) {
-
-            if (params[0].equals(KERNEL_WAKELOCK)) {
-                adapter = new KernelWakelockAdapter(context);
-            } else if (params[0].equals(CPU_WAKELOCK)) {
-                adapter = new CpuWakelocksAdapter(context);
-            } else if (params[0].equals(ALARM_WAKELOCKS)) {
-                adapter = new AlarmTriggerAdapter(context);
-            }
-
-            return adapter;
-        }
-
-        @Override
-        protected void onPostExecute(BaseAdapter baseAdapter) {
-            super.onPostExecute(baseAdapter);
-
+        if (wakelockAdapter != null) {
             progressBar.setVisibility(View.GONE);
 
-            if (adapter != null && adapter.getCount() != 0) {
+            if (wakelockAdapter != null && wakelockAdapter.getCount() != 0) {
                 wakelockList.setVisibility(View.VISIBLE);
                 timeSince.setTextSize(15);
-                wakelockList.setAdapter(adapter);
+                wakelockList.setAdapter(wakelockAdapter);
                 timeSince.setText("");
 
             } else {
@@ -146,5 +104,7 @@ public class WakeLocksFragment extends Fragment implements
                 timeSince.setText(getString(R.string.stats_not_available));
             }
         }
+
+        return true;
     }
 }

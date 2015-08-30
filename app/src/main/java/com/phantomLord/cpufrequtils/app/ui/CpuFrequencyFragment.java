@@ -2,6 +2,7 @@ package com.phantomLord.cpufrequtils.app.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -37,7 +38,6 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
         CpuMinFreqPreference = (ListPreference) findPreference("cpu_min_freq_pref");
         GovernorPreference = (ListPreference) findPreference("governor_pref");
         preference = findPreference("governor_tune_pref");
-        populatePreferences();
 
         CpuMaxFreqPreference.setOnPreferenceChangeListener(this);
         CpuMinFreqPreference.setOnPreferenceChangeListener(this);
@@ -50,7 +50,7 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
                 return true;
             }
         });
-
+        populatePreferences();
     }
 
     public void populatePreferences() {
@@ -84,14 +84,6 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
         GovernorPreference.setSummary(currentGovernor);
     }
 
-    public void updateData() {
-        availablefreq = CpuFrequencyUtils.getAvailableFrequencies();
-        availableGovernors = CpuFrequencyUtils.getAvailableGovernors();
-        currentGovernor = CpuFrequencyUtils.getCurrentScalingGovernor();
-        maxFrequency = CpuFrequencyUtils.getCurrentMaxFrequency();
-        minFrequency = CpuFrequencyUtils.getCurrentMinFrequency();
-    }
-
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
@@ -109,20 +101,12 @@ public class CpuFrequencyFragment extends PreferenceFragment implements Preferen
         return true;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.set_on_boot_menu, menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.myswitch:
-                Toast.makeText(getActivity().getBaseContext(), "Applying on boot",
-                        Toast.LENGTH_SHORT)
-                        .show();
-        }
-        return super.onOptionsItemSelected(item);
+    public void updateData() {
+        availablefreq = CpuFrequencyUtils.getAvailableFrequencies();
+        availableGovernors = CpuFrequencyUtils.getAvailableGovernors();
+        currentGovernor = CpuFrequencyUtils.getCurrentScalingGovernor();
+        maxFrequency = CpuFrequencyUtils.getCurrentMaxFrequency();
+        minFrequency = CpuFrequencyUtils.getCurrentMinFrequency();
     }
 }

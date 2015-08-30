@@ -3,6 +3,7 @@ package com.phantomLord.cpufrequtils.app.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +20,7 @@ import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.GpuUtils;
 import com.phantomLord.cpufrequtils.app.utils.SysUtils;
 import com.stericson.RootTools.RootTools;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity
                 }
             };
             mDrawerToggle.syncState();
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
             navigationView.setNavigationItemSelectedListener(this);
 
             getFragmentManager().beginTransaction()
@@ -93,46 +96,55 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
-        Fragment mfragment = null;
+    public boolean onNavigationItemSelected(final MenuItem menuItem) {
 
-        switch (menuItem.getItemId()) {
-            case R.id.nav_cpu:
-                mfragment = new CpuFrequencyFragment();
-                actionBar.setTitle("Cpu Frequency");
-                break;
-            case R.id.nav_tis:
-                mfragment = new TimeInStatesFragment();
-                actionBar.setTitle("Time In State");
-                break;
-            case R.id.nav_iocontrol:
-                mfragment = new IOControlFragment();
-                actionBar.setTitle("I/O Control");
-                break;
-            case R.id.nav_wakelocks:
-                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-                mfragment = new WakeLocksFragment();
-                actionBar.setTitle("Wakelocks");
-                break;
-            case R.id.nav_settings:
-                mfragment = new SettingsFragment();
-                actionBar.setTitle(getString(R.string.action_settings));
-                break;
-            case R.id.nav_gpu:
-                mfragment = new GpuControlFragment();
-                actionBar.setTitle("GPU Settings");
-                break;
-        }
 
-        if (mfragment != null) {
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.main_content, mfragment)
-                    .commit();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
-        }
+                Fragment mfragment = null;
+
+
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_cpu:
+                        mfragment = new CpuFrequencyFragment();
+                        actionBar.setTitle("Cpu Frequency");
+                        break;
+                    case R.id.nav_tis:
+                        mfragment = new TimeInStatesFragment();
+                        actionBar.setTitle("Time In State");
+                        break;
+                    case R.id.nav_iocontrol:
+                        mfragment = new IOControlFragment();
+                        actionBar.setTitle("I/O Control");
+                        break;
+                    case R.id.nav_wakelocks:
+                        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                        mfragment = new WakeLocksFragment();
+                        actionBar.setTitle("Wakelocks");
+                        break;
+                    case R.id.nav_settings:
+                        mfragment = new SettingsFragment();
+                        actionBar.setTitle(getString(R.string.action_settings));
+                        break;
+                    case R.id.nav_gpu:
+                        mfragment = new GpuControlFragment();
+                        actionBar.setTitle("GPU Settings");
+                        break;
+                }
+
+
+                if (mfragment != null) {
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.main_content, mfragment)
+                            .commit();
+                }
+            }
+        }, 250);
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
-
         return true;
     }
+
 }
