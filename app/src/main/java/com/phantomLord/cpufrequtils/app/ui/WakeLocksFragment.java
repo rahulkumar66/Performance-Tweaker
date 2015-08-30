@@ -32,14 +32,9 @@ public class WakeLocksFragment extends Fragment implements
     BaseAdapter adapter;
     ProgressBar progressBar;
 
-    String KERNEL_WAKELOCK = "kernel_wakelock_task";
-    String CPU_WAKELOCK = "cpu_wakelock_task";
-    String ALARM_WAKELOCKS = "alarm_wakelock_task";
-
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -86,23 +81,34 @@ public class WakeLocksFragment extends Fragment implements
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         BaseAdapter wakelockAdapter=null;
 
+        progressBar.setVisibility(View.GONE);
+
         switch (itemPosition) {
             case 0:
-                wakelockType = KERNEL_WAKELOCK;
+                wakelockAdapter=new KernelWakelockAdapter(context);
                 break;
             case 1:
-                wakelockType = CPU_WAKELOCK;
+                wakelockAdapter=new CpuWakelocksAdapter(context);
                 break;
             case 2:
-                wakelockType = ALARM_WAKELOCKS;
+                wakelockAdapter=new AlarmTriggerAdapter(context);
                 break;
         }
 
-        if (wakelockType != null) {
-            new FetchWakelocksTask().execute(wakelockType);
+        if (wakelockAdapter != null && wakelockAdapter.getCount() != 0) {
+            wakelockList.setVisibility(View.VISIBLE);
+            timeSince.setTextSize(15);
+            wakelockList.setAdapter(wakelockAdapter);
+            timeSince.setText("");
+
+        } else {
+            wakelockList.setVisibility(View.GONE);
+            timeSince.setTextSize(20);
+            timeSince.setGravity(Gravity.CENTER);
+            timeSince.setText(getString(R.string.stats_not_available));
         }
 
         return true;
     }
-    }
+
 }
