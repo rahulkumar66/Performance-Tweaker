@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity
                             .commit();
                 }
             }
-        }, 250);
+        }, 400);
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
