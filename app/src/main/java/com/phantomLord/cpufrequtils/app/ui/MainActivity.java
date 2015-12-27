@@ -47,11 +47,11 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-        // BugSenseHandler.initAndStartSession(MainActivity.this, "4cdc31a1");
         actionBar = getSupportActionBar();
 
         progressBar.setVisibility(View.VISIBLE);
 
+        //TODO world needs a hero
         if (!(SysUtils.isRooted())) {
             progressBar.setVisibility(View.GONE);
 

@@ -1,8 +1,9 @@
 package com.phantomLord.cpufrequtils.app.ui;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.os.AsyncTask;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.ui.adapters.AlarmTriggerAdapter;
 import com.phantomLord.cpufrequtils.app.ui.adapters.CpuWakelocksAdapter;
 import com.phantomLord.cpufrequtils.app.ui.adapters.KernelWakelockAdapter;
+import com.phantomLord.cpufrequtils.app.utils.SystemAppManagementException;
+import com.phantomLord.cpufrequtils.app.utils.SystemAppUtilities;
 
 public class WakeLocksFragment extends Fragment implements
         ActionBar.OnNavigationListener {
@@ -79,19 +82,38 @@ public class WakeLocksFragment extends Fragment implements
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        BaseAdapter wakelockAdapter=null;
+        BaseAdapter wakelockAdapter = null;
 
         progressBar.setVisibility(View.GONE);
 
         switch (itemPosition) {
             case 0:
-                wakelockAdapter=new KernelWakelockAdapter(context);
+                wakelockAdapter = new KernelWakelockAdapter(context);
                 break;
             case 1:
-                wakelockAdapter=new CpuWakelocksAdapter(context);
+
+                if (!(SystemAppUtilities.hasBatteryStatsPermission(getActivity()))) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Since Kitkat google only allows system apps to access battery permissions! Install this app as System app")
+                            .setTitle("Install as System app")
+                            .setNeutralButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    try {
+                                        SystemAppUtilities.installAsSystemApp(getActivity());
+                                    } catch (SystemAppManagementException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+                }
+
+                wakelockAdapter = new CpuWakelocksAdapter(context);
                 break;
             case 2:
-                wakelockAdapter=new AlarmTriggerAdapter(context);
+                wakelockAdapter = new AlarmTriggerAdapter(context);
                 break;
         }
 

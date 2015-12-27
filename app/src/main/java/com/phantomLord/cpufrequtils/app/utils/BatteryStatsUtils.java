@@ -96,6 +96,7 @@ public class BatteryStatsUtils {
             */
 
         }
+
         BatteryStatsProxy stats = BatteryStatsProxy.getInstance(context);
         try {
             cpuWakelocks = stats.getWakelockStats(context,
@@ -114,6 +115,7 @@ public class BatteryStatsUtils {
                 myWakelocks.add(wl);
             }
         }
+
 
 		/*
          * Sort the data

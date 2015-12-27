@@ -21,7 +21,7 @@ public class AlarmTriggerAdapter extends BaseAdapter {
     ArrayList<Alarm> alarms;
     Context context;
     int totaltime;
-    LayoutInflater infalter;
+    LayoutInflater inflater;
     UidNameResolver uidNameResolver;
 
     public AlarmTriggerAdapter(Context ctx) {
@@ -31,7 +31,7 @@ public class AlarmTriggerAdapter extends BaseAdapter {
         for (Alarm e : alarms) {
             totaltime += e.getWakeups();
         }
-        infalter = (LayoutInflater) context
+        inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         uidNameResolver = UidNameResolver.getInstance(context);
     }
@@ -39,7 +39,7 @@ public class AlarmTriggerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup container) {
 
-        View row = infalter.inflate(R.layout.alarm_trigger_custom_list_item1,
+        View row = inflater.inflate(R.layout.alarm_trigger_custom_list_item1,
                 container, false);
         TextView AlarmPackageName = (TextView) row
                 .findViewById(R.id.alarm_package_name);
