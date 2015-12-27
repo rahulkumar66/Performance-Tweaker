@@ -20,111 +20,101 @@ import com.asksven.android.common.dto.UidInfoDto;
 
 /**
  * @author sven
- *
  */
-public class UidInfo
-{
-	private int m_uid;
-	private String m_uidName = "";
-	private String m_uidNamePackage = "";
-	private boolean m_uidUniqueName = false;
+public class UidInfo {
+  private int m_uid;
+  private String m_uidName = "";
+  private String m_uidNamePackage = "";
+  private boolean m_uidUniqueName = false;
 
-    public UidInfo()
-    {
-    }
+  public UidInfo() {
+  }
 
-    public UidInfo(UidInfoDto source)
-    {
-		this.m_uid				= source.m_uid;
-		this.m_uidName 			= source.m_uidName;
-		this.m_uidNamePackage	= source.m_uidNamePackage;
-		this.m_uidUniqueName	= source.m_uidUniqueName;
-    }
-    
-    public UidInfoDto toDto()
-    {
-    	UidInfoDto ret = new UidInfoDto();
-		ret.m_uid 				= this.m_uid;
-		ret.m_uidName 			= this.m_uidName;
-		ret.m_uidNamePackage	= this.m_uidNamePackage;
-		ret.m_uidUniqueName		= this.m_uidUniqueName;
-		
-    	return ret;
-    }
+  public UidInfo(UidInfoDto source) {
+    this.m_uid = source.m_uid;
+    this.m_uidName = source.m_uidName;
+    this.m_uidNamePackage = source.m_uidNamePackage;
+    this.m_uidUniqueName = source.m_uidUniqueName;
+  }
 
-	/**
-	 * @return the m_uid
-	 */
-	public int getUid()
-	{
-		return m_uid;
-	}
+  public UidInfoDto toDto() {
+    UidInfoDto ret = new UidInfoDto();
+    ret.m_uid = this.m_uid;
+    ret.m_uidName = this.m_uidName;
+    ret.m_uidNamePackage = this.m_uidNamePackage;
+    ret.m_uidUniqueName = this.m_uidUniqueName;
 
-	/**
-	 * @param m_uid the m_uid to set
-	 */
-	public void setUid(int m_uid)
-	{
-		this.m_uid = m_uid;
-	}
+    return ret;
+  }
 
-	/**
-	 * @return the uidName
-	 */
-	public String getName()
-	{
-		return m_uidName;
-	}
+  /**
+   * @return the m_uid
+   */
+  public int getUid() {
+    return m_uid;
+  }
 
-	/**
-	 * @param uidName the uidName to set
-	 */
-	public void setName(String uidName)
-	{
-		this.m_uidName = uidName;
-	}
+  /**
+   * @param m_uid the m_uid to set
+   */
+  public void setUid(int m_uid) {
+    this.m_uid = m_uid;
+  }
 
-	/**
-	 * @return the uidNamePackage
-	 */
-	public String getNamePackage()
-	{
-		return m_uidNamePackage;
-	}
+  /**
+   * @return the uidName
+   */
+  public String getName() {
+    return m_uidName;
+  }
 
-	/**
-	 * @param uidNamePackage the uidNamePackage to set
-	 */
-	public void setNamePackage(String uidNamePackage)
-	{
-		this.m_uidNamePackage = uidNamePackage;
-	}
+  /**
+   * @param uidName the uidName to set
+   */
+  public void setName(String uidName) {
+    this.m_uidName = uidName;
+  }
 
-	/**
-	 * @return the uidUniqueName
-	 */
-	public boolean isUniqueName()
-	{
-		return m_uidUniqueName;
-	}
+  /**
+   * @return the uidNamePackage
+   */
+  public String getNamePackage() {
+    return m_uidNamePackage;
+  }
 
-	/**
-	 * @param uidUniqueName the uidUniqueName to set
-	 */
-	public void setUniqueName(boolean uidUniqueName)
-	{
-		this.m_uidUniqueName = uidUniqueName;
-	}
+  /**
+   * @param uidNamePackage the uidNamePackage to set
+   */
+  public void setNamePackage(String uidNamePackage) {
+    this.m_uidNamePackage = uidNamePackage;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "UidInfo [m_uid=" + m_uid + ", m_uidName=" + m_uidName
-				+ ", m_uidNamePackage=" + m_uidNamePackage
-				+ ", m_uidUniqueName=" + m_uidUniqueName + "]";
-	}
-	
-	
+  /**
+   * @return the uidUniqueName
+   */
+  public boolean isUniqueName() {
+    return m_uidUniqueName;
+  }
+
+  /**
+   * @param uidUniqueName the uidUniqueName to set
+   */
+  public void setUniqueName(boolean uidUniqueName) {
+    this.m_uidUniqueName = uidUniqueName;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override public String toString() {
+    return "UidInfo [m_uid="
+        + m_uid
+        + ", m_uidName="
+        + m_uidName
+        + ", m_uidNamePackage="
+        + m_uidNamePackage
+        + ", m_uidUniqueName="
+        + m_uidUniqueName
+        + "]";
+  }
 }

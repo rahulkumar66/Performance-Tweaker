@@ -15,21 +15,16 @@
  */
 package com.asksven.android.common;
 
-import junit.framework.TestCase;
-
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * @author sven
- *
  */
-public class Shell extends TestCase
-{
-	public void testShell()
-	{
-		List<String> res = NonRootShell.getInstance().run("ls -l /");
-		assertTrue(res !=null);
-		assertTrue(!res.isEmpty());
-	}
-
+public class Shell extends TestCase {
+  public void testShell() {
+    List<String> res = NonRootShell.getInstance().run("ls -l /");
+    assertTrue(res != null);
+    assertTrue(!res.isEmpty());
+  }
 }

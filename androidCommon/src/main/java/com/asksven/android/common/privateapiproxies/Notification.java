@@ -17,165 +17,138 @@ package com.asksven.android.common.privateapiproxies;
 
 import com.asksven.android.common.dto.MiscDto;
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 /**
  * @author sven
- *
  */
-public class Notification extends StatElement implements Comparable<Notification>, Serializable
-{
-	
-	/** 
-	 * the tag for logging
-	 */
-	private static transient final String TAG = "Notification";
-	
-	/**
-	 * the name of the object
-	 */
-	@SerializedName("name")
-	private String m_name;
-	
-	/**
-	 * the time on in ms
-	 */
-	@SerializedName("time_on_ms")
-	private long m_timeOn;
-	
-	/**
-	 * the time running in ms
-	 */
-	@SerializedName("time_runing_ms")
-	private long m_timeRunning;
+public class Notification extends StatElement implements Comparable<Notification>, Serializable {
 
-	/**
-	 * Constructor
-	 * @param name
-	 * @param timeOn
-	 * @param ratio
-	 */
-	public Notification(String name)
-	{
+  /**
+   * the tag for logging
+   */
+  private static transient final String TAG = "Notification";
 
-		m_name			= name;
-		m_timeOn		= 0;
-		m_timeRunning	= 0;
-	}
-	
-	public Notification(MiscDto source)
-	{
-		
-		this.setUid(source.m_uid);
-		this.m_name 		= source.m_name;
-		this.m_timeOn 		= source.m_timeOn;
-		this.m_timeRunning	= source.m_timeRunning;
-		this.setTotal(source.m_total);
-	}
+  /**
+   * the name of the object
+   */
+  @SerializedName("name") private String m_name;
 
-	public MiscDto toDto()
-	{
-		MiscDto ret = new MiscDto();
-		ret.m_uid			= this.getuid();
-		ret.m_timeOn 		= this.m_timeOn;
-		ret.m_timeRunning 	= this.m_timeRunning;
-		ret.m_total		 	= this.getTotal();
-		ret.m_name			= this.m_name;
-	
-		return ret;
-	}
+  /**
+   * the time on in ms
+   */
+  @SerializedName("time_on_ms") private long m_timeOn;
 
-	public Notification clone()
-	{
-		Notification clone = new Notification(m_name);
-		clone.setTotal(0);
-		return clone;
-	}
+  /**
+   * the time running in ms
+   */
+  @SerializedName("time_runing_ms") private long m_timeRunning;
 
+  /**
+   * Constructor
+   */
+  public Notification(String name) {
 
-	/**
-	 * @return the name
-	 */
-	public String getName()
-	{
-		return m_name;
-	}
+    m_name = name;
+    m_timeOn = 0;
+    m_timeRunning = 0;
+  }
 
-	/**
-	 * @return the time on
-	 */
-	public long getTimeOn()
-	{
-		return m_timeOn;
-	}
+  public Notification(MiscDto source) {
 
-	/**
-	 * @return the time running
-	 */
-	public long getTimeRunning()
-	{
-		return m_timeRunning;
-	}
+    this.setUid(source.m_uid);
+    this.m_name = source.m_name;
+    this.m_timeOn = source.m_timeOn;
+    this.m_timeRunning = source.m_timeRunning;
+    this.setTotal(source.m_total);
+  }
 
-	/**
-     * Compare a given Wakelock with this object.
-     * If the duration of this object is 
-     * greater than the received object,
-     * then this object is greater than the other.
-     */
-	public int compareTo(Notification o)
-	{
-		// we want to sort in descending order
-		return (int)( o.getTimeOn() - this.getTimeOn());
-	}
+  public MiscDto toDto() {
+    MiscDto ret = new MiscDto();
+    ret.m_uid = this.getuid();
+    ret.m_timeOn = this.m_timeOn;
+    ret.m_timeRunning = this.m_timeRunning;
+    ret.m_total = this.getTotal();
+    ret.m_name = this.m_name;
 
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Notification [m_name=" + m_name + "]";
-	}
+    return ret;
+  }
 
-	/**
-	 * returns a string representation of the data
-	 */
-	public String getData(long totalTime)
-	{
-		
-		if (totalTime < getTimeOn())
-		{
-			totalTime = getTimeOn();
-		}
-		return this.formatDuration(getTimeOn())
-		+ " " + formatRatio(getTimeOn(), totalTime);
-	}
+  public Notification clone() {
+    Notification clone = new Notification(m_name);
+    clone.setTotal(0);
+    return clone;
+  }
 
-	/**
-	 * returns a string representation of the data
-	 */
-	public String getVals()
-	{
-		
-		return m_name;
-	}
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return m_name;
+  }
 
-	/** 
-	 * returns the values of the data
-	 */	
-	public double[] getValues()
-	{
-		double[] retVal = new double[2];
-		retVal[0] = getTimeOn();
-		return retVal;
-	}
-	
-	public double getMaxValue()
-	{
-		return getTimeOn();            
+  /**
+   * @return the time on
+   */
+  public long getTimeOn() {
+    return m_timeOn;
+  }
+
+  /**
+   * @return the time running
+   */
+  public long getTimeRunning() {
+    return m_timeRunning;
+  }
+
+  /**
+   * Compare a given Wakelock with this object.
+   * If the duration of this object is
+   * greater than the received object,
+   * then this object is greater than the other.
+   */
+  public int compareTo(Notification o) {
+    // we want to sort in descending order
+    return (int) (o.getTimeOn() - this.getTimeOn());
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override public String toString() {
+    return "Notification [m_name=" + m_name + "]";
+  }
+
+  /**
+   * returns a string representation of the data
+   */
+  public String getData(long totalTime) {
+
+    if (totalTime < getTimeOn()) {
+      totalTime = getTimeOn();
     }
-	
+    return this.formatDuration(getTimeOn()) + " " + formatRatio(getTimeOn(), totalTime);
+  }
+
+  /**
+   * returns a string representation of the data
+   */
+  public String getVals() {
+
+    return m_name;
+  }
+
+  /**
+   * returns the values of the data
+   */
+  public double[] getValues() {
+    double[] retVal = new double[2];
+    retVal[0] = getTimeOn();
+    return retVal;
+  }
+
+  public double getMaxValue() {
+    return getTimeOn();
+  }
 }
 

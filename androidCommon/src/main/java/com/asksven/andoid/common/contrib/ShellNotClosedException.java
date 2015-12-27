@@ -6,11 +6,10 @@ package com.asksven.andoid.common.contrib;
 /**
  * Exception class used to notify developer that a shell was not close()d
  */
-@SuppressWarnings("serial")
-public class ShellNotClosedException extends RuntimeException {
-    public static final String EXCEPTION_NOT_CLOSED = "Application did not close() interactive shell";
+@SuppressWarnings("serial") public class ShellNotClosedException extends RuntimeException {
+  public static final String EXCEPTION_NOT_CLOSED = "Application did not close() interactive shell";
 
-    public ShellNotClosedException() {
-        super(EXCEPTION_NOT_CLOSED);
-    }
+  public ShellNotClosedException() {
+    super(EXCEPTION_NOT_CLOSED);
+  }
 }

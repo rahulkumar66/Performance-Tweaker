@@ -17,14 +17,11 @@
 package com.asksven.android.common.privateapiproxies;
 
 import android.util.Log;
-
 import com.google.gson.annotations.SerializedName;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.io.Serializable;
 import java.util.List;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 //import android.content.Context;
 //import android.content.pm.PackageManager;
@@ -32,105 +29,79 @@ import java.util.List;
 
 /**
  * Value holder for alarm items
- * @author sven
  *
+ * @author sven
  */
-public class AlarmItem implements Serializable
-{
-	/** 
-	 * the tag for logging
-	 */
-	private static transient final String TAG = "Alarm";
+public class AlarmItem implements Serializable {
+  /**
+   * the tag for logging
+   */
+  private static transient final String TAG = "Alarm";
 
-	@SerializedName("number")
-	@JsonProperty("number")
-	long m_nNumber;
-	
-	@SerializedName("intent")
-	@JsonProperty("intent")
-	String m_strIntent;
+  @SerializedName("number") @JsonProperty("number") long m_nNumber;
 
-	public AlarmItem()
-	{
-		
-	}
+  @SerializedName("intent") @JsonProperty("intent") String m_strIntent;
 
-	/**
-	 * Default cctor
-	 * @param nCount
-	 * @param strIntent
-	 */
-	@JsonIgnore
-	public AlarmItem(long nCount, String strIntent)
-	{
-		m_nNumber 	= nCount;
-		m_strIntent = strIntent;
-	}
+  public AlarmItem() {
 
-	public AlarmItem clone()
-	{
-		AlarmItem clone = new AlarmItem(m_nNumber, m_strIntent);
-		return clone;
-	}
+  }
 
-	/**
-	 * Returns the intent name
-	 * @return
-	 */
-	@JsonProperty("intent")
-	public String getIntent()
-	{
-		return m_strIntent;
-	}
-	
-	/**
-	 * Returns the count
-	 * @return
-	 */
-	@JsonIgnore
-	public long getCount()
-	{
-		return m_nNumber;
-	}
-	/**
-	 * Returns the data as a string
-	 * @return
-	 */
-	@JsonIgnore
-	public String getData()
-	{
-		return "Alarms: " + m_nNumber + ", Intent: " + m_strIntent;
-	}
-	/**
-	 * Substracts the values from a previous object
-	 * found in myList from the current Process
-	 * in order to obtain an object containing only the data since a referenc
-	 * @param myList
-	 */
-	public void substractFromRef(List<AlarmItem> myList )
-	{
-		if (myList != null)
-		{
-			for (int i = 0; i < myList.size(); i++)
-			{
-				try
-				{
-					AlarmItem myRef = (AlarmItem) myList.get(i);
-					if (this.getIntent().equals(myRef.getIntent()))
-					{
-						// process main values
-						this.m_nNumber		-= myRef.getCount();
-						Log.i(TAG, "Result: " + this.toString());
-					}
-				}
-				catch (ClassCastException e)
-				{
-					// just log as it is no error not to change the process
-					// being substracted from to do nothing
-					Log.e(TAG, "AlarmItem.substractFromRef was called with a wrong list type");
-				}
-			}
-		}
-	}
+  /**
+   * Default cctor
+   */
+  @JsonIgnore public AlarmItem(long nCount, String strIntent) {
+    m_nNumber = nCount;
+    m_strIntent = strIntent;
+  }
+
+  public AlarmItem clone() {
+    AlarmItem clone = new AlarmItem(m_nNumber, m_strIntent);
+    return clone;
+  }
+
+  /**
+   * Returns the intent name
+   */
+  @JsonProperty("intent") public String getIntent() {
+    return m_strIntent;
+  }
+
+  /**
+   * Returns the count
+   */
+  @JsonIgnore public long getCount() {
+    return m_nNumber;
+  }
+
+  /**
+   * Returns the data as a string
+   */
+  @JsonIgnore public String getData() {
+    return "Alarms: " + m_nNumber + ", Intent: " + m_strIntent;
+  }
+
+  /**
+   * Substracts the values from a previous object
+   * found in myList from the current Process
+   * in order to obtain an object containing only the data since a referenc
+   */
+  public void substractFromRef(List<AlarmItem> myList) {
+    if (myList != null) {
+      for (int i = 0; i < myList.size(); i++) {
+        try {
+          AlarmItem myRef = (AlarmItem) myList.get(i);
+          if (this.getIntent().equals(myRef.getIntent())) {
+            // process main values
+            this.m_nNumber -= myRef.getCount();
+            Log.i(TAG, "Result: " + this.toString());
+          }
+        } catch (ClassCastException e) {
+          // just log as it is no error not to change the process
+          // being substracted from to do nothing
+          Log.e(TAG, "AlarmItem.substractFromRef was called with a wrong list type");
+        }
+      }
+    }
+  }
 }
-	
+

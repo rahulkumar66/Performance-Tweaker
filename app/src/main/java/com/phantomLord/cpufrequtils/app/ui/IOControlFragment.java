@@ -5,86 +5,81 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-
 import com.phantomLord.cpufrequtils.app.R;
 import com.phantomLord.cpufrequtils.app.utils.Constants;
 import com.phantomLord.cpufrequtils.app.utils.IOUtils;
 
+public class IOControlFragment extends PreferenceFragment
+    implements Preference.OnPreferenceChangeListener {
 
-public class IOControlFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
+  String[] availableSchedulers, readAheadValues;
+  String currentScheduler;
+  String currentReadAhead;
 
-    String[] availableSchedulers, readAheadValues;
-    String currentScheduler;
-    String currentReadAhead;
+  ListPreference IOScheduler;
+  ListPreference ReadAheadCache;
+  Context context;
 
-    ListPreference IOScheduler;
-    ListPreference ReadAheadCache;
-    Context context;
+  @Override public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    addPreferencesFromResource(R.xml.io_preferences);
+    IOScheduler = (ListPreference) findPreference("disk_scheduler");
+    ReadAheadCache = (ListPreference) findPreference("read_ahead_cache");
 
-        addPreferencesFromResource(R.xml.io_preferences);
-        IOScheduler = (ListPreference) findPreference("disk_scheduler");
-        ReadAheadCache = (ListPreference) findPreference("read_ahead_cache");
+    context = getActivity().getBaseContext();
 
-        context = getActivity().getBaseContext();
+    populatePreferences();
 
-        populatePreferences();
+    IOScheduler.setOnPreferenceChangeListener(this);
+    ReadAheadCache.setOnPreferenceChangeListener(this);
+  }
 
-        IOScheduler.setOnPreferenceChangeListener(this);
-        ReadAheadCache.setOnPreferenceChangeListener(this);
+  private void populatePreferences() {
+
+    updateData();
+
+    if (availableSchedulers != null) {
+      IOScheduler.setEntries(availableSchedulers);
+      IOScheduler.setEntryValues(availableSchedulers);
+
+      ReadAheadCache.setEntries(readAheadValues);
+      ReadAheadCache.setEntryValues(readAheadValues);
+    }
+    if (currentScheduler != null) {
+      IOScheduler.setValue(currentScheduler);
+      IOScheduler.setSummary(currentScheduler);
     }
 
-    private void populatePreferences() {
+    if (currentReadAhead != null) {
+      ReadAheadCache.setValue(currentReadAhead);
+      ReadAheadCache.setSummary(currentReadAhead);
+    }
+  }
 
-        updateData();
+  @Override public boolean onPreferenceChange(Preference preference, Object o) {
 
-        if (availableSchedulers != null) {
-            IOScheduler.setEntries(availableSchedulers);
-            IOScheduler.setEntryValues(availableSchedulers);
-
-            ReadAheadCache.setEntries(readAheadValues);
-            ReadAheadCache.setEntryValues(readAheadValues);
-
-        }
-        if (currentScheduler != null) {
-            IOScheduler.setValue(currentScheduler);
-            IOScheduler.setSummary(currentScheduler);
-        }
-
-        if (currentReadAhead != null) {
-            ReadAheadCache.setValue(currentReadAhead);
-            ReadAheadCache.setSummary(currentReadAhead);
-        }
+    if (preference.getKey().equals("disk_scheduler")) {
+      IOUtils.setDiskScheduler(o.toString(), context);
+    }
+    if (preference.getKey().equals("read_ahead_cache")) {
+      IOUtils.setReadAhead(o.toString(), context);
     }
 
-    @Override
-    public boolean onPreferenceChange(Preference preference, Object o) {
+    updateData();
+    updatePreferences();
+    return true;
+  }
 
-        if (preference.getKey().equals("disk_scheduler")) {
-            IOUtils.setDiskScheduler(o.toString(), context);
-        }
-        if (preference.getKey().equals("read_ahead_cache")) {
-            IOUtils.setReadAhead(o.toString(), context);
-        }
+  public void updateData() {
+    availableSchedulers = IOUtils.getAvailableIOScheduler();
+    currentScheduler = IOUtils.getCurrentIOScheduler();
+    readAheadValues = Constants.readAheadKb;
+    currentReadAhead = IOUtils.getReadAhead();
+  }
 
-        updateData();
-        updatePreferences();
-        return true;
-    }
-
-
-    public void updateData() {
-        availableSchedulers = IOUtils.getAvailableIOScheduler();
-        currentScheduler = IOUtils.getCurrentIOScheduler();
-        readAheadValues = Constants.readAheadKb;
-        currentReadAhead = IOUtils.getReadAhead();
-    }
-
-    public void updatePreferences() {
-        IOScheduler.setSummary(currentScheduler);
-        ReadAheadCache.setSummary(currentReadAhead);
-    }
+  public void updatePreferences() {
+    IOScheduler.setSummary(currentScheduler);
+    ReadAheadCache.setSummary(currentReadAhead);
+  }
 }

@@ -3,27 +3,32 @@
     android:id="@+id/governor_properties_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
-    <include
-        android:id="@+id/toolbar_preference"
-        layout="@layout/toolbar" />
+  <include
+      layout="@layout/toolbar"
+      android:id="@+id/toolbar_preference"
+      />
+
+  <FrameLayout
+      android:id="@+id/frame_preference"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
 
     <FrameLayout
-        android:id="@+id/frame_preference"
+        android:id="@+id/frame_layout_preference"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-        <FrameLayout
-            android:id="@+id/frame_layout_preference"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
+        android:layout_height="match_parent"
+        />
+  </FrameLayout>
 
 </LinearLayout>

@@ -3,54 +3,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
-    <LinearLayout
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      >
+
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar"
+        />
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        >
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+      <ProgressBar
+          android:id="@+id/loading_main"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:visibility="gone"
+          />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+      <TextView
+          android:id="@+id/app_compatibility_status"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:textSize="20sp"
+          android:textStyle="bold"
+          android:visibility="gone"
+          />
 
-            <ProgressBar
-                android:id="@+id/loading_main"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
+      <LinearLayout
+          android:id="@+id/main_content"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:scrollbarStyle="outsideOverlay"
+          />
 
-            <TextView
-                android:id="@+id/app_compatibility_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+    </FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/main_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:scrollbarStyle="outsideOverlay"/>
+  </LinearLayout>
 
-        </FrameLayout>
-
-    </LinearLayout>
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigation"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/navigation_drawer_menu" />
+  <android.support.design.widget.NavigationView
+      android:id="@+id/navigation"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_gravity="start"
+      app:headerLayout="@layout/drawer_header"
+      app:menu="@menu/navigation_drawer_menu"
+      />
 
 </android.support.v4.widget.DrawerLayout>

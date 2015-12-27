@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:key="governor_tune_pref"
-        android:title="CPU Governor Tuning ">
+  <PreferenceCategory
+      android:key="governor_tune_pref"
+      android:title="CPU Governor Tuning ">
 
-    </PreferenceCategory>
+  </PreferenceCategory>
 
 </PreferenceScreen>

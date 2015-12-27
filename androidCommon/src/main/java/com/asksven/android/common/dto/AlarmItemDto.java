@@ -16,18 +16,16 @@
 
 package com.asksven.android.common.dto;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.io.Serializable;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * A DTO for AlarmItems
- * @author sven
  *
+ * @author sven
  */
-public class AlarmItemDto implements Serializable
-{
-	@JsonProperty("number") public long m_nNumber;
-	
-	@JsonProperty("intent") public String m_strIntent;
+public class AlarmItemDto implements Serializable {
+  @JsonProperty("number") public long m_nNumber;
+
+  @JsonProperty("intent") public String m_strIntent;
 }

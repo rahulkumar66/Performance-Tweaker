@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Cpu Frequency">
-        <ListPreference
-            android:key="cpu_min_freq_pref"
-            android:persistent="true"
-            android:title="Minimum Frequency" />
-        <ListPreference
-            android:key="cpu_max_freq_pref"
-            android:persistent="true"
-            android:title="Maximum Frequency" />
+  <PreferenceCategory android:title="Cpu Frequency">
+    <ListPreference
+        android:key="cpu_min_freq_pref"
+        android:persistent="true"
+        android:title="Minimum Frequency"/>
+    <ListPreference
+        android:key="cpu_max_freq_pref"
+        android:persistent="true"
+        android:title="Maximum Frequency"/>
 
-    </PreferenceCategory>
+  </PreferenceCategory>
 
-    <PreferenceCategory android:title="Cpu Governor">
-        <ListPreference
-            android:key="governor_pref"
-            android:persistent="true"
-            android:summary="Change Current Scaling Governor"
-            android:title="Change Governor" />
-        <Preference
-            android:key="governor_tune_pref"
-            android:persistent="true"
-            android:summary="Fine Tune Governor Parameters"
-            android:title="Governor Parameters" />
+  <PreferenceCategory android:title="Cpu Governor">
+    <ListPreference
+        android:key="governor_pref"
+        android:persistent="true"
+        android:summary="Change Current Scaling Governor"
+        android:title="Change Governor"/>
+    <Preference
+        android:key="governor_tune_pref"
+        android:persistent="true"
+        android:summary="Fine Tune Governor Parameters"
+        android:title="Governor Parameters"/>
 
-    </PreferenceCategory>
+  </PreferenceCategory>
 
 
 </PreferenceScreen>

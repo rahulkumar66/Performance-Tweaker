@@ -16,32 +16,30 @@
 
 package com.asksven.android.common.dto;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.io.Serializable;
 import java.util.ArrayList;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * A DTO class for Alarms
- * @author sven
  *
+ * @author sven
  */
-public class AlarmDto implements Serializable
-{
+public class AlarmDto implements Serializable {
 
-	// from StatElement
-	@JsonProperty("uid") public int m_uid = -1;
-	
-	@JsonProperty("total") public long m_total;	
+  // from StatElement
+  @JsonProperty("uid") public int m_uid = -1;
 
-	// from Alarm
-	@JsonProperty("package_name") public String m_strPackageName;
-	
-	@JsonProperty("wakeups") public long m_nWakeups;
-	
-	@JsonProperty("total_count") public long m_nTotalCount;
-	
-	@JsonProperty("time_running_ms") public long m_timeRunning;
-	
-	@JsonProperty("items") public ArrayList<AlarmItemDto> m_items;
+  @JsonProperty("total") public long m_total;
+
+  // from Alarm
+  @JsonProperty("package_name") public String m_strPackageName;
+
+  @JsonProperty("wakeups") public long m_nWakeups;
+
+  @JsonProperty("total_count") public long m_nTotalCount;
+
+  @JsonProperty("time_running_ms") public long m_timeRunning;
+
+  @JsonProperty("items") public ArrayList<AlarmItemDto> m_items;
 }

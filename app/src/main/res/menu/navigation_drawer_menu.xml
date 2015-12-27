@@ -1,35 +1,35 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group
-        android:id="@+id/menu_drawer_grp1"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_cpu"
-            android:icon="@drawable/ic_action_meter"
-            android:title="CPU Control" />
+  <group
+      android:id="@+id/menu_drawer_grp1"
+      android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_cpu"
+        android:icon="@drawable/ic_action_meter"
+        android:title="CPU Control"/>
 
-        <item
-            android:id="@+id/nav_gpu"
-            android:icon="@drawable/ic_action_meter"
-            android:title="GPU Control"
-            android:visible="false" />
-        <item
-            android:id="@+id/nav_tis"
-            android:icon="@drawable/ic_action_bar_chart"
-            android:title="Time In State" />
-        <item
-            android:id="@+id/nav_iocontrol"
-            android:icon="@drawable/ic_action_backup"
-            android:title="I/O Control" />
-        <item
-            android:id="@+id/nav_wakelocks"
-            android:icon="@drawable/ic_action_battery_med"
-            android:title="Wakelocks" />
-        <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_action_prefs_widget"
-            android:title="Settings" />
+    <item
+        android:id="@+id/nav_gpu"
+        android:icon="@drawable/ic_action_meter"
+        android:title="GPU Control"
+        android:visible="false"/>
+    <item
+        android:id="@+id/nav_tis"
+        android:icon="@drawable/ic_action_bar_chart"
+        android:title="Time In State"/>
+    <item
+        android:id="@+id/nav_iocontrol"
+        android:icon="@drawable/ic_action_backup"
+        android:title="I/O Control"/>
+    <item
+        android:id="@+id/nav_wakelocks"
+        android:icon="@drawable/ic_action_battery_med"
+        android:title="Wakelocks"/>
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_action_prefs_widget"
+        android:title="Settings"/>
 
 
-    </group>
+  </group>
 </menu>

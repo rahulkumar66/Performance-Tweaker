@@ -16,282 +16,265 @@
 
 package com.asksven.android.common.privateapiproxies;
 
-
 import android.content.Context;
-
+import dalvik.system.DexFile;
 import java.io.File;
 import java.lang.reflect.Method;
 
-import dalvik.system.DexFile;
+public class SystemPropertiesProxy {
 
+  /**
+   * This class cannot be instantiated
+   */
+  private SystemPropertiesProxy() {
 
-public class SystemPropertiesProxy
-{
+  }
 
-/**
- * This class cannot be instantiated
- */
-private SystemPropertiesProxy(){
+  /**
+   * Get the value for the given key.
+   *
+   * @return an empty string if the key isn't found
+   * @throws IllegalArgumentException if the key exceeds 32 characters
+   */
+  public static String get(Context context, String key) throws IllegalArgumentException {
 
-}
+    String ret = "";
 
-    /**
-     * Get the value for the given key.
-     * @return an empty string if the key isn't found
-     * @throws IllegalArgumentException if the key exceeds 32 characters
-     */
-    public static String get(Context context, String key) throws IllegalArgumentException {
+    try {
 
-        String ret= "";
+      ClassLoader cl = context.getClassLoader();
+      @SuppressWarnings("rawtypes") Class SystemProperties =
+          cl.loadClass("android.os.SystemProperties");
 
-        try{
+      //Parameters Types
+      @SuppressWarnings("rawtypes") Class[] paramTypes = new Class[1];
+      paramTypes[0] = String.class;
 
-          ClassLoader cl = context.getClassLoader(); 
-          @SuppressWarnings("rawtypes")
-          Class SystemProperties = cl.loadClass("android.os.SystemProperties");
+      @SuppressWarnings("unchecked") Method get = SystemProperties.getMethod("get", paramTypes);
 
-          //Parameters Types
-          @SuppressWarnings("rawtypes")
-              Class[] paramTypes= new Class[1];
-          paramTypes[0]= String.class;
+      //Parameters
+      Object[] params = new Object[1];
+      params[0] = new String(key);
 
-          @SuppressWarnings("unchecked")
-		  Method get = SystemProperties.getMethod("get", paramTypes);
-
-          //Parameters
-          Object[] params= new Object[1];
-          params[0]= new String(key);
-
-          ret= (String) get.invoke(SystemProperties, params);
-
-        }catch( IllegalArgumentException iAE ){
-            throw iAE;
-        }catch( Exception e ){
-            ret= "";
-            //TODO
-        }
-
-        return ret;
-
+      ret = (String) get.invoke(SystemProperties, params);
+    } catch (IllegalArgumentException iAE) {
+      throw iAE;
+    } catch (Exception e) {
+      ret = "";
+      //TODO
     }
 
-    /**
-     * Get the value for the given key.
-     * @return if the key isn't found, return def if it isn't null, or an empty string otherwise
-     * @throws IllegalArgumentException if the key exceeds 32 characters
-     */
-    public static String get(Context context, String key, String def) throws IllegalArgumentException {
+    return ret;
+  }
 
-        String ret= def;
+  /**
+   * Get the value for the given key.
+   *
+   * @return if the key isn't found, return def if it isn't null, or an empty string otherwise
+   * @throws IllegalArgumentException if the key exceeds 32 characters
+   */
+  public static String get(Context context, String key, String def)
+      throws IllegalArgumentException {
 
-        try{
+    String ret = def;
 
-          ClassLoader cl = context.getClassLoader(); 
-          @SuppressWarnings("rawtypes")
-          Class SystemProperties = cl.loadClass("android.os.SystemProperties");
+    try {
 
-          //Parameters Types
-          @SuppressWarnings("rawtypes")
-              Class[] paramTypes= new Class[2];
-          paramTypes[0]= String.class;
-          paramTypes[1]= String.class;          
+      ClassLoader cl = context.getClassLoader();
+      @SuppressWarnings("rawtypes") Class SystemProperties =
+          cl.loadClass("android.os.SystemProperties");
 
-          @SuppressWarnings("unchecked")
-		  Method get = SystemProperties.getMethod("get", paramTypes);
+      //Parameters Types
+      @SuppressWarnings("rawtypes") Class[] paramTypes = new Class[2];
+      paramTypes[0] = String.class;
+      paramTypes[1] = String.class;
 
-          //Parameters
-          Object[] params= new Object[2];
-          params[0]= new String(key);
-          params[1]= new String(def);
+      @SuppressWarnings("unchecked") Method get = SystemProperties.getMethod("get", paramTypes);
 
-          ret= (String) get.invoke(SystemProperties, params);
+      //Parameters
+      Object[] params = new Object[2];
+      params[0] = new String(key);
+      params[1] = new String(def);
 
-        }catch( IllegalArgumentException iAE ){
-            throw iAE;
-        }catch( Exception e ){
-            ret= def;
-            //TODO
-        }
-
-        return ret;
-
+      ret = (String) get.invoke(SystemProperties, params);
+    } catch (IllegalArgumentException iAE) {
+      throw iAE;
+    } catch (Exception e) {
+      ret = def;
+      //TODO
     }
 
-    /**
-     * Get the value for the given key, and return as an integer.
-     * @param key the key to lookup
-     * @param def a default value to return
-     * @return the key parsed as an integer, or def if the key isn't found or
-     *         cannot be parsed
-     * @throws IllegalArgumentException if the key exceeds 32 characters
-     */
-    public static Integer getInt(Context context, String key, int def) throws IllegalArgumentException {
+    return ret;
+  }
 
-        Integer ret= def;
+  /**
+   * Get the value for the given key, and return as an integer.
+   *
+   * @param key the key to lookup
+   * @param def a default value to return
+   * @return the key parsed as an integer, or def if the key isn't found or
+   * cannot be parsed
+   * @throws IllegalArgumentException if the key exceeds 32 characters
+   */
+  public static Integer getInt(Context context, String key, int def)
+      throws IllegalArgumentException {
 
-        try{
+    Integer ret = def;
 
-          ClassLoader cl = context.getClassLoader(); 
-          @SuppressWarnings("rawtypes")
-          Class SystemProperties = cl.loadClass("android.os.SystemProperties");
+    try {
 
-          //Parameters Types
-          @SuppressWarnings("rawtypes")
-              Class[] paramTypes= new Class[2];
-          paramTypes[0]= String.class;
-          paramTypes[1]= int.class;  
+      ClassLoader cl = context.getClassLoader();
+      @SuppressWarnings("rawtypes") Class SystemProperties =
+          cl.loadClass("android.os.SystemProperties");
 
-          @SuppressWarnings("unchecked")
-		  Method getInt = SystemProperties.getMethod("getInt", paramTypes);
+      //Parameters Types
+      @SuppressWarnings("rawtypes") Class[] paramTypes = new Class[2];
+      paramTypes[0] = String.class;
+      paramTypes[1] = int.class;
 
-          //Parameters
-          Object[] params= new Object[2];
-          params[0]= new String(key);
-          params[1]= new Integer(def);
+      @SuppressWarnings("unchecked") Method getInt =
+          SystemProperties.getMethod("getInt", paramTypes);
 
-          ret= (Integer) getInt.invoke(SystemProperties, params);
+      //Parameters
+      Object[] params = new Object[2];
+      params[0] = new String(key);
+      params[1] = new Integer(def);
 
-        }catch( IllegalArgumentException iAE ){
-            throw iAE;
-        }catch( Exception e ){
-            ret= def;
-            //TODO
-        }
-
-        return ret;
-
+      ret = (Integer) getInt.invoke(SystemProperties, params);
+    } catch (IllegalArgumentException iAE) {
+      throw iAE;
+    } catch (Exception e) {
+      ret = def;
+      //TODO
     }
 
-    /**
-     * Get the value for the given key, and return as a long.
-     * @param key the key to lookup
-     * @param def a default value to return
-     * @return the key parsed as a long, or def if the key isn't found or
-     *         cannot be parsed
-     * @throws IllegalArgumentException if the key exceeds 32 characters
-     */
-    public static Long getLong(Context context, String key, long def) throws IllegalArgumentException {
+    return ret;
+  }
 
-        Long ret= def;
+  /**
+   * Get the value for the given key, and return as a long.
+   *
+   * @param key the key to lookup
+   * @param def a default value to return
+   * @return the key parsed as a long, or def if the key isn't found or
+   * cannot be parsed
+   * @throws IllegalArgumentException if the key exceeds 32 characters
+   */
+  public static Long getLong(Context context, String key, long def)
+      throws IllegalArgumentException {
 
-        try{
+    Long ret = def;
 
-          ClassLoader cl = context.getClassLoader();
-          @SuppressWarnings("rawtypes")
-              Class SystemProperties= cl.loadClass("android.os.SystemProperties");
+    try {
 
-          //Parameters Types
-          @SuppressWarnings("rawtypes")
-              Class[] paramTypes= new Class[2];
-          paramTypes[0]= String.class;
-          paramTypes[1]= long.class;  
+      ClassLoader cl = context.getClassLoader();
+      @SuppressWarnings("rawtypes") Class SystemProperties =
+          cl.loadClass("android.os.SystemProperties");
 
-          @SuppressWarnings("unchecked")
-		  Method getLong = SystemProperties.getMethod("getLong", paramTypes);
+      //Parameters Types
+      @SuppressWarnings("rawtypes") Class[] paramTypes = new Class[2];
+      paramTypes[0] = String.class;
+      paramTypes[1] = long.class;
 
-          //Parameters
-          Object[] params= new Object[2];
-          params[0]= new String(key);
-          params[1]= new Long(def);
+      @SuppressWarnings("unchecked") Method getLong =
+          SystemProperties.getMethod("getLong", paramTypes);
 
-          ret= (Long) getLong.invoke(SystemProperties, params);
+      //Parameters
+      Object[] params = new Object[2];
+      params[0] = new String(key);
+      params[1] = new Long(def);
 
-        }catch( IllegalArgumentException iAE ){
-            throw iAE;
-        }catch( Exception e ){
-            ret= def;
-            //TODO
-        }
-
-        return ret;
-
+      ret = (Long) getLong.invoke(SystemProperties, params);
+    } catch (IllegalArgumentException iAE) {
+      throw iAE;
+    } catch (Exception e) {
+      ret = def;
+      //TODO
     }
 
-    /**
-     * Get the value for the given key, returned as a boolean.
-     * Values 'n', 'no', '0', 'false' or 'off' are considered false.
-     * Values 'y', 'yes', '1', 'true' or 'on' are considered true.
-     * (case insensitive).
-     * If the key does not exist, or has any other value, then the default
-     * result is returned.
-     * @param key the key to lookup
-     * @param def a default value to return
-     * @return the key parsed as a boolean, or def if the key isn't found or is
-     *         not able to be parsed as a boolean.
-     * @throws IllegalArgumentException if the key exceeds 32 characters
-     */
-    public static Boolean getBoolean(Context context, String key, boolean def) throws IllegalArgumentException {
+    return ret;
+  }
 
-        Boolean ret= def;
+  /**
+   * Get the value for the given key, returned as a boolean.
+   * Values 'n', 'no', '0', 'false' or 'off' are considered false.
+   * Values 'y', 'yes', '1', 'true' or 'on' are considered true.
+   * (case insensitive).
+   * If the key does not exist, or has any other value, then the default
+   * result is returned.
+   *
+   * @param key the key to lookup
+   * @param def a default value to return
+   * @return the key parsed as a boolean, or def if the key isn't found or is
+   * not able to be parsed as a boolean.
+   * @throws IllegalArgumentException if the key exceeds 32 characters
+   */
+  public static Boolean getBoolean(Context context, String key, boolean def)
+      throws IllegalArgumentException {
 
-        try{
+    Boolean ret = def;
 
-          ClassLoader cl = context.getClassLoader(); 
-          @SuppressWarnings("rawtypes")
-          Class SystemProperties = cl.loadClass("android.os.SystemProperties");
+    try {
 
-          //Parameters Types
-          @SuppressWarnings("rawtypes")
-              Class[] paramTypes= new Class[2];
-          paramTypes[0]= String.class;
-          paramTypes[1]= boolean.class;  
+      ClassLoader cl = context.getClassLoader();
+      @SuppressWarnings("rawtypes") Class SystemProperties =
+          cl.loadClass("android.os.SystemProperties");
 
-          Method getBoolean = SystemProperties.getMethod("getBoolean", paramTypes);
+      //Parameters Types
+      @SuppressWarnings("rawtypes") Class[] paramTypes = new Class[2];
+      paramTypes[0] = String.class;
+      paramTypes[1] = boolean.class;
 
-          //Parameters         
-          Object[] params= new Object[2];
-          params[0]= new String(key);
-          params[1]= new Boolean(def);
+      Method getBoolean = SystemProperties.getMethod("getBoolean", paramTypes);
 
-          ret= (Boolean) getBoolean.invoke(SystemProperties, params);
+      //Parameters
+      Object[] params = new Object[2];
+      params[0] = new String(key);
+      params[1] = new Boolean(def);
 
-        }catch( IllegalArgumentException iAE ){
-            throw iAE;
-        }catch( Exception e ){
-            ret= def;
-            //TODO
-        }
-
-        return ret;
-
+      ret = (Boolean) getBoolean.invoke(SystemProperties, params);
+    } catch (IllegalArgumentException iAE) {
+      throw iAE;
+    } catch (Exception e) {
+      ret = def;
+      //TODO
     }
 
-    /**
-     * Set the value for the given key.
-     * @throws IllegalArgumentException if the key exceeds 32 characters
-     * @throws IllegalArgumentException if the value exceeds 92 characters
-     */
-    public static void set(Context context, String key, String val) throws IllegalArgumentException {
+    return ret;
+  }
 
-        try{
+  /**
+   * Set the value for the given key.
+   *
+   * @throws IllegalArgumentException if the key exceeds 32 characters
+   * @throws IllegalArgumentException if the value exceeds 92 characters
+   */
+  public static void set(Context context, String key, String val) throws IllegalArgumentException {
 
-          @SuppressWarnings("unused")
-          DexFile df = new DexFile(new File("/system/app/Settings.apk"));
-          @SuppressWarnings("unused")
-          ClassLoader cl = context.getClassLoader(); 
-          @SuppressWarnings("rawtypes")
-          Class SystemProperties = Class.forName("android.os.SystemProperties");
+    try {
 
-          //Parameters Types
-          @SuppressWarnings("rawtypes")
-              Class[] paramTypes= new Class[2];
-          paramTypes[0]= String.class;
-          paramTypes[1]= String.class;  
+      @SuppressWarnings("unused") DexFile df = new DexFile(new File("/system/app/Settings.apk"));
+      @SuppressWarnings("unused") ClassLoader cl = context.getClassLoader();
+      @SuppressWarnings("rawtypes") Class SystemProperties =
+          Class.forName("android.os.SystemProperties");
 
-          Method set = SystemProperties.getMethod("set", paramTypes);
+      //Parameters Types
+      @SuppressWarnings("rawtypes") Class[] paramTypes = new Class[2];
+      paramTypes[0] = String.class;
+      paramTypes[1] = String.class;
 
-          //Parameters         
-          Object[] params= new Object[2];
-          params[0]= new String(key);
-          params[1]= new String(val);
+      Method set = SystemProperties.getMethod("set", paramTypes);
 
-          set.invoke(SystemProperties, params);
+      //Parameters
+      Object[] params = new Object[2];
+      params[0] = new String(key);
+      params[1] = new String(val);
 
-        }catch( IllegalArgumentException iAE ){
-            throw iAE;
-        }catch( Exception e ){
-            //TODO
-        }
-
+      set.invoke(SystemProperties, params);
+    } catch (IllegalArgumentException iAE) {
+      throw iAE;
+    } catch (Exception e) {
+      //TODO
     }
+  }
 }

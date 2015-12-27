@@ -16,19 +16,15 @@
 
 package com.asksven.android.common.dto;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.io.Serializable;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author sven
- *
  */
-public class UidInfoDto implements Serializable
-{
-	@JsonProperty("uid") public int m_uid;
-	@JsonProperty("name") public String m_uidName = "";
-	@JsonProperty("package")public String m_uidNamePackage = "";
-	@JsonProperty("unique") public boolean m_uidUniqueName = false;
-	
+public class UidInfoDto implements Serializable {
+  @JsonProperty("uid") public int m_uid;
+  @JsonProperty("name") public String m_uidName = "";
+  @JsonProperty("package") public String m_uidNamePackage = "";
+  @JsonProperty("unique") public boolean m_uidUniqueName = false;
 }

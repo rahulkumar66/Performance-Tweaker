@@ -16,27 +16,25 @@
 
 package com.asksven.android.common.dto;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.io.Serializable;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * A FTO for Misc
- * @author sven
  *
+ * @author sven
  */
-public class MiscDto implements Serializable
-{
+public class MiscDto implements Serializable {
 
-	// from StatElement
-	@JsonProperty("uid") public int m_uid = -1;
+  // from StatElement
+  @JsonProperty("uid") public int m_uid = -1;
 
-	@JsonProperty("total") public long m_total;	
+  @JsonProperty("total") public long m_total;
 
-	// from Misc
-	@JsonProperty("name") public String m_name;
-	
-	@JsonProperty("time_on_ms") public long m_timeOn;
-	
-	@JsonProperty("time_running_ms") public long m_timeRunning;
+  // from Misc
+  @JsonProperty("name") public String m_name;
+
+  @JsonProperty("time_on_ms") public long m_timeOn;
+
+  @JsonProperty("time_running_ms") public long m_timeRunning;
 }

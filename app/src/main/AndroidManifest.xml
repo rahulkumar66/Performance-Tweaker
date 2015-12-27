@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.phantomLord.cpufrequtils.app"
     android:installLocation="internalOnly"
     android:versionCode="2"
-    android:versionName="1.1">
+    android:versionName="1.1"
+    package="com.phantomLord.cpufrequtils.app">
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="22" />
+  <uses-sdk
+      android:minSdkVersion="14"
+      android:targetSdkVersion="22"/>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
-    <uses-permission android:name="android.permission.BATTERY_STATS" />
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+  <uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>
+  <uses-permission android:name="android.permission.BATTERY_STATS"/>
 
 
-    <application
-        android:allowBackup="true"
+  <application
+      android:allowBackup="true"
+      android:label="@string/app_name"
+      android:theme="@style/AppTheme">
+    <activity
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".ui.MainActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        android:name=".ui.MainActivity"
+        android:screenOrientation="portrait">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
 
-        <receiver
-            android:name=".receivers.BootReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+    <receiver
+        android:exported="false"
+        android:name=".receivers.BootReceiver">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED"/>
 
-                <category android:name="android.intent.category.HOME" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".receivers.SaveReferenceReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-            </intent-filter>
-        </receiver>
+        <category android:name="android.intent.category.HOME"/>
+      </intent-filter>
+    </receiver>
+    <receiver
+        android:exported="false"
+        android:name=".receivers.SaveReferenceReceiver">
+      <intent-filter>
+        <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+        <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+      </intent-filter>
+    </receiver>
 
-        <service android:name=".services.BootService" />
-        <service android:name=".services.SaveSinceUnpluggedReferenceService" />
+    <service android:name=".services.BootService"/>
+    <service android:name=".services.SaveSinceUnpluggedReferenceService"/>
 
-        <activity
-            android:name=".ui.GovernorTuningActivity"
-            android:label="@string/title_activity_governer_tuner_preference"
-            android:parentActivityName=".ui.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.phantomLord.cpufrequtils.app.ui.MainActivity" />
-        </activity>
-    </application>
+    <activity
+        android:label="@string/title_activity_governer_tuner_preference"
+        android:name=".ui.GovernorTuningActivity"
+        android:parentActivityName=".ui.MainActivity">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value="com.phantomLord.cpufrequtils.app.ui.MainActivity"/>
+    </activity>
+  </application>
 
 </manifest>
