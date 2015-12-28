@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.rattlehead666.performancetweaker.app.utils.Constants;
 import com.rattlehead666.performancetweaker.app.utils.SysUtils;
+import com.stericson.RootTools.RootTools;
 
 public class BootService extends IntentService {
 
@@ -28,7 +29,7 @@ public class BootService extends IntentService {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    if (SysUtils.isRooted()) {
+    if (RootTools.isAccessGiven()) {
       if (prefs.getBoolean(Constants.PREF_CPU_APPLY_ON_BOOT, false)) {
         String max, min, gov;
         max = prefs.getString(Constants.PREF_MAX_FREQ, null);

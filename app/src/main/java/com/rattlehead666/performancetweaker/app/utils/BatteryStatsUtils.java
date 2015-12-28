@@ -11,6 +11,7 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
+import com.stericson.RootTools.RootTools;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -125,7 +126,7 @@ public class BatteryStatsUtils {
   public ArrayList<Alarm> getAlarmStats() {
     ArrayList<Alarm> myWakelocks = new ArrayList<>();
     ArrayList<StatElement> alarms;
-    if (SysUtils.isRooted()) {
+    if (RootTools.isAccessGiven()) {
       alarms = AlarmsDumpsys.getAlarms(true);
     } else {
       return myWakelocks;

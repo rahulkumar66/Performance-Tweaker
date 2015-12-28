@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity
     progressBar.setVisibility(View.VISIBLE);
 
     //TODO world needs a hero
-    if (!(SysUtils.isRooted()) || (!(RootTools.isBusyboxAvailable()))) {
+    if (!(RootTools.isAccessGiven()) || (!(RootTools.isBusyboxAvailable()))) {
       progressBar.setVisibility(View.GONE);
 
       appCompatibilityMessage.setVisibility(View.VISIBLE);

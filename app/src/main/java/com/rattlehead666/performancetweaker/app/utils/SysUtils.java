@@ -11,10 +11,6 @@ import java.util.ArrayList;
 
 public class SysUtils implements Constants {
 
-  public static boolean isRooted() {
-    return new File("/system/bin/su").exists() || new File("/system/xbin/su").exists();
-  }
-
   public static String readOutputFromFile(String pathToFile) {
     StringBuilder buffer = new StringBuilder();
     String data = null;
