@@ -3,7 +3,7 @@
     android:installLocation="internalOnly"
     android:versionCode="2"
     android:versionName="1.1"
-    package="com.phantomLord.cpufrequtils.app">
+    package="com.rattlehead666.performancetweaker.app">
 
   <uses-sdk
       android:minSdkVersion="14"
@@ -21,7 +21,7 @@
       android:theme="@style/AppTheme">
     <activity
         android:label="@string/app_name"
-        android:name=".ui.MainActivity"
+        android:name="com.rattlehead666.performancetweaker.app.ui.MainActivity"
         android:screenOrientation="portrait">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
@@ -32,7 +32,7 @@
 
     <receiver
         android:exported="false"
-        android:name=".receivers.BootReceiver">
+        android:name="com.rattlehead666.performancetweaker.app.receivers.BootReceiver">
       <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED"/>
 
@@ -41,23 +41,23 @@
     </receiver>
     <receiver
         android:exported="false"
-        android:name=".receivers.SaveReferenceReceiver">
+        android:name="com.rattlehead666.performancetweaker.app.receivers.SaveReferenceReceiver">
       <intent-filter>
         <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
         <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
       </intent-filter>
     </receiver>
 
-    <service android:name=".services.BootService"/>
-    <service android:name=".services.SaveSinceUnpluggedReferenceService"/>
+    <service android:name="com.rattlehead666.performancetweaker.app.services.BootService"/>
+    <service android:name="com.rattlehead666.performancetweaker.app.services.SaveSinceUnpluggedReferenceService"/>
 
     <activity
         android:label="@string/title_activity_governer_tuner_preference"
-        android:name=".ui.GovernorTuningActivity"
-        android:parentActivityName=".ui.MainActivity">
+        android:name="com.rattlehead666.performancetweaker.app.ui.GovernorTuningActivity"
+        android:parentActivityName="com.rattlehead666.performancetweaker.app.ui.MainActivity">
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
-          android:value="com.phantomLord.cpufrequtils.app.ui.MainActivity"/>
+          android:value="com.rattlehead666.performancetweaker.app.ui.MainActivity"/>
     </activity>
   </application>
 
