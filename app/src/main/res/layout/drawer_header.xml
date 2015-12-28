@@ -2,8 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="172dp"
-    android:background="@drawable/drawer_background"
+    android:background="@color/material_deep_teal_200"
+    android:gravity="bottom"
     android:orientation="vertical"
     >
 
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="70dp"
+      android:background="@color/accent"
+      android:gravity="bottom"
+      >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:text="@string/app_name"
+        android:textColor="@color/icons"
+        android:textSize="25sp"
+        />
+  </LinearLayout>
 </LinearLayout>

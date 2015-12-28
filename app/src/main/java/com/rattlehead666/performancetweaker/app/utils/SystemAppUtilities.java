@@ -95,7 +95,6 @@ public class SystemAppUtilities {
               .setTitle("Complete")
               .setNeutralButton("Yes", new DialogInterface.OnClickListener() {
                 @Override public void onClick(DialogInterface dialog, int which) {
-                  //TODO reboot
                   rebootDevice(((Dialog) dialog).getContext());
                 }
               })
@@ -108,7 +107,7 @@ public class SystemAppUtilities {
         }
       }
     };
-    task.execute((Void) null);
+    task.execute();
   }
 
   public static void rebootDevice(final Context context) {

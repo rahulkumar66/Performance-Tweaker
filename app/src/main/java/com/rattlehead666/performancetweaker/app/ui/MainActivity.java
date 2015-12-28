@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
 import com.stericson.RootTools.RootTools;
@@ -56,7 +57,9 @@ public class MainActivity extends AppCompatActivity
 
     //TODO shed
     if (GpuUtils.isGpuFrequencyScalingSupported()) {
-      navigationView.getMenu().getItem(1).setVisible(true);
+      navigationView.getMenu().close();
+      MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_gpu).setVisible(false);
+      Toast.makeText(getBaseContext(), menuItem.isVisible() + "", Toast.LENGTH_SHORT).show();
     }
 
     mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar,
@@ -150,8 +153,7 @@ public class MainActivity extends AppCompatActivity
         progressBar.setVisibility(View.GONE);
 
         appCompatibilityMessage.setVisibility(View.VISIBLE);
-        appCompatibilityMessage.setText(
-            !hasRoot ? "No root access found" : "No Busybox found");
+        appCompatibilityMessage.setText(!hasRoot ? "No root access found" : "No Busybox found");
 
         if (hasRoot) {
           //redirect to playstore for installing busybox
