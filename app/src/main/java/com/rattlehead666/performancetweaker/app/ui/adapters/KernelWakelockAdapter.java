@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
-
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.BatteryStatsUtils;
 import com.rattlehead666.performancetweaker.app.utils.SysUtils;

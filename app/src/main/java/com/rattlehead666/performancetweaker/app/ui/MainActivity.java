@@ -1,6 +1,10 @@
 package com.rattlehead666.performancetweaker.app.ui;
 
 import android.app.Fragment;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -14,10 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
-import com.rattlehead666.performancetweaker.app.utils.SysUtils;
 import com.stericson.RootTools.RootTools;
 
 public class MainActivity extends AppCompatActivity
@@ -46,42 +48,36 @@ public class MainActivity extends AppCompatActivity
 
     actionBar = getSupportActionBar();
 
-    progressBar.setVisibility(View.VISIBLE);
+    new Task().execute();
+  }
 
-    //TODO world needs a hero
-    if (!(RootTools.isAccessGiven()) || (!(RootTools.isBusyboxAvailable()))) {
-      progressBar.setVisibility(View.GONE);
+  public void populateGui() {
+    progressBar.setVisibility(View.GONE);
 
-      appCompatibilityMessage.setVisibility(View.VISIBLE);
-      appCompatibilityMessage.setText(
-          "Please Check that you have root access and busybox installed! ");
-    } else {
+    //TODO shed
+    if (GpuUtils.isGpuFrequencyScalingSupported()) {
+      navigationView.getMenu().getItem(1).setVisible(true);
+    }
 
-      progressBar.setVisibility(View.GONE);
+    mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar,
+        R.string.action_settings, R.string.action_settings) {
 
-      if (GpuUtils.isGpuFrequencyScalingSupported()) {
-        navigationView.getMenu().getItem(1).setVisible(true);
+      @Override public void onDrawerOpened(View drawerView) {
+        super.onDrawerOpened(drawerView);
       }
 
-      mDrawerToggle =
-          new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.action_settings,
-              R.string.action_settings) {
-            @Override public void onDrawerOpened(View drawerView) {
-              super.onDrawerOpened(drawerView);
-            }
+      @Override public void onDrawerClosed(View drawerView) {
+        super.onDrawerClosed(drawerView);
+      }
+    };
+    mDrawerToggle.syncState();
+    mDrawerLayout.setDrawerListener(mDrawerToggle);
+    navigationView.setNavigationItemSelectedListener(this);
 
-            @Override public void onDrawerClosed(View drawerView) {
-              super.onDrawerClosed(drawerView);
-            }
-          };
-      mDrawerToggle.syncState();
-      mDrawerLayout.setDrawerListener(mDrawerToggle);
-      navigationView.setNavigationItemSelectedListener(this);
-
-      getFragmentManager().beginTransaction()
-          .replace(R.id.main_content, new CpuFrequencyFragment())
-          .commit();
-    }
+    getFragmentManager().beginTransaction()
+        .replace(R.id.main_content, new CpuFrequencyFragment())
+        .commit();
+    actionBar.setTitle("CPU");
   }
 
   @Override public boolean onNavigationItemSelected(final MenuItem menuItem) {
@@ -94,7 +90,7 @@ public class MainActivity extends AppCompatActivity
         switch (menuItem.getItemId()) {
           case R.id.nav_cpu:
             mfragment = new CpuFrequencyFragment();
-            actionBar.setTitle("Cpu Frequency");
+            actionBar.setTitle("CPU");
             break;
           case R.id.nav_tis:
             mfragment = new TimeInStatesFragment();
@@ -127,5 +123,48 @@ public class MainActivity extends AppCompatActivity
 
     mDrawerLayout.closeDrawer(GravityCompat.START);
     return true;
+  }
+
+  private class Task extends AsyncTask<Void, Void, Void> {
+
+    private boolean hasRoot, hasBusyBox;
+
+    @Override protected void onPreExecute() {
+      super.onPreExecute();
+
+      progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override protected Void doInBackground(Void... voids) {
+
+      hasRoot = RootTools.isAccessGiven();
+      hasBusyBox = RootTools.isBusyboxAvailable();
+
+      return null;
+    }
+
+    @Override protected void onPostExecute(Void aVoid) {
+      super.onPostExecute(aVoid);
+
+      if (!hasRoot || !hasBusyBox) {
+        progressBar.setVisibility(View.GONE);
+
+        appCompatibilityMessage.setVisibility(View.VISIBLE);
+        appCompatibilityMessage.setText(
+            !hasRoot ? "No root access found" : "No Busybox found");
+
+        if (hasRoot) {
+          //redirect to playstore for installing busybox
+
+          try {
+            startActivity(
+                new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=stericson.busybox")));
+          } catch (ActivityNotFoundException ignored) {
+          }
+        }
+      } else {
+        populateGui();
+      }
+    }
   }
 }

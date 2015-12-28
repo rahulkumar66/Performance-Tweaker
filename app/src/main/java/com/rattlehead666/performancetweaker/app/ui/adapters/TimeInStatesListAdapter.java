@@ -18,8 +18,7 @@ import com.rattlehead666.performancetweaker.app.utils.TimeInStateReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@SuppressLint("UseSparseArrays")
-public class TimeInStatesListAdapter extends BaseAdapter {
+@SuppressLint("UseSparseArrays") public class TimeInStatesListAdapter extends BaseAdapter {
 
   public long totaltime = 0;
   Context context;

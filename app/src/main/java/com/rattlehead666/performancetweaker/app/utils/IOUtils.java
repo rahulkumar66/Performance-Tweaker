@@ -14,10 +14,10 @@ public class IOUtils {
       schedulerPath = Constants.available_schedulers;
     } else if (new File(Constants.available_schedulers_path).exists()) {
       schedulerPath = Constants.available_schedulers_path;
-            /*
-             * Some devices don't have mmcblk0 block device so we instead use
-			 * mtdblock0 to read the available schedulers
-			 */
+        /*
+         * Some devices don't have mmcblk0 block device so we instead use
+         * mtdblock0 to read the available schedulers
+       */
     } else if (new File(Constants.ioscheduler_mtd).exists()) {
       schedulerPath = Constants.ioscheduler_mtd;
     } else {
