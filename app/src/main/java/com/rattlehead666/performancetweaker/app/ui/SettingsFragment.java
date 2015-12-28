@@ -2,7 +2,7 @@ package com.rattlehead666.performancetweaker.app.ui;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import app.phantomLord.cpufrequtils.app.R;
+import com.rattlehead666.performancetweaker.app.R;
 
 public class SettingsFragment extends PreferenceFragment {
 

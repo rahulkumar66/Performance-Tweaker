@@ -10,7 +10,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Alarm;
-import app.phantomLord.cpufrequtils.app.R;
+
+import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.BatteryStatsUtils;
 import java.util.ArrayList;
 

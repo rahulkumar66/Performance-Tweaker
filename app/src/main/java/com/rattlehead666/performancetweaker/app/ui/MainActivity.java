@@ -14,7 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import app.phantomLord.cpufrequtils.app.R;
+
+import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
 import com.rattlehead666.performancetweaker.app.utils.SysUtils;
 import com.stericson.RootTools.RootTools;

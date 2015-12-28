@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import app.phantomLord.cpufrequtils.app.R;
+import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.Constants;
 import com.rattlehead666.performancetweaker.app.utils.CpuState;
 import com.rattlehead666.performancetweaker.app.utils.SysUtils;
@@ -18,14 +18,15 @@ import com.rattlehead666.performancetweaker.app.utils.TimeInStateReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@SuppressLint("UseSparseArrays") public class TimeInStatesListAdapter extends BaseAdapter {
+@SuppressLint("UseSparseArrays")
+public class TimeInStatesListAdapter extends BaseAdapter {
 
   public long totaltime = 0;
   Context context;
   ArrayList<CpuState> states = new ArrayList<>();
   HashMap<Integer, Long> _states = new HashMap<>();
   TimeInStateReader statesReader;
-  LayoutInflater infalter;
+  LayoutInflater inflater;
   SharedPreferences prefs;
   boolean filterNonZeroVals;
 
@@ -39,11 +40,11 @@ import java.util.HashMap;
         /*
          * remove zero values
 		 */
-    infalter = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
   }
 
   @Override public View getView(int position, View convertView, ViewGroup parent) {
-    View rowView = infalter.inflate(R.layout.time_in_stat_list_item, parent, false);
+    View rowView = inflater.inflate(R.layout.time_in_stat_list_item, parent, false);
     TextView frequencyTextView = (TextView) rowView.findViewById(R.id.frequency);
     ProgressBar mProgressBar = (ProgressBar) rowView.findViewById(R.id.progress);
     TextView time = (TextView) rowView.findViewById(R.id.time);

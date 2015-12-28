@@ -8,7 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
-import app.phantomLord.cpufrequtils.app.R;
+
+import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.BatteryStatsUtils;
 import com.rattlehead666.performancetweaker.app.utils.SysUtils;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class KernelWakelockAdapter extends BaseAdapter {
 
   ArrayList<NativeKernelWakelock> kernelWakelocks;
   Context context;
-  LayoutInflater inflator;
+  LayoutInflater inflater;
   int totaltime;
 
   public KernelWakelockAdapter(Context ctx) {
@@ -27,11 +28,11 @@ public class KernelWakelockAdapter extends BaseAdapter {
     for (NativeKernelWakelock element : kernelWakelocks) {
       totaltime += (int) element.getDuration() / 1000;
     }
-    inflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
   }
 
   @Override public View getView(int position, View arg1, ViewGroup arg2) {
-    View rowView = inflator.inflate(R.layout.kernel_wakelock_row, arg2, false);
+    View rowView = inflater.inflate(R.layout.kernel_wakelock_row, arg2, false);
     TextView mKernelWakelock = (TextView) rowView.findViewById(R.id.kernel_wakelock_name);
     TextView WakeupInfo = (TextView) rowView.findViewById(R.id.wakelock_duration);
     TextView wakeUpCount = (TextView) rowView.findViewById(R.id.kernel_wakelock_count);

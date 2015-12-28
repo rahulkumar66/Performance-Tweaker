@@ -1,7 +1,7 @@
 package com.rattlehead666.performancetweaker.app.utils;
 
 import com.rattlehead666.performancetweaker.app.BuildConfig;
-import app.phantomLord.cpufrequtils.app.R;
+import com.rattlehead666.performancetweaker.app.R;
 
 public interface Constants {
 

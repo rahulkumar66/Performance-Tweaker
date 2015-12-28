@@ -16,7 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import app.phantomLord.cpufrequtils.app.R;
+import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.ui.adapters.AlarmTriggerAdapter;
 import com.rattlehead666.performancetweaker.app.ui.adapters.CpuWakelocksAdapter;
 import com.rattlehead666.performancetweaker.app.ui.adapters.KernelWakelockAdapter;

@@ -13,7 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import app.phantomLord.cpufrequtils.app.R;
+
+import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.ui.adapters.TimeInStatesListAdapter;
 import com.rattlehead666.performancetweaker.app.utils.Constants;
 import com.rattlehead666.performancetweaker.app.utils.SysUtils;

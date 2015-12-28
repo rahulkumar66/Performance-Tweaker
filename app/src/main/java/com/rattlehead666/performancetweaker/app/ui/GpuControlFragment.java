@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import app.phantomLord.cpufrequtils.app.R;
+import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
 
 public class GpuControlFragment extends PreferenceFragment

@@ -2,7 +2,7 @@ package com.rattlehead666.performancetweaker.app.utils;
 
 import android.content.Context;
 import android.widget.Toast;
-import app.phantomLord.cpufrequtils.app.R;
+import com.rattlehead666.performancetweaker.app.R;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;

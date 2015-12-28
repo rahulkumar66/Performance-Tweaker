@@ -10,7 +10,7 @@ import android.preference.PreferenceFragment;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import app.phantomLord.cpufrequtils.app.R;
+import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.CpuFrequencyUtils;
 import com.rattlehead666.performancetweaker.app.utils.GovernorProperty;
 

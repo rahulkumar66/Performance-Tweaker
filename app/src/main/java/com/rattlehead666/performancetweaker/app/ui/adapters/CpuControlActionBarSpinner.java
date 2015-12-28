@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import app.phantomLord.cpufrequtils.app.R;
+import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.Constants;
 import com.rattlehead666.performancetweaker.app.utils.CpuFrequencyUtils;
 
@@ -49,7 +49,7 @@ public class CpuControlActionBarSpinner extends BaseAdapter {
   }
 
   @Override public View getView(int position, View convertView, ViewGroup container) {
-    //View row = inflator.inflate(R.layout.sherlock_spinner_dropdown_item,
+    //View row = inflater.inflate(R.layout.sherlock_spinner_dropdown_item,
     //		container, false);
     //	TextView text = (TextView) row.findViewById(android.R.id.text1);
     //	text.setText(cores[position]);
