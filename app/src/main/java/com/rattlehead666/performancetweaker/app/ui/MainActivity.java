@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -57,9 +58,8 @@ public class MainActivity extends AppCompatActivity
 
     //TODO shed
     if (GpuUtils.isGpuFrequencyScalingSupported()) {
-      navigationView.getMenu().close();
-      MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_gpu).setVisible(false);
-      Toast.makeText(getBaseContext(), menuItem.isVisible() + "", Toast.LENGTH_SHORT).show();
+      MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_gpu);
+      menuItem.setVisible(true);
     }
 
     mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar,
@@ -78,8 +78,7 @@ public class MainActivity extends AppCompatActivity
     navigationView.setNavigationItemSelectedListener(this);
 
     getFragmentManager().beginTransaction()
-        .replace(R.id.main_content, new CpuFrequencyFragment())
-        .commit();
+        .replace(R.id.main_content, new CpuFrequencyFragment()).commit();
     actionBar.setTitle("CPU");
   }
 
@@ -128,6 +127,7 @@ public class MainActivity extends AppCompatActivity
     return true;
   }
 
+
   private class Task extends AsyncTask<Void, Void, Void> {
 
     private boolean hasRoot, hasBusyBox;
@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity
     @Override protected Void doInBackground(Void... voids) {
 
       hasRoot = RootTools.isAccessGiven();
+      //TODO add support for toybox
       hasBusyBox = RootTools.isBusyboxAvailable();
 
       return null;

@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 22
+  compileSdkVersion 23
   buildToolsVersion "21.1.2"
 
   defaultConfig {
     applicationId "com.rattlehead666.performancetweaker.app"
     minSdkVersion 14
-    targetSdkVersion 22
+    targetSdkVersion 23
   }
 
   buildTypes {
@@ -25,6 +25,6 @@ android {
 dependencies {
   compile files('libs/bugsense-3.6.jar')
   compile project(':androidCommon')
-  compile 'com.android.support:appcompat-v7:22.2.1'
-  compile 'com.android.support:design:22.2.1'
+  compile 'com.android.support:appcompat-v7:23.1.1'
+  compile 'com.android.support:design:23.1.1'
 }
