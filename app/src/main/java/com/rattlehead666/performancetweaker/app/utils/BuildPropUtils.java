@@ -23,14 +23,17 @@ public class BuildPropUtils {
           + newKey
           + "="
           + newValue
-          + "|g' -i /system/build.prop");
+          + "|g' -i /system/build.prop"
+          + "\n");
+      add("exit" + "\n");
     }});
   }
 
   public static void addKey(final String key, final String value) {
     SysUtils.mount(true, "/system");
     SysUtils.executeRootCommand(new ArrayList<String>() {{
-      add("echo " + key + "=" + value + " >> " + Constants.BUILD_PROP);
+      add("echo " + key + "=" + value + " >> " + Constants.BUILD_PROP + "\n");
+      add("exit" + "\n");
     }});
   }
 

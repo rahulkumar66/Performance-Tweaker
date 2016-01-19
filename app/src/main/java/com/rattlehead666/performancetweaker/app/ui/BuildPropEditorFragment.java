@@ -25,7 +25,7 @@ public class BuildPropEditorFragment extends PreferenceFragment
 
     preferenceCategory = (PreferenceCategory) findPreference("build_prop_pref");
 
-    context = getActivity().getBaseContext();
+    context = getActivity();
     new populateBuildPropEntries().execute();
   }
 
@@ -34,9 +34,9 @@ public class BuildPropEditorFragment extends PreferenceFragment
   }
 
   @Override public boolean onPreferenceChange(Preference preference, Object o) {
-    // BuildPropUtils.overwrite();
-    //  CpuFrequencyUtils.setGovernorProperty(new GovernorProperty(preference.getKey(), o.toString()),
-    //      getActivity());
+    BuildPropUtils.overwrite(preference.getKey(), preference.getSummary().toString(),
+        preference.getKey(), o.toString());
+
     preference.setSummary(o.toString());
     return true;
   }

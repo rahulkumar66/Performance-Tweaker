@@ -148,11 +148,11 @@ public class SysUtils implements Constants {
   public static void mount(boolean writeable, String mountpoint) {
     ArrayList<String> command = new ArrayList<>();
     if (writeable) {
-      command.add("mount -o remount,rw " + mountpoint + " " + mountpoint);
+      command.add("mount -o remount,rw " + mountpoint + " " + mountpoint + "\n");
     } else {
-      command.add("mount -o remount,ro " + mountpoint + " " + mountpoint);
+      command.add("mount -o remount,ro " + mountpoint + " " + mountpoint + "\n");
     }
-
+    command.add("exit" + "\n");
     executeRootCommand(command);
   }
 }

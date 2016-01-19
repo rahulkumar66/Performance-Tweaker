@@ -14,12 +14,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
 import com.stericson.RootTools.RootTools;
@@ -78,7 +76,8 @@ public class MainActivity extends AppCompatActivity
     navigationView.setNavigationItemSelectedListener(this);
 
     getFragmentManager().beginTransaction()
-        .replace(R.id.main_content, new CpuFrequencyFragment()).commit();
+        .replace(R.id.main_content, new CpuFrequencyFragment())
+        .commit();
     actionBar.setTitle("CPU");
   }
 
@@ -130,7 +129,6 @@ public class MainActivity extends AppCompatActivity
     mDrawerLayout.closeDrawer(GravityCompat.START);
     return true;
   }
-
 
   private class Task extends AsyncTask<Void, Void, Void> {
 
