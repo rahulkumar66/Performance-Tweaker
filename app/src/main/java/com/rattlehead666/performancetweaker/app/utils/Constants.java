@@ -81,4 +81,10 @@ public interface Constants {
   String CPU_2 = "Core 2";
   String CPU_3 = "Core 3";
   String CPU_ALL = "All Cores";
+
+  // Build prop
+  String BUILD_PROP = "/system/build.prop";
+
+  // Init.d
+  String INITD = "/system/etc/init.d";
 }

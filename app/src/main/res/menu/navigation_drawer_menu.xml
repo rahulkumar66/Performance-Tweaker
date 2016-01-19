@@ -54,7 +54,9 @@
       <group
           android:id="@+id/tools"
           android:checkableBehavior="single">
-
+        <item
+            android:id="@+id/build_prop"
+            android:title="Build Prop Editorz"/>
       </group>
     </menu>
   </item>

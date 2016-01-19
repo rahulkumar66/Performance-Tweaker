@@ -144,4 +144,15 @@ public class SysUtils implements Constants {
     if (data != null) return data;
     return "";
   }
+
+  public static void mount(boolean writeable, String mountpoint) {
+    ArrayList<String> command = new ArrayList<>();
+    if (writeable) {
+      command.add("mount -o remount,rw " + mountpoint + " " + mountpoint);
+    } else {
+      command.add("mount -o remount,ro " + mountpoint + " " + mountpoint);
+    }
+
+    executeRootCommand(command);
+  }
 }
