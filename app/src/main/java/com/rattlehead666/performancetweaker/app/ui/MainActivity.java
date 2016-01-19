@@ -116,6 +116,10 @@ public class MainActivity extends AppCompatActivity
             mfragment = new GpuControlFragment();
             actionBar.setTitle("GPU Settings");
             break;
+          case R.id.build_prop:
+            mfragment = new BuildPropEditorFragment();
+            actionBar.setTitle("Build Prop Editor");
+            break;
         }
 
         if (mfragment != null) {
@@ -139,7 +143,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override protected Void doInBackground(Void... voids) {
-
+      //TODO:shed
       hasRoot = RootTools.isAccessGiven();
       hasBusyBox = RootTools.isBusyboxAvailable();
 
