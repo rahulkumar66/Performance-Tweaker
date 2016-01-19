@@ -56,7 +56,7 @@
           android:checkableBehavior="single">
         <item
             android:id="@+id/build_prop"
-            android:title="Build Prop Editorz"/>
+            android:title="Build Prop Editor"/>
       </group>
     </menu>
   </item>
