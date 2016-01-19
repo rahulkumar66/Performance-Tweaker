@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="internalOnly"
-    android:versionCode="2"
-    android:versionName="1.1"
+    android:versionCode="1"
+    android:versionName="0.1.1"
     package="com.rattlehead666.performancetweaker.app">
 
   <uses-sdk
       android:minSdkVersion="14"
-      android:targetSdkVersion="22"/>
+      android:targetSdkVersion="23"/>
 
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
