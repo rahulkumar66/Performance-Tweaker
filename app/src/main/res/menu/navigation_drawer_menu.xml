@@ -57,6 +57,9 @@
         <item
             android:id="@+id/build_prop"
             android:title="Build Prop Editor"/>
+        <item
+            android:id="@+id/vm"
+            android:title="Virtual Memory"/>
       </group>
     </menu>
   </item>
@@ -71,7 +74,6 @@
         <item
             android:id="@+id/nav_settings"
             android:title="Settings"/>
-
       </group>
     </menu>
   </item>

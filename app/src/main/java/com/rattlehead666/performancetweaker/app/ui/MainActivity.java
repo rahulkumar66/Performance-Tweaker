@@ -25,6 +25,7 @@ import com.rattlehead666.performancetweaker.app.ui.fragments.GpuControlFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.IOControlFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.SettingsFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.TimeInStatesFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.WakeLocksFragment;
 import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
 import com.stericson.RootTools.RootTools;
@@ -125,13 +126,17 @@ public class MainActivity extends AppCompatActivity
             mfragment = new BuildPropEditorFragment();
             actionBar.setTitle("Build Prop Editor");
             break;
+          case R.id.vm:
+            mfragment = new VirtualMemoryFragment();
+            actionBar.setTitle("Virtual Memory");
+            break;
         }
 
         if (mfragment != null) {
           getFragmentManager().beginTransaction().replace(R.id.main_content, mfragment).commit();
         }
       }
-    }, 400);
+    }, 300);
 
     mDrawerLayout.closeDrawer(GravityCompat.START);
     return true;

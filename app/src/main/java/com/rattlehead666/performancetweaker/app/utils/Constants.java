@@ -7,13 +7,12 @@ public interface Constants {
 
   String App_Tag = "Performance Tweaker";
   boolean debug = BuildConfig.DEBUG;
-  /*
-  Cpu
-  */ String cpufreq_sys_dir = "/sys/devices/system/cpu/cpu0/cpufreq/";
+
+  // CPU
+  String cpufreq_sys_dir = "/sys/devices/system/cpu/cpu0/cpufreq/";
   String scaling_min_freq = cpufreq_sys_dir + "scaling_min_freq";
   String cpuinfo_min_freq = cpufreq_sys_dir + "cpuinfo_min_freq";
   String scaling_max_freq = cpufreq_sys_dir + "scaling_max_freq";
-
   String cpuinfo_max_freq = cpufreq_sys_dir + "cpuinfo_max_freq";
   String scaling_cur_freq = cpufreq_sys_dir + "scaling_cur_freq";
   String cpuinfo_cur_freq = cpufreq_sys_dir + "cpuinfo_cur_freq";
@@ -21,9 +20,9 @@ public interface Constants {
   String scaling_available_freq = cpufreq_sys_dir + "scaling_available_frequencies";
   String scaling_available_governors = cpufreq_sys_dir + "scaling_available_governors";
   String governor_prop_dir = "/sys/devices/system/cpu/cpufreq/";
-  /*
-  I/O
-   */ String available_blockdevices = "/sys/block/";
+
+  // I/O
+  String available_blockdevices = "/sys/block/";
   String available_schedulers = "/sys/block/mmcblk0/queue/scheduler";
   String available_schedulers_path = "/sys/block/mmcblk1/queue/scheduler";
   String time_in_states = "/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state";
@@ -34,9 +33,9 @@ public interface Constants {
       "1664", "1792", "1920", "2048", "2176", "2304", "2432", "2560", "2688", "2816", "2944",
       "3072", "3200", "3328", "3456", "3584", "3712", "3840", "3968", "4096"
   };
-  /*
-  GPU
-   */ String[] GPU_PATH = new String[] {
+
+  // GPU
+  String[] GPU_PATH = new String[] {
       "/sys/class/kgsl", "/sys/devices/platform/galcore/gpu/gpu0/gpufreq"
   };
   String[] gpu_governor_path = new String[] {
@@ -58,16 +57,20 @@ public interface Constants {
   String[] mFragmentsArray = new String[] {
       "Cpu Frequency", "Time In State", "I/0 Control", "Wakelocks", "Settings"
   };
+
+  // icons
   int icons[] = new int[] {
       R.drawable.ic_action_meter, R.drawable.ic_action_bar_chart, R.drawable.ic_action_backup,
       R.drawable.ic_action_battery_med, R.drawable.ic_action_prefs_widget
   };
+
+  // Wakelocks
   String[] wakelockTypes = new String[] {
       "Kernel Wakelocks", "Cpu Wakelocks", "Wakeup Triggers"
   };
-  /*
-   * Preferences
-   */ String PREF_ZERO_VALS = "non_zero_vals_only";
+
+  // Preferences
+  String PREF_ZERO_VALS = "non_zero_vals_only";
   String PREF_MAX_FREQ = "max_freq";
   String PREF_MIN_FREQ = "min_freq";
   String PREF_GOV = "governor";
@@ -85,6 +88,11 @@ public interface Constants {
   // Build prop
   String BUILD_PROP = "/system/build.prop";
 
-  // Init.d
-  String INITD = "/system/etc/init.d";
+  // Virtual Memory
+  String VM_PATH = "/proc/sys/vm";
+  String[] SUPPORTED_VM = {
+      "dirty_ratio", "dirty_background_ratio", "dirty_expire_centisecs",
+      "dirty_writeback_centisecs", "min_free_kbytes", "overcommit_ratio", "swappiness",
+      "vfs_cache_pressure", "laptop_mode", "extra_free_kbytes"
+  };
 }
