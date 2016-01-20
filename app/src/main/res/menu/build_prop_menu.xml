@@ -2,8 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
+      android:id="@+id/search_build_prop"
+      android:icon="@drawable/ic_search_white_24dp"
+      android:title="Search"
+      app:showAsAction="always"/>
+  <item
       android:id="@+id/add_entry_build_prop"
-      android:title="Refresh"
       android:icon="@drawable/ic_add_white_24dp"
+      android:title="Refresh"
       app:showAsAction="always"/>
 </menu>
