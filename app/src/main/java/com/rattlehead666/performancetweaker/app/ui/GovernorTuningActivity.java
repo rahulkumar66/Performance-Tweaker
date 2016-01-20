@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import com.rattlehead666.performancetweaker.app.R;
+import com.rattlehead666.performancetweaker.app.ui.fragments.GovernorTuningFragment;
 
 public class GovernorTuningActivity extends AppCompatActivity {
 

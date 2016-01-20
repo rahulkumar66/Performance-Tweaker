@@ -19,6 +19,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.rattlehead666.performancetweaker.app.R;
+import com.rattlehead666.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.CpuFrequencyFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.GpuControlFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.IOControlFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.SettingsFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.TimeInStatesFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.WakeLocksFragment;
 import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
 import com.stericson.RootTools.RootTools;
 

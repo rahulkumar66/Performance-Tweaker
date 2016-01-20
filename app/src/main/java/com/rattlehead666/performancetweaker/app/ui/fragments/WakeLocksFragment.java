@@ -1,4 +1,4 @@
-package com.rattlehead666.performancetweaker.app.ui;
+package com.rattlehead666.performancetweaker.app.ui.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;

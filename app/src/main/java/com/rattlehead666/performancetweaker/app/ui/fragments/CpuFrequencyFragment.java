@@ -1,4 +1,4 @@
-package com.rattlehead666.performancetweaker.app.ui;
+package com.rattlehead666.performancetweaker.app.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import com.rattlehead666.performancetweaker.app.R;
+import com.rattlehead666.performancetweaker.app.ui.GovernorTuningActivity;
 import com.rattlehead666.performancetweaker.app.utils.CpuFrequencyUtils;
 
 public class CpuFrequencyFragment extends PreferenceFragment
