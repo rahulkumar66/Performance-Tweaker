@@ -7,6 +7,9 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.BuildPropUtils;
 import java.util.LinkedHashMap;
@@ -21,6 +24,7 @@ public class BuildPropEditorFragment extends PreferenceFragment
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setHasOptionsMenu(true);
     addPreferencesFromResource(R.xml.build_prop_editor_fragment);
 
     preferenceCategory = (PreferenceCategory) findPreference("build_prop_pref");
@@ -29,16 +33,22 @@ public class BuildPropEditorFragment extends PreferenceFragment
     new populateBuildPropEntries().execute();
   }
 
-  @Override public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-  }
-
   @Override public boolean onPreferenceChange(Preference preference, Object o) {
     BuildPropUtils.overwrite(preference.getKey(), preference.getSummary().toString(),
         preference.getKey(), o.toString());
 
     preference.setSummary(o.toString());
     return true;
+  }
+
+  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    super.onCreateOptionsMenu(menu, inflater);
+    inflater.inflate(R.menu.build_prop_menu, menu);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+
+    return super.onOptionsItemSelected(item);
   }
 
   private class populateBuildPropEntries extends AsyncTask<Void, Void, Void> {

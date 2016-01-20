@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity
     mDrawerToggle.syncState();
     mDrawerLayout.setDrawerListener(mDrawerToggle);
     navigationView.setNavigationItemSelectedListener(this);
-
+    //TODO :java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
     getFragmentManager().beginTransaction()
         .replace(R.id.main_content, new CpuFrequencyFragment())
         .commit();

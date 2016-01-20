@@ -80,6 +80,8 @@ public class TimeInStatesFragment extends Fragment {
       case R.id.restore_timers:
         timeInStateAdapter.removeOffsets();
         timeInStateAdapter.refresh();
+        break;
+
       default:
         break;
     }
