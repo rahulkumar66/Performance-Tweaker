@@ -30,13 +30,16 @@ public class BuildPropEditorFragment extends PreferenceFragment
     preferenceCategory = (PreferenceCategory) findPreference("build_prop_pref");
 
     context = getActivity();
+  }
+
+  @Override public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
     new populateBuildPropEntries().execute();
   }
 
   @Override public boolean onPreferenceChange(Preference preference, Object o) {
     BuildPropUtils.overwrite(preference.getKey(), preference.getSummary().toString(),
         preference.getKey(), o.toString());
-
     preference.setSummary(o.toString());
     return true;
   }
@@ -65,9 +68,10 @@ public class BuildPropEditorFragment extends PreferenceFragment
 
     @Override protected void onPostExecute(Void aVoid) {
       super.onPostExecute(aVoid);
-      int i = 0;
+
       if (buildPropEntries != null && buildPropEntries.size() != 0) {
         editTextPreferences = new EditTextPreference[buildPropEntries.size()];
+        int i = 0;
         for (LinkedHashMap.Entry<String, String> entry : buildPropEntries.entrySet()) {
           editTextPreferences[i] = new EditTextPreference(context);
           editTextPreferences[i].setKey(entry.getKey());
