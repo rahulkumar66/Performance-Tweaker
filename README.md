@@ -17,7 +17,7 @@ It also can monitor:
 
 
 
-## Download & Build
+## Contribution
 
 
 ``` bash
@@ -38,7 +38,7 @@ $ ./gradlew build
 
 ## License
 
-    Copyright (C) 2013 - 2016 Rahul Kumar
+    Copyright (C) 2014 - 2016 Rahul Kumar
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
