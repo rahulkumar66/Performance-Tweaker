@@ -31,6 +31,7 @@ public class TimeInStatesFragment extends Fragment {
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     setHasOptionsMenu(true);
+    //TODO: put inside a cardview
     view = inflater.inflate(R.layout.time_in_states, container, false);
     listView = (ListView) view.findViewById(R.id.time_in_state_listView);
     totalTimeInState = (TextView) view.findViewById(R.id.total_time);

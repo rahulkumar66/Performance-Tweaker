@@ -33,12 +33,9 @@ public class WakeLocksFragment extends Fragment implements ActionBar.OnNavigatio
   BaseAdapter adapter;
   ProgressBar progressBar;
 
-  @Override public void onResume() {
-    super.onResume();
-  }
-
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
+    //TODO: cardview
     view = inflater.inflate(R.layout.wakelocksfragment, container, false);
 
     context = getActivity().getBaseContext();

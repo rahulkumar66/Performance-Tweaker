@@ -11,7 +11,7 @@ public class VmUtils {
 
   public static void setVM(final String value, final String name) {
     SysUtils.executeRootCommand(new ArrayList<String>() {{
-      add("echo " + value + " > " + Constants.VM_PATH+"/"+name + "\n");
+      add("echo " + value + " > " + Constants.VM_PATH + "/" + name + "\n");
       add("exit" + "\n");
     }});
   }

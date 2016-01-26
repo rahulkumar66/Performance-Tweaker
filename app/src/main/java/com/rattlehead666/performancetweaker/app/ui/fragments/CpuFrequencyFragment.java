@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.ui.GovernorTuningActivity;
 import com.rattlehead666.performancetweaker.app.utils.CpuFrequencyUtils;
@@ -22,6 +25,11 @@ public class CpuFrequencyFragment extends PreferenceFragment
   ListPreference GovernorPreference;
   Preference preference;
   Context context;
+
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    return inflater.inflate(R.layout.fragment_pref_container, container, false);
+  }
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -67,7 +75,6 @@ public class CpuFrequencyFragment extends PreferenceFragment
   }
 
   public void updatePreferences() {
-
     CpuMaxFreqPreference.setValue(maxFrequency);
     CpuMinFreqPreference.setValue(minFrequency);
     GovernorPreference.setValue(currentGovernor);

@@ -7,6 +7,9 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.VmUtils;
 import java.util.LinkedHashMap;
@@ -18,6 +21,11 @@ public class VirtualMemoryFragment extends PreferenceFragment
   PreferenceCategory preferenceCategory;
   EditTextPreference editTextPreferences[];
 
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    return inflater.inflate(R.layout.fragment_pref_container, container, false);
+  }
+
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     addPreferencesFromResource(R.xml.virtual_memory_preference);
@@ -25,7 +33,6 @@ public class VirtualMemoryFragment extends PreferenceFragment
     preferenceCategory = (PreferenceCategory) findPreference("vm_pref");
 
     context = getActivity();
-
   }
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
@@ -34,7 +41,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
   }
 
   @Override public boolean onPreferenceChange(Preference preference, Object newValue) {
-    VmUtils.setVM(newValue.toString(),preference.getKey());
+    VmUtils.setVM(newValue.toString(), preference.getKey());
     preference.setSummary(newValue.toString());
     return true;
   }
