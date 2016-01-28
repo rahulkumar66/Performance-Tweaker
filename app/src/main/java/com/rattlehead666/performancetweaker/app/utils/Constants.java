@@ -79,11 +79,6 @@ public interface Constants {
   String PREF_IO_SCHEDULER = "io_scheduler";
   String PREF_READ_AHEAD = "read_ahead";
   String PREF_TIS_RESET_STATS = "tis_reset_stats";
-  String CPU_0 = "Core 0";
-  String CPU_1 = "Core 1";
-  String CPU_2 = "Core 2";
-  String CPU_3 = "Core 3";
-  String CPU_ALL = "All Cores";
 
   // Build prop
   String BUILD_PROP = "/system/build.prop";
@@ -95,4 +90,7 @@ public interface Constants {
       "dirty_writeback_centisecs", "min_free_kbytes", "overcommit_ratio", "swappiness",
       "vfs_cache_pressure", "laptop_mode", "extra_free_kbytes"
   };
+
+  // CPU Hotplug
+  String HOTPLUG_MPDEC = "mpdecision";
 }

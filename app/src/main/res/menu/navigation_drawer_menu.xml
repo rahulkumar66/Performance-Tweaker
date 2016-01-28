@@ -12,17 +12,19 @@
             android:id="@+id/nav_cpu"
             android:title="CPU"
             android:visible="true"/>
-
+        <item
+          android:id="@+id/nav_cpu_hotplug"
+            android:title="CPU Hotplug"
+            android:visible="false"
+            />
         <item
             android:id="@+id/nav_gpu"
             android:title="GPU"
             android:visible="false"/>
-
         <item
             android:id="@+id/nav_iocontrol"
             android:title="I/O Control"
             android:visible="true"/>
-
       </group>
     </menu>
   </item>

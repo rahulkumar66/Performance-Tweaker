@@ -62,6 +62,7 @@ public class BuildPropUtils {
   }
 
   public static String getOutputFromBuildProp() {
+
     StringBuilder buffer = new StringBuilder();
     String data = null;
     Process process;

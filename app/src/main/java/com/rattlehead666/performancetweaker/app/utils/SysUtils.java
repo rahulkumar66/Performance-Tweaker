@@ -78,10 +78,13 @@ public class SysUtils implements Constants {
         dos.writeBytes(cmd);
         dos.flush();
         if (debug) {
-          Log.d(Constants.App_Tag, cmd);
+          //   Log.d(Constants.App_Tag, cmd);
         }
       }
       if (mProcess.waitFor() == 0) {
+        Log.d("dystpia", "hello");
+        is = mProcess.getInputStream();
+        printOutputOnStdout(is);
         return true;
       } else {
         is = mProcess.getErrorStream();
@@ -95,6 +98,38 @@ public class SysUtils implements Constants {
       e.printStackTrace();
     }
     return false;
+  }
+
+  public static String executeCommandWithOutput(String command) {
+    DataOutputStream dos;
+    InputStream is;
+    try {
+      Process mProcess = prepareRootShell();
+      if (mProcess == null) return "";
+      dos = new DataOutputStream(mProcess.getOutputStream());
+      dos.writeBytes(command);
+      dos.flush();
+      dos.writeBytes("exit \n");
+      dos.flush();
+      if (mProcess.waitFor() == 0) {
+        is = mProcess.getInputStream();
+        StringBuilder builder = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line;
+        while ((line = br.readLine()) != null) builder.append(line);
+        return builder.toString();
+      }
+
+      dos.close();
+    } catch (IOException | InterruptedException e) {
+      e.printStackTrace();
+    }
+    return "";
+  }
+
+  public static boolean isPropActive(String key) {
+    return executeCommandWithOutput("getprop | grep " + key + "\n").split("]:")[1].contains(
+        "running");
   }
 
   private static void printOutputOnStdout(InputStream is) {

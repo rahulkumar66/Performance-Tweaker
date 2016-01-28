@@ -21,12 +21,14 @@ import android.widget.TextView;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.CpuFrequencyFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.CpuHotplugFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.GpuControlFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.IOControlFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.SettingsFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.TimeInStatesFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.WakeLocksFragment;
+import com.rattlehead666.performancetweaker.app.utils.CPUHotplugUtils;
 import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
 import com.stericson.RootTools.RootTools;
 
@@ -67,7 +69,10 @@ public class MainActivity extends AppCompatActivity
       MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_gpu);
       menuItem.setVisible(true);
     }
-
+    if (CPUHotplugUtils.hasCpuHotplug()) {
+      MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_cpu_hotplug);
+      menuItem.setVisible(true);
+    }
     mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar,
         R.string.action_settings, R.string.action_settings) {
 
@@ -130,6 +135,10 @@ public class MainActivity extends AppCompatActivity
             mfragment = new VirtualMemoryFragment();
             actionBar.setTitle("Virtual Memory");
             break;
+          case R.id.nav_cpu_hotplug:
+            mfragment = new CpuHotplugFragment();
+            actionBar.setTitle("CPU Hotplug");
+            break;
         }
 
         if (mfragment != null) {
@@ -148,7 +157,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override protected void onPreExecute() {
       super.onPreExecute();
-
       progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -172,7 +180,6 @@ public class MainActivity extends AppCompatActivity
 
         if (hasRoot) {
           //redirect to playstore for installing busybox
-
           try {
             startActivity(
                 new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=stericson.busybox")));
