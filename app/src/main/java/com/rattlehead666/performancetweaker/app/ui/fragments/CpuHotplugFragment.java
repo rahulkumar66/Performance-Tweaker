@@ -26,7 +26,7 @@ public class CpuHotplugFragment extends PreferenceFragment
     super.onActivityCreated(savedInstanceState);
 
     addPreferencesFromResource(R.xml.cpu_hotplug_preferences);
-    switchPreference =(SwitchPreference) findPreference("cpu_hotplug");
+    switchPreference = (SwitchPreference) findPreference("cpu_hotplug");
     context = getActivity().getBaseContext();
 
     switchPreference.setChecked(CPUHotplugUtils.isMpdecisionActive());

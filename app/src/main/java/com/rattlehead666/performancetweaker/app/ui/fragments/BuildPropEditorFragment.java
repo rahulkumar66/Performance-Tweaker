@@ -1,6 +1,9 @@
 package com.rattlehead666.performancetweaker.app.ui.fragments;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -13,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.BuildPropUtils;
 import java.util.LinkedHashMap;
@@ -60,9 +64,37 @@ public class BuildPropEditorFragment extends PreferenceFragment
   @Override public boolean onOptionsItemSelected(MenuItem item) {
 
     switch (item.getItemId()) {
-
+      case R.id.add_entry_build_prop:
+        editBuildPropDialog();
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  private void editBuildPropDialog() {
+
+    Activity activity = getActivity();
+    final View editDialog =
+        LayoutInflater.from(getActivity()).inflate(R.layout.dialog_build_prop, null, false);
+    final EditText etName = (EditText) editDialog.findViewById(R.id.prop_name);
+    final EditText etValue = (EditText) editDialog.findViewById(R.id.prop_value);
+
+    new AlertDialog.Builder(activity).setView(editDialog)
+        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+              @Override public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+              }
+            })
+        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+          @Override public void onClick(DialogInterface dialog, int which) {
+            if (etValue.getText() != null && etName.getText() != null) {
+              BuildPropUtils.addKey(etName.getText().toString().trim(),
+                  etValue.getText().toString().trim());
+            } else {
+              return;
+            }
+          }
+        })
+        .show();
   }
 
   private class populateBuildPropEntries extends AsyncTask<Void, Void, Void> {
@@ -88,7 +120,6 @@ public class BuildPropEditorFragment extends PreferenceFragment
           editTextPreferences[i].setDialogTitle(entry.getKey());
           editTextPreferences[i].setDefaultValue(entry.getValue());
           editTextPreferences[i].setOnPreferenceChangeListener(BuildPropEditorFragment.this);
-
           preferenceCategory.addPreference(editTextPreferences[i]);
           i++;
         }
@@ -96,3 +127,4 @@ public class BuildPropEditorFragment extends PreferenceFragment
     }
   }
 }
+
