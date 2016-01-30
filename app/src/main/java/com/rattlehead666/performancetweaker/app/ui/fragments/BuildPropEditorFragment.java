@@ -10,6 +10,9 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,15 +20,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.SearchView;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.BuildPropUtils;
 import java.util.LinkedHashMap;
+
+
 
 public class BuildPropEditorFragment extends PreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 
   PreferenceCategory preferenceCategory;
   EditTextPreference editTextPreferences[];
+
+  SwipeRefreshLayout refreshLayout;
+
+  MenuItem searchItem;
 
   Context context;
 
@@ -59,6 +69,10 @@ public class BuildPropEditorFragment extends PreferenceFragment
   @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
     inflater.inflate(R.menu.build_prop_menu, menu);
+
+    searchItem = menu.findItem(R.id.search_build_prop);
+    SearchView searchView = new SearchView(((AppCompatActivity)getActivity()).getSupportActionBar().getThemedContext());
+    MenuItemCompat.setActionView(searchItem, searchView);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
