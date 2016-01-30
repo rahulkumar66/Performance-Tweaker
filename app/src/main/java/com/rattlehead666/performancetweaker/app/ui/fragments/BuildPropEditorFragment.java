@@ -11,8 +11,8 @@ import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,18 +25,14 @@ import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.BuildPropUtils;
 import java.util.LinkedHashMap;
 
-
-
 public class BuildPropEditorFragment extends PreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 
   PreferenceCategory preferenceCategory;
   EditTextPreference editTextPreferences[];
-
-  SwipeRefreshLayout refreshLayout;
+  LinkedHashMap<String, String> buildPropEntries = new LinkedHashMap<>();
 
   MenuItem searchItem;
-
   Context context;
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,8 +67,41 @@ public class BuildPropEditorFragment extends PreferenceFragment
     inflater.inflate(R.menu.build_prop_menu, menu);
 
     searchItem = menu.findItem(R.id.search_build_prop);
-    SearchView searchView = new SearchView(((AppCompatActivity)getActivity()).getSupportActionBar().getThemedContext());
+    SearchView searchView = new SearchView(
+        ((AppCompatActivity) getActivity()).getSupportActionBar().getThemedContext());
     MenuItemCompat.setActionView(searchItem, searchView);
+
+    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+      @Override public boolean onQueryTextSubmit(String query) {
+        return false;
+      }
+
+      @Override public boolean onQueryTextChange(String newText) {
+
+        preferenceCategory.removeAll();
+
+        Object[] keys = buildPropEntries.keySet().toArray();
+        Object[] values = buildPropEntries.values().toArray();
+
+        for (int i = 0; i < keys.length; i++)
+          if (keys[i].toString().contains(newText)) {
+
+            EditTextPreference editTextPreferences = new EditTextPreference(context);
+
+            editTextPreferences.setKey(keys[i].toString());
+            editTextPreferences.setTitle(newText.isEmpty() ? keys[i].toString()
+                : Html.fromHtml(((String) keys[i]).replace(newText, "" +
+                    "<b><font color=\"#2A7289\">" + newText + "</font></b>")));
+            editTextPreferences.setSummary(values[i].toString());
+            editTextPreferences.setDialogTitle(keys[i].toString());
+            editTextPreferences.setDefaultValue(values[i]);
+            editTextPreferences.setOnPreferenceChangeListener(BuildPropEditorFragment.this);
+
+            preferenceCategory.addPreference(editTextPreferences);
+          }
+        return true;
+      }
+    });
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
@@ -80,6 +109,10 @@ public class BuildPropEditorFragment extends PreferenceFragment
     switch (item.getItemId()) {
       case R.id.add_entry_build_prop:
         editBuildPropDialog();
+        break;
+      case R.id.search_build_prop:
+        MenuItemCompat.expandActionView(searchItem);
+        break;
     }
     return super.onOptionsItemSelected(item);
   }
@@ -94,10 +127,10 @@ public class BuildPropEditorFragment extends PreferenceFragment
 
     new AlertDialog.Builder(activity).setView(editDialog)
         .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-              @Override public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-              }
-            })
+          @Override public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+          }
+        })
         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
           @Override public void onClick(DialogInterface dialog, int which) {
             if (etValue.getText() != null && etName.getText() != null) {
@@ -112,8 +145,6 @@ public class BuildPropEditorFragment extends PreferenceFragment
   }
 
   private class populateBuildPropEntries extends AsyncTask<Void, Void, Void> {
-
-    LinkedHashMap<String, String> buildPropEntries = new LinkedHashMap<>();
 
     @Override protected Void doInBackground(Void... voids) {
       buildPropEntries = BuildPropUtils.getProps();
