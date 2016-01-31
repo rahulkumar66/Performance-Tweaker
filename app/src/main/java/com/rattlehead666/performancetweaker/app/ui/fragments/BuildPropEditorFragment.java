@@ -72,12 +72,12 @@ public class BuildPropEditorFragment extends PreferenceFragment
     MenuItemCompat.setActionView(searchItem, searchView);
 
     searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
       @Override public boolean onQueryTextSubmit(String query) {
         return false;
       }
 
       @Override public boolean onQueryTextChange(String newText) {
-
         preferenceCategory.removeAll();
 
         Object[] keys = buildPropEntries.keySet().toArray();

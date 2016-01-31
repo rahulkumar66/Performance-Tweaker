@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,17 +25,17 @@ public class TimeInStatesFragment extends Fragment {
   ListView listView;
   TimeInStatesListAdapter timeInStateAdapter;
   TextView totalTimeInState;
-
   SharedPreferences prefs;
   Context context;
+  CardView cardView;
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     setHasOptionsMenu(true);
-    //TODO: put inside a cardview
     view = inflater.inflate(R.layout.time_in_states, container, false);
     listView = (ListView) view.findViewById(R.id.time_in_state_listView);
     totalTimeInState = (TextView) view.findViewById(R.id.total_time);
+    cardView = (CardView) view.findViewById(R.id.total_time_card);
     return view;
   }
 
@@ -50,11 +51,12 @@ public class TimeInStatesFragment extends Fragment {
       timeInStateAdapter.loadPreviousStats();
     }
 
+    ViewGroup header = (ViewGroup) getActivity().getLayoutInflater()
+        .inflate(R.layout.time_in_state_list_header, listView, false);
+    listView.addHeaderView(header, null, false);
     listView.setAdapter(timeInStateAdapter);
-    timeInStateAdapter.refresh();
 
-    totalTimeInState.setText(getString(R.string.total_time) + " " + SysUtils.secToString(
-        timeInStateAdapter.totaltime / 100));
+    totalTimeInState.setText(SysUtils.secToString(timeInStateAdapter.totaltime / 100));
     timeInStateAdapter.refresh();
   }
 
@@ -64,18 +66,15 @@ public class TimeInStatesFragment extends Fragment {
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
-    int id = item.getItemId();
-    switch (id) {
+    switch (item.getItemId()) {
       case R.id.refresh:
         timeInStateAdapter.refresh();
-        totalTimeInState.setText(getString(R.string.total_time) + " " + SysUtils.secToString(
-            timeInStateAdapter.totaltime / 100));
+        totalTimeInState.setText(SysUtils.secToString(timeInStateAdapter.totaltime / 100));
         break;
 
       case R.id.reset_timers:
         timeInStateAdapter.reset();
-        totalTimeInState.setText(getString(R.string.total_time) + " " + SysUtils.secToString(
-            timeInStateAdapter.totaltime / 100));
+        totalTimeInState.setText(SysUtils.secToString(timeInStateAdapter.totaltime / 100));
         break;
 
       case R.id.restore_timers:

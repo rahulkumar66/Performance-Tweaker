@@ -5,9 +5,9 @@
 
     <SwitchPreference
         android:key="cpu_hotplug"
-        android:title="MPDecision"
         android:summary="Qualcomm's hotplugging Solution. Frequencies might not stick after changing when this is enabled"
-      />
+        android:title="MPDecision"
+        />
 
   </PreferenceCategory>
 

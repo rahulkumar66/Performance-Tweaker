@@ -92,9 +92,9 @@ public class BuildPropUtils {
       try {
         process = SysUtils.prepareRootShell();
         dos = new DataOutputStream(process.getOutputStream());
-        dos.writeBytes("cat " + Constants.BUILD_PROP+"\n");
+        dos.writeBytes("cat " + Constants.BUILD_PROP + "\n");
         dos.flush();
-        dos.writeBytes("exit"+"\n");
+        dos.writeBytes("exit" + "\n");
         dos.flush();
         dos.close();
         if (process.waitFor() == 0) {

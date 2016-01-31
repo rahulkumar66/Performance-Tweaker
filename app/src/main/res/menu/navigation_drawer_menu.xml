@@ -13,7 +13,7 @@
             android:title="CPU"
             android:visible="true"/>
         <item
-          android:id="@+id/nav_cpu_hotplug"
+            android:id="@+id/nav_cpu_hotplug"
             android:title="CPU Hotplug"
             android:visible="false"
             />
