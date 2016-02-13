@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity
       MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_cpu_hotplug);
       menuItem.setVisible(true);
     }
+
     mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar,
         R.string.action_settings, R.string.action_settings) {
 
