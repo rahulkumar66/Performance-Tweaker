@@ -36,10 +36,6 @@ public class VirtualMemoryFragment extends PreferenceFragment
     context = getActivity();
   }
 
-  @Override public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-  }
-
   @Override public void onResume() {
     super.onResume();
     new PopulateVmEntries().execute();

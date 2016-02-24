@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity
             actionBar.setTitle("I/O Control");
             break;
           case R.id.nav_wakelocks:
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             mfragment = new WakeLocksFragment();
             actionBar.setTitle("Wakelocks");
             break;

@@ -9,6 +9,7 @@ import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.ui.GovernorTuningActivity;
 import com.rattlehead666.performancetweaker.app.utils.CpuFrequencyUtils;
@@ -25,9 +26,11 @@ public class CpuFrequencyFragment extends PreferenceFragment
   ListPreference GovernorPreference;
   Preference preference;
   Context context;
+  ProgressBar progressBar;
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
+    progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
     return inflater.inflate(R.layout.fragment_pref_container, container, false);
   }
 
@@ -52,7 +55,14 @@ public class CpuFrequencyFragment extends PreferenceFragment
         return true;
       }
     });
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+
+    progressBar.setVisibility(View.VISIBLE);
     populatePreferences();
+    progressBar.setVisibility(View.GONE);
   }
 
   public void populatePreferences() {

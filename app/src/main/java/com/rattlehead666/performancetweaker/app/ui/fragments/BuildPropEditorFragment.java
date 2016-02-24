@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.BuildPropUtils;
@@ -35,8 +36,11 @@ public class BuildPropEditorFragment extends PreferenceFragment
   MenuItem searchItem;
   Context context;
 
+  ProgressBar progressBar;
+
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
+    progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
     return inflater.inflate(R.layout.fragment_pref_container, container, false);
   }
 
@@ -50,8 +54,8 @@ public class BuildPropEditorFragment extends PreferenceFragment
     context = getActivity();
   }
 
-  @Override public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
+  @Override public void onResume() {
+    super.onResume();
     new populateBuildPropEntries().execute();
   }
 
@@ -146,6 +150,11 @@ public class BuildPropEditorFragment extends PreferenceFragment
 
   private class populateBuildPropEntries extends AsyncTask<Void, Void, Void> {
 
+    @Override protected void onPreExecute() {
+      super.onPreExecute();
+      progressBar.setVisibility(View.VISIBLE);
+    }
+
     @Override protected Void doInBackground(Void... voids) {
       buildPropEntries = BuildPropUtils.getProps();
       return null;
@@ -155,6 +164,7 @@ public class BuildPropEditorFragment extends PreferenceFragment
       super.onPostExecute(aVoid);
 
       if (buildPropEntries != null && buildPropEntries.size() != 0) {
+        progressBar.setVisibility(View.GONE);
         editTextPreferences = new EditTextPreference[buildPropEntries.size()];
         int i = 0;
         for (LinkedHashMap.Entry<String, String> entry : buildPropEntries.entrySet()) {

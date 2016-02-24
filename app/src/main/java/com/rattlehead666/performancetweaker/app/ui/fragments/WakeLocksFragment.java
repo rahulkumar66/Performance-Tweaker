@@ -43,6 +43,7 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
     wakelockList = (ListView) view.findViewById(R.id.wakelock_data_listview1);
     timeSince = (TextView) view.findViewById(R.id.stats_since);
     spinner = (Spinner) getActivity().findViewById(R.id.spinner_nav);
+    progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
     return view;
   }
 
@@ -59,7 +60,6 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
     super.onActivityCreated(savedInstanceState);
 
     actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-    progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
 
     wakelockList.setVisibility(View.GONE);
     progressBar.setVisibility(View.VISIBLE);
@@ -80,8 +80,6 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
 
   @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     BaseAdapter wakelockAdapter = null;
-
-    progressBar.setVisibility(View.GONE);
 
     switch (position) {
       case 0:
@@ -112,6 +110,7 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
         wakelockAdapter = new AlarmTriggerAdapter(context);
         break;
     }
+    progressBar.setVisibility(View.GONE);
 
     if (wakelockAdapter != null && wakelockAdapter.getCount() != 0) {
       wakelockList.setVisibility(View.VISIBLE);

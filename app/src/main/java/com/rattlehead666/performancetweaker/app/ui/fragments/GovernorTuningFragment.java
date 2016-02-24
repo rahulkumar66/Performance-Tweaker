@@ -47,10 +47,6 @@ public class GovernorTuningFragment extends PreferenceFragment
     new GetGovernorPropertiesTask().execute();
   }
 
-  @Override public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-  }
-
   @Override public boolean onPreferenceChange(Preference preference, Object o) {
     CpuFrequencyUtils.setGovernorProperty(new GovernorProperty(preference.getKey(), o.toString()),
         getActivity());
