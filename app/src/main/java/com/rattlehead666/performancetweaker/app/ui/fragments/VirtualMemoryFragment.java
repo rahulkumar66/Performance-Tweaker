@@ -20,6 +20,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
   Context context;
   PreferenceCategory preferenceCategory;
   EditTextPreference editTextPreferences[];
+  LinkedHashMap<String, String> vmEntries = new LinkedHashMap<>();
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -37,6 +38,10 @@ public class VirtualMemoryFragment extends PreferenceFragment
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+  }
+
+  @Override public void onResume() {
+    super.onResume();
     new PopulateVmEntries().execute();
   }
 
@@ -47,9 +52,9 @@ public class VirtualMemoryFragment extends PreferenceFragment
   }
 
   private class PopulateVmEntries extends AsyncTask<Void, Void, Void> {
-    LinkedHashMap<String, String> vmEntries = new LinkedHashMap<>();
 
     @Override protected Void doInBackground(Void... params) {
+      vmEntries.clear();
       vmEntries = VmUtils.getVMfiles();
       return null;
     }
