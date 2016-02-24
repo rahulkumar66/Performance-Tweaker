@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -88,11 +89,13 @@ public class MainActivity extends AppCompatActivity
     mDrawerToggle.syncState();
     mDrawerLayout.setDrawerListener(mDrawerToggle);
     navigationView.setNavigationItemSelectedListener(this);
-    //TODO :java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
     getFragmentManager().beginTransaction()
         .replace(R.id.main_content, new CpuFrequencyFragment())
-        .commit();
+        .commitAllowingStateLoss();
     actionBar.setTitle("CPU");
+  }
+
+  @Override public void onSaveInstanceState(Bundle outState) {
   }
 
   @Override public boolean onNavigationItemSelected(final MenuItem menuItem) {
