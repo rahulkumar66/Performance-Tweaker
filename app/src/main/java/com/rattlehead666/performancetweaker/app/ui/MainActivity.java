@@ -1,13 +1,13 @@
 package com.rattlehead666.performancetweaker.app.ui;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -145,10 +145,15 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (mfragment != null) {
-          getFragmentManager().beginTransaction().replace(R.id.main_content, mfragment).commit();
+          //   mfragment.setEnterTransition(new Slide(Gravity.RIGHT));
+          FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+          //TODO : set custom animations
+          fragmentTransaction.setCustomAnimations(android.R.animator.fade_in,
+              android.R.animator.fade_out);
+          fragmentTransaction.replace(R.id.main_content, mfragment).commit();
         }
       }
-    }, 300);
+    }, 400);
 
     mDrawerLayout.closeDrawer(GravityCompat.START);
     return true;

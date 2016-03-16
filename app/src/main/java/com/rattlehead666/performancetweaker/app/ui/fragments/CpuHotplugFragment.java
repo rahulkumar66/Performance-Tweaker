@@ -8,7 +8,6 @@ import android.preference.SwitchPreference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.CPUHotplugUtils;
 
@@ -29,13 +28,18 @@ public class CpuHotplugFragment extends PreferenceFragment
     addPreferencesFromResource(R.xml.cpu_hotplug_preferences);
     switchPreference = (SwitchPreference) findPreference("cpu_hotplug");
     context = getActivity().getBaseContext();
+  }
+
+  @Override public void onResume() {
+    super.onResume();
 
     switchPreference.setChecked(CPUHotplugUtils.isMpdecisionActive());
     switchPreference.setOnPreferenceChangeListener(this);
   }
 
   @Override public boolean onPreferenceChange(Preference preference, Object newValue) {
-    CPUHotplugUtils.activateMpdecision(true);
-    return CPUHotplugUtils.isMpdecisionActive();
+    CPUHotplugUtils.activateMpdecision(Boolean.parseBoolean(newValue.toString()));
+    switchPreference.setChecked(CPUHotplugUtils.isMpdecisionActive());
+    return Boolean.parseBoolean(newValue.toString());
   }
 }

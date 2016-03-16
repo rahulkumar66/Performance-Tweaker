@@ -40,16 +40,15 @@ public class BuildPropEditorFragment extends PreferenceFragment
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
     return inflater.inflate(R.layout.fragment_pref_container, container, false);
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
-    addPreferencesFromResource(R.xml.build_prop_editor_fragment);
 
-    preferenceCategory = (PreferenceCategory) findPreference("build_prop_pref");
+    progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
+    progressBar.setVisibility(View.VISIBLE);
 
     context = getActivity();
   }
@@ -152,7 +151,6 @@ public class BuildPropEditorFragment extends PreferenceFragment
 
     @Override protected void onPreExecute() {
       super.onPreExecute();
-      progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override protected Void doInBackground(Void... voids) {
@@ -162,6 +160,9 @@ public class BuildPropEditorFragment extends PreferenceFragment
 
     @Override protected void onPostExecute(Void aVoid) {
       super.onPostExecute(aVoid);
+      addPreferencesFromResource(R.xml.build_prop_editor_fragment);
+
+      preferenceCategory = (PreferenceCategory) findPreference("build_prop_pref");
 
       if (buildPropEntries != null && buildPropEntries.size() != 0) {
         progressBar.setVisibility(View.GONE);

@@ -10,6 +10,7 @@ import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.VmUtils;
 import java.util.LinkedHashMap;
@@ -21,17 +22,18 @@ public class VirtualMemoryFragment extends PreferenceFragment
   PreferenceCategory preferenceCategory;
   EditTextPreference editTextPreferences[];
   LinkedHashMap<String, String> vmEntries = new LinkedHashMap<>();
+  ProgressBar progressBar;
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
+
     return inflater.inflate(R.layout.fragment_pref_container, container, false);
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    addPreferencesFromResource(R.xml.virtual_memory_preference);
-
-    preferenceCategory = (PreferenceCategory) findPreference("vm_pref");
+    progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
+    progressBar.setVisibility(View.VISIBLE);
 
     context = getActivity();
   }
@@ -58,6 +60,10 @@ public class VirtualMemoryFragment extends PreferenceFragment
     @Override protected void onPostExecute(Void aVoid) {
       super.onPostExecute(aVoid);
 
+      addPreferencesFromResource(R.xml.virtual_memory_preference);
+
+      preferenceCategory = (PreferenceCategory) findPreference("vm_pref");
+
       if (vmEntries != null && vmEntries.size() != 0) {
         editTextPreferences = new EditTextPreference[vmEntries.size()];
         int i = 0;
@@ -74,6 +80,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
           preferenceCategory.addPreference(editTextPreferences[i]);
           i++;
         }
+        progressBar.setVisibility(View.GONE);
       }
     }
   }
