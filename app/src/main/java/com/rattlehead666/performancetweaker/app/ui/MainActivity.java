@@ -145,11 +145,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (mfragment != null) {
-          //   mfragment.setEnterTransition(new Slide(Gravity.RIGHT));
           FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-          //TODO : set custom animations
-          fragmentTransaction.setCustomAnimations(android.R.animator.fade_in,
-              android.R.animator.fade_out);
+          fragmentTransaction.setCustomAnimations(R.animator.enter_anim,
+              R.animator.exit_animation);
           fragmentTransaction.replace(R.id.main_content, mfragment).commit();
         }
       }
