@@ -167,10 +167,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override protected Void doInBackground(Void... voids) {
-      //TODO:shed
       hasRoot = RootTools.isAccessGiven();
-      //TODO add support for toybox
-      hasBusyBox = RootTools.isBusyboxAvailable();
+      hasBusyBox = RootTools.isBusyboxAvailable()|| RootTools.findBinary("toybox");
 
       return null;
     }
