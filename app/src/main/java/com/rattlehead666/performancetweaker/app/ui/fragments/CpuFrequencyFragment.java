@@ -1,7 +1,8 @@
 package com.rattlehead666.performancetweaker.app.ui.fragments;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -11,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.ui.GovernorTuningActivity;
 import com.rattlehead666.performancetweaker.app.utils.CpuFrequencyUtils;
 
 public class CpuFrequencyFragment extends PreferenceFragment
@@ -27,6 +27,7 @@ public class CpuFrequencyFragment extends PreferenceFragment
   Preference preference;
   Context context;
   ProgressBar progressBar;
+  Fragment f;
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class CpuFrequencyFragment extends PreferenceFragment
     setHasOptionsMenu(true);
     addPreferencesFromResource(R.xml.cpu_freq_preference);
     context = getActivity().getBaseContext();
-
+    f = this;
     CpuMaxFreqPreference = (ListPreference) findPreference("cpu_max_freq_pref");
     CpuMinFreqPreference = (ListPreference) findPreference("cpu_min_freq_pref");
     GovernorPreference = (ListPreference) findPreference("governor_pref");
@@ -51,7 +52,10 @@ public class CpuFrequencyFragment extends PreferenceFragment
     preference.setOnPreferenceChangeListener(this);
     preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
       @Override public boolean onPreferenceClick(Preference preference) {
-        startActivity(new Intent(getActivity(), GovernorTuningActivity.class));
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
+        fragmentTransaction.replace(R.id.main_content, new GovernorTuningFragment(),
+            GovernorTuningFragment.TAG).commit();
         return true;
       }
     });

@@ -19,14 +19,12 @@ import com.rattlehead666.performancetweaker.app.utils.GovernorProperty;
 public class GovernorTuningFragment extends PreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 
+  public static String TAG = "GOVERNOR_TUNING";
   PreferenceCategory preferenceCategory;
   EditTextPreference editTextPreferences[];
   GovernorProperty[] governorProperties;
-
   FrameLayout governorPropertiesContainer;
-
   Context context;
-
   ProgressBar progressBar;
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,8 +57,8 @@ public class GovernorTuningFragment extends PreferenceFragment
     @Override protected void onPreExecute() {
       super.onPreExecute();
 
-      progressBar.setVisibility(View.VISIBLE);
-      governorPropertiesContainer.setVisibility(View.GONE);
+      //      progressBar.setVisibility(View.VISIBLE);
+      //   governorPropertiesContainer.setVisibility(View.GONE);
     }
 
     @Override protected GovernorProperty[] doInBackground(Void... params) {
@@ -71,8 +69,8 @@ public class GovernorTuningFragment extends PreferenceFragment
     @Override protected void onPostExecute(GovernorProperty[] governorProperties) {
       super.onPostExecute(governorProperties);
 
-      progressBar.setVisibility(View.GONE);
-      governorPropertiesContainer.setVisibility(View.VISIBLE);
+      //      progressBar.setVisibility(View.GONE);
+      //      governorPropertiesContainer.setVisibility(View.VISIBLE);
 
       if (governorProperties != null && governorProperties.length != 0) {
         editTextPreferences = new EditTextPreference[governorProperties.length];

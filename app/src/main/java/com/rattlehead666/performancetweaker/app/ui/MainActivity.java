@@ -19,10 +19,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.CpuFrequencyFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.CpuHotplugFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.GovernorTuningFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.GpuControlFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.IOControlFragment;
 import com.rattlehead666.performancetweaker.app.ui.fragments.SettingsFragment;
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity
     mDrawerToggle.syncState();
     mDrawerLayout.setDrawerListener(mDrawerToggle);
     navigationView.setNavigationItemSelectedListener(this);
+
     getFragmentManager().beginTransaction()
         .replace(R.id.main_content, new CpuFrequencyFragment())
         .commitAllowingStateLoss();
@@ -146,8 +149,7 @@ public class MainActivity extends AppCompatActivity
 
         if (mfragment != null) {
           FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-          fragmentTransaction.setCustomAnimations(R.animator.enter_anim,
-              R.animator.exit_animation);
+          fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
           fragmentTransaction.replace(R.id.main_content, mfragment).commit();
         }
       }
@@ -155,6 +157,20 @@ public class MainActivity extends AppCompatActivity
 
     mDrawerLayout.closeDrawer(GravityCompat.START);
     return true;
+  }
+
+  @Override public void onBackPressed() {
+
+    if (getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG) != null
+        && getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG).isVisible()) {
+      // dirty hack to go back to cpu frequency fragment by pressing back button
+      getFragmentManager().beginTransaction()
+          .replace(R.id.main_content, new CpuFrequencyFragment())
+          .commit();
+    } else {
+      Toast.makeText(getBaseContext(), "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
+      super.onBackPressed();
+    }
   }
 
   private class Task extends AsyncTask<Void, Void, Void> {
@@ -168,7 +184,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override protected Void doInBackground(Void... voids) {
       hasRoot = RootTools.isAccessGiven();
-      hasBusyBox = RootTools.isBusyboxAvailable()|| RootTools.findBinary("toybox");
+      hasBusyBox = RootTools.isBusyboxAvailable() || RootTools.findBinary("toybox");
 
       return null;
     }
