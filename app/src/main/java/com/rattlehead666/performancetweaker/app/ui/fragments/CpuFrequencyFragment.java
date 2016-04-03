@@ -1,6 +1,5 @@
 package com.rattlehead666.performancetweaker.app.ui.fragments;
 
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
@@ -27,7 +26,6 @@ public class CpuFrequencyFragment extends PreferenceFragment
   Preference preference;
   Context context;
   ProgressBar progressBar;
-  Fragment f;
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -40,7 +38,7 @@ public class CpuFrequencyFragment extends PreferenceFragment
     setHasOptionsMenu(true);
     addPreferencesFromResource(R.xml.cpu_freq_preference);
     context = getActivity().getBaseContext();
-    f = this;
+
     CpuMaxFreqPreference = (ListPreference) findPreference("cpu_max_freq_pref");
     CpuMinFreqPreference = (ListPreference) findPreference("cpu_min_freq_pref");
     GovernorPreference = (ListPreference) findPreference("governor_pref");

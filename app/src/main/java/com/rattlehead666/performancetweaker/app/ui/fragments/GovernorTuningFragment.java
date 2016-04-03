@@ -3,46 +3,55 @@ package com.rattlehead666.performancetweaker.app.ui.fragments;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.CpuFrequencyUtils;
 import com.rattlehead666.performancetweaker.app.utils.GovernorProperty;
 
 public class GovernorTuningFragment extends PreferenceFragment
-    implements Preference.OnPreferenceChangeListener {
+    implements Preference.OnPreferenceChangeListener, SwipeRefreshLayout.OnRefreshListener {
 
   public static String TAG = "GOVERNOR_TUNING";
   PreferenceCategory preferenceCategory;
   EditTextPreference editTextPreferences[];
   GovernorProperty[] governorProperties;
-  FrameLayout governorPropertiesContainer;
   Context context;
-  ProgressBar progressBar;
+  View view;
+  SwipeRefreshLayout swipeRefreshLayout;
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_pref_container, container, false);
+    view = inflater.inflate(R.layout.fragment_pref_refresh_container, container, false);
+    swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+    return view;
   }
 
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+  @Override public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+
     addPreferencesFromResource(R.xml.governor_tuning_preferences);
 
     preferenceCategory = (PreferenceCategory) findPreference("governor_tune_pref");
-    governorPropertiesContainer =
-        (FrameLayout) getActivity().findViewById(R.id.frame_layout_preference);
-    progressBar = (ProgressBar) getActivity().findViewById(R.id.loading);
     context = getActivity();
 
-    new GetGovernorPropertiesTask().execute();
+    swipeRefreshLayout.setOnRefreshListener(this);
+
+    //We are posting SwipeRefreshLayout it to a time in the future
+    new Handler().postDelayed(new Runnable() {
+
+      @Override public void run() {
+        swipeRefreshLayout.setRefreshing(true);
+        new GetGovernorPropertiesTask().execute();
+      }
+    }, 500);
   }
 
   @Override public boolean onPreferenceChange(Preference preference, Object o) {
@@ -52,14 +61,11 @@ public class GovernorTuningFragment extends PreferenceFragment
     return true;
   }
 
+  @Override public void onRefresh() {
+    new GetGovernorPropertiesTask().execute();
+  }
+
   private class GetGovernorPropertiesTask extends AsyncTask<Void, Void, GovernorProperty[]> {
-
-    @Override protected void onPreExecute() {
-      super.onPreExecute();
-
-      //      progressBar.setVisibility(View.VISIBLE);
-      //   governorPropertiesContainer.setVisibility(View.GONE);
-    }
 
     @Override protected GovernorProperty[] doInBackground(Void... params) {
       governorProperties = CpuFrequencyUtils.getGovernorProperties();
@@ -68,9 +74,6 @@ public class GovernorTuningFragment extends PreferenceFragment
 
     @Override protected void onPostExecute(GovernorProperty[] governorProperties) {
       super.onPostExecute(governorProperties);
-
-      //      progressBar.setVisibility(View.GONE);
-      //      governorPropertiesContainer.setVisibility(View.VISIBLE);
 
       if (governorProperties != null && governorProperties.length != 0) {
         editTextPreferences = new EditTextPreference[governorProperties.length];
@@ -86,6 +89,7 @@ public class GovernorTuningFragment extends PreferenceFragment
           preferenceCategory.addPreference(editTextPreferences[i]);
         }
       }
+      swipeRefreshLayout.setRefreshing(false);
     }
   }
 }
