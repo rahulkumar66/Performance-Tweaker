@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  <PreferenceCategory
-      android:title="Hotplug">
+    <PreferenceCategory
+            android:title="Hotplug">
 
-    <SwitchPreference
-        android:key="cpu_hotplug"
-        android:summary="Qualcomm's hotplugging Solution. Frequencies might not stick after changing when this is enabled"
-        android:title="MPDecision"
+        <SwitchPreference
+                android:key="cpu_hotplug"
+                android:summary="Qualcomm's hotplugging Solution. Frequencies might not stick after changing when this is enabled"
+                android:title="MPDecision"
         />
 
-  </PreferenceCategory>
+    </PreferenceCategory>
 
 </PreferenceScreen>

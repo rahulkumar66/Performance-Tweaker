@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  <PreferenceCategory android:title="I/O Control">
-    <ListPreference
-        android:key="disk_scheduler"
-        android:persistent="true"
-        android:title="Disk I/O Scheduler"/>
-    <ListPreference
-        android:key="read_ahead_cache"
-        android:persistent="true"
-        android:title="Read Ahead Cache"/>
-  </PreferenceCategory>
+    <PreferenceCategory android:title="I/O Control">
+        <ListPreference
+                android:key="disk_scheduler"
+                android:persistent="true"
+                android:title="Disk I/O Scheduler"/>
+        <ListPreference
+                android:key="read_ahead_cache"
+                android:persistent="true"
+                android:title="Read Ahead Cache"/>
+    </PreferenceCategory>
 </PreferenceScreen>

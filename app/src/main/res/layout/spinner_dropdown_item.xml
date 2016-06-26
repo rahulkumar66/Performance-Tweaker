@@ -1,9 +1,9 @@
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/dropdownListPreferredItemHeight"
-    android:ellipsize="marquee"
-    android:singleLine="true"
-    android:textColor="@android:color/black"
-    style="?android:attr/spinnerDropDownItemStyle"
-    />
+                 android:id="@android:id/text1"
+                 android:layout_width="match_parent"
+                 android:layout_height="?attr/dropdownListPreferredItemHeight"
+                 android:ellipsize="marquee"
+                 android:singleLine="true"
+                 android:textColor="@android:color/black"
+                 style="?android:attr/spinnerDropDownItemStyle"
+/>

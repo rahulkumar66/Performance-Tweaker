@@ -1,59 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:installLocation="internalOnly"
-    android:versionCode="1"
-    android:versionName="0.1.1"
-    package="com.rattlehead666.performancetweaker.app">
+          android:installLocation="internalOnly"
+          android:versionCode="1"
+          android:versionName="0.1.1"
+          package="com.rattlehead666.performancetweaker.app">
 
-  <uses-sdk
-      android:minSdkVersion="14"
-      android:targetSdkVersion="23"/>
+    <uses-sdk
+            android:minSdkVersion="14"
+            android:targetSdkVersion="23"/>
 
-  <uses-permission android:name="android.permission.INTERNET"/>
-  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-  <uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>
-  <uses-permission android:name="android.permission.BATTERY_STATS"/>
-  <!-- Added for Android M -->
-  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>
+    <uses-permission android:name="android.permission.BATTERY_STATS"/>
+    <!-- Added for Android M -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
 
-  <application
-      android:allowBackup="true"
-      android:icon="@mipmap/ic_launcher"
-      android:label="@string/app_name"
-      android:theme="@style/AppTheme">
-    <activity
-        android:label="@string/app_name"
-        android:name="com.rattlehead666.performancetweaker.app.ui.MainActivity"
-        android:screenOrientation="portrait">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
+    <application
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+        <activity
+                android:label="@string/app_name"
+                android:name="com.rattlehead666.performancetweaker.app.ui.MainActivity"
+                android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
-    <receiver
-        android:exported="false"
-        android:name="com.rattlehead666.performancetweaker.app.receivers.BootReceiver">
-      <intent-filter>
-        <action android:name="android.intent.action.BOOT_COMPLETED"/>
+        <receiver
+                android:exported="false"
+                android:name="com.rattlehead666.performancetweaker.app.receivers.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
 
-        <category android:name="android.intent.category.HOME"/>
-      </intent-filter>
-    </receiver>
-    <receiver
-        android:exported="false"
-        android:name="com.rattlehead666.performancetweaker.app.receivers.SaveReferenceReceiver">
-      <intent-filter>
-        <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
-        <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
-      </intent-filter>
-    </receiver>
+                <category android:name="android.intent.category.HOME"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+                android:exported="false"
+                android:name="com.rattlehead666.performancetweaker.app.receivers.SaveReferenceReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+            </intent-filter>
+        </receiver>
 
-    <service android:name="com.rattlehead666.performancetweaker.app.services.BootService"/>
-    <service android:name="com.rattlehead666.performancetweaker.app.services.SaveSinceUnpluggedReferenceService"/>
+        <service android:name="com.rattlehead666.performancetweaker.app.services.BootService"/>
+        <service
+                android:name="com.rattlehead666.performancetweaker.app.services.SaveSinceUnpluggedReferenceService"/>
 
-  </application>
+    </application>
 
 </manifest>
