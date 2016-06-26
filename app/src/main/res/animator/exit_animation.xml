@@ -2,9 +2,9 @@
 <set>
   <objectAnimator
       xmlns:android="http://schemas.android.com/apk/res/android"
-      android:duration="1000"
+      android:duration="750"
       android:propertyName="x"
       android:valueFrom="0"
-      android:valueTo="-2000"
+      android:valueTo="-1500"
       android:valueType="floatType" />
 </set>
