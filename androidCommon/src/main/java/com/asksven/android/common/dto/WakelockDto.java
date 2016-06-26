@@ -17,26 +17,31 @@
 package com.asksven.android.common.dto;
 
 import java.io.Serializable;
+
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.asksven.android.common.nameutils.UidInfo;
 
 /**
  * A DTO for Wakelock
- *
  * @author sven
+ *
  */
-public class WakelockDto implements Serializable {
+public class WakelockDto implements Serializable
+{
 
-  // from StatElement
-  @JsonProperty("uid") public int m_uid;
+	// from StatElement
+	@JsonProperty("uid") public int m_uid;
 
-  @JsonProperty("total") public long m_total;
+	@JsonProperty("total") public long m_total;	
 
-  // from Wakelock
-  @JsonProperty("wake_type") public int m_wakeType;
+	// from Wakelock
+	@JsonProperty("wake_type") public int m_wakeType;
+	
+	@JsonProperty("name") public String m_name;
+	
+	@JsonProperty("duration_ms") public long m_duration;
+	
+	@JsonProperty("count") public int m_count;
 
-  @JsonProperty("name") public String m_name;
-
-  @JsonProperty("duration_ms") public long m_duration;
-
-  @JsonProperty("count") public int m_count;
 }

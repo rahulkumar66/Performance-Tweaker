@@ -15,53 +15,70 @@
  */
 package com.asksven.android.common.utils;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
+import java.util.List;
+
+import com.asksven.android.common.RootShell;
 import com.asksven.android.common.shellutils.Exec;
 import com.asksven.android.common.shellutils.ExecResult;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
+
 /**
  * @author sven
- *         A collection of system utilities
+ * A collection of system utilities
+ *
  */
-public class SysUtils {
+public class SysUtils
+{
 
-  /**
-   * Checks if we have BATTERY_STATS permission
-   *
-   * @return true if the permission was granted
-   */
-  public static boolean hasBatteryStatsPermission(Context context) {
-    return wasPermissionGranted(context, android.Manifest.permission.BATTERY_STATS);
-  }
+	/**
+	 * Checks if we have BATTERY_STATS permission
+	 * @param context
+	 * @return true if the permission was granted
+	 */
+	public static boolean hasBatteryStatsPermission(Context context)
+	{
+		return wasPermissionGranted(context, android.Manifest.permission.BATTERY_STATS);
+	}
 
-  /**
-   * Checks if we have DUMP permission
-   *
-   * @return true if the permission was granted
-   */
+	/**
+	 * Checks if we have DUMP permission
+	 * @param context
+	 * @return true if the permission was granted
+	 */
 
-  public static boolean hasDumpsysPermission(Context context) {
-    return wasPermissionGranted(context, android.Manifest.permission.DUMP);
-  }
+	public static boolean hasDumpsysPermission(Context context)
+	{
+		return wasPermissionGranted(context, android.Manifest.permission.DUMP);
+	}
 
-  private static boolean wasPermissionGranted(Context context, String permission) {
-    PackageManager pm = context.getPackageManager();
-    int hasPerm = pm.checkPermission(permission, context.getPackageName());
-    return (hasPerm == PackageManager.PERMISSION_GRANTED);
-  }
+	private static boolean wasPermissionGranted(Context context, String permission)
+	{
+		PackageManager pm = context.getPackageManager();
+		int hasPerm = pm.checkPermission(
+		    permission, 
+		    context.getPackageName());
+		return (hasPerm == PackageManager.PERMISSION_GRANTED);
+	}
+	
+	/** 
+	 * Returns "n/a, Enforcing or Permissive", depending on the implemented policy
+	 * @return
+	 */
+	public static String getSELinuxPolicy()
+	{
+		String ret = "";
+		ExecResult res = Exec.execPrint(new String[]{"getenforce"});
+		if (res.getSuccess())
+		{
+			ret = res.getResultLine();
+		}
+		else
+		{
+			ret = "n/a";
+		}
+		return ret;
+	}
 
-  /**
-   * Returns "n/a, Enforcing or Permissive", depending on the implemented policy
-   */
-  public static String getSELinuxPolicy() {
-    String ret = "";
-    ExecResult res = Exec.execPrint(new String[] { "getenforce" });
-    if (res.getSuccess()) {
-      ret = res.getResultLine();
-    } else {
-      ret = "n/a";
-    }
-    return ret;
-  }
 }

@@ -17,24 +17,28 @@
 package com.asksven.android.common.dto;
 
 import java.io.Serializable;
+
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.asksven.android.common.nameutils.UidInfo;
 
 /**
  * A DTO for NetworkUsage
- *
  * @author sven
+ *
  */
-public class NetworkUsageDto implements Serializable {
+public class NetworkUsageDto implements Serializable
+{
 
-  // from StatElement
-  @JsonProperty("uid") public int m_uid = -1;
+	// from StatElement
+	@JsonProperty("uid") public int m_uid = -1;
 
-  @JsonProperty("total") public long m_total;
+	@JsonProperty("total") public long m_total;	
 
-  // from NetworkUsage
-  @JsonProperty("bytes_received") public long m_bytesReceived = 0;
-
-  @JsonProperty("bytes_sent") public long m_bytesSent = 0;
-
-  @JsonProperty("iface") public String m_iface = "";
+	// from NetworkUsage
+	@JsonProperty("bytes_received") public long m_bytesReceived=0;
+	
+	@JsonProperty("bytes_sent") public long m_bytesSent=0;
+ 
+	@JsonProperty("iface") public String m_iface = "";
 }

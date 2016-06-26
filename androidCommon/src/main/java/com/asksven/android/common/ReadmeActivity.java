@@ -15,6 +15,9 @@
  */
 package com.asksven.android.common;
 
+
+import com.asksven.android.common.privateapiproxies.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,77 +26,95 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
-import com.asksven.android.common.privateapiproxies.R;
 
 /**
+ * 
  * @author sven
  *
- *         Add following strings to your app
- *         <string name="dialog_apps">Other Apps</string>
- *         <string name="dialog_dismiss">Dismiss</string>
- *         <string name="dialog_follow_me">Follow me</string>
- *         <string name="twitter_link">https://twitter.com/#!/asksven</string>
- *         <string name="market_link">market://search?q=com.asksven</string>
- *
- *         and the activity to your manifest
- *         <activity android:name="com.asksven.android.common.ReadmeActivity" />
+ * Add following strings to your app
+ *    <string name="dialog_apps">Other Apps</string>
+ *    <string name="dialog_dismiss">Dismiss</string>
+ *    <string name="dialog_follow_me">Follow me</string>
+ *    <string name="twitter_link">https://twitter.com/#!/asksven</string>
+ *    <string name="market_link">market://search?q=com.asksven</string>
+ *    
+ * and the activity to your manifest
+ *    <activity android:name="com.asksven.android.common.ReadmeActivity" />
  */
-public class ReadmeActivity extends Activity {
-  /**
-   * @see android.app.Activity#onCreate(Bundle)
-   */
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+public class ReadmeActivity extends Activity
+{
+	/**
+	 * @see android.app.Activity#onCreate(Bundle)
+	 */
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.readmewebview);
+		
+		WebView browser = (WebView)findViewById(R.id.webview);
 
-    setContentView(R.layout.readmewebview);
+	    WebSettings settings = browser.getSettings();
+	    settings.setJavaScriptEnabled(true);
+	    
+	    // retrieve any passed data (filename)
+	    String strFilename = getIntent().getStringExtra("filename");
+	    String strURL = getIntent().getStringExtra("url");
+	    
+	    // if a URL is passed open it
+	    // if not open a local file
+	    if ( (strURL == null) || (strURL.equals("")) )
+	    {
+		    if (strFilename.equals(""))
+		    {
+		    	browser.loadUrl("file:///android_asset/help.html");
+		    }
+		    else
+		    {
+		    	browser.loadUrl("file:///android_asset/" + strFilename);
+		    }
+	    }
+	    else
+	    {
+	    	browser.loadUrl(strURL);
+	    }
 
-    WebView browser = (WebView) findViewById(R.id.webview);
+        final Button buttonClose = (Button) findViewById(R.id.buttonClose);
+        buttonClose.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+            	finish();
+            }
+        });
 
-    WebSettings settings = browser.getSettings();
-    settings.setJavaScriptEnabled(true);
+        final Button buttonRate = (Button) findViewById(R.id.buttonMarket);
+        buttonRate.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+            	openURL(ReadmeActivity.this.getString(R.string.market_link));
+            	finish();
+            }
+        });
+        final Button buttonFollow = (Button) findViewById(R.id.buttonTwitter);
+        buttonFollow.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+            	openURL(ReadmeActivity.this.getString(R.string.twitter_link));
+            	finish();
+            }
+        });
 
-    // retrieve any passed data (filename)
-    String strFilename = getIntent().getStringExtra("filename");
-    String strURL = getIntent().getStringExtra("url");
+	}
+	
+    public void openURL( String inURL )
+    {
+        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse( inURL ) );
 
-    // if a URL is passed open it
-    // if not open a local file
-    if ((strURL == null) || (strURL.equals(""))) {
-      if (strFilename.equals("")) {
-        browser.loadUrl("file:///android_asset/help.html");
-      } else {
-        browser.loadUrl("file:///android_asset/" + strFilename);
-      }
-    } else {
-      browser.loadUrl(strURL);
+        startActivity( browse );
     }
 
-    final Button buttonClose = (Button) findViewById(R.id.buttonClose);
-    buttonClose.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        finish();
-      }
-    });
-
-    final Button buttonRate = (Button) findViewById(R.id.buttonMarket);
-    buttonRate.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        openURL(ReadmeActivity.this.getString(R.string.market_link));
-        finish();
-      }
-    });
-    final Button buttonFollow = (Button) findViewById(R.id.buttonTwitter);
-    buttonFollow.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        openURL(ReadmeActivity.this.getString(R.string.twitter_link));
-        finish();
-      }
-    });
-  }
-
-  public void openURL(String inURL) {
-    Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse(inURL));
-
-    startActivity(browse);
-  }
 }

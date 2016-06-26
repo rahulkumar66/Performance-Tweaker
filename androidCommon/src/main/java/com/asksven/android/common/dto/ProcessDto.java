@@ -16,28 +16,33 @@
 
 package com.asksven.android.common.dto;
 
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.asksven.android.common.nameutils.UidInfo;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * A DTO for Process
- *
  * @author sven
+ *
  */
-public class ProcessDto implements Serializable {
+public class ProcessDto implements Serializable
+{
 
-  // from StatElement
-  @JsonProperty("uid") public int m_uid = -1;
+	// from StatElement
+	@JsonProperty("uid") public int m_uid = -1;
 
-  @JsonProperty("total") public long m_total;
+	@JsonProperty("total") public long m_total;	
 
-  // from Process
-  @JsonProperty("name") public String m_name;
+	// from Process
+	@JsonProperty("name") public String m_name;
+	
+	@JsonProperty("system_time") public long m_systemTime;
+	
+	@SerializedName("user_time") public long m_userTime;
 
-  @JsonProperty("system_time") public long m_systemTime;
+	@JsonProperty("starts") public int m_starts;
 
-  @SerializedName("user_time") public long m_userTime;
-
-  @JsonProperty("starts") public int m_starts;
 }
