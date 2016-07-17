@@ -128,11 +128,6 @@ public class SysUtils implements Constants {
     }
 
     public static boolean isPropActive(String key) {
-        //TODO remove this debug info
-        String obzen[] = executeCommandWithOutput("getprop | grep " + key + "\n").split("]:");
-        for (String x : obzen) {
-            Log.d(Constants.App_Tag, x);
-        }
         return executeCommandWithOutput("getprop | grep " + key + "\n").split("]:")[1].contains("running");
     }
 

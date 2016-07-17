@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
     public void populateGui() {
         progressBar.setVisibility(View.GONE);
 
-        //TODO add settings based on whther they are supported or not
+        //TODO add settings based on whether they are supported or not
         if (GpuUtils.isGpuFrequencyScalingSupported()) {
             MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_gpu);
             menuItem.setVisible(true);
@@ -153,7 +153,6 @@ public class MainActivity extends AppCompatActivity
                         actionBar.setTitle("CPU Hotplug");
                         break;
                 }
-
                 if (mfragment != null) {
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
@@ -207,13 +206,15 @@ public class MainActivity extends AppCompatActivity
                 progressBar.setVisibility(View.GONE);
 
                 appCompatibilityMessage.setVisibility(View.VISIBLE);
-                appCompatibilityMessage.setText(!hasRoot ? "No root access found" : "No Busybox found");
+                appCompatibilityMessage
+                        .setText(!hasRoot ? "No root access found" : "No Busybox found");
 
                 if (hasRoot) {
-                    //redirect to playstore for installing busybox
+                    //TODO redirect to playstore for installing busybox
                     try {
                         startActivity(
-                                new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=stericson.busybox")));
+                                new Intent(Intent.ACTION_VIEW, Uri
+                                        .parse("market://details?id=stericson.busybox")));
                     } catch (ActivityNotFoundException ignored) {
                     }
                 }
