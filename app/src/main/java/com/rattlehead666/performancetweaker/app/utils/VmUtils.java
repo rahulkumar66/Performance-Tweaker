@@ -1,5 +1,7 @@
 package com.rattlehead666.performancetweaker.app.utils;
 
+import android.util.Log;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

@@ -1,5 +1,7 @@
 package com.rattlehead666.performancetweaker.app.utils;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -14,23 +16,18 @@ public class BuildPropUtils {
     public static void overwrite(final String oldKey, final String oldValue, final String newKey,
                                  final String newValue) {
         SysUtils.mount(true, "/system");
+        final String command="sed 's|" + oldKey + "=" + oldValue + "|"
+                + newKey + "=" + newValue + "|g' -i /system/build.prop" + "\n";
+
         SysUtils.executeRootCommand(new ArrayList<String>() {{
-            add("sed 's|"
-                    + oldKey
-                    + "="
-                    + oldValue
-                    + "|"
-                    + newKey
-                    + "="
-                    + newValue
-                    + "|g' -i /system/build.prop"
-                    + "\n");
+            add(command);
             add("exit" + "\n");
         }});
     }
 
     public static void addKey(final String key, final String value) {
         SysUtils.mount(true, "/system");
+        Log.d("tweaekr","echo " + key + "=" + value + " >> " + Constants.BUILD_PROP + "\n");
         SysUtils.executeRootCommand(new ArrayList<String>() {{
             add("echo " + key + "=" + value + " >> " + Constants.BUILD_PROP + "\n");
             add("exit" + "\n");

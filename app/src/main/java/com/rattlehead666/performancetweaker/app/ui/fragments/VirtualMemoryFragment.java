@@ -29,7 +29,6 @@ public class VirtualMemoryFragment extends PreferenceFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_pref_container, container, false);
     }
 
@@ -51,7 +50,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         VmUtils.setVM(newValue.toString(), preference.getKey());
-        preference.setSummary(newValue.toString());
+        preference.setSummary(VmUtils.getVMValue(preference.getKey()));
         return true;
     }
 
@@ -90,6 +89,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
                 }
                 progressBar.setVisibility(View.GONE);
             }
+
         }
     }
 }
