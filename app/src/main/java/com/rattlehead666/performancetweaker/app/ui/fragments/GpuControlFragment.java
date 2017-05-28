@@ -1,8 +1,5 @@
 package com.rattlehead666.performancetweaker.app.ui.fragments;
 
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -11,6 +8,10 @@ import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.rattlehead666.performancetweaker.app.R;
+import com.rattlehead666.performancetweaker.app.utils.Constants;
+import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
 
 public class GpuControlFragment extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {
@@ -39,9 +40,9 @@ public class GpuControlFragment extends PreferenceFragment
 
         context = getActivity().getBaseContext();
 
-        maxGpuFrequencyPreference = (ListPreference) findPreference("gpu_max_freq_pref");
-        minGpuFrequencyPreference = (ListPreference) findPreference("gpu_min_freq_pref");
-        availableGpuGovernorPreference = (ListPreference) findPreference("gpu_governor_pref");
+        maxGpuFrequencyPreference = (ListPreference) findPreference(Constants.PREF_GPU_MAX);
+        minGpuFrequencyPreference = (ListPreference) findPreference(Constants.PREF_GPU_MIN);
+        availableGpuGovernorPreference = (ListPreference) findPreference(Constants.PREF_GPU_GOV);
 
         availableGpuFrequencies = GpuUtils.getAvailableGpuFrequencies();
         availableGpuGovernors = GpuUtils.getAvailableGpuGovernors();
@@ -91,10 +92,12 @@ public class GpuControlFragment extends PreferenceFragment
 
     public void updatePreferences() {
         maxGpuFrequencyPreference.setValue(maxFrequency);
-        maxGpuFrequencyPreference.setSummary((Integer.parseInt(maxFrequency) / (1000 * 1000) + "Mhz"));
+        maxGpuFrequencyPreference.setSummary((Integer.parseInt(maxFrequency) / (1000 * 1000)
+                + "Mhz"));
 
         minGpuFrequencyPreference.setValue(minFrequency);
-        minGpuFrequencyPreference.setSummary((Integer.parseInt(minFrequency) / (1000 * 1000) + "Mhz"));
+        minGpuFrequencyPreference.setSummary((Integer.parseInt(minFrequency) / (1000 * 1000)
+                + "Mhz"));
 
         availableGpuGovernorPreference.setValue(currentGovernor);
         availableGpuGovernorPreference.setSummary(currentGovernor);
@@ -103,17 +106,17 @@ public class GpuControlFragment extends PreferenceFragment
     @Override
     public boolean onPreferenceChange(Preference preference, Object value) {
 
-        if (preference.getKey().equals("gpu_max_freq_pref")) {
+        if (preference.getKey().equals(Constants.PREF_GPU_MAX)) {
             GpuUtils.setMaxGpuFrequency(value.toString(), getActivity().getBaseContext());
-        } else if (preference.getKey().equals("gpu_min_freq_pref")) {
+        } else if (preference.getKey().equals(Constants.PREF_GPU_MIN)) {
             GpuUtils.setMinFrequency(value.toString(), getActivity().getBaseContext());
-        } else if (preference.getKey().equals("gpu_governor_pref")) {
-            GpuUtils.setGpuFrequencyScalingGovernor(value.toString(), getActivity().getBaseContext());
+        } else if (preference.getKey().equals(Constants.PREF_GPU_GOV)) {
+            GpuUtils.setGpuFrequencyScalingGovernor(value.toString(), getActivity()
+                    .getBaseContext());
         }
 
         updateData();
         updatePreferences();
-
         return true;
     }
 }

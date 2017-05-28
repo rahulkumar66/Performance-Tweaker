@@ -16,28 +16,22 @@
 
 package com.asksven.android.common.privateapiproxies;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonFilter;
-
-import com.asksven.android.common.dto.AlarmDto;
-import com.asksven.android.common.dto.NativeKernelWakelockDto;
 import com.asksven.android.common.dto.NetworkUsageDto;
 import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.google.gson.annotations.SerializedName;
 
-import android.app.Application;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import java.io.Serializable;
+import java.util.List;
+
 //import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 //import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 public class NetworkUsage extends StatElement implements Comparable<NetworkUsage>, Serializable
 {
@@ -89,15 +83,9 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 		m_bytesSent		= bytesSent;
 	}
 	
-	public NetworkUsage clone()
-	{
-		NetworkUsage clone = new NetworkUsage(getuid(), m_iface, m_bytesReceived, m_bytesSent);
-		return clone;
-	}
-
 	public NetworkUsage(NetworkUsageDto source)
 	{
-		
+
 		this.setUid(source.m_uid);
 		this.m_bytesReceived 	= source.m_bytesReceived;
 		this.m_bytesSent 		= source.m_bytesSent;
@@ -105,20 +93,9 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 
 	}
 
-	public NetworkUsageDto toDto()
-	{
-		NetworkUsageDto ret = new NetworkUsageDto();
-		ret.m_uid			= this.getuid();
-		ret.m_bytesReceived 	= this.m_bytesReceived;
-		ret.m_bytesSent 		= this.m_bytesSent;
-		ret.m_iface 		= this.m_iface;
-	
-		return ret;
-	}
-
 	/**
-	 * 
-	 * @param uid
+     *
+     * @param uid
 	 * @param bytesReceived
 	 * @param bytesSent
 	 */
@@ -146,8 +123,51 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 		m_bytesReceived	= bytesReceived;
 		m_bytesSent		= bytesSent;
 	}
+
 	/**
-	 * Substracts the values from a previous object
+     * Formats data volumes
+     * @param bytes
+     * @return the formated string
+     */
+    public static String formatVolume(double bytes) {
+        String ret = "";
+
+        double kB = Math.floor(bytes / 1024);
+        double mB = Math.floor(bytes / 1024 / 1024);
+        double gB = Math.floor(bytes / 1024 / 1024 / 1024);
+        double tB = Math.floor(bytes / 1024 / 1024 / 1024 / 1024);
+
+        if (tB > 0) {
+            ret = tB + " TBytes";
+        } else if (gB > 0) {
+            ret = gB + " GBytes";
+        } else if (mB > 0) {
+            ret = mB + " MBytes";
+        } else if (kB > 0) {
+            ret = kB + " KBytes";
+        } else {
+            ret = bytes + " Bytes";
+        }
+        return ret;
+    }
+
+    public NetworkUsage clone() {
+        NetworkUsage clone = new NetworkUsage(getuid(), m_iface, m_bytesReceived, m_bytesSent);
+        return clone;
+    }
+
+    public NetworkUsageDto toDto() {
+        NetworkUsageDto ret = new NetworkUsageDto();
+        ret.m_uid = this.getuid();
+        ret.m_bytesReceived = this.m_bytesReceived;
+        ret.m_bytesSent = this.m_bytesSent;
+        ret.m_iface = this.m_iface;
+
+        return ret;
+    }
+
+    /**
+     * Substracts the values from a previous object
 	 * found in myList from the current Process
 	 * in order to obtain an object containing only the data since a referenc
 	 * @param myList
@@ -161,12 +181,12 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 				try
 				{
 					NetworkUsage myRef = (NetworkUsage) myList.get(i);
-					if ( (this.getInterface().equals(myRef.getInterface())) 
-							&& (this.getuid() == myRef.getuid()) )
+                    if ((this.getInterface().equals(myRef.getInterface()))
+                            && (this.getuid() == myRef.getuid()) )
 					{
 						this.m_bytesReceived	-= myRef.getBytesReceived();
 						this.m_bytesSent		-= myRef.getBytesSent();
-					
+
 						if ((m_bytesReceived < 0) || (m_bytesSent < 0))
 						{
 							Log.e(TAG, "substractFromRef generated negative values (" + this.toString() + " - " + myRef.toString() + ")");
@@ -179,11 +199,10 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 					// just log as it is no error not to change the process
 					// being substracted from to do nothing
 					Log.e(TAG, "substractFromRef was called with a wrong list type");
-				}	
-			}			
-		}
+                }
+            }
+        }
 	}
-
 
 	/**
 	 * @return the interface
@@ -216,7 +235,6 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 		return ret;
 	}
 
-
 	/**
 	 * @return the bytes received
 	 */
@@ -235,7 +253,8 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 	{
 		m_bytesSent += bytes;
 	}
-	/**
+
+    /**
 	 * @return the bytes sent
 	 */
 	@JsonProperty("bytes_sent")
@@ -243,8 +262,8 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 	{
 		return m_bytesSent;
 	}
-	
-	/**
+
+    /**
 	 * @return the total bytes sent and received
 	 */
 	@JsonIgnore
@@ -255,7 +274,7 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 
 	/**
      * Compare a given NetworkUsage with this object.
-     * If the duration of this object is 
+     * If the duration of this object is
      * greater than the received object,
      * then this object is greater than the other.
      */
@@ -265,9 +284,9 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 		return ((int)((o.getBytesReceived() + o.getBytesSent()) - (this.getBytesReceived() + this.getBytesSent())));
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
 	@Override
 	public String toString() {
 		return "NetworkUsage [m_uid=" + super.getuid() + ", m_bytesReceived="
@@ -282,8 +301,8 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 	{
 		return String.valueOf(super.getuid() + " (" + getInterface() + ")");
 	}
-	
-	/**
+
+    /**
 	 * returns a string representation of the data
 	 */
 	@JsonIgnore
@@ -292,8 +311,8 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 		return formatVolume(getTotalBytes()) + " " + this.formatRatio(getTotalBytes(), getTotal());
 	}
 
-	/** 
-	 * returns the values of the data
+    /**
+     * returns the values of the data
 	 */
 	@JsonIgnore
 	public double[] getValues()
@@ -302,43 +321,6 @@ public class NetworkUsage extends StatElement implements Comparable<NetworkUsage
 		retVal[0] = getBytesReceived() + getBytesSent();
 //		retVal[1] = getBytesReceived() + getBytesSent();
 		return retVal;
-	}
-	
-	/**
-	 * Formats data volumes 
-	 * @param bytes
-	 * @return the formated string
-	 */
-	public static String formatVolume(double bytes)
-	{
-		String ret = "";
-		
-		double kB = Math.floor(bytes / 1024);
-		double mB = Math.floor(bytes / 1024 / 1024);
-		double gB = Math.floor(bytes / 1024 / 1024 / 1024);
-		double tB = Math.floor(bytes / 1024 / 1024 / 1024 / 1024);
-        
-        if (tB > 0)
-        {
-            ret = tB + " TBytes";
-        }
-        else if ( gB > 0)
-        {
-            ret = gB + " GBytes";
-        }
-        else if ( mB > 0)
-        {
-            ret = mB + " MBytes";
-        }
-        else if ( kB > 0)
-        {
-            ret = kB + " KBytes";
-        }
-        else
-        {
-            ret = bytes + " Bytes";
-        }
-        return ret;
 	}
 
 	@JsonIgnore

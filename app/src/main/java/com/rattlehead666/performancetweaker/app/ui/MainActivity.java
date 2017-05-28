@@ -1,20 +1,5 @@
 package com.rattlehead666.performancetweaker.app.ui;
 
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
-import com.rattlehead666.performancetweaker.app.ui.fragments.CpuFrequencyFragment;
-import com.rattlehead666.performancetweaker.app.ui.fragments.CpuHotplugFragment;
-import com.rattlehead666.performancetweaker.app.ui.fragments.GovernorTuningFragment;
-import com.rattlehead666.performancetweaker.app.ui.fragments.GpuControlFragment;
-import com.rattlehead666.performancetweaker.app.ui.fragments.IOControlFragment;
-import com.rattlehead666.performancetweaker.app.ui.fragments.SettingsFragment;
-import com.rattlehead666.performancetweaker.app.ui.fragments.TimeInStatesFragment;
-import com.rattlehead666.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
-import com.rattlehead666.performancetweaker.app.ui.fragments.WakeLocksFragment;
-import com.rattlehead666.performancetweaker.app.utils.CPUHotplugUtils;
-import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
-import com.stericson.RootTools.RootTools;
-
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
@@ -35,6 +20,21 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.rattlehead666.performancetweaker.app.R;
+import com.rattlehead666.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.CpuFrequencyFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.CpuHotplugFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.GovernorTuningFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.GpuControlFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.IOControlFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.SettingsFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.TimeInStatesFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
+import com.rattlehead666.performancetweaker.app.ui.fragments.WakeLocksFragment;
+import com.rattlehead666.performancetweaker.app.utils.CPUHotplugUtils;
+import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
+import com.stericson.RootTools.RootTools;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar,
-                R.string.action_settings, R.string.action_settings) {
+                R.string.settings, R.string.settings) {
 
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -118,39 +118,39 @@ public class MainActivity extends AppCompatActivity
                 switch (menuItem.getItemId()) {
                     case R.id.nav_cpu:
                         mfragment = new CpuFrequencyFragment();
-                        actionBar.setTitle("CPU");
+                        actionBar.setTitle(getString(R.string.cpu_frequency));
                         break;
                     case R.id.nav_tis:
                         mfragment = new TimeInStatesFragment();
-                        actionBar.setTitle("Time In State");
+                        actionBar.setTitle(R.string.time_in_state);
                         break;
                     case R.id.nav_iocontrol:
                         mfragment = new IOControlFragment();
-                        actionBar.setTitle("I/O Control");
+                        actionBar.setTitle(getString(R.string.io));
                         break;
                     case R.id.nav_wakelocks:
                         mfragment = new WakeLocksFragment();
-                        actionBar.setTitle("Wakelocks");
+                        actionBar.setTitle(getString(R.string.wakelocks));
                         break;
                     case R.id.nav_settings:
                         mfragment = new SettingsFragment();
-                        actionBar.setTitle(getString(R.string.action_settings));
+                        actionBar.setTitle(getString(R.string.settings));
                         break;
                     case R.id.nav_gpu:
                         mfragment = new GpuControlFragment();
-                        actionBar.setTitle("GPU Settings");
+                        actionBar.setTitle(getString(R.string.gpu_frequency));
                         break;
                     case R.id.build_prop:
                         mfragment = new BuildPropEditorFragment();
-                        actionBar.setTitle("Build Prop Editor");
+                        actionBar.setTitle(R.string.build_prop);
                         break;
                     case R.id.vm:
                         mfragment = new VirtualMemoryFragment();
-                        actionBar.setTitle("Virtual Memory");
+                        actionBar.setTitle(getString(R.string.vm));
                         break;
                     case R.id.nav_cpu_hotplug:
                         mfragment = new CpuHotplugFragment();
-                        actionBar.setTitle("CPU Hotplug");
+                        actionBar.setTitle(getString(R.string.cpu_hotplug));
                         break;
                 }
                 if (mfragment != null) {
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity
 
         if (getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG) != null
                 && getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG).isVisible()) {
-            // dirty hack to go back to cpu frequency fragment by pressing back button
+            //To go back to cpu frequency fragment by pressing back button
             getFragmentManager().beginTransaction()
                     .replace(R.id.main_content, new CpuFrequencyFragment())
                     .commit();

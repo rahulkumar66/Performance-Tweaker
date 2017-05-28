@@ -16,6 +16,8 @@
 
 package com.asksven.android.common.utils;
 
+import android.util.Log;
+
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -25,9 +27,6 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.provider.Settings;
-import android.util.Log;
-
 /**
  * @author sven
  * 
@@ -35,12 +34,11 @@ import android.util.Log;
 public class StringUtils
 {
 	
-	private static String TAG = "StringUtils";
-
 	static Pattern emailPattern			= Pattern.compile("(.*/)([A-Za-z0-9._%-+]+)@([a-z0-9.-]+\\.[a-z]{2,4})(.*)");
 	static Pattern accountnamePattern	= Pattern.compile("(.*\\{name\\=)(.*)(\\,.*)");
-	
-	public static final String formatRatio(long num, long den)
+    private static String TAG = "StringUtils";
+
+    public static final String formatRatio(long num, long den)
 	{
 		StringBuilder mFormatBuilder = new StringBuilder(8);
 		if (den == 0L)

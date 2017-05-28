@@ -4,8 +4,6 @@
 package com.asksven.android.common;
 
 
-import com.asksven.android.common.privateapiproxies.R;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +12,9 @@ import android.net.Uri;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.asksven.android.common.privateapiproxies.R;
 
 /**
  * @author sven From

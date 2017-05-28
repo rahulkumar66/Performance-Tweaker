@@ -20,7 +20,7 @@ public class CPUHotplugUtils implements Constants {
     }
 
     public static boolean hasMpdecision() {
-        return SysUtils.executeCommandWithOutput("getprop | grep mpdecision \n").length() > 1;
+        return SysUtils.executeCommandWithOutput(true, "getprop | grep mpdecision \n").length() > 1;
     }
 
     public static boolean hasCpuHotplug() {

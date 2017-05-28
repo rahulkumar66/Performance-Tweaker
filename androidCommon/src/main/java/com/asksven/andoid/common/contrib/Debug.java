@@ -19,10 +19,10 @@ package com.asksven.andoid.common.contrib;
  */
 
 
-import com.asksven.android.common.privateapiproxies.BuildConfig;
-
 import android.os.Looper;
 import android.util.Log;
+
+import com.asksven.android.common.privateapiproxies.BuildConfig;
 
 /**
  * Utility class for logging and debug features that (by default) does nothing when not in debug mode
@@ -31,48 +31,40 @@ public class Debug {
 
     // ----- DEBUGGING -----
 
-    private static boolean debug = BuildConfig.DEBUG;
+    public static final String TAG = "libsuperuser";
+    public static final int LOG_GENERAL = 0x0001;
+    public static final int LOG_COMMAND = 0x0002;
 
-    /**
-     * <p>Enable or disable debug mode</p>
-     * 
-     * <p>By default, debug mode is enabled for development
-     * builds and disabled for exported APKs - see
-     * BuildConfig.DEBUG</p>
-     * 
-     * @param enabled Enable debug mode ?
-     */	
-    public static void setDebug(boolean enable) { 
-        debug = enable; 
-    }
+    // ----- LOGGING -----
+    public static final int LOG_OUTPUT = 0x0004;
+    public static final int LOG_NONE = 0x0000;
+    public static final int LOG_ALL = 0xFFFF;
+    private static boolean debug = BuildConfig.DEBUG;
+    private static int logTypes = LOG_ALL;
+    private static OnLogListener logListener = null;
+    private static boolean sanityChecks = true;
 
     /**
      * <p>Is debug mode enabled ?</p>
-     * 
+     *
      * @return Debug mode enabled
      */
-    public static boolean getDebug() { 
+    public static boolean getDebug() {
         return debug;
     }
 
-    // ----- LOGGING -----
-
-    public interface OnLogListener {
-        public void onLog(int type, String typeIndicator, String message);
+    /**
+     * <p>Enable or disable debug mode</p>
+     *
+     * <p>By default, debug mode is enabled for development
+     * builds and disabled for exported APKs - see
+     * BuildConfig.DEBUG</p>
+     *
+     * @param enabled Enable debug mode ?
+     */
+    public static void setDebug(boolean enable) {
+        debug = enable;
     }
-
-    public static final String TAG = "libsuperuser";
-
-    public static final int LOG_GENERAL = 0x0001;
-    public static final int LOG_COMMAND = 0x0002;
-    public static final int LOG_OUTPUT = 0x0004;
-
-    public static final int LOG_NONE = 0x0000;
-    public static final int LOG_ALL = 0xFFFF;
-
-    private static int logTypes = LOG_ALL;
-
-    private static OnLogListener logListener = null;
 
     /**
      * <p>Log a message (internal)</p>
@@ -173,30 +165,40 @@ public class Debug {
     }
 
     /**
+     * <p>Get the currently registered custom log handler</p>
+     *
+     * @return Current custom log handler or NULL if none is present
+     */
+    public static OnLogListener getOnLogListener() {
+        return logListener;
+    }
+
+    /**
      * <p>Register a custom log handler</p>
-     * 
+     *
      * <p>Replaces the log method (write to logcat) with your own
      * handler. Whether your handler gets called is still dependent
      * on debug mode and message types being enabled for logging.</p>
-     * 
+     *
      * @param onLogListener Custom log listener or NULL to revert to default
      */
     public static void setOnLogListener(OnLogListener onLogListener) {
         logListener = onLogListener;
     }
 
-    /**
-     * <p>Get the currently registered custom log handler</p>
-     * 
-     * @return Current custom log handler or NULL if none is present 
-     */
-    public static OnLogListener getOnLogListener() {
-        return logListener;
-    }
-
     // ----- SANITY CHECKS -----
 
-    private static boolean sanityChecks = true;
+    /**
+     * <p>Are sanity checks enabled ?</p>
+     *
+     * <p>Note that debug mode must also be enabled for actual
+     * sanity checks to occur.</p>
+     *
+     * @return True if enabled
+     */
+    public static boolean getSanityChecksEnabled() {
+        return sanityChecks;
+    }
 
     /**
      * <p>Enable or disable sanity checks</p>
@@ -212,21 +214,9 @@ public class Debug {
 
     /**
      * <p>Are sanity checks enabled ?</p>
-     * 
-     * <p>Note that debug mode must also be enabled for actual
-     * sanity checks to occur.</p> 
-     * 
-     * @return True if enabled
-     */
-    public static boolean getSanityChecksEnabled() {
-        return sanityChecks;
-    }
-
-    /**
-     * <p>Are sanity checks enabled ?</p>
-     * 
-     * <p>Takes debug mode into account for the result.</p> 
-     * 
+     *
+     * <p>Takes debug mode into account for the result.</p>
+     *
      * @return True if enabled
      */
     public static boolean getSanityChecksEnabledEffective() {
@@ -235,11 +225,15 @@ public class Debug {
 
     /**
      * <p>Are we running on the main thread ?</p>
-     * 
+     *
      * @return Running on main thread ?
-     */	
+     */
     public static boolean onMainThread() {
         return ((Looper.myLooper() != null) && (Looper.myLooper() == Looper.getMainLooper()));
+    }
+
+    public interface OnLogListener {
+        void onLog(int type, String typeIndicator, String message);
     }
 
 }

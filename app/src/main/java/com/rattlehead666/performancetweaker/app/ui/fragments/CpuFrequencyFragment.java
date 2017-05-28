@@ -1,8 +1,5 @@
 package com.rattlehead666.performancetweaker.app.ui.fragments;
 
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.utils.CpuFrequencyUtils;
-
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import com.rattlehead666.performancetweaker.app.R;
+import com.rattlehead666.performancetweaker.app.utils.Constants;
+import com.rattlehead666.performancetweaker.app.utils.CpuFrequencyUtils;
 
 public class CpuFrequencyFragment extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {
@@ -42,9 +43,9 @@ public class CpuFrequencyFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.cpu_freq_preference);
         context = getActivity().getBaseContext();
 
-        CpuMaxFreqPreference = (ListPreference) findPreference("cpu_max_freq_pref");
-        CpuMinFreqPreference = (ListPreference) findPreference("cpu_min_freq_pref");
-        GovernorPreference = (ListPreference) findPreference("governor_pref");
+        CpuMaxFreqPreference = (ListPreference) findPreference(Constants.PREF_CPU_MAX_FREQ);
+        CpuMinFreqPreference = (ListPreference) findPreference(Constants.PREF_CPU_MIN_FREQ);
+        GovernorPreference = (ListPreference) findPreference(Constants.PREF_CPU_GOV);
         preference = findPreference("governor_tune_pref");
 
         CpuMaxFreqPreference.setOnPreferenceChangeListener(this);
@@ -73,7 +74,6 @@ public class CpuFrequencyFragment extends PreferenceFragment
     }
 
     public void populatePreferences() {
-
         updateData();
 
         if (availablefreq != null) {
@@ -103,13 +103,13 @@ public class CpuFrequencyFragment extends PreferenceFragment
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-        if (preference.getKey().equals("cpu_min_freq_pref")) {
+        if (preference.getKey().equals(Constants.PREF_CPU_MIN_FREQ)) {
             CpuFrequencyUtils.setMinFrequency(o.toString(), context);
         }
-        if (preference.getKey().equals("cpu_max_freq_pref")) {
+        if (preference.getKey().equals(Constants.PREF_CPU_MAX_FREQ)) {
             CpuFrequencyUtils.setMaxFrequency(o.toString(), context);
         }
-        if (preference.getKey().equals("governor_pref")) {
+        if (preference.getKey().equals(Constants.PREF_CPU_GOV)) {
             CpuFrequencyUtils.setGovernor(o.toString(), context);
         }
         updateData();

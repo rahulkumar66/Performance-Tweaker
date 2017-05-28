@@ -70,15 +70,17 @@ public interface Constants {
     };
 
     // Preferences
-    String PREF_ZERO_VALS = "non_zero_vals_only";
-    String PREF_MAX_FREQ = "max_freq";
-    String PREF_MIN_FREQ = "min_freq";
-    String PREF_GOV = "governor";
-    String PREF_CPU_APPLY_ON_BOOT = "cpu_apply_on_boot";
-    String PREF_IO_APPLY_ON_BOOT = "io_apply_boot";
-    String PREF_IO_SCHEDULER = "io_scheduler";
-    String PREF_READ_AHEAD = "read_ahead";
+    String PREF_CPU_MAX_FREQ = "cpu_max_freq_pref";
+    String PREF_CPU_MIN_FREQ = "cpu_min_freq_pref";
+    String PREF_CPU_GOV = "governor_pref";
+    String PREF_GPU_MAX = "gpu_max_freq_pref";
+    String PREF_GPU_MIN = "gpu_min_freq_pref";
+    String PREF_GPU_GOV = "gpu_governor_pref";
+    String PREF_HOTPLUG = "cpu_hotplug";
+    String PREF_IO_SCHEDULER = "disk_scheduler";
+    String PREF_READ_AHEAD = "read_ahead_cache";
     String PREF_TIS_RESET_STATS = "tis_reset_stats";
+    String PREF_ZERO_VALS = "non_zero_vals_only";
 
     // Build prop
     String BUILD_PROP = "/system/build.prop";

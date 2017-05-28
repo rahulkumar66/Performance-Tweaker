@@ -15,12 +15,12 @@
  */
 package com.asksven.android.common.privateapiproxies;
 
-import java.io.Serializable;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.asksven.android.common.utils.DateUtils;
+
+import java.io.Serializable;
 
 /**
  * Value holder for BatteryStats$HistoryItem
@@ -29,7 +29,8 @@ import com.asksven.android.common.utils.DateUtils;
  */
 public class HistoryItem implements Serializable, Parcelable
 {
-	static final long serialVersionUID = 1L;
+    public static final String[] SIGNAL_STRENGTH_NAMES = {"none", "poor", "moderate", "good", "great"};
+    static final long serialVersionUID = 1L;
     static final byte CMD_UPDATE = 0;
     static final byte CMD_START = 1;
     static final byte CMD_OVERFLOW = 2;
@@ -45,7 +46,6 @@ public class HistoryItem implements Serializable, Parcelable
     // Constants from DATA_CONNECTION_*
     static final int STATE_DATA_CONNECTION_MASK = 0x000f000;
     static final int STATE_DATA_CONNECTION_SHIFT = 12;
-    
     static final int STATE_BATTERY_PLUGGED_FLAG = 1<<30;
     static final int STATE_SCREEN_ON_FLAG = 1<<29;
     static final int STATE_GPS_ON_FLAG = 1<<28;
@@ -61,11 +61,14 @@ public class HistoryItem implements Serializable, Parcelable
     static final int STATE_VIDEO_ON_FLAG = 1<<18;
     static final int STATE_WAKE_LOCK_FLAG = 1<<17;
     static final int STATE_SENSOR_ON_FLAG = 1<<16;
-    
     static final int MOST_INTERESTING_STATES =
         STATE_BATTERY_PLUGGED_FLAG | STATE_SCREEN_ON_FLAG
         | STATE_GPS_ON_FLAG | STATE_PHONE_IN_CALL_FLAG;
-    
+    static final String[] SCREEN_BRIGHTNESS_NAMES = {"dark", "dim", "medium", "light", "bright"};
+    static final String[] DATA_CONNECTION_NAMES = {
+            "none", "gprs", "edge", "umts", "cdma", "evdo_0", "evdo_A",
+            "1xrtt", "hsdpa", "hsupa", "hspa", "iden", "evdo_b", "lte",
+            "ehrpd", "hspap", "other"};
     protected Long m_time;
     protected Long m_offset;
     protected Byte m_cmd;
@@ -76,7 +79,7 @@ public class HistoryItem implements Serializable, Parcelable
     protected String m_batteryTemperatureValue;
     protected String m_batteryVoltageValue;
     protected Integer m_statesValue;
-    
+
     public HistoryItem(Long time, Byte cmd, Byte batteryLevel, Byte batteryStatusValue,
     		Byte batteryHealthValue, Byte batteryPlugTypeValue,
     		String batteryTemperatureValue,	String batteryVoltageValue,
@@ -94,14 +97,14 @@ public class HistoryItem implements Serializable, Parcelable
 		m_statesValue 				= statesValue;
     }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
 	@Override
 	public String toString()
 	{
 		String strTime = DateUtils.format("HH:mm:ss", m_time);
-		
+
 		return "HistoryItem [m_time=" + strTime + ", m_cmd=" + m_cmd
 				+ ", m_batteryLevel=" + m_batteryLevel
 				+ ", m_batteryStatusValue=" + m_batteryStatusValue
@@ -117,7 +120,7 @@ public class HistoryItem implements Serializable, Parcelable
 	{
 		return m_cmd;
 	}
-	
+
 	/**
 	 * Returns the raw time of the HistoryItem as tring
 	 * @return the RAW time as sting
@@ -125,28 +128,29 @@ public class HistoryItem implements Serializable, Parcelable
 	public String getTime()
 	{
 		return DateUtils.format("HH:mm:ss", m_time);
-		
+
 	}
-	
+
 	/**
 	 * returns the "real" time of the HistoryItem by applying the offset
 	 * calculated as the difference of the most recent
 	 * sample from the stats and the current time at the point of reading
-	 * the stats. This norms the last sample to the time the data is queried 
-	 * @return the normalized time
+     * the stats. This norms the last sample to the time the data is queried
+     * @return the normalized time
 	 */
 	public String getNormalizedTime()
 	{
 		return DateUtils.format("dd.MM.yyyy HH:mm:ss S", m_time + m_offset);
-		
-	}
+
+    }
 
 	public Long getNormalizedTimeLong()
 	{
 		return m_time + m_offset;
-		
-	}
-	/**
+
+    }
+
+    /**
 	 * @return the m_batteryLevel
 	 */
 	public String getBatteryLevel()
@@ -170,7 +174,6 @@ public class HistoryItem implements Serializable, Parcelable
 		return m_statesValue;
 	}
 
-
 	/**
 	 * @return the m_bCharging as "0" or "1"
 	 */
@@ -192,8 +195,8 @@ public class HistoryItem implements Serializable, Parcelable
 	 */
 	public String getScreenOn()
 	{
-		
-		return getBooleanAsString(isScreenOn());
+
+        return getBooleanAsString(isScreenOn());
 	}
 
 	/**
@@ -201,11 +204,10 @@ public class HistoryItem implements Serializable, Parcelable
 	 */
 	public int getScreenOnInt()
 	{
-		
-		return getBooleanAsInt(isScreenOn());
+
+        return getBooleanAsInt(isScreenOn());
 	}
 
-	
 	/**
 	 * @return the m_bWakelock as "0" or "1"
 	 */
@@ -243,8 +245,8 @@ public class HistoryItem implements Serializable, Parcelable
 	 */
 	public String getGpsOn()
 	{
-		
-		return getBooleanAsString(isGpsOn());
+
+        return getBooleanAsString(isGpsOn());
 	}
 
 	/**
@@ -252,8 +254,8 @@ public class HistoryItem implements Serializable, Parcelable
 	 */
 	public int getGpsOnInt()
 	{
-		
-		return getBooleanAsInt(isGpsOn());
+
+        return getBooleanAsInt(isGpsOn());
 	}
 
 	/**
@@ -261,8 +263,8 @@ public class HistoryItem implements Serializable, Parcelable
 	 */
 	public String getPhoneInCall()
 	{
-		
-		return getBooleanAsString(isPhoneInCall());
+
+        return getBooleanAsString(isPhoneInCall());
 	}
 
 	/**
@@ -290,7 +292,6 @@ public class HistoryItem implements Serializable, Parcelable
 		return getBooleanAsInt(isBluetoothOn());
 	}
 
-	
 	/**
 	 * @return the m_bCharging as "0" or "1"
 	 */
@@ -321,14 +322,14 @@ public class HistoryItem implements Serializable, Parcelable
 		}
 	}
 
-	/**
+    /**
 	 * @return true is phone is charging
 	 */
 	public boolean isCharging()
 	{
 		boolean bCharging = (m_statesValue & STATE_BATTERY_PLUGGED_FLAG) != 0;
-		
-		return bCharging;
+
+        return bCharging;
 	}
 
 	/**
@@ -348,8 +349,8 @@ public class HistoryItem implements Serializable, Parcelable
 		boolean bGpsOn = (m_statesValue & STATE_GPS_ON_FLAG) != 0;
 		return bGpsOn;
 	}
-	
-	/**
+
+    /**
 	 * @return true is wifi is running
 	 */
 	public boolean isWifiRunning()
@@ -372,8 +373,8 @@ public class HistoryItem implements Serializable, Parcelable
 	 */
 	public boolean isPhoneInCall()
 	{
-		
-		boolean bPhoneInCall = (m_statesValue & STATE_PHONE_IN_CALL_FLAG) != 0;
+
+        boolean bPhoneInCall = (m_statesValue & STATE_PHONE_IN_CALL_FLAG) != 0;
 
 		return bPhoneInCall;
 	}
@@ -397,16 +398,15 @@ public class HistoryItem implements Serializable, Parcelable
 
 		return bBluetoothOn;
 	}
-
 	
 	public void setOffset(Long offset)
 	{
 		m_offset = offset;
 	}
 
-	/* (non-Javadoc)
-	 * @see android.os.Parcelable#describeContents()
-	 */
+    /* (non-Javadoc)
+     * @see android.os.Parcelable#describeContents()
+     */
 	@Override
 	public int describeContents()
 	{
@@ -414,9 +414,9 @@ public class HistoryItem implements Serializable, Parcelable
 		return 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
-	 */
+    /* (non-Javadoc)
+     * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
+     */
 	@Override
 	public void writeToParcel(Parcel dest, int flags)
 	{
@@ -432,14 +432,21 @@ public class HistoryItem implements Serializable, Parcelable
 	    dest.writeString(m_batteryVoltageValue);
 	    dest.writeInt(m_statesValue);
 	}
-	
-	public static final class  BitDescription
+
+    String printBitDescriptions(int oldval, int newval) {
+        String ret = "";
+
+
+        return ret;
+    }
+
+    public static final class  BitDescription
 	{
 		public final int mask;
 		public final int shift;
 		public final String name;
 		public final String[] values;
-		
+
         public BitDescription(int mask, String name)
         {
         	this.mask = mask;
@@ -447,32 +454,13 @@ public class HistoryItem implements Serializable, Parcelable
         	this.name = name;
         	this.values = null;
         }
-  
-		public BitDescription(int mask, int shift, String name, String[] values)
+
+        public BitDescription(int mask, int shift, String name, String[] values)
 		{
 			this.mask = mask;
 			this.shift = shift;
 			this.name = name;
 			this.values = values;
 		}
-	}
-	
-	 static final String[] SCREEN_BRIGHTNESS_NAMES = {"dark", "dim", "medium", "light", "bright"};
-	 
-	 public static final String[] SIGNAL_STRENGTH_NAMES = {"none", "poor", "moderate", "good", "great"};
-	 
-	static final String[] DATA_CONNECTION_NAMES = {
-		"none", "gprs", "edge", "umts", "cdma", "evdo_0", "evdo_A",
-		"1xrtt", "hsdpa", "hsupa", "hspa", "iden", "evdo_b", "lte",
-		"ehrpd", "hspap", "other"};
-	
-
-	
-	String printBitDescriptions(int oldval, int newval)
-	{
-		String ret = "";
-
-		
-		return ret;
 	}
 }

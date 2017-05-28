@@ -16,31 +16,23 @@
 
 package com.asksven.android.common.privateapiproxies;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
-
-
-
-
-
-
-//import android.content.Context;
-//import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.dto.AlarmDto;
 import com.asksven.android.common.dto.AlarmItemDto;
-import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.nameutils.UidNameResolver;
-import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.common.utils.StringUtils;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+//import android.content.Context;
+//import android.content.pm.PackageManager;
 
 /**
  * @author sven
@@ -153,23 +145,7 @@ public class Alarm extends StatElement implements Comparable<Alarm>, Serializabl
 		}
 		return clone;
 	}
-	/**
-	 * Store the number of wakeups 
-	 * @param nCount
-	 */
-	public void setWakeups(long nCount)
-	{
-		m_nWakeups = nCount;
-	}
-	
-	/**
-	 * Store the time running 
-	 * @param nTimeRunning
-	 */
-	public void setTimeRunning(long nTimeRunning)
-	{
-		m_timeRunning = nTimeRunning;
-	}
+
 	/**
 	 * Set the total wakeup count for the sum of all alarms
 	 * @param nCount
@@ -180,13 +156,13 @@ public class Alarm extends StatElement implements Comparable<Alarm>, Serializabl
 	}
 	
 	/**
-	 * Return the max of all alarms (wakeups) 
-	 */
+     * Return the max of all alarms (wakeups)
+     */
 	public double getMaxValue()
 	{
 		return m_nTotalCount;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.asksven.android.common.privateapiproxies.StatElement#getName()
 	 */
@@ -195,12 +171,12 @@ public class Alarm extends StatElement implements Comparable<Alarm>, Serializabl
 		return m_strPackageName;
 	}
 
-	public String getDetails()
+    public String getDetails()
 	{
 		return m_details;
 	}
 
-	/**
+    /**
 	 * Returns the number of wakeups
 	 * @return
 	 */
@@ -208,18 +184,26 @@ public class Alarm extends StatElement implements Comparable<Alarm>, Serializabl
 	{
 		return m_nWakeups;
 	}
-	
+
 	/**
-	 * @see getWakeups
+     * Store the number of wakeups
+     * @param nCount
+     */
+    public void setWakeups(long nCount) {
+        m_nWakeups = nCount;
+    }
+
+    /**
+     * @see getWakeups
 	 * @return
 	 */
 	long getCount()
 	{
 		return getWakeups();
 	}
-	
-	/** 
-	 * Not supported for alarms
+
+    /**
+     * Not supported for alarms
 	 * @return 0
 	 */
 	long getDuration()
@@ -234,8 +218,18 @@ public class Alarm extends StatElement implements Comparable<Alarm>, Serializabl
 	{
 		return m_timeRunning;
 	}
-	/** 
-	 * returns the values of the data
+
+    /**
+     * Store the time running
+     *
+     * @param nTimeRunning
+     */
+    public void setTimeRunning(long nTimeRunning) {
+        m_timeRunning = nTimeRunning;
+    }
+
+    /**
+     * returns the values of the data
 	 */	
 	public double[] getValues()
 	{

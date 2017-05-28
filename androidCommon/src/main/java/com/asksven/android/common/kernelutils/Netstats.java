@@ -15,25 +15,20 @@
  */
 package com.asksven.android.common.kernelutils;
 
+import android.util.Log;
+
+import com.asksven.android.common.RootShell;
+import com.asksven.android.common.privateapiproxies.NetworkUsage;
+import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.utils.StringUtils;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
-
-import android.util.Log;
-
-
 
 //import com.asksven.andoid.common.contrib.Shell;
-import com.asksven.andoid.common.contrib.Util;
-import com.asksven.android.common.RootShell;
-import com.asksven.android.common.privateapiproxies.NetworkUsage;
-import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.android.common.shellutils.Exec;
-import com.asksven.android.common.shellutils.ExecResult;
-import com.asksven.android.common.utils.StringUtils;
 
 /**
  * Parses the content of /proc/net/xt_qtaguid/stats
@@ -61,9 +56,7 @@ import com.asksven.android.common.utils.StringUtils;
 public class Netstats
 {
 	static final String TAG = "Netstats";
-	private static String FILE_PATH = "/proc/net/xt_qtaguid/stats";
 	static final String PERMISSION_DENIED = "su rights required to access alarms are not available / were not granted";
-
 	private static final String KEY_IDX = "idx";
 	private static final String KEY_IFACE = "iface";
 	private static final String KEY_UID = "uid_tag_int";
@@ -73,9 +66,9 @@ public class Netstats
 	private static final String KEY_RX_PACKETS = "rx_packets";
 	private static final String KEY_TX_BYTES = "tx_bytes";
 	private static final String KEY_TX_PACKETS = "tx_packets";
-	
+    private static String FILE_PATH = "/proc/net/xt_qtaguid/stats";
 
-	public static ArrayList<StatElement> parseNetstats()
+    public static ArrayList<StatElement> parseNetstats()
 	{
 		List<String> stats = getStats();
 		return parseNetstats(stats);

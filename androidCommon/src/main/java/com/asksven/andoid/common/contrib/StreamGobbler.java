@@ -46,34 +46,17 @@ import java.util.List;
  * Thread utility class continuously reading from an InputStream
  */
 public class StreamGobbler extends Thread {	
-    /**
-     * Line callback interface
-     */
-    public interface OnLineListener {		
-        /**
-         * <p>Line callback</p>
-         * 
-         * <p>This callback should process the line as quickly as possible.
-         * Delays in this callback may pause the native process or even
-         * result in a deadlock</p>
-         * 
-         * @param line String that was gobbled
-         */
-        public void onLine(String line);
-    }
-
     private String shell = null;
     private BufferedReader reader = null;
     private List<String> writer = null;
     private OnLineListener listener = null;
-
     /**
      * <p>StreamGobbler constructor</p>
-     * 
-     * <p>We use this class because shell STDOUT and STDERR should be read as quickly as 
+     *
+     * <p>We use this class because shell STDOUT and STDERR should be read as quickly as
      * possible to prevent a deadlock from occurring, or Process.waitFor() never
      * returning (as the buffer is full, pausing the native process)</p>
-     * 
+     *
      * @param shell Name of the shell
      * @param inputStream InputStream to read from
      * @param outputList List<String> to write to, or null
@@ -86,11 +69,11 @@ public class StreamGobbler extends Thread {
 
     /**
      * <p>StreamGobbler constructor</p>
-     * 
-     * <p>We use this class because shell STDOUT and STDERR should be read as quickly as 
+     *
+     * <p>We use this class because shell STDOUT and STDERR should be read as quickly as
      * possible to prevent a deadlock from occurring, or Process.waitFor() never
      * returning (as the buffer is full, pausing the native process)</p>
-     * 
+     *
      * @param shell Name of the shell
      * @param inputStream InputStream to read from
      * @param onLineListener OnLineListener callback
@@ -117,7 +100,23 @@ public class StreamGobbler extends Thread {
         // make sure our stream is closed and resources will be freed
         try {
             reader.close();
-        } catch (IOException e) {			
+        } catch (IOException e) {
         }
+    }
+
+    /**
+     * Line callback interface
+     */
+    public interface OnLineListener {
+        /**
+         * <p>Line callback</p>
+         * <p>
+         * <p>This callback should process the line as quickly as possible.
+         * Delays in this callback may pause the native process or even
+         * result in a deadlock</p>
+         *
+         * @param line String that was gobbled
+         */
+        void onLine(String line);
     }
 }

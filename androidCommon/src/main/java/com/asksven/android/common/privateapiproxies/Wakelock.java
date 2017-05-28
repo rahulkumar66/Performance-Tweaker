@@ -16,27 +16,19 @@
 
 package com.asksven.android.common.privateapiproxies;
 
-import java.io.Serializable;
-import java.util.Comparator;
-import java.util.List;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
-import com.asksven.android.common.dto.ProcessDto;
 import com.asksven.android.common.dto.WakelockDto;
-import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.utils.StringUtils;
 import com.google.gson.annotations.SerializedName;
 
-
-
-
-
-
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.List;
 
 //import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 /**
  * @author sven
@@ -244,22 +236,6 @@ public class Wakelock extends StatElement implements Comparable<Wakelock>, Seria
 		return retVal;
 	}
 	
-	public static class WakelockCountComparator implements Comparator<Wakelock>
-	{
-		public int compare(Wakelock a, Wakelock b)
-		{
-			return ((int)(b.getCount() - a.getCount()));
-		}
-	}
-	
-	public static class WakelockTimeComparator implements Comparator<Wakelock>
-	{
-		public int compare(Wakelock a, Wakelock b)
-		{
-			return ((int)(b.getDuration() - a.getDuration()));
-		}
-	}
-	
 	public Drawable getIcon(UidNameResolver resolver)
 	{
 		if (m_icon == null)
@@ -283,7 +259,19 @@ public class Wakelock extends StatElement implements Comparable<Wakelock>, Seria
 		else
 		{
 			return "";
-		}
+        }
+    }
+
+    public static class WakelockCountComparator implements Comparator<Wakelock> {
+        public int compare(Wakelock a, Wakelock b) {
+            return b.getCount() - a.getCount();
+        }
+    }
+
+    public static class WakelockTimeComparator implements Comparator<Wakelock> {
+        public int compare(Wakelock a, Wakelock b) {
+            return ((int) (b.getDuration() - a.getDuration()));
+        }
 	}
 
 

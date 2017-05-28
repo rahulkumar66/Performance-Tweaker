@@ -1,17 +1,18 @@
 package com.rattlehead666.performancetweaker.app.ui.fragments;
 
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.utils.Constants;
-import com.rattlehead666.performancetweaker.app.utils.IOUtils;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.rattlehead666.performancetweaker.app.R;
+import com.rattlehead666.performancetweaker.app.utils.Constants;
+import com.rattlehead666.performancetweaker.app.utils.IOUtils;
 
 public class IOControlFragment extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {
@@ -35,8 +36,8 @@ public class IOControlFragment extends PreferenceFragment
         super.onActivityCreated(savedInstanceState);
 
         addPreferencesFromResource(R.xml.io_preferences);
-        IOScheduler = (ListPreference) findPreference("disk_scheduler");
-        ReadAheadCache = (ListPreference) findPreference("read_ahead_cache");
+        IOScheduler = (ListPreference) findPreference(Constants.PREF_IO_SCHEDULER);
+        ReadAheadCache = (ListPreference) findPreference(Constants.PREF_READ_AHEAD);
 
         context = getActivity().getBaseContext();
 
@@ -51,6 +52,7 @@ public class IOControlFragment extends PreferenceFragment
         updateData();
 
         if (availableSchedulers != null) {
+            Log.d("asd", availableSchedulers.length + "");
             IOScheduler.setEntries(availableSchedulers);
             IOScheduler.setEntryValues(availableSchedulers);
 
@@ -71,10 +73,10 @@ public class IOControlFragment extends PreferenceFragment
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
 
-        if (preference.getKey().equals("disk_scheduler")) {
+        if (preference.getKey().equals(Constants.PREF_IO_SCHEDULER)) {
             IOUtils.setDiskScheduler(o.toString(), context);
         }
-        if (preference.getKey().equals("read_ahead_cache")) {
+        if (preference.getKey().equals(Constants.PREF_READ_AHEAD)) {
             IOUtils.setReadAhead(o.toString(), context);
         }
 

@@ -100,19 +100,24 @@ public class SysUtils implements Constants {
         return false;
     }
 
-    public static String executeCommandWithOutput(String command) {
+    public static String executeCommandWithOutput(boolean root, String command) {
         DataOutputStream dos;
         InputStream is;
         try {
-            Process mProcess = prepareRootShell();
-            if (mProcess == null) return "";
-            dos = new DataOutputStream(mProcess.getOutputStream());
+            Process process;
+            if (root) {
+                process = prepareRootShell();
+            } else {
+                process = Runtime.getRuntime().exec(command);
+            }
+            if (process == null) return "";
+            dos = new DataOutputStream(process.getOutputStream());
             dos.writeBytes(command);
             dos.flush();
             dos.writeBytes("exit \n");
             dos.flush();
-            if (mProcess.waitFor() == 0) {
-                is = mProcess.getInputStream();
+            if (process.waitFor() == 0) {
+                is = process.getInputStream();
                 StringBuilder builder = new StringBuilder();
                 BufferedReader br = new BufferedReader(new InputStreamReader(is));
                 String line;
@@ -128,7 +133,7 @@ public class SysUtils implements Constants {
     }
 
     public static boolean isPropActive(String key) {
-        return executeCommandWithOutput("getprop | grep " + key + "\n").split("]:")[1].contains("running");
+        return executeCommandWithOutput(true, "getprop | grep " + key + "\n").split("]:")[1].contains("running");
     }
 
     private static void printOutputOnStdout(InputStream is) {
@@ -148,15 +153,7 @@ public class SysUtils implements Constants {
     }
 
     public static String getSUbinaryPath() {
-        String path = "/system/bin/su";
-        if (new File(path).exists()) {
-            return path;
-        }
-        path = "/system/xbin/su";
-        if (new File(path).exists()) {
-            return path;
-        }
-        return null;
+        return executeCommandWithOutput(false, "which su");
     }
 
     public static String secToString(long tSec) {
@@ -181,11 +178,7 @@ public class SysUtils implements Constants {
 
     public static void mount(boolean writeable, String mountpoint) {
         ArrayList<String> command = new ArrayList<>();
-        if (writeable) {
-            command.add("mount -o remount,rw " + mountpoint + " " + mountpoint + "\n");
-        } else {
-            command.add("mount -o remount,ro " + mountpoint + " " + mountpoint + "\n");
-        }
+        command.add("mount -o rw,remount" + " " + mountpoint + "\n");
         command.add("exit" + "\n");
         executeRootCommand(command);
     }

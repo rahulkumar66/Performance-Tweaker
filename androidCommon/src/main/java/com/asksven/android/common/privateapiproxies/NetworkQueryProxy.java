@@ -17,25 +17,15 @@
 package com.asksven.android.common.privateapiproxies;
 
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Map;
-
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.SystemClock;
 import android.util.Log;
 import android.util.SparseArray;
 
-import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.nameutils.UidNameResolver;
-import com.asksven.android.common.utils.DateUtils;
+
+import java.lang.reflect.Method;
 
 
 
@@ -47,14 +37,13 @@ import com.asksven.android.common.utils.DateUtils;
  */
 public class NetworkQueryProxy
 {
-	/*
+    private static final String TAG = "NetworkQueryProxy";
+    /*
 	 * Instance of the BatteryStatsImpl
 	 */
 	private Object m_Instance = null;
 	@SuppressWarnings("rawtypes")
 	private Class m_ClassDefinition = null;
-	
-	private static final String TAG = "NetworkQueryProxy";
 	/*
 	 * The UID stats are kept here as their methods / data can not be accessed
 	 * outside of this class due to non-public types (Uid, Proc, etc.)

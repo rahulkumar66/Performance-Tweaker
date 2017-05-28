@@ -25,26 +25,22 @@ package com.asksven.android.common.kernelutils;
  * @author sven
  *
  */
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
+import android.os.SystemClock;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.util.List;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-
-import com.asksven.android.common.privateapiproxies.StatElement;
-
-import android.util.Log;
-import android.os.SystemClock;
 
 public class CpuStates
 {
-	private static final String TAG = "CpuStates";
-	
     // path to sysfs
     public static final String TIME_IN_STATE_PATH = "/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state";
     public static final String VERSION_PATH = "/proc/version";
-
+    private static final String TAG = "CpuStates";
 
     public static ArrayList<State> getTimesInStates()
     {

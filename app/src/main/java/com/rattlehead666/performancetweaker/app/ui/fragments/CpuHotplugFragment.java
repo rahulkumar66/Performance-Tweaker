@@ -1,8 +1,5 @@
 package com.rattlehead666.performancetweaker.app.ui.fragments;
 
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.utils.CPUHotplugUtils;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -11,6 +8,10 @@ import android.preference.SwitchPreference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.rattlehead666.performancetweaker.app.R;
+import com.rattlehead666.performancetweaker.app.utils.CPUHotplugUtils;
+import com.rattlehead666.performancetweaker.app.utils.Constants;
 
 public class CpuHotplugFragment extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {
@@ -29,7 +30,7 @@ public class CpuHotplugFragment extends PreferenceFragment
         super.onActivityCreated(savedInstanceState);
 
         addPreferencesFromResource(R.xml.cpu_hotplug_preferences);
-        switchPreference = (SwitchPreference) findPreference("cpu_hotplug");
+        switchPreference = (SwitchPreference) findPreference(Constants.PREF_HOTPLUG);
         context = getActivity().getBaseContext();
     }
 

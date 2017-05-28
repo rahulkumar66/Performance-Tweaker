@@ -16,28 +16,18 @@
 
 package com.asksven.android.common.privateapiproxies;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.lang.Math;
+import android.util.Log;
 
-import com.asksven.android.common.dto.AlarmDto;
 import com.asksven.android.common.dto.NativeKernelWakelockDto;
-import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.utils.StringUtils;
 import com.google.gson.annotations.SerializedName;
 
-
-
-
-
-
-
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.List;
 
 //import android.content.Context;
-import android.util.Log;
 
 /**
  * @author sven
@@ -428,8 +418,8 @@ public class NativeKernelWakelock extends StatElement implements Comparable<Nati
 	{
 		public int compare(NativeKernelWakelock a, NativeKernelWakelock b)
 		{
-			return ((int)(b.getCount() - a.getCount()));
-		}
+            return b.getCount() - a.getCount();
+        }
 	}
 	
 	public static class TimeComparator implements Comparator<NativeKernelWakelock>
