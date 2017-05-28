@@ -1,7 +1,5 @@
 package com.rattlehead666.performancetweaker.app.utils;
 
-import android.util.Log;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -27,7 +25,7 @@ public class VmUtils {
     }
 
     public static LinkedHashMap<String, String> getVMfiles() {
-        if (vmEntries.size() < 1) {
+        vmEntries.clear();
             File[] files = new File(Constants.VM_PATH).listFiles();
             if (files.length > 0) {
                 for (String supported : Constants.SUPPORTED_VM)
@@ -36,7 +34,6 @@ public class VmUtils {
                             vmEntries.put(file.getName(), getVMValue(file.getName()));
                         }
             }
-        }
         return vmEntries;
     }
 }
