@@ -5,8 +5,8 @@ android {
     buildToolsVersion "25.0.3"
 
     defaultConfig {
-        applicationId "com.rattlehead666.performancetweaker.app"
-        minSdkVersion 14
+        applicationId "com.performancetweaker.app"
+        minSdkVersion 15
         targetSdkVersion 25
     }
 
@@ -22,6 +22,12 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url uri('mint-plugin-repo-5.2.1')
+    }
+}
+
 dependencies {
 
     ext {
@@ -32,4 +38,5 @@ dependencies {
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.android.support:cardview-v7:${supportLibVersion}"
+    compile 'com.splunk:mint-android-sdk:5.2.1'
 }
