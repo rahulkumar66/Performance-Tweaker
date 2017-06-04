@@ -30,7 +30,7 @@ public class BootService extends IntentService {
         context = getApplicationContext();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
-            Thread.sleep(30000);
+            Thread.sleep(30000);//wait some time and the apply settings
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
