@@ -1,20 +1,18 @@
 package com.rattlehead666.performancetweaker.app.ui.adapters;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.rattlehead666.performancetweaker.app.R;
 import com.rattlehead666.performancetweaker.app.utils.BatteryStatsUtils;
 import com.rattlehead666.performancetweaker.app.utils.SysUtils;
-
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -68,14 +66,14 @@ public class CpuWakelocksAdapter extends BaseAdapter {
         TextView wakelockName = (TextView) row.findViewById(R.id.cpu_wakelock_name);
         TextView duration = (TextView) row.findViewById(R.id.cpu_wakelock_duration);
         TextView wakeCount = (TextView) row.findViewById(R.id.cpu_wakelock_count);
-        ImageView icon = (ImageView) row.findViewById(R.id.package_icon);
         ProgressBar progress = (ProgressBar) row.findViewById(R.id.cpu_wakelock_progress);
 
         Wakelock mWakelock = partialWakelocks.get(position);
-        Drawable drawable = mWakelock.getIcon(uidNameResolver);
-        if (drawable != null) {
-            icon.setImageDrawable(drawable);
-        }
+//        Drawable drawable = mWakelock.getIcon(uidNameResolver);
+//        Log.d("tag",mWakelock.getPackageName()+"q"+mWakelock.getUidInfo());
+//        if (drawable != null) {
+//            icon.setImageDrawable(drawable);
+//        }
         wakelockName.setText(mWakelock.getName());
         duration.setText(SysUtils.secToString(mWakelock.getDuration() / 1000));
         wakeCount.setText("x" + mWakelock.getCount() + context.getString(R.string.times));

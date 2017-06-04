@@ -1,5 +1,7 @@
 package com.rattlehead666.performancetweaker.app.utils;
 
+import android.content.Context;
+
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.kernelutils.WakeupSources;
@@ -10,9 +12,6 @@ import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.stericson.RootTools.RootTools;
-
-import android.content.Context;
-import android.os.Build;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -76,31 +75,11 @@ public class BatteryStatsUtils {
     public ArrayList<Wakelock> getCpuWakelocksStats(boolean filterZeroValues) {
         ArrayList<Wakelock> myWakelocks = new ArrayList<>();
         ArrayList<StatElement> cpuWakelocks = new ArrayList<>();
-        /*
-         * code for kitkat is missing
-		 */
-        if (Build.VERSION.SDK_INT >= 19) {
-        /*    try {
-                throw new BatteryInfoUnavailableException(
-                        "Battery info not available");
-            } catch (BatteryInfoUnavailableException e) {
-                e.printStackTrace();
-            }
-
-
-
-            //    myWakelocks.add(new Wakelock(1,
-            //          "Feature not currently supported for kitkat", 0, 0, 0));
-
-            return myWakelocks;
-            */
-
-        }
 
         BatteryStatsProxy stats = BatteryStatsProxy.getInstance(context);
         try {
             cpuWakelocks = stats.getWakelockStats(context, BatteryStatsTypes.WAKE_TYPE_PARTIAL,
-                    BatteryStatsTypes.STATS_SINCE_CHARGED, 0);
+                    BatteryStatsTypes.STATS_SINCE_UNPLUGGED, 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
