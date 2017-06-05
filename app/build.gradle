@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.3"
 
     defaultConfig {
-        applicationId "com.rattlehead666.performancetweaker.app"
+        applicationId "com.performancetweaker.app"
         minSdkVersion 14
         targetSdkVersion 25
     }
