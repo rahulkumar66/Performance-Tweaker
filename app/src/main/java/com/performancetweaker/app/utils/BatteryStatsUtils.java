@@ -1,4 +1,4 @@
-package com.rattlehead666.performancetweaker.app.utils;
+package com.performancetweaker.app.utils;
 
 import android.content.Context;
 
@@ -125,16 +125,16 @@ public class BatteryStatsUtils {
     }
 
     public void serializeReferences(WakelockReference wr) {
-        /*
-        Work in progress
-         */
-        try {
-            FileOutputStream fos = context.openFileOutput("aaa", Context.MODE_PRIVATE);
-            ObjectOutputStream outputStream = new ObjectOutputStream(fos);
-            outputStream.writeObject(wr);
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        /*
+//        Work in progress
+//         */
+//        try {
+//            FileOutputStream fos = context.openFileOutput("aaa", Context.MODE_PRIVATE);
+//            ObjectOutputStream outputStream = new ObjectOutputStream(fos);
+//            outputStream.writeObject(wr);
+//            outputStream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

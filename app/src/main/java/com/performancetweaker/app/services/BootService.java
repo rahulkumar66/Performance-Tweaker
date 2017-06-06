@@ -1,4 +1,4 @@
-package com.rattlehead666.performancetweaker.app.services;
+package com.performancetweaker.app.services;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -7,11 +7,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.utils.Constants;
-import com.rattlehead666.performancetweaker.app.utils.CpuFrequencyUtils;
-import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
-import com.rattlehead666.performancetweaker.app.utils.IOUtils;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.Constants;
+import com.performancetweaker.app.utils.CpuFrequencyUtils;
+import com.performancetweaker.app.utils.GpuUtils;
+import com.performancetweaker.app.utils.IOUtils;
 import com.stericson.RootTools.RootTools;
 
 import java.util.Set;

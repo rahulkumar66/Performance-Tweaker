@@ -1,4 +1,4 @@
-package com.rattlehead666.performancetweaker.app.ui.fragments;
+package com.performancetweaker.app.ui.fragments;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -11,9 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.utils.Constants;
-import com.rattlehead666.performancetweaker.app.utils.CpuFrequencyUtils;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.Constants;
+import com.performancetweaker.app.utils.CpuFrequencyUtils;
+
 
 public class CpuFrequencyFragment extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {

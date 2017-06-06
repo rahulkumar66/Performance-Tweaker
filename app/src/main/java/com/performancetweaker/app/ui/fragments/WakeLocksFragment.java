@@ -1,11 +1,4 @@
-package com.rattlehead666.performancetweaker.app.ui.fragments;
-
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.ui.adapters.AlarmTriggerAdapter;
-import com.rattlehead666.performancetweaker.app.ui.adapters.CpuWakelocksAdapter;
-import com.rattlehead666.performancetweaker.app.ui.adapters.KernelWakelockAdapter;
-import com.rattlehead666.performancetweaker.app.utils.SystemAppManagementException;
-import com.rattlehead666.performancetweaker.app.utils.SystemAppUtilities;
+package com.performancetweaker.app.ui.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -25,6 +18,13 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.ui.adapters.AlarmTriggerAdapter;
+import com.performancetweaker.app.ui.adapters.CpuWakelocksAdapter;
+import com.performancetweaker.app.ui.adapters.KernelWakelockAdapter;
+import com.performancetweaker.app.utils.SystemAppManagementException;
+import com.performancetweaker.app.utils.SystemAppUtilities;
 
 public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 

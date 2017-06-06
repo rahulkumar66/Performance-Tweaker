@@ -1,4 +1,4 @@
-package com.rattlehead666.performancetweaker.app.ui.fragments;
+package com.performancetweaker.app.ui.fragments;
 
 import android.os.Bundle;
 import android.preference.MultiSelectListPreference;
@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.utils.GpuUtils;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.GpuUtils;
 
 import java.util.ArrayList;
 

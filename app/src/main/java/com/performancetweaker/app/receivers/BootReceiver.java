@@ -1,6 +1,6 @@
-package com.rattlehead666.performancetweaker.app.receivers;
+package com.performancetweaker.app.receivers;
 
-import com.rattlehead666.performancetweaker.app.services.BootService;
+import com.performancetweaker.app.services.BootService;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

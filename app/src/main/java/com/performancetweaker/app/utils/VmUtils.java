@@ -1,4 +1,4 @@
-package com.rattlehead666.performancetweaker.app.utils;
+package com.performancetweaker.app.utils;
 
 import java.io.File;
 import java.util.ArrayList;

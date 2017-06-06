@@ -1,8 +1,4 @@
-package com.rattlehead666.performancetweaker.app.ui.fragments;
-
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.utils.CpuFrequencyUtils;
-import com.rattlehead666.performancetweaker.app.utils.GovernorProperty;
+package com.performancetweaker.app.ui.fragments;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -16,6 +12,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.CpuFrequencyUtils;
+import com.performancetweaker.app.utils.GovernorProperty;
 
 public class GovernorTuningFragment extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener, SwipeRefreshLayout.OnRefreshListener {

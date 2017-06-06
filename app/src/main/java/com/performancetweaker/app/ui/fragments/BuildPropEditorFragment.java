@@ -1,7 +1,7 @@
-package com.rattlehead666.performancetweaker.app.ui.fragments;
+package com.performancetweaker.app.ui.fragments;
 
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.utils.BuildPropUtils;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.BuildPropUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;

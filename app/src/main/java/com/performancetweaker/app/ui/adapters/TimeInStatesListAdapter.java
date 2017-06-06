@@ -1,10 +1,10 @@
-package com.rattlehead666.performancetweaker.app.ui.adapters;
+package com.performancetweaker.app.ui.adapters;
 
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.utils.Constants;
-import com.rattlehead666.performancetweaker.app.utils.CpuState;
-import com.rattlehead666.performancetweaker.app.utils.SysUtils;
-import com.rattlehead666.performancetweaker.app.utils.TimeInStateReader;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.Constants;
+import com.performancetweaker.app.utils.CpuState;
+import com.performancetweaker.app.utils.SysUtils;
+import com.performancetweaker.app.utils.TimeInStateReader;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

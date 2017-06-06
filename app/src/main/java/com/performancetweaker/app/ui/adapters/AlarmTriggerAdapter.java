@@ -1,9 +1,9 @@
-package com.rattlehead666.performancetweaker.app.ui.adapters;
+package com.performancetweaker.app.ui.adapters;
 
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Alarm;
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.utils.BatteryStatsUtils;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.BatteryStatsUtils;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.rattlehead666.performancetweaker.app.ui.adapters;
+package com.performancetweaker.app.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Wakelock;
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.utils.BatteryStatsUtils;
-import com.rattlehead666.performancetweaker.app.utils.SysUtils;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.BatteryStatsUtils;
+import com.performancetweaker.app.utils.SysUtils;
 
 import java.util.ArrayList;
 

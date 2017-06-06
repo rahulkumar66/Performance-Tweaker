@@ -1,9 +1,9 @@
-package com.rattlehead666.performancetweaker.app.ui.fragments;
+package com.performancetweaker.app.ui.fragments;
 
-import com.rattlehead666.performancetweaker.app.R;
-import com.rattlehead666.performancetweaker.app.ui.adapters.TimeInStatesListAdapter;
-import com.rattlehead666.performancetweaker.app.utils.Constants;
-import com.rattlehead666.performancetweaker.app.utils.SysUtils;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.ui.adapters.TimeInStatesListAdapter;
+import com.performancetweaker.app.utils.Constants;
+import com.performancetweaker.app.utils.SysUtils;
 
 import android.app.Fragment;
 import android.content.Context;

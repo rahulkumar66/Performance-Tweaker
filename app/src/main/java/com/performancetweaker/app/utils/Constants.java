@@ -1,7 +1,7 @@
-package com.rattlehead666.performancetweaker.app.utils;
+package com.performancetweaker.app.utils;
 
-import com.rattlehead666.performancetweaker.app.BuildConfig;
-import com.rattlehead666.performancetweaker.app.R;
+import com.performancetweaker.app.BuildConfig;
+import com.performancetweaker.app.R;
 
 public interface Constants {
 
