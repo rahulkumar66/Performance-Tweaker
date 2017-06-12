@@ -37,11 +37,6 @@ public class SystemAppUtilities {
         return fullPath;
     }
 
-    public static boolean hasBatteryStatsPermission(Context ctx) {
-        return (PackageManager.PERMISSION_GRANTED == ctx.getPackageManager()
-                .checkPermission("android.permission.BATTERY_STATS", ctx.getPackageName()));
-    }
-
     public static void installAsSystemApp(final Context ctx) throws SystemAppManagementException {
         AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
             SystemAppManagementException error = null;
