@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.splunk</groupId>
+  <artifactId>mint-gradle-android-plugin</artifactId>
+  <version>5.2.1</version>
+  <name>Splunk MINT Android Gradle plugin</name>
+  <description>Android Gradle plugin to instrument Android app with Splunk MINT SDK</description>
+  <licenses>
+    <license>
+      <name>Splunk MINT Terms of Use</name>
+      <url>https://mint.splunk.com/termsofuse</url>
+      <distribution>repo</distribution>
+      <comments>YOU SHOULD READ THIS AGREEMENT CAREFULLY, AS IT CONSTITUTES A BINDING CONTRACT BETWEEN YOU AND SPLUNK</comments>
+    </license>
+  </licenses>
+  <dependencies>
+    <dependency>
+      <groupId>com.android.tools.build</groupId>
+      <artifactId>gradle</artifactId>
+      <version>2.2.+</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.8.9</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjtools</artifactId>
+      <version>1.8.9</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.android.tools.build</groupId>
+      <artifactId>transform-api</artifactId>
+      <version>1.5.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.10</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert-core</artifactId>
+      <version>2.0M10</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

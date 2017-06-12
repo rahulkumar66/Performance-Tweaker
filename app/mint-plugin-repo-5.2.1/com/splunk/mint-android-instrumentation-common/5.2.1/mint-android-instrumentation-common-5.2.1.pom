@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.splunk</groupId>
+  <artifactId>mint-android-instrumentation-common</artifactId>
+  <version>5.2.1</version>
+  <name>Splunk MINT Android Instrumentation Common library</name>
+  <licenses>
+    <license>
+      <name>Splunk MINT Terms of Use</name>
+      <url>https://mint.splunk.com/termsofuse</url>
+      <distribution>repo</distribution>
+      <comments>YOU SHOULD READ THIS AGREEMENT CAREFULLY, AS IT CONSTITUTES A BINDING CONTRACT BETWEEN YOU AND SPLUNK</comments>
+    </license>
+  </licenses>
+  <dependencies>
+    <dependency>
+      <groupId>com.splunk</groupId>
+      <artifactId>mint-android-sdk</artifactId>
+      <version>5.2.1</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+</project>
