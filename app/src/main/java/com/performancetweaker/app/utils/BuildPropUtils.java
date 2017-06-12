@@ -1,4 +1,4 @@
-package com.performancetweaker.performancetweaker.app.utils;
+package com.performancetweaker.app.utils;
 
 import android.util.Log;
 
@@ -27,7 +27,6 @@ public class BuildPropUtils {
 
     public static void addKey(final String key, final String value) {
         SysUtils.mount(true, "/system");
-        Log.d("tweaekr","echo " + key + "=" + value + " >> " + Constants.BUILD_PROP + "\n");
         SysUtils.executeRootCommand(new ArrayList<String>() {{
             add("echo " + key + "=" + value + " >> " + Constants.BUILD_PROP + "\n");
             add("exit" + "\n");

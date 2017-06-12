@@ -1,6 +1,7 @@
-package com.performancetweaker.performancetweaker.app.utils;
+package com.performancetweaker.app.utils;
 
 import android.content.Context;
+import android.os.Build;
 
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.Wakelocks;
@@ -8,14 +9,12 @@ import com.asksven.android.common.kernelutils.WakeupSources;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
+import com.asksven.android.common.privateapiproxies.BatteryStatsTypesLolipop;
 import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.stericson.RootTools.RootTools;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -77,9 +76,17 @@ public class BatteryStatsUtils {
         ArrayList<StatElement> cpuWakelocks = new ArrayList<>();
 
         BatteryStatsProxy stats = BatteryStatsProxy.getInstance(context);
+
+        int statsType = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+        } else {
+            statsType = BatteryStatsTypes.STATS_CURRENT;
+        }
+
         try {
             cpuWakelocks = stats.getWakelockStats(context, BatteryStatsTypes.WAKE_TYPE_PARTIAL,
-                    BatteryStatsTypes.STATS_SINCE_UNPLUGGED, 0);
+                    statsType, 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,19 +129,5 @@ public class BatteryStatsUtils {
         Collections.sort(myWakelocks);
 
         return myWakelocks;
-    }
-
-    public void serializeReferences(WakelockReference wr) {
-        /*
-        Work in progress
-         */
-        try {
-            FileOutputStream fos = context.openFileOutput("aaa", Context.MODE_PRIVATE);
-            ObjectOutputStream outputStream = new ObjectOutputStream(fos);
-            outputStream.writeObject(wr);
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

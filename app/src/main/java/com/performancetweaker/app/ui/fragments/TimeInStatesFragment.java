@@ -1,4 +1,9 @@
-package com.performancetweaker.performancetweaker.app.ui.fragments;
+package com.performancetweaker.app.ui.fragments;
+
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.ui.adapters.TimeInStatesListAdapter;
+import com.performancetweaker.app.utils.Constants;
+import com.performancetweaker.app.utils.SysUtils;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -14,11 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.performancetweaker.performancetweaker.app.R;
-import com.performancetweaker.performancetweaker.app.ui.adapters.TimeInStatesListAdapter;
-import com.performancetweaker.performancetweaker.app.utils.Constants;
-import com.performancetweaker.performancetweaker.app.utils.SysUtils;
 
 public class TimeInStatesFragment extends Fragment {
 

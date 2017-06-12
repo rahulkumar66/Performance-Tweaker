@@ -1,4 +1,9 @@
-package com.performancetweaker.performancetweaker.app.ui.adapters;
+package com.performancetweaker.app.ui.adapters;
+
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.BatteryStatsUtils;
+import com.performancetweaker.app.utils.SysUtils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,11 +12,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
-import com.performancetweaker.performancetweaker.app.R;
-import com.performancetweaker.performancetweaker.app.utils.BatteryStatsUtils;
-import com.performancetweaker.performancetweaker.app.utils.SysUtils;
 
 import java.util.ArrayList;
 

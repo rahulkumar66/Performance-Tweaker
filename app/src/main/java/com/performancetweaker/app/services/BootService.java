@@ -1,4 +1,4 @@
-package com.performancetweaker.performancetweaker.app.services;
+package com.performancetweaker.app.services;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -7,11 +7,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.performancetweaker.performancetweaker.app.R;
-import com.performancetweaker.performancetweaker.app.utils.Constants;
-import com.performancetweaker.performancetweaker.app.utils.CpuFrequencyUtils;
-import com.performancetweaker.performancetweaker.app.utils.GpuUtils;
-import com.performancetweaker.performancetweaker.app.utils.IOUtils;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.Constants;
+import com.performancetweaker.app.utils.CpuFrequencyUtils;
+import com.performancetweaker.app.utils.GpuUtils;
+import com.performancetweaker.app.utils.IOUtils;
 import com.stericson.RootTools.RootTools;
 
 import java.util.Set;

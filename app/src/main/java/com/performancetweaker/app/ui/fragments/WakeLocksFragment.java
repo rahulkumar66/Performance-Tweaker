@@ -1,4 +1,4 @@
-package com.performancetweaker.performancetweaker.app.ui.fragments;
+package com.performancetweaker.app.ui.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +20,14 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.performancetweaker.performancetweaker.app.R;
-import com.performancetweaker.performancetweaker.app.ui.adapters.AlarmTriggerAdapter;
-import com.performancetweaker.performancetweaker.app.ui.adapters.CpuWakelocksAdapter;
-import com.performancetweaker.performancetweaker.app.ui.adapters.KernelWakelockAdapter;
-import com.performancetweaker.performancetweaker.app.utils.SystemAppManagementException;
-import com.performancetweaker.performancetweaker.app.utils.SystemAppUtilities;
+import com.asksven.android.common.utils.SysUtils;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.ui.adapters.AlarmTriggerAdapter;
+import com.performancetweaker.app.ui.adapters.CpuWakelocksAdapter;
+import com.performancetweaker.app.ui.adapters.KernelWakelockAdapter;
+import com.performancetweaker.app.utils.Constants;
+import com.performancetweaker.app.utils.SystemAppManagementException;
+import com.performancetweaker.app.utils.SystemAppUtilities;
 
 public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -91,7 +94,8 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
                 wakelockAdapter = new KernelWakelockAdapter(context);
                 break;
             case 1:
-                if (!(SystemAppUtilities.hasBatteryStatsPermission(getActivity()))) {
+                Log.d(Constants.App_Tag,SysUtils.hasBatteryStatsPermission(getActivity())+"");
+                if (!(SysUtils.hasBatteryStatsPermission(getActivity()))) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(
                             "Since Kitkat google only allows system apps to access battery permissions! Install this app as System app")

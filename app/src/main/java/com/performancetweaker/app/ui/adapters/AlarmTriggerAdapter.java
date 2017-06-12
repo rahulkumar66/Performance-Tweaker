@@ -1,4 +1,9 @@
-package com.performancetweaker.performancetweaker.app.ui.adapters;
+package com.performancetweaker.app.ui.adapters;
+
+import com.asksven.android.common.nameutils.UidNameResolver;
+import com.asksven.android.common.privateapiproxies.Alarm;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.BatteryStatsUtils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,11 +13,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.asksven.android.common.nameutils.UidNameResolver;
-import com.asksven.android.common.privateapiproxies.Alarm;
-import com.performancetweaker.performancetweaker.app.R;
-import com.performancetweaker.performancetweaker.app.utils.BatteryStatsUtils;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.performancetweaker.performancetweaker.app.utils;
+package com.performancetweaker.app.utils;
 
 public class CpuState implements Comparable<CpuState> {
 

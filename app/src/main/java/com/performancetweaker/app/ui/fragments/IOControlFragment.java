@@ -1,4 +1,4 @@
-package com.performancetweaker.performancetweaker.app.ui.fragments;
+package com.performancetweaker.app.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.performancetweaker.performancetweaker.app.R;
-import com.performancetweaker.performancetweaker.app.utils.Constants;
-import com.performancetweaker.performancetweaker.app.utils.IOUtils;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.Constants;
+import com.performancetweaker.app.utils.IOUtils;
 
 public class IOControlFragment extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {

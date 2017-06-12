@@ -1,7 +1,7 @@
-package com.performancetweaker.performancetweaker.app.utils;
+package com.performancetweaker.app.utils;
 
-import com.performancetweaker.performancetweaker.app.BuildConfig;
-import com.performancetweaker.performancetweaker.app.R;
+import com.performancetweaker.app.BuildConfig;
+import com.performancetweaker.app.R;
 
 public interface Constants {
 

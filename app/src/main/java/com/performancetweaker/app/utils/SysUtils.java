@@ -1,4 +1,4 @@
-package com.performancetweaker.performancetweaker.app.utils;
+package com.performancetweaker.app.utils;
 
 import android.util.Log;
 
@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SysUtils implements Constants {
 
@@ -67,7 +68,7 @@ public class SysUtils implements Constants {
         }
     }
 
-    public static boolean executeRootCommand(ArrayList<String> commands) {
+    public static boolean executeRootCommand(List<String> commands) {
         InputStream is;
         DataOutputStream dos;
 
@@ -79,7 +80,7 @@ public class SysUtils implements Constants {
                 dos.writeBytes(cmd);
                 dos.flush();
                 if (debug) {
-                    //   Log.d(Constants.App_Tag, cmd);
+                       Log.d(Constants.App_Tag, cmd);
                 }
             }
             if (mProcess.waitFor() == 0) {
@@ -178,6 +179,7 @@ public class SysUtils implements Constants {
 
     public static void mount(boolean writeable, String mountpoint) {
         ArrayList<String> command = new ArrayList<>();
+
         command.add("mount -o rw,remount" + " " + mountpoint + "\n");
         command.add("exit" + "\n");
         executeRootCommand(command);

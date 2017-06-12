@@ -1,4 +1,7 @@
-package com.performancetweaker.performancetweaker.app.ui.fragments;
+package com.performancetweaker.app.ui.fragments;
+
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.BuildPropUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,9 +25,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
-
-import com.performancetweaker.performancetweaker.app.R;
-import com.performancetweaker.performancetweaker.app.utils.BuildPropUtils;
 
 import java.util.LinkedHashMap;
 

@@ -1,4 +1,6 @@
-package com.performancetweaker.performancetweaker.app.utils;
+package com.performancetweaker.app.utils;
+
+import com.stericson.RootTools.RootTools;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,8 +11,6 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.stericson.RootTools.RootTools;
-
 import java.util.ArrayList;
 
 public class SystemAppUtilities {
@@ -18,10 +18,10 @@ public class SystemAppUtilities {
     private static String privAppFile = "/system/priv-app/performancetweaker.apk";
 
     private static String getAPKName(Context ctx, boolean includeFullPath, boolean doWildCard)
-            throws SystemAppManagementException {
+            throws com.performancetweaker.app.utils.SystemAppManagementException {
         String fullPath = ctx.getApplicationInfo().sourceDir;
         if (fullPath.isEmpty() || (fullPath.lastIndexOf('/') == -1)) {
-            throw new SystemAppManagementException(
+            throw new com.performancetweaker.app.utils.SystemAppManagementException(
                     "Unable to find the path to the APK.  Is it already uninstalled?  Did you remember to reboot after uninstalling?  Current location appears to be: "
                             + fullPath);
         }
@@ -35,11 +35,6 @@ public class SystemAppUtilities {
             }
         }
         return fullPath;
-    }
-
-    public static boolean hasBatteryStatsPermission(Context ctx) {
-        return (PackageManager.PERMISSION_GRANTED == ctx.getPackageManager()
-                .checkPermission("android.permission.BATTERY_STATS", ctx.getPackageName()));
     }
 
     public static void installAsSystemApp(final Context ctx) throws SystemAppManagementException {

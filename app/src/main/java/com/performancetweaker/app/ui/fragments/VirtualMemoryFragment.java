@@ -1,4 +1,4 @@
-package com.performancetweaker.performancetweaker.app.ui.fragments;
+package com.performancetweaker.app.ui.fragments;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.performancetweaker.performancetweaker.app.R;
-import com.performancetweaker.performancetweaker.app.utils.VmUtils;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.VmUtils;
 
 import java.util.LinkedHashMap;
 

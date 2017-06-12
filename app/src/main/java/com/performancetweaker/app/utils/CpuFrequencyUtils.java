@@ -1,9 +1,9 @@
-package com.performancetweaker.performancetweaker.app.utils;
+package com.performancetweaker.app.utils;
+
+import com.performancetweaker.app.R;
 
 import android.content.Context;
 import android.widget.Toast;
-
-import com.performancetweaker.performancetweaker.app.R;
 
 import java.io.File;
 import java.util.ArrayList;

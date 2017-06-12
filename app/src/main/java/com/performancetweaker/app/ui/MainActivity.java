@@ -1,4 +1,4 @@
-package com.performancetweaker.performancetweaker.app.ui;
+package com.performancetweaker.app.ui;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -21,20 +21,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.performancetweaker.performancetweaker.app.R;
-import com.performancetweaker.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
-import com.performancetweaker.performancetweaker.app.ui.fragments.CpuFrequencyFragment;
-import com.performancetweaker.performancetweaker.app.ui.fragments.CpuHotplugFragment;
-import com.performancetweaker.performancetweaker.app.ui.fragments.GovernorTuningFragment;
-import com.performancetweaker.performancetweaker.app.ui.fragments.GpuControlFragment;
-import com.performancetweaker.performancetweaker.app.ui.fragments.IOControlFragment;
-import com.performancetweaker.performancetweaker.app.ui.fragments.SettingsFragment;
-import com.performancetweaker.performancetweaker.app.ui.fragments.TimeInStatesFragment;
-import com.performancetweaker.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
-import com.performancetweaker.performancetweaker.app.ui.fragments.WakeLocksFragment;
-import com.performancetweaker.performancetweaker.app.utils.CPUHotplugUtils;
-import com.performancetweaker.performancetweaker.app.utils.GpuUtils;
-import com.splunk.mint.Mint;
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
+import com.performancetweaker.app.ui.fragments.CpuFrequencyFragment;
+import com.performancetweaker.app.ui.fragments.CpuHotplugFragment;
+import com.performancetweaker.app.ui.fragments.GovernorTuningFragment;
+import com.performancetweaker.app.ui.fragments.GpuControlFragment;
+import com.performancetweaker.app.ui.fragments.IOControlFragment;
+import com.performancetweaker.app.ui.fragments.SettingsFragment;
+import com.performancetweaker.app.ui.fragments.TimeInStatesFragment;
+import com.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
+import com.performancetweaker.app.ui.fragments.WakeLocksFragment;
+import com.performancetweaker.app.utils.CPUHotplugUtils;
+import com.performancetweaker.app.utils.GpuUtils;
 import com.stericson.RootTools.RootTools;
 
 public class MainActivity extends AppCompatActivity
@@ -52,7 +51,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mint.initAndStartSession(this.getApplication(), "64601c31");
         setContentView(R.layout.fragment_main_layout_navbar);
 
         navigationView = (NavigationView) findViewById(R.id.navigation);
