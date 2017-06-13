@@ -34,6 +34,7 @@ import com.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
 import com.performancetweaker.app.ui.fragments.WakeLocksFragment;
 import com.performancetweaker.app.utils.CPUHotplugUtils;
 import com.performancetweaker.app.utils.GpuUtils;
+import com.splunk.mint.Mint;
 import com.stericson.RootTools.RootTools;
 
 public class MainActivity extends AppCompatActivity
@@ -51,7 +52,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Mint.initAndStartSession(this.getApplication(), "64601c31");
         setContentView(R.layout.fragment_main_layout_navbar);
+
 
         navigationView = (NavigationView) findViewById(R.id.navigation);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

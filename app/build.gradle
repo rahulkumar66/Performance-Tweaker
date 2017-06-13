@@ -6,9 +6,9 @@ android {
 
     defaultConfig {
         applicationId "com.performancetweaker.app"
-        versionCode 4
-        versionName "0.1.4"
-        minSdkVersion 14
+        versionCode 5
+        versionName "0.1.5"
+        minSdkVersion 15
         targetSdkVersion 25
     }
 
