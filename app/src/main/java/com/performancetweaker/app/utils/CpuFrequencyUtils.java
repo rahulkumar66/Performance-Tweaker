@@ -170,8 +170,7 @@ public class CpuFrequencyUtils {
         }
     }
 
-    public static String[] toMhz(String[] values) {
-
+    public static String[] toMhz(String... values) {
         String[] frequency = new String[values.length];
 
         for (int i = 0; i < values.length; i++) {

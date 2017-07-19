@@ -97,8 +97,8 @@ public class CpuFrequencyFragment extends PreferenceFragment
         CpuMinFreqPreference.setValue(minFrequency);
         GovernorPreference.setValue(currentGovernor);
 
-        CpuMinFreqPreference.setSummary((Integer.parseInt(minFrequency) / 1000) + " Mhz");
-        CpuMaxFreqPreference.setSummary((Integer.parseInt(maxFrequency) / 1000) + " Mhz");
+        CpuMinFreqPreference.setSummary(CpuFrequencyUtils.toMhz(minFrequency)[0]);
+        CpuMaxFreqPreference.setSummary(CpuFrequencyUtils.toMhz(maxFrequency)[0]);
         GovernorPreference.setSummary(currentGovernor);
     }
 
