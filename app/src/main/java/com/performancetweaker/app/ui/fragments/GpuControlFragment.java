@@ -92,12 +92,10 @@ public class GpuControlFragment extends PreferenceFragment
 
     public void updatePreferences() {
         maxGpuFrequencyPreference.setValue(maxFrequency);
-        maxGpuFrequencyPreference.setSummary((Integer.parseInt(maxFrequency) / (1000 * 1000)
-                + "Mhz"));
+        maxGpuFrequencyPreference.setSummary(GpuUtils.toMhz(maxFrequency)[0]);
 
         minGpuFrequencyPreference.setValue(minFrequency);
-        minGpuFrequencyPreference.setSummary((Integer.parseInt(minFrequency) / (1000 * 1000)
-                + "Mhz"));
+        minGpuFrequencyPreference.setSummary(GpuUtils.toMhz(minFrequency)[0]);
 
         availableGpuGovernorPreference.setValue(currentGovernor);
         availableGpuGovernorPreference.setSummary(currentGovernor);
