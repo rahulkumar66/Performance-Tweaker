@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.main_content, new CpuFrequencyFragment())
                     .commit();
         } else {
-            Toast.makeText(getBaseContext(), "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getBaseContext(), "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
             super.onBackPressed();
         }
     }
