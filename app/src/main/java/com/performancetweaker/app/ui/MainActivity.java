@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
@@ -58,14 +57,13 @@ public class MainActivity extends AppCompatActivity
         Mint.enableLogging(true);
         setContentView(R.layout.fragment_main_layout_navbar);
 
-        navigationView = (NavigationView) findViewById(R.id.navigation);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        appCompatibilityMessage = (TextView) findViewById(R.id.app_compatibility_status);
-        progressBar = (ProgressBar) findViewById(R.id.loading_main);
+        navigationView =  findViewById(R.id.navigation);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        toolbar =  findViewById(R.id.toolbar);
+        appCompatibilityMessage =  findViewById(R.id.app_compatibility_status);
+        progressBar =  findViewById(R.id.loading_main);
 
         setSupportActionBar(toolbar);
-
         actionBar = getSupportActionBar();
 
         new Task().execute();

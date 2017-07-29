@@ -175,7 +175,7 @@ public class CpuFrequencyUtils {
 
         for (int i = 0; i < values.length; i++) {
             try {
-                frequency[i] = (Integer.parseInt(values[i]) / 1000 + " Mhz");
+                frequency[i] = (Integer.parseInt(values[i].trim()) / 1000) + " Mhz";
             } catch (NumberFormatException nfe) {
                 nfe.printStackTrace();
             }

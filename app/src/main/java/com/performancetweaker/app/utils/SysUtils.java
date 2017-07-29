@@ -127,7 +127,7 @@ public class SysUtils implements Constants {
             }
 
             dos.close();
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException | IllegalArgumentException e) {
             e.printStackTrace();
         }
         return "";
@@ -149,7 +149,7 @@ public class SysUtils implements Constants {
         }
     }
 
-    public static Process prepareRootShell() throws IOException {
+    public static Process prepareRootShell() throws IOException,IllegalArgumentException {
         return Runtime.getRuntime().exec(getSUbinaryPath());
     }
 
