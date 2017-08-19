@@ -46,7 +46,7 @@ public class SysUtils implements Constants {
             DataOutputStream dos;
 
             try {
-                process = prepareRootShell();
+                process = Runtime.getRuntime().exec("su");
                 dos = new DataOutputStream(process.getOutputStream());
                 dos.writeBytes("cat " + pathToFile);
                 dos.flush();
@@ -73,14 +73,14 @@ public class SysUtils implements Constants {
         DataOutputStream dos;
 
         try {
-            Process mProcess = prepareRootShell();
+            Process mProcess = Runtime.getRuntime().exec("su");
             if (mProcess == null) return false;
             dos = new DataOutputStream(mProcess.getOutputStream());
             for (String cmd : commands) {
                 dos.writeBytes(cmd);
                 dos.flush();
                 if (debug) {
-                       Log.d(Constants.App_Tag, cmd);
+                    Log.d(Constants.App_Tag, cmd);
                 }
             }
             if (mProcess.waitFor() == 0) {
@@ -106,17 +106,13 @@ public class SysUtils implements Constants {
         InputStream is;
         try {
             Process process;
-            if (root) {
-                process = prepareRootShell();
-            } else {
-                process = Runtime.getRuntime().exec(command);
-            }
+            process = root ? Runtime.getRuntime().exec("su") : Runtime.getRuntime().exec("sh");
             if (process == null) return "";
             dos = new DataOutputStream(process.getOutputStream());
-            dos.writeBytes(command);
-            dos.flush();
+            dos.writeBytes(command + "\n");
             dos.writeBytes("exit \n");
             dos.flush();
+            dos.close();
             if (process.waitFor() == 0) {
                 is = process.getInputStream();
                 StringBuilder builder = new StringBuilder();
@@ -124,9 +120,13 @@ public class SysUtils implements Constants {
                 String line;
                 while ((line = br.readLine()) != null) builder.append(line);
                 return builder.toString();
+            } else {
+                is = process.getErrorStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                String line;
+                while ((line = br.readLine()) != null) Log.d("error", line);
             }
 
-            dos.close();
         } catch (IOException | InterruptedException | IllegalArgumentException e) {
             e.printStackTrace();
         }
@@ -147,14 +147,6 @@ public class SysUtils implements Constants {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static Process prepareRootShell() throws IOException,IllegalArgumentException {
-        return Runtime.getRuntime().exec(getSUbinaryPath());
-    }
-
-    public static String getSUbinaryPath() {
-        return executeCommandWithOutput(false, "which su");
     }
 
     public static String secToString(long tSec) {

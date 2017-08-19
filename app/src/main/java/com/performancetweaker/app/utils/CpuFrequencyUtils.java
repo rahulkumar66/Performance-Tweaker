@@ -3,11 +3,19 @@ package com.performancetweaker.app.utils;
 import com.performancetweaker.app.R;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class CpuFrequencyUtils {
 
@@ -136,21 +144,63 @@ public class CpuFrequencyUtils {
 
     public static GovernorProperty[] getGovernorProperties() {
         GovernorProperty[] governorProperties = null;
-        File f = new File(Constants.governor_prop_dir + getCurrentScalingGovernor());
+        String filePath = Constants.governor_prop_dir + getCurrentScalingGovernor();
+        File f = new File(filePath);
 
         if (f.exists()) {
-            File[] govProperties = f.listFiles();
 
-            if (govProperties != null && govProperties.length != 0) {
-                governorProperties = new GovernorProperty[govProperties.length];
+            List<File> govProperties = new ArrayList<>();
+            File[] files = f.listFiles();
+            if (files == null) {
+                //try reading as root
+                govProperties = getGovernerPropAsRoot(filePath);
+            } else {
+                govProperties = Arrays.asList(files);
+            }
+
+            if (govProperties.size() != 0) {
+                governorProperties = new GovernorProperty[govProperties.size()];
 
                 for (int i = 0; i < governorProperties.length; i++) {
-                    governorProperties[i] = new GovernorProperty(govProperties[i].getName(),
-                            SysUtils.readOutputFromFile(govProperties[i].getAbsolutePath()));
+                    governorProperties[i] = new GovernorProperty(govProperties.get(i).getName(),
+                            SysUtils.readOutputFromFile(govProperties.get(i).getAbsolutePath()));
                 }
             }
         }
         return governorProperties;
+    }
+
+    public static ArrayList<File> getGovernerPropAsRoot(String path) {
+        DataOutputStream dos;
+        InputStream is;
+        ArrayList<File> files = new ArrayList<>();
+        try {
+            Process process = Runtime.getRuntime().exec("su");
+            if (process != null) {
+                dos = new DataOutputStream(process.getOutputStream());
+                dos.writeBytes("ls " + path + "\n");
+                dos.writeBytes("exit \n");
+                dos.flush();
+                dos.close();
+                if (process.waitFor() == 0) {
+                    is = process.getInputStream();
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        files.add(new File(path + "/" + line));
+                    }
+                } else {
+                    is = process.getErrorStream();
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    while ((line = br.readLine()) != null) Log.d("error", line);
+                }
+            }
+
+        } catch (IOException | InterruptedException | IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return files;
     }
 
     public static void setGovernorProperty(GovernorProperty property, Context context) {

@@ -84,7 +84,7 @@ public class BuildPropUtils {
             DataOutputStream dos;
 
             try {
-                process = SysUtils.prepareRootShell();
+                process = Runtime.getRuntime().exec("su");
                 dos = new DataOutputStream(process.getOutputStream());
                 dos.writeBytes("cat " + Constants.BUILD_PROP + "\n");
                 dos.flush();

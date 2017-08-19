@@ -32,7 +32,7 @@ public class GovernorTuningFragment extends PreferenceFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_pref_refresh_container, container, false);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         return view;
     }
 

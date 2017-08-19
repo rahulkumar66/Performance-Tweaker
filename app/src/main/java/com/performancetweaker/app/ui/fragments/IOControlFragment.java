@@ -52,7 +52,6 @@ public class IOControlFragment extends PreferenceFragment
         updateData();
 
         if (availableSchedulers != null) {
-            Log.d("asd", availableSchedulers.length + "");
             IOScheduler.setEntries(availableSchedulers);
             IOScheduler.setEntryValues(availableSchedulers);
 

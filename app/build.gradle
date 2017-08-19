@@ -28,6 +28,9 @@ repositories {
     maven {
         url uri('mint-plugin-repo-5.2.1')
     }
+    maven {
+        url "https://maven.google.com"
+    }
 }
 
 dependencies {
@@ -41,4 +44,5 @@ dependencies {
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.android.support:cardview-v7:${supportLibVersion}"
     compile 'com.splunk:mint-android-sdk:5.2.1'
+    compile 'com.github.lzyzsd:circleprogress:1.2.1'
 }
