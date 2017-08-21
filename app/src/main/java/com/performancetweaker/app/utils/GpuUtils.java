@@ -163,8 +163,6 @@ public class GpuUtils {
             if (success) {
                 String msg = context.getString(R.string.ok_message);
                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, "kashmir", Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -64,6 +64,13 @@ public class SystemAppUtilities {
                     return false;
                 }
                 boolean copiedApp = RootTools.copyFile(currentFile, privAppFile, true, true);
+                //trying again
+                ArrayList<String> command = new ArrayList<>();
+                command.add("mount -o rw,remount " + "/system" + "\n");
+                command.add("cp " + currentFile + " " + privAppFile + "\n");
+                command.add("exit\n");
+                copiedApp = SysUtils.executeRootCommand(command);
+
                 Log.d(Constants.App_Tag, "Used RootTools to copy app from: "
                         + currentFile
                         + ", to: "
