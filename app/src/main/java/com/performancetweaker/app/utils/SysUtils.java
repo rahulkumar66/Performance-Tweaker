@@ -36,7 +36,7 @@ public class SysUtils implements Constants {
                 e.printStackTrace();
             }
 
-            return buffer.toString();
+            data = buffer.toString();
         }
         /*
          * try reading the file as root
@@ -48,9 +48,9 @@ public class SysUtils implements Constants {
             try {
                 process = Runtime.getRuntime().exec("su");
                 dos = new DataOutputStream(process.getOutputStream());
-                dos.writeBytes("cat " + pathToFile);
+                dos.writeBytes("cat " + pathToFile + " \n");
                 dos.flush();
-                dos.writeBytes("\n exit ");
+                dos.writeBytes("exit \n");
                 dos.flush();
                 dos.close();
                 if (process.waitFor() == 0) {
@@ -64,8 +64,8 @@ public class SysUtils implements Constants {
             } catch (IOException | InterruptedException ioe) {
                 ioe.printStackTrace();
             }
-            return data;
         }
+        return data;
     }
 
     public static boolean executeRootCommand(List<String> commands) {
@@ -77,12 +77,14 @@ public class SysUtils implements Constants {
             if (mProcess == null) return false;
             dos = new DataOutputStream(mProcess.getOutputStream());
             for (String cmd : commands) {
-                dos.writeBytes(cmd);
+                dos.writeBytes(cmd + "\n");
                 dos.flush();
                 if (debug) {
                     Log.d(Constants.App_Tag, cmd);
                 }
             }
+            dos.writeBytes("exit \n");
+            dos.flush();
             if (mProcess.waitFor() == 0) {
                 is = mProcess.getInputStream();
                 printOutputOnStdout(is);
@@ -172,8 +174,7 @@ public class SysUtils implements Constants {
     public static void mount(boolean writeable, String mountpoint) {
         ArrayList<String> command = new ArrayList<>();
 
-        command.add("mount -o rw,remount" + " " + mountpoint + "\n");
-        command.add("exit" + "\n");
+        command.add("mount -o rw,remount" + " " + mountpoint);
         executeRootCommand(command);
     }
 }

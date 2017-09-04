@@ -84,14 +84,11 @@ public class IOUtils {
                     File blockDevice = new File(devices[i].getAbsolutePath() + "/queue/scheduler");
 
                     if (blockDevice.exists()) {
-
-                        mCommands.add("chmod 0644 " + blockDevice.getAbsolutePath() + "\n");
-
-                        mCommands.add("echo " + ioScheduler + " > " + blockDevice.getAbsolutePath() + " \n ");
+                        mCommands.add("chmod 0644 " + blockDevice.getAbsolutePath());
+                        mCommands.add("echo " + ioScheduler + " > " + blockDevice.getAbsolutePath());
                     }
                 }
             }
-            mCommands.add(" exit \n");
 
             boolean success = SysUtils.executeRootCommand(mCommands);
             if (success) {
@@ -112,14 +109,13 @@ public class IOUtils {
             for (int i = 0; i < 2; i++) {
                 block = new File(Constants.available_blockdevices + "mmcblk" + i + "/queue/read_ahead_kb");
                 if (block.exists()) {
-                    mCommands.add("chmod 0644 " + block.getAbsolutePath() + "\n");
-                    mCommands.add("echo " + readAhead + " > " + block.getAbsolutePath() + "\n");
+                    mCommands.add("chmod 0644 " + block.getAbsolutePath());
+                    mCommands.add("echo " + readAhead + " > " + block.getAbsolutePath());
                 }
             }
-            mCommands.add("chmod 0644 " + Constants.SD_CACHE + "\n");
-            mCommands.add("echo " + readAhead + " > " + Constants.SD_CACHE + "\n");
+            mCommands.add("chmod 0644 " + Constants.SD_CACHE );
+            mCommands.add("echo " + readAhead + " > " + Constants.SD_CACHE);
         }
-        mCommands.add(" exit \n");
         boolean success = SysUtils.executeRootCommand(mCommands);
         if (success) {
             String msg = ctx.getString(R.string.ok_message, getReadAhead());

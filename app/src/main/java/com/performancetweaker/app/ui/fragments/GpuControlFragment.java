@@ -57,12 +57,10 @@ public class GpuControlFragment extends PreferenceFragment
     @Override
     public void onResume() {
         super.onResume();
-
         updatePreferences();
     }
 
     private void populatePreferences() {
-
         updateData();
 
         if (availableGpuFrequencies != null && availableGpuFrequencies.length != 0) {

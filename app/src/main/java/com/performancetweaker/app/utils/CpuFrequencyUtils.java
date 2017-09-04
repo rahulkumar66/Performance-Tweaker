@@ -63,15 +63,13 @@ public class CpuFrequencyUtils {
 		 */
         if (minFrequency != null) {
             for (int i = 0; i < getCoreCount(); i++) {
-                commands.add("chmod 0664 " + Constants.scaling_min_freq.replace("cpu0", "cpu" + i) + "\n");
+                commands.add("chmod 0664 " + Constants.scaling_min_freq.replace("cpu0", "cpu" + i));
                 commands.add("echo "
                         + minFrequency
                         + " > "
-                        + Constants.scaling_min_freq.replace("cpu0", "cpu" + i)
-                        + "\n");
+                        + Constants.scaling_min_freq.replace("cpu0", "cpu" + i));
             }
 
-            commands.add("exit" + "\n");
             boolean success = SysUtils.executeRootCommand(commands);
             if (success) {
                 String msg = context.getString(R.string.ok_message);
@@ -87,15 +85,13 @@ public class CpuFrequencyUtils {
 		 */
         if (maxFrequency != null) {
             for (int i = 0; i < getCoreCount(); i++) {
-                commands.add("chmod 0664 " + Constants.scaling_max_freq.replace("cpu0", "cpu" + i) + "\n");
+                commands.add("chmod 0664 " + Constants.scaling_max_freq.replace("cpu0", "cpu" + i));
                 commands.add("echo "
                         + maxFrequency.replace("cpu0", "cpu" + i)
                         + " > "
-                        + Constants.scaling_max_freq
-                        + "\n");
+                        + Constants.scaling_max_freq);
             }
 
-            commands.add("exit" + "\n");
             boolean success = SysUtils.executeRootCommand(commands);
             if (success) {
                 String msg = context.getString(R.string.ok_message);
@@ -112,15 +108,13 @@ public class CpuFrequencyUtils {
 		 */
         if (governor != null) {
             for (int i = 0; i < getCoreCount(); i++) {
-                commands.add("chmod 0644 " + Constants.scaling_governor.replace("cpu0", "cpu" + i) + "\n");
+                commands.add("chmod 0644 " + Constants.scaling_governor.replace("cpu0", "cpu" + i));
 
                 commands.add("echo "
                         + governor
                         + " > "
-                        + Constants.scaling_governor.replace("cpu0", "cpu" + i)
-                        + "\n");
+                        + Constants.scaling_governor.replace("cpu0", "cpu" + i));
             }
-            commands.add("exit" + "\n");
 
             boolean success = SysUtils.executeRootCommand(commands);
             if (success) {
@@ -210,9 +204,8 @@ public class CpuFrequencyUtils {
                 + property.getGovernorProperty();
         ArrayList<String> commands = new ArrayList<>();
 
-        commands.add("chmod 0644 " + path + "\n");
-        commands.add("echo " + property.getGovernorPropertyValue() + " > " + path + "\n");
-        commands.add("exit" + "\n");
+        commands.add("chmod 0644 " + path);
+        commands.add("echo " + property.getGovernorPropertyValue() + " > " + path);
 
         if (SysUtils.executeRootCommand(commands)) {
             String msg = context.getString(R.string.governor_applied);

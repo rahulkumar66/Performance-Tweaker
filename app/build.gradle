@@ -6,15 +6,22 @@ android {
 
     defaultConfig {
         applicationId "com.performancetweaker.app"
-        versionCode 8
-        versionName "0.1.8"
+        versionCode 9
+        versionName "0.1.9"
         minSdkVersion 15
         targetSdkVersion 26
     }
 
     buildTypes {
-        release {
+        debug {
+            debuggable true
             minifyEnabled false
+            buildConfigField 'boolean', 'ENABLE_ANALYTICS', 'false'
+        }
+        release {
+            debuggable false
+            minifyEnabled false
+            buildConfigField 'boolean', 'ENABLE_ANALYTICS', 'true'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

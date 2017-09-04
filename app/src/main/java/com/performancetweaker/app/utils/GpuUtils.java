@@ -75,10 +75,8 @@ public class GpuUtils {
         }
         if (governorPath != null) {
 
-            commands.add("chmod 0664 " + governorPath + "\n");
-            commands.add("echo " + governor + " > " + governorPath + "\n");
-            commands.add("exit" + "\n");
-
+            commands.add("chmod 0664 " + governorPath);
+            commands.add("echo " + governor + " > " + governorPath);
             boolean success = SysUtils.executeRootCommand(commands);
 
             if (success) {
@@ -115,9 +113,8 @@ public class GpuUtils {
                 }
             }
 
-            commands.add("chmod 0664 " + maxFrequencyPath + "\n");
-            commands.add("echo " + maxFrequency + " > " + maxFrequencyPath + "\n");
-            commands.add("exit" + "\n");
+            commands.add("chmod 0664 " + maxFrequencyPath);
+            commands.add("echo " + maxFrequency + " > " + maxFrequencyPath);
 
             boolean success = SysUtils.executeRootCommand(commands);
 
@@ -154,10 +151,8 @@ public class GpuUtils {
                 }
             }
 
-            commands.add("chmod 0664 " + minFrequencyPath + "\n");
-            commands.add("echo " + minFrequency + " > " + minFrequencyPath + "\n");
-            commands.add("exit" + "\n");
-
+            commands.add("chmod 0664 " + minFrequencyPath);
+            commands.add("echo " + minFrequency + " > " + minFrequencyPath);
             boolean success = SysUtils.executeRootCommand(commands);
 
             if (success) {

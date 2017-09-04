@@ -7,11 +7,10 @@ public class CPUHotplugUtils implements Constants {
     public static void activateMpdecision(boolean active) {
         ArrayList<String> cmd = new ArrayList<>();
         if (active) {
-            cmd.add("start " + HOTPLUG_MPDEC + "\n");
+            cmd.add("start " + HOTPLUG_MPDEC);
         } else {
-            cmd.add("stop " + HOTPLUG_MPDEC + "\n");
+            cmd.add("stop " + HOTPLUG_MPDEC);
         }
-        cmd.add("exit \n");
         SysUtils.executeRootCommand(cmd);
     }
 

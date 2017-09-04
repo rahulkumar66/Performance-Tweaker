@@ -3,6 +3,7 @@ package com.performancetweaker.app.ui;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -16,11 +17,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.performancetweaker.app.BuildConfig;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
 import com.performancetweaker.app.ui.fragments.CpuFrequencyFragment;
@@ -52,35 +55,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mint.initAndStartSession(this.getApplication(), "64601c31");
-        Mint.enableDebugLog();
-        Mint.enableLogging(true);
+
+        if (BuildConfig.ENABLE_ANALYTICS) {
+            Mint.initAndStartSession(this.getApplication(), "7e3b93f8");
+            Mint.enableDebugLog();
+            Mint.enableLogging(true);
+        }
         setContentView(R.layout.fragment_main_layout_navbar);
 
-        navigationView =  findViewById(R.id.navigation);
+        navigationView = findViewById(R.id.navigation);
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        toolbar =  findViewById(R.id.toolbar);
-        appCompatibilityMessage =  findViewById(R.id.app_compatibility_status);
-        progressBar =  findViewById(R.id.loading_main);
+        toolbar = findViewById(R.id.toolbar);
+        appCompatibilityMessage = findViewById(R.id.app_compatibility_status);
+        progressBar = findViewById(R.id.loading_main);
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-
-        new Task().execute();
-    }
-
-    public void populateGui() {
-        progressBar.setVisibility(View.GONE);
-
-        //TODO add settings based on whether they are supported or not
-        if (GpuUtils.isGpuFrequencyScalingSupported()) {
-            MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_gpu);
-            menuItem.setVisible(true);
-        }
-        if (CPUHotplugUtils.hasCpuHotplug()) {
-            MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_cpu_hotplug);
-            menuItem.setVisible(true);
-        }
 
         mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar,
                 R.string.settings, R.string.settings) {
@@ -99,14 +89,30 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         navigationView.setNavigationItemSelectedListener(this);
 
-        getFragmentManager().beginTransaction()
-                .replace(R.id.main_content, new CpuFrequencyFragment())
-                .commitAllowingStateLoss();
         actionBar.setTitle("CPU");
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    protected void onResume() {
+        super.onResume();
+        new Task().execute();
+    }
+
+    public void populateGui() {
+
+        //TODO add settings based on whether they are supported or not
+        if (GpuUtils.isGpuFrequencyScalingSupported()) {
+            MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_gpu);
+            menuItem.setVisible(true);
+        }
+        if (CPUHotplugUtils.hasCpuHotplug()) {
+            MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_cpu_hotplug);
+            menuItem.setVisible(true);
+        }
+
+        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_cpu));
+
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -115,51 +121,50 @@ public class MainActivity extends AppCompatActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                Fragment mfragment = null;
+                Fragment fragment = null;
 
                 switch (menuItem.getItemId()) {
                     case R.id.nav_cpu:
-                        mfragment = new CpuFrequencyFragment();
+                        fragment = new CpuFrequencyFragment();
                         actionBar.setTitle(getString(R.string.cpu_frequency));
                         break;
                     case R.id.nav_tis:
-                        mfragment = new TimeInStatesFragment();
+                        fragment = new TimeInStatesFragment();
                         actionBar.setTitle(R.string.time_in_state);
                         break;
                     case R.id.nav_iocontrol:
-                        mfragment = new IOControlFragment();
+                        fragment = new IOControlFragment();
                         actionBar.setTitle(getString(R.string.io));
                         break;
                     case R.id.nav_wakelocks:
-                        mfragment = new WakeLocksFragment();
+                        fragment = new WakeLocksFragment();
                         actionBar.setTitle(getString(R.string.wakelocks));
                         break;
                     case R.id.nav_settings:
-                        mfragment = new SettingsFragment();
+                        fragment = new SettingsFragment();
                         actionBar.setTitle(getString(R.string.settings));
                         break;
                     case R.id.nav_gpu:
-                        mfragment = new GpuControlFragment();
+                        fragment = new GpuControlFragment();
                         actionBar.setTitle(getString(R.string.gpu_frequency));
                         break;
                     case R.id.build_prop:
-                        mfragment = new BuildPropEditorFragment();
+                        fragment = new BuildPropEditorFragment();
                         actionBar.setTitle(R.string.build_prop);
                         break;
                     case R.id.vm:
-                        mfragment = new VirtualMemoryFragment();
+                        fragment = new VirtualMemoryFragment();
                         actionBar.setTitle(getString(R.string.vm));
                         break;
                     case R.id.nav_cpu_hotplug:
-                        mfragment = new CpuHotplugFragment();
+                        fragment = new CpuHotplugFragment();
                         actionBar.setTitle(getString(R.string.cpu_hotplug));
                         break;
                 }
-                if (mfragment != null) {
+                if (fragment != null) {
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
-                    fragmentTransaction.replace(R.id.main_content, mfragment).commit();
+                    fragmentTransaction.replace(R.id.main_content, fragment).commit();
                 }
             }
         }, 400);
@@ -178,13 +183,12 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.main_content, new CpuFrequencyFragment())
                     .commit();
         } else {
-          //  Toast.makeText(getBaseContext(), "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(getBaseContext(), "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
             super.onBackPressed();
         }
     }
 
     private class Task extends AsyncTask<Void, Void, Void> {
-
         private boolean hasRoot, hasBusyBox;
 
         @Override
@@ -205,7 +209,9 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            if (!hasRoot || !hasBusyBox) {
+            if (hasRoot && hasBusyBox) {
+                populateGui();
+            } else {
                 progressBar.setVisibility(View.GONE);
 
                 appCompatibilityMessage.setVisibility(View.VISIBLE);
@@ -221,8 +227,6 @@ public class MainActivity extends AppCompatActivity
                     } catch (ActivityNotFoundException ignored) {
                     }
                 }
-            } else {
-                populateGui();
             }
         }
     }

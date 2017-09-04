@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +35,8 @@ public class CpuFrequencyFragment extends PreferenceFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
+        progressBar = getActivity().findViewById(R.id.loading_main);
+        progressBar.setVisibility(View.VISIBLE);
         return inflater.inflate(R.layout.fragment_pref_container, container, false);
     }
 
@@ -48,6 +51,10 @@ public class CpuFrequencyFragment extends PreferenceFragment
         CpuMinFreqPreference = (ListPreference) findPreference(Constants.PREF_CPU_MIN_FREQ);
         GovernorPreference = (ListPreference) findPreference(Constants.PREF_CPU_GOV);
         preference = findPreference("governor_tune_pref");
+
+        availablefreq = CpuFrequencyUtils.getAvailableFrequencies();
+        availableGovernors = CpuFrequencyUtils.getAvailableGovernors();
+        populatePreferences();
 
         CpuMaxFreqPreference.setOnPreferenceChangeListener(this);
         CpuMinFreqPreference.setOnPreferenceChangeListener(this);
@@ -68,9 +75,7 @@ public class CpuFrequencyFragment extends PreferenceFragment
     @Override
     public void onResume() {
         super.onResume();
-
-        progressBar.setVisibility(View.VISIBLE);
-        populatePreferences();
+        updatePreferences();
         progressBar.setVisibility(View.GONE);
     }
 
@@ -119,8 +124,6 @@ public class CpuFrequencyFragment extends PreferenceFragment
     }
 
     public void updateData() {
-        availablefreq = CpuFrequencyUtils.getAvailableFrequencies();
-        availableGovernors = CpuFrequencyUtils.getAvailableGovernors();
         currentGovernor = CpuFrequencyUtils.getCurrentScalingGovernor();
         maxFrequency = CpuFrequencyUtils.getCurrentMaxFrequency();
         minFrequency = CpuFrequencyUtils.getCurrentMinFrequency();

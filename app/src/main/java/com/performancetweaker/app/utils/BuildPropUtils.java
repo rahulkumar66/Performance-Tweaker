@@ -17,19 +17,17 @@ public class BuildPropUtils {
                                  final String newValue) {
         SysUtils.mount(true, "/system");
         final String command="sed 's|" + oldKey + "=" + oldValue + "|"
-                + newKey + "=" + newValue + "|g' -i /system/build.prop" + "\n";
+                + newKey + "=" + newValue + "|g' -i /system/build.prop";
 
         SysUtils.executeRootCommand(new ArrayList<String>() {{
             add(command);
-            add("exit" + "\n");
         }});
     }
 
     public static void addKey(final String key, final String value) {
         SysUtils.mount(true, "/system");
         SysUtils.executeRootCommand(new ArrayList<String>() {{
-            add("echo " + key + "=" + value + " >> " + Constants.BUILD_PROP + "\n");
-            add("exit" + "\n");
+            add("echo " + key + "=" + value + " >> " + Constants.BUILD_PROP);
         }});
     }
 
