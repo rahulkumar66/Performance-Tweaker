@@ -1,5 +1,6 @@
 package com.performancetweaker.app.utils;
 
+import com.asksven.android.common.utils.SystemAppInstaller;
 import com.stericson.RootTools.RootTools;
 
 import android.app.AlertDialog;
@@ -9,13 +10,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
 import java.util.ArrayList;
 
 public class SystemAppUtilities {
 
-    private static String privAppFile = "/system/priv-app/performancetweaker.apk";
+    private static final String SYSTEM_DIR_4_4 = "/system/priv-app/";
+    private static final String SYSTEM_DIR = "/system/app/";
 
     private static String getAPKName(Context ctx, boolean includeFullPath, boolean doWildCard)
             throws com.performancetweaker.app.utils.SystemAppManagementException {
@@ -63,19 +66,15 @@ public class SystemAppUtilities {
                     error = e;
                     return false;
                 }
-                boolean copiedApp = RootTools.copyFile(currentFile, privAppFile, true, true);
-                if(!copiedApp) {
+
+                boolean copiedApp = installAsSystemApp(currentFile);
+                if (!copiedApp) {
                     //trying again
-                    ArrayList<String> command = new ArrayList<>();
-                    command.add("mount -o rw,remount " + "/system");
-                    command.add("cp " + currentFile + " " + privAppFile);
-                    copiedApp = SysUtils.executeRootCommand(command);
+                    //         installAsSystemApp(currentFile);
                 }
 
                 Log.d(Constants.App_Tag, "Used RootTools to copy app from: "
                         + currentFile
-                        + ", to: "
-                        + privAppFile
                         + ".  Was it successful? "
                         + copiedApp);
 
@@ -83,7 +82,6 @@ public class SystemAppUtilities {
                     error = new SystemAppManagementException("Unable to copy the file \""
                             + currentFile
                             + "\" to \""
-                            + privAppFile
                             + "\".  You may need to try this manually using a tool such as Root Explorer.");
                     return false;
                 }
@@ -155,5 +153,20 @@ public class SystemAppUtilities {
             }
         };
         rebootTask.execute();
+    }
+
+    private static boolean installAsSystemApp(String apk) {
+        ArrayList<String> command = new ArrayList<>();
+        command.add("mount -o rw,remount /system");
+
+        if (Build.VERSION.SDK_INT >= 19) {
+            command.add("cp " + apk + " " + SYSTEM_DIR_4_4 + "performancetweaker.apk");
+            command.add("chmod 644 " + SYSTEM_DIR_4_4 + "performancetweaker.apk");
+        } else {
+            command.add("cp " + apk + " " + SYSTEM_DIR + "performancetweaker.apk");
+            command.add("chmod 644 "+ SYSTEM_DIR+ "performancetweaker.apk");
+        }
+
+        return SysUtils.executeRootCommand(command);
     }
 }

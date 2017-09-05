@@ -45,10 +45,10 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.wakelocksfragment, container, false);
         context = getActivity().getBaseContext();
-        wakelockList = (ListView) view.findViewById(R.id.wakelock_data_listview1);
-        timeSince = (TextView) view.findViewById(R.id.stats_since);
-        spinner = (Spinner) getActivity().findViewById(R.id.spinner_nav);
-        progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
+        wakelockList = view.findViewById(R.id.wakelock_data_listview1);
+        timeSince = view.findViewById(R.id.stats_since);
+        spinner = getActivity().findViewById(R.id.spinner_nav);
+        progressBar = getActivity().findViewById(R.id.loading_main);
         return view;
     }
 
@@ -94,7 +94,7 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
                 wakelockAdapter = new KernelWakelockAdapter(context);
                 break;
             case 1:
-                Log.d(Constants.App_Tag,SysUtils.hasBatteryStatsPermission(getActivity())+"");
+                Log.d(Constants.App_Tag, SysUtils.hasBatteryStatsPermission(getActivity()) + "");
                 if (!(SysUtils.hasBatteryStatsPermission(getActivity()))) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(

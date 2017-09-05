@@ -90,12 +90,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         actionBar.setTitle("CPU");
+        new Task().execute();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        new Task().execute();
     }
 
     public void populateGui() {
@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_cpu));
-
         progressBar.setVisibility(View.GONE);
     }
 
@@ -179,9 +178,9 @@ public class MainActivity extends AppCompatActivity
         if (getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG) != null
                 && getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG).isVisible()) {
             //To go back to cpu frequency fragment by pressing back button
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.main_content, new CpuFrequencyFragment())
-                    .commit();
+//            getFragmentManager().beginTransaction()
+//                    .replace(R.id.main_content, new CpuFrequencyFragment())
+//                    .commit();
         } else {
             //  Toast.makeText(getBaseContext(), "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
             super.onBackPressed();

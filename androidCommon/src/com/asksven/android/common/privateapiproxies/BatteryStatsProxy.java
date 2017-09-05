@@ -17,13 +17,18 @@
 package com.asksven.android.common.privateapiproxies;
 
 
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
@@ -32,19 +37,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.MemoryFile;
 import android.os.Parcel;
+import android.os.ParcelFileDescriptor;
 import android.os.Parcelable;
 import android.os.SystemClock;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.util.SparseArray;
+
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.system.AndroidVersion;
+
 
 
 
@@ -93,13 +104,20 @@ public class BatteryStatsProxy
 	{
 		if (m_proxy == null)
 		{
-			m_proxy = new BatteryStatsProxy(ctx);
+            if (Build.VERSION.SDK_INT >= 22)
+            {
+                m_proxy = new BatteryStatsProxy(ctx, true);
+            }
+            else
+            {
+                m_proxy = new BatteryStatsProxy(ctx);
+            }
 		}
 		
 		return m_proxy;
 	}
-	
-	public void invalidate()
+
+    public void invalidate()
 	{
 		m_proxy = null;
 	}
@@ -107,7 +125,7 @@ public class BatteryStatsProxy
     /**
 	 * Default cctor
 	 */
-	private BatteryStatsProxy(Context context) 
+	protected BatteryStatsProxy(Context context)
 	{
 		/*
 		 * As BatteryStats is a service we need to get a binding using the IBatteryStats.Stub.getStatistics()
@@ -257,7 +275,167 @@ public class BatteryStatsProxy
 	    	
 	    }    
 	}
-	
+
+	protected BatteryStatsProxy(Context context, boolean dummy) // just need a different signature
+	{
+		/*
+		 * Same as default cctor but reading the parcel as stream and not as byte[]
+		 * see here for details: https://android.googlesource.com/platform/frameworks/base.git/+/nougat-mr2.1-release/core/java/com/android/internal/os/BatteryStatsHelper.java
+		 */
+
+		try
+		{
+			ClassLoader cl = context.getClassLoader();
+
+			m_ClassDefinition = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
+
+			// get the IBinder to the "batteryinfo" service
+			@SuppressWarnings("rawtypes")
+			Class serviceManagerClass = cl.loadClass("android.os.ServiceManager");
+
+			// parameter types
+			@SuppressWarnings("rawtypes")
+			Class[] paramTypesGetService= new Class[1];
+			paramTypesGetService[0]= String.class;
+
+			@SuppressWarnings("unchecked")
+			Method methodGetService = serviceManagerClass.getMethod("getService", paramTypesGetService);
+
+			String service = "batterystats";
+
+			// parameters
+			Object[] paramsGetService= new Object[1];
+			paramsGetService[0] = service;
+
+			if (CommonLogSettings.DEBUG)
+			{
+				Log.i(TAG, "invoking android.os.ServiceManager.getService(\"batteryinfo\")");
+			}
+			IBinder serviceBinder = (IBinder) methodGetService.invoke(serviceManagerClass, paramsGetService);
+
+			if (CommonLogSettings.DEBUG)
+			{
+				Log.i(TAG, "android.os.ServiceManager.getService(\"batteryinfo\") returned a service binder");
+			}
+
+			// now we have a binder. Let's us that on IBatteryStats.Stub.asInterface
+			// to get an IBatteryStats
+			// Note the $-syntax here as Stub is a nested class
+			@SuppressWarnings("rawtypes")
+			Class iBatteryStatsStub = cl.loadClass("com.android.internal.app.IBatteryStats$Stub");
+
+			//Parameters Types
+			@SuppressWarnings("rawtypes")
+			Class[] paramTypesAsInterface= new Class[1];
+			paramTypesAsInterface[0]= IBinder.class;
+
+			@SuppressWarnings("unchecked")
+			Method methodAsInterface = iBatteryStatsStub.getMethod("asInterface", paramTypesAsInterface);
+
+			// Parameters
+			Object[] paramsAsInterface= new Object[1];
+			paramsAsInterface[0] = serviceBinder;
+
+			if (CommonLogSettings.DEBUG)
+			{
+				Log.i(TAG, "invoking com.android.internal.app.IBatteryStats$Stub.asInterface");
+			}
+			Object iBatteryStatsInstance = methodAsInterface.invoke(iBatteryStatsStub, paramsAsInterface);
+
+			// and finally we call getStatistics from that IBatteryStats to obtain a Parcel
+			@SuppressWarnings("rawtypes")
+			Class iBatteryStats = cl.loadClass("com.android.internal.app.IBatteryStats");
+
+            @SuppressWarnings("unchecked")
+            Method methodGetStatisticsStream = iBatteryStats.getMethod("getStatisticsStream");
+            // returns a ParcelFileDescriptor
+
+            if (CommonLogSettings.DEBUG)
+			{
+				Log.i(TAG, "invoking getStatisticsStream");
+			}
+            ParcelFileDescriptor pfd = (ParcelFileDescriptor) methodGetStatisticsStream.invoke(iBatteryStatsInstance);
+
+
+            if (pfd != null)
+            {
+                FileInputStream fis = new ParcelFileDescriptor.AutoCloseInputStream(pfd);
+
+                try
+                {
+                    if (CommonLogSettings.DEBUG) { Log.i(TAG, "retrieving parcel"); }
+
+                    @SuppressWarnings("rawtypes")
+                    Class[] paramTypes= new Class[1];
+                    paramTypes[0]= FileDescriptor.class;
+
+
+                    // we want to access MemoryFile.getSize(pfd.getFileDescriptor()) but this methos id hidden
+                    Method methodGetSize = MemoryFile.class.getMethod("getSize", paramTypes);
+                    methodGetSize.setAccessible(true);
+                    int size = (int) methodGetSize.invoke(null, /* null = static method */ pfd.getFileDescriptor());
+                    byte[] data = readFully(fis, size);
+                    Parcel parcel = Parcel.obtain();
+                    parcel.unmarshall(data, 0, data.length);
+                    parcel.setDataPosition(0);
+
+                    @SuppressWarnings("rawtypes")
+                    Class batteryStatsImpl = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
+
+                    if (CommonLogSettings.DEBUG) { Log.i(TAG, "reading CREATOR field"); }
+                    Field creatorField = batteryStatsImpl.getField("CREATOR");
+
+                    // From here on we don't need reflection anymore
+                    @SuppressWarnings("rawtypes")
+                    Parcelable.Creator batteryStatsImpl_CREATOR = (Parcelable.Creator) creatorField.get(batteryStatsImpl);
+
+                    m_Instance = batteryStatsImpl_CREATOR.createFromParcel(parcel);
+
+                }
+                catch (IOException e)
+                {
+                    Log.w(TAG, "Unable to read statistics stream", e);
+                }
+            }
+
+		}
+		catch( Exception e )
+		{
+			if (e instanceof InvocationTargetException && e.getCause() != null) {
+				Log.e(TAG, "An exception occured in BatteryStatsProxy(). Message: " + e.getCause().getMessage());
+			} else {
+				Log.e(TAG, "An exception occured in BatteryStatsProxy(). Message: " + e.getMessage());
+			}
+			m_Instance = null;
+
+		}
+	}
+
+	// both these methods come from com/android/internal/os/BatteryStatsHelper.java
+    protected static byte[] readFully(FileInputStream stream) throws java.io.IOException {
+        return readFully(stream, stream.available());
+    }
+    protected static byte[] readFully(FileInputStream stream, int avail) throws java.io.IOException {
+        int pos = 0;
+        byte[] data = new byte[avail];
+        while (true) {
+            int amt = stream.read(data, pos, data.length-pos);
+            Log.i(TAG, "Read " + amt + " bytes at " + pos
+                    + " of avail " + data.length);
+            if (amt <= 0) {
+                Log.i(TAG, "**** FINISHED READING: pos=" + pos
+                        + " len=" + data.length);
+                return data;
+            }
+            pos += amt;
+            avail = stream.available();
+            if (avail > data.length-pos) {
+                byte[] newData = new byte[pos+avail];
+                System.arraycopy(data, 0, newData, 0, pos);
+                data = newData;
+            }
+        }
+    }
 	/**
 	 * Returns true if the proxy could not be initialized properly
 	 * @return true if the proxy wasn't initialized
@@ -1117,13 +1295,467 @@ public class BatteryStatsProxy
         return ret;
 	}
 
-	/**
-     * Returns the total, last, or current video on time in microseconds.
-     *
-     * @param batteryRealtime the battery realtime in microseconds (@see computeBatteryRealtime).
-     * @param iStatsType one of STATS_TOTAL, STATS_LAST, or STATS_CURRENT.
+
+    /**
+     * Returns the totalsensor time in microseconds.
+
+     * @param context
+     * @param batteryRealtime
+     * @param iStatsType
+     * @return
+     * @throws BatteryInfoUnavailableException
      */
     public Long getSensorOnTime(Context context, long batteryRealtime, int iStatsType) throws BatteryInfoUnavailableException
+	{
+    	Long ret = new Long(0);
+    	
+    	this.collectUidStats();
+		if (m_uidStats != null)
+		{
+	        try
+	        {
+				
+				ClassLoader cl = context.getClassLoader();
+				@SuppressWarnings("rawtypes")
+				Class iBatteryStatsUid = cl.loadClass("com.android.internal.os.BatteryStatsImpl$Uid");
+
+				int NU = m_uidStats.size();
+		        for (int iu = 0; iu < NU; iu++)
+		        {
+		        	// Object is an instance of BatteryStats.Uid
+		            Object myUid = m_uidStats.valueAt(iu);
+		            
+		            Method methodGetUid	= iBatteryStatsUid.getMethod("getUid");
+					Integer uid 		= (Integer) methodGetUid.invoke(myUid);
+	            	
+		        	@SuppressWarnings("unchecked")
+		        	Method methodGetSensorStats = iBatteryStatsUid.getMethod("getSensorStats");
+
+	        		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+	        		{
+						// call public SparseArray<? extends BatteryStats.Uid.Sensor> getSensorStats()
+						SparseArray<? extends Object> sensorStats = (SparseArray<? extends Object>)  methodGetSensorStats.invoke(myUid);
+						
+						if (sensorStats.size() > 0)
+						{
+						    for (int i = 0; i < sensorStats.size(); i++)
+						    {
+							    // Object is a BatteryStatsTypes.Uid.Proc
+							    Object sensor = sensorStats.valueAt(i);
+								@SuppressWarnings("rawtypes")
+								Class batteryStatsUidSensor = cl.loadClass("com.android.internal.os.BatteryStatsImpl$Uid$Sensor");
+	
+								Method methodGetSensorTime = batteryStatsUidSensor.getMethod("getSensorTime");
+								Object timer = methodGetSensorTime.invoke(sensor);
+								
+								Method methodGetHandle = batteryStatsUidSensor.getMethod("getHandle");
+								Integer handle = (Integer) methodGetHandle.invoke(sensor);
+								
+								Class batteryStatsUidTimer = cl.loadClass("com.android.internal.os.BatteryStatsImpl$StopwatchTimer");
+	
+								//Parameters Types
+								@SuppressWarnings("rawtypes")
+								Class[] paramsTypesGetTotalTimeLocked= new Class[1];
+								paramsTypesGetTotalTimeLocked[0]= long.class;
+	
+								// method is protected so we must make it accessible
+								Method computeRunTimeLocked = batteryStatsUidTimer.getDeclaredMethod("computeRunTimeLocked", paramsTypesGetTotalTimeLocked);
+								computeRunTimeLocked.setAccessible(true);
+	
+								
+					        	//Parameters
+					        	Object[] params= new Object[1];
+					        	params[0]= new Long(batteryRealtime);
+	
+								// call public long getTotalTimeLocked(long elapsedRealtimeUs, int which)
+					        	Long value = (Long) computeRunTimeLocked.invoke(timer, params);
+					        	ret += value;
+					        	
+					        	Log.i("BBS.Sensors",
+					        			"UID=" + uid 
+					        			+ ", Sensor=" +decodeSensor(handle) + " (" + handle + ") " 
+					        					+ ", time=" + DateUtils.formatDuration((long)value/1000) + " (" + value + ")");
+						    }
+						}
+	        		}
+	        		else
+	        		{
+						// call public Map<Integer, ? extends BatteryStats.Uid.Sensor> getSensorStats()
+						Map<Integer, ? extends Object> sensorStats = (Map<Integer, ? extends Object>)  methodGetSensorStats.invoke(myUid);
+						
+						if (sensorStats.size() > 0)
+						{
+					        // Map of String, BatteryStats.Uid.Wakelock
+				            for (Map.Entry<Integer, ? extends Object> sensorEntry : sensorStats.entrySet())
+				            {
+				            	Object sensor = sensorEntry.getValue();
+
+								@SuppressWarnings("rawtypes")
+								Class batteryStatsUidSensor = cl.loadClass("com.android.internal.os.BatteryStatsImpl$Uid$Sensor");
+	
+								Method methodGetSensorTime = batteryStatsUidSensor.getMethod("getSensorTime");
+								Object timer = methodGetSensorTime.invoke(sensor);
+								
+								Method methodGetHandle = batteryStatsUidSensor.getMethod("getHandle");
+								Integer handle = (Integer) methodGetHandle.invoke(sensor);
+								
+								Class batteryStatsUidTimer = cl.loadClass("com.android.internal.os.BatteryStatsImpl$StopwatchTimer");
+	
+								//Parameters Types
+								@SuppressWarnings("rawtypes")
+								Class[] paramsTypesGetTotalTimeLocked= new Class[1];
+								paramsTypesGetTotalTimeLocked[0]= long.class;
+	
+								// method is protected so we must make it accessible
+								Method computeRunTimeLocked = batteryStatsUidTimer.getDeclaredMethod("computeRunTimeLocked", paramsTypesGetTotalTimeLocked);
+								computeRunTimeLocked.setAccessible(true);
+	
+								
+					        	//Parameters
+					        	Object[] params= new Object[1];
+					        	params[0]= new Long(batteryRealtime);
+	
+								// call public long getTotalTimeLocked(long elapsedRealtimeUs, int which)
+					        	Long value = (Long) computeRunTimeLocked.invoke(timer, params);
+					        	ret += value;
+					        	
+					        	Log.i("BBS.Sensors",
+					        			"UID=" + uid 
+					        			+ ", Sensor=" +decodeSensor(handle) + " (" + handle + ") " 
+					        					+ ", time=" + DateUtils.formatDuration((long)value/1000) + " (" + value + ")");
+						    }
+						}
+	        			
+	        		}
+		        }
+	        }
+	        catch( IllegalArgumentException e )
+	        {
+	            throw e;
+	        }
+	        catch( Exception e )
+	        {
+	            ret = new Long(0);
+	            throw new BatteryInfoUnavailableException();
+	        }
+		}
+        return ret;
+	}
+    
+    /**
+	 * Returns the sensor stats.
+	
+	 * @param context
+	 * @param batteryRealtime
+	 * @param iStatsType
+	 * @return
+	 * @throws BatteryInfoUnavailableException
+	 */
+	@SuppressLint("NewApi")
+	public ArrayList<SensorUsage> getSensorStats(Context context, long batteryRealtime, int iStatsType) throws BatteryInfoUnavailableException
+	{
+		ArrayList<SensorUsage> myRet = new ArrayList<SensorUsage>(); 
+	
+		this.collectUidStats();
+		if (m_uidStats != null)
+		{
+	        try
+	        {
+				
+				ClassLoader cl = context.getClassLoader();
+				@SuppressWarnings("rawtypes")
+				Class iBatteryStatsUid = cl.loadClass("com.android.internal.os.BatteryStatsImpl$Uid");
+	
+				int NU = m_uidStats.size();
+		        for (int iu = 0; iu < NU; iu++)
+		        {
+		        	// Object is an instance of BatteryStats.Uid
+		            Object myUid = m_uidStats.valueAt(iu);
+		            
+		            Method methodGetUid	= iBatteryStatsUid.getMethod("getUid");
+					Integer uid 		= (Integer) methodGetUid.invoke(myUid);
+	            	
+		        	@SuppressWarnings("unchecked")
+		        	Method methodGetSensorStats = iBatteryStatsUid.getMethod("getSensorStats");
+					
+		        	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		        	{
+						// call public SparseArray<? extends BatteryStats.Uid.Sensor> getSensorStats()
+						SparseArray<? extends Object> sensorStats = (SparseArray<? extends Object>)  methodGetSensorStats.invoke(myUid);
+						Long uidTotalSensorTime = 0L;
+						
+						if (sensorStats.size() > 0)
+						{
+							ArrayList<SensorUsageItem> myItems = new ArrayList<SensorUsageItem>(); 
+							
+						    for (int i = 0; i < sensorStats.size(); i++)
+						    {
+							    // Object is a BatteryStatsTypes.Uid.Proc
+							    Object sensor = sensorStats.valueAt(i);
+								@SuppressWarnings("rawtypes")
+								Class batteryStatsUidSensor = cl.loadClass("com.android.internal.os.BatteryStatsImpl$Uid$Sensor");
+		
+								Method methodGetSensorTime = batteryStatsUidSensor.getMethod("getSensorTime");
+								Object timer = methodGetSensorTime.invoke(sensor);
+								
+								Method methodGetHandle = batteryStatsUidSensor.getMethod("getHandle");
+								Integer handle = (Integer) methodGetHandle.invoke(sensor);
+								
+								Class batteryStatsUidTimer = cl.loadClass("com.android.internal.os.BatteryStatsImpl$StopwatchTimer");
+		
+								//Parameters Types
+								@SuppressWarnings("rawtypes")
+								Class[] paramsTypesGetTotalTimeLocked= new Class[1];
+								paramsTypesGetTotalTimeLocked[0]= long.class;
+		
+								// method is protected so we must make it accessible
+								Method computeRunTimeLocked = batteryStatsUidTimer.getDeclaredMethod("computeRunTimeLocked", paramsTypesGetTotalTimeLocked);
+								computeRunTimeLocked.setAccessible(true);
+		
+								
+					        	//Parameters
+					        	Object[] params= new Object[1];
+					        	params[0]= new Long(batteryRealtime);
+		
+								// call public long getTotalTimeLocked(long elapsedRealtimeUs, int which)
+					        	Long value = (Long) computeRunTimeLocked.invoke(timer, params);
+					        	uidTotalSensorTime += value;
+					        	
+					        	Log.i("BBS.Sensors",
+					        			"UID=" + uid 
+					        			+ ", Sensor=" +decodeSensor(handle) + " (" + handle + ") " 
+					        					+ ", time=" + DateUtils.formatDuration((long)value/1000) + " (" + value + ")");
+					        	
+					        	Sensor lookup = findSensor(context, handle);
+					        	
+					        	String sensorText = "";
+					        	
+					        	if (lookup == null)
+					        	{
+					        		sensorText = "Unknown";
+					        	}
+					        	else
+					        	{
+					        		// we try to get the most info out of the API
+					        		if (Build.VERSION.SDK_INT >= 21)
+					        		{
+					        			sensorText = lookup.getName() + "(" + handle+ "), wakeup=" + lookup.isWakeUpSensor();
+					        		}
+					        		else
+					        		{
+					        			sensorText = lookup.getName();
+					        		}
+		
+					        		
+					        	}
+					        	SensorUsageItem myItem = new SensorUsageItem(value/1000, sensorText, handle);
+					        	myItems.add(myItem);
+						    }
+						    SensorUsage myData = new SensorUsage(uidTotalSensorTime.longValue()/1000);
+							// try resolving names
+							UidInfo myInfo = UidNameResolver.getInstance(context).getNameForUid(uid);
+							myData.setUidInfo(myInfo);
+							myData.setItems(myItems);
+							myRet.add(myData);
+							
+		
+						}
+		        	}
+		        	else
+		        	{
+		        		Long uidTotalSensorTime = 0L;
+						// call public Map<Integer, ? extends BatteryStats.Uid.Sensor> getSensorStats()
+						Map<Integer, ? extends Object> sensorStats = (Map<Integer, ? extends Object>)  methodGetSensorStats.invoke(myUid);
+						
+						if (sensorStats.size() > 0)
+						{
+							ArrayList<SensorUsageItem> myItems = new ArrayList<SensorUsageItem>(); 
+
+							// Map of String, BatteryStats.Uid.Wakelock
+				            for (Map.Entry<Integer, ? extends Object> sensorEntry : sensorStats.entrySet())
+				            {
+				            	Object sensor = sensorEntry.getValue();
+						
+								@SuppressWarnings("rawtypes")
+								Class batteryStatsUidSensor = cl.loadClass("com.android.internal.os.BatteryStatsImpl$Uid$Sensor");
+		
+								Method methodGetSensorTime = batteryStatsUidSensor.getMethod("getSensorTime");
+								Object timer = methodGetSensorTime.invoke(sensor);
+								
+								Method methodGetHandle = batteryStatsUidSensor.getMethod("getHandle");
+								Integer handle = (Integer) methodGetHandle.invoke(sensor);
+								
+								Class batteryStatsUidTimer = cl.loadClass("com.android.internal.os.BatteryStatsImpl$StopwatchTimer");
+		
+								//Parameters Types
+								@SuppressWarnings("rawtypes")
+								Class[] paramsTypesGetTotalTimeLocked= new Class[1];
+								paramsTypesGetTotalTimeLocked[0]= long.class;
+		
+								// method is protected so we must make it accessible
+								Method computeRunTimeLocked = batteryStatsUidTimer.getDeclaredMethod("computeRunTimeLocked", paramsTypesGetTotalTimeLocked);
+								computeRunTimeLocked.setAccessible(true);
+		
+								
+					        	//Parameters
+					        	Object[] params= new Object[1];
+					        	params[0]= new Long(batteryRealtime);
+		
+								// call public long getTotalTimeLocked(long elapsedRealtimeUs, int which)
+					        	Long value = (Long) computeRunTimeLocked.invoke(timer, params);
+					        	uidTotalSensorTime += value;
+					        	
+					        	Log.i("BBS.Sensors",
+					        			"UID=" + uid 
+					        			+ ", Sensor=" +decodeSensor(handle) + " (" + handle + ") " 
+					        					+ ", time=" + DateUtils.formatDuration((long)value/1000) + " (" + value + ")");
+					        	
+					        	Sensor lookup = findSensor(context, handle);
+					        	
+					        	String sensorText = "";
+					        	
+					        	if (lookup == null)
+					        	{
+					        		sensorText = "Unknown";
+					        	}
+					        	else
+					        	{
+					        		// we try to get the most info out of the API
+					        		if (Build.VERSION.SDK_INT >= 21)
+					        		{
+					        			sensorText = lookup.getName() + "(" + handle+ "), wakeup=" + lookup.isWakeUpSensor();
+					        		}
+					        		else
+					        		{
+					        			sensorText = lookup.getName();
+					        		}
+		
+					        		
+					        	}
+					        	SensorUsageItem myItem = new SensorUsageItem(value/1000, sensorText, handle);
+					        	myItems.add(myItem);
+						    }
+						    SensorUsage myData = new SensorUsage(uidTotalSensorTime.longValue()/1000);
+							// try resolving names
+							UidInfo myInfo = UidNameResolver.getInstance(context).getNameForUid(uid);
+							myData.setUidInfo(myInfo);
+							myData.setItems(myItems);
+							myRet.add(myData);
+							
+		
+						}
+		        		
+		        	}
+		        }
+	        }
+	        catch( IllegalArgumentException e )
+	        {
+	            throw e;
+	        }
+	        catch( Exception e )
+	        {
+	            myRet = new ArrayList<SensorUsage>();
+	            throw new BatteryInfoUnavailableException();
+	        }
+		}
+	    return myRet;
+	}
+	
+	/**
+     * Decodes the sensor handle using the constants from https://developer.android.com/reference/android/hardware/Sensor.html#STRING_TYPE_ACCELEROMETER
+     * @param handle the sensor handle number
+     * @return a string describing the sensor
+     */
+    String decodeSensor(int handle)
+    {
+    	switch (handle)
+    	{
+    		case Sensor.TYPE_ACCELEROMETER: return "Accelerometer";
+    		case Sensor.TYPE_AMBIENT_TEMPERATURE: return "Ambient Temperatur";
+    		case Sensor.TYPE_GAME_ROTATION_VECTOR: return "Game Rotation Vector";
+    		case Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR: return "Geomagnetic rotation Vector";
+    		case Sensor.TYPE_GRAVITY: return "Gravity";
+    		case Sensor.TYPE_GYROSCOPE: return "Gyroscope";
+    		case Sensor.TYPE_GYROSCOPE_UNCALIBRATED: return "Gyroscope Uncalibrated";
+    		case Sensor.TYPE_HEART_RATE: return "Heart Rate";
+    		case Sensor.TYPE_LIGHT: return "Light";
+    		case Sensor.TYPE_LINEAR_ACCELERATION: return "Linear Acceleration";
+    		case Sensor.TYPE_MAGNETIC_FIELD: return "Megnetic Field";
+    		case Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED: return "Magnetic Field Uncalibrated";
+    		case Sensor.TYPE_ORIENTATION: return "Orientation";
+    		case Sensor.TYPE_PRESSURE: return "Pressure";
+    		case Sensor.TYPE_PROXIMITY: return "Proximity";
+    		case Sensor.TYPE_RELATIVE_HUMIDITY: return "Relative Humidity";
+    		case Sensor.TYPE_ROTATION_VECTOR: return "Rotation Vector";
+    		case Sensor.TYPE_SIGNIFICANT_MOTION: return "Significant Motion";
+    		case Sensor.TYPE_STEP_COUNTER: return "Step Counter";
+    		case Sensor.TYPE_STEP_DETECTOR: return "Step Detection";
+    		case Sensor.TYPE_TEMPERATURE: return "Temperature";
+    		case -10000: return "GPS";
+    		
+    		default: return "Unknown";
+    		
+    		
+    	}
+    }
+    
+    @SuppressLint("NewApi")
+	Sensor findSensor(Context ctx, int handle)
+    {
+    	String TAG = "BBS.Sensors";
+    	Sensor retVal = null;
+    	
+    	// Enumerate all sensors
+    	final SensorManager sensorManager = (SensorManager)ctx.getSystemService(Context.SENSOR_SERVICE);
+    	List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+
+    	if ( (sensors == null) || (sensors.size() == 0)) return null;
+    	for (int i=0; i < sensors.size(); i++)
+    	{
+    		Sensor sensor = sensors.get(i);
+    		Method methodGetHandle;
+    		
+    		int hhandle = -1;
+			try
+			{
+				methodGetHandle = sensor.getClass().getDeclaredMethod("getHandle");
+	    		methodGetHandle.setAccessible(true);
+	    		hhandle = ((Integer) methodGetHandle.invoke(sensor)).intValue();
+
+			} catch (Exception e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+			if (hhandle == handle)
+			{
+				retVal = sensor;
+				return retVal;
+			}
+    		if (Build.VERSION.SDK_INT >= 21)
+    		{
+    			Log.i(TAG, "name=" + sensor.getName() + ", handle=" + handle+ ", wakeup=" + sensor.isWakeUpSensor() + ", type=" + sensor.getStringType());
+    		}
+    		else
+    		{
+    			Log.i(TAG, "name=" + sensor.getName()  + ", handle=" + handle);
+    		}
+    	}
+    	
+    	return null;
+    }
+
+    /**
+     * Returns the total GPS time in microseconds.
+
+     * @param context
+     * @param batteryRealtime
+     * @param iStatsType
+     * @return
+     * @throws BatteryInfoUnavailableException
+     */
+    public Long getGpsOnTime(Context context, long batteryRealtime, int iStatsType) throws BatteryInfoUnavailableException
 	{
     	Long ret = new Long(0);
 
@@ -1142,6 +1774,9 @@ public class BatteryStatsProxy
 		        {
 		        	// Object is an instance of BatteryStats.Uid
 		            Object myUid = m_uidStats.valueAt(iu);
+		            
+		            Method methodGetUid	= iBatteryStatsUid.getMethod("getUid");
+					Integer uid 		= (Integer) methodGetUid.invoke(myUid);
 	            	
 		        	@SuppressWarnings("unchecked")
 		        	Method methodGetSensorStats = iBatteryStatsUid.getMethod("getSensorStats");
@@ -1161,25 +1796,35 @@ public class BatteryStatsProxy
 							Method methodGetSensorTime = batteryStatsUidSensor.getMethod("getSensorTime");
 							Object timer = methodGetSensorTime.invoke(sensor);
 							
-							Class batteryStatsUidTimer = cl.loadClass("com.android.internal.os.BatteryStatsImpl$StopwatchTimer");
-
-							//Parameters Types
-							@SuppressWarnings("rawtypes")
-							Class[] paramsTypesGetTotalTimeLocked= new Class[1];
-							paramsTypesGetTotalTimeLocked[0]= long.class;
-
-							// method is protected so we must make it accessible
-							Method computeRunTimeLocked = batteryStatsUidTimer.getDeclaredMethod("computeRunTimeLocked", paramsTypesGetTotalTimeLocked);
-							computeRunTimeLocked.setAccessible(true);
-
+							Method methodGetHandle = batteryStatsUidSensor.getMethod("getHandle");
+							Integer handle = (Integer) methodGetHandle.invoke(sensor);
 							
-				        	//Parameters
-				        	Object[] params= new Object[1];
-				        	params[0]= new Long(batteryRealtime);
-
-							// call public long getTotalTimeLocked(long elapsedRealtimeUs, int which)
-				        	Long value = (Long) computeRunTimeLocked.invoke(timer, params);
-				        	ret += value;
+							// hack -> see https://developer.android.com/reference/android/hardware/Sensor.html
+							// GPS is not defined in the HAL but has a constant value of -10000
+							if (handle == -10000)
+							{
+								Class batteryStatsUidTimer = cl.loadClass("com.android.internal.os.BatteryStatsImpl$StopwatchTimer");
+	
+								//Parameters Types
+								@SuppressWarnings("rawtypes")
+								Class[] paramsTypesGetTotalTimeLocked= new Class[1];
+								paramsTypesGetTotalTimeLocked[0]= long.class;
+	
+								// method is protected so we must make it accessible
+								Method computeRunTimeLocked = batteryStatsUidTimer.getDeclaredMethod("computeRunTimeLocked", paramsTypesGetTotalTimeLocked);
+								computeRunTimeLocked.setAccessible(true);
+	
+								
+					        	//Parameters
+					        	Object[] params= new Object[1];
+					        	params[0]= new Long(batteryRealtime);
+	
+								// call public long getTotalTimeLocked(long elapsedRealtimeUs, int which)
+					        	Long value = (Long) computeRunTimeLocked.invoke(timer, params);
+					        	ret += value;
+					        	
+					        	Log.i("Sensors", "UID=" + uid + ", Sensor=" + handle + ", time=" + value);
+							}
 					    }
 					}
 		        }
@@ -1895,42 +2540,42 @@ public class BatteryStatsProxy
 //				Class batteryStatsSamplingTimerClass = cl.loadClass("com.android.internal.os.BatteryStatsImpl$SamplingTimer");
 
 				//Parameters Types
-				@SuppressWarnings("rawtypes")
-				Class[] paramTypesGetTotalTimeLocked= new Class[2];
-				paramTypesGetTotalTimeLocked[0]= long.class;
-				paramTypesGetTotalTimeLocked[1]= int.class;
-
-				//Parameters
-				Object[] paramGetTotalTimeLocked= new Object[2];
-				paramGetTotalTimeLocked[0]= new Long(uSecBatteryTime);
-				paramGetTotalTimeLocked[1]= new Integer(iStatType);
-				
-
-				Method methodGetTotalTimeLocked = classSamplingTimer
-						.getMethod("getTotalTimeLocked", paramTypesGetTotalTimeLocked);
-
-				//Parameters Types
-				@SuppressWarnings("rawtypes")
-				Class[] paramTypesGetCountLocked= new Class[1];
-				paramTypesGetCountLocked[0]= int.class;
-
-				//Parameters
-				Object[] paramGetCountLocked= new Object[1];
-				paramGetCountLocked[0]= new Integer(iStatType);
-
-				Method methodGetCountLocked = classSamplingTimer
-						.getMethod("getCountLocked", paramTypesGetCountLocked);
-					
-				
-				Long wake = (Long) methodGetTotalTimeLocked.invoke(samplingTimer, paramGetTotalTimeLocked);
-				
-				Integer count = (Integer) methodGetCountLocked.invoke(samplingTimer, paramGetCountLocked);
-				
-				if (CommonLogSettings.DEBUG)
-				{
-					Log.d(TAG, "Kernel wakelock: " + wakelockEntry.getKey() + " wakelock [s] " + wake / 1000
-							+ " count " + count);
-				}
+//				@SuppressWarnings("rawtypes")
+//				Class[] paramTypesGetTotalTimeLocked= new Class[2];
+//				paramTypesGetTotalTimeLocked[0]= long.class;
+//				paramTypesGetTotalTimeLocked[1]= int.class;
+//
+//				//Parameters
+//				Object[] paramGetTotalTimeLocked= new Object[2];
+//				paramGetTotalTimeLocked[0]= new Long(uSecBatteryTime);
+//				paramGetTotalTimeLocked[1]= new Integer(iStatType);
+//				
+//
+//				Method methodGetTotalTimeLocked = classSamplingTimer
+//						.getMethod("getTotalTimeLocked", paramTypesGetTotalTimeLocked);
+//
+//				//Parameters Types
+//				@SuppressWarnings("rawtypes")
+//				Class[] paramTypesGetCountLocked= new Class[1];
+//				paramTypesGetCountLocked[0]= int.class;
+//
+//				//Parameters
+//				Object[] paramGetCountLocked= new Object[1];
+//				paramGetCountLocked[0]= new Integer(iStatType);
+//
+//				Method methodGetCountLocked = classSamplingTimer
+//						.getMethod("getCountLocked", paramTypesGetCountLocked);
+//					
+//				
+//				Long wake = (Long) methodGetTotalTimeLocked.invoke(samplingTimer, paramGetTotalTimeLocked);
+//				
+//				Integer count = (Integer) methodGetCountLocked.invoke(samplingTimer, paramGetCountLocked);
+//				
+//				if (CommonLogSettings.DEBUG)
+//				{
+//					Log.d(TAG, "Kernel wakelock: " + wakelockEntry.getKey() + " wakelock [s] " + wake / 1000
+//							+ " count " + count);
+//				}
 				
 				// public NativeKernelWakelock(String name, String details, int count, int expire_count, int wake_count,
 				// long active_since, long total_time, long sleep_time, long max_time, long last_change, long time)
@@ -1946,9 +2591,15 @@ public class BatteryStatsProxy
 				//}
 //				else
 //				{
+				if (CommonLogSettings.DEBUG)
+				{
+					Log.d(TAG, "Kernel wakelock: " + wakelockEntry.getKey() + " wakelock [s] " + currentReportedTotalTimeVal / 1000
+							+ " count " + currentReportedCountVal);
+				}
+
 				NativeKernelWakelock myWl = new NativeKernelWakelock(
-							wakelockEntry.getKey(), "*api*", unpluggedReportedCountVal, 0, 0, 0L, 
-							unpluggedReportedTotalTimeVal / 1000, unpluggedReportedTotalTimeVal / 1000, 0L, 0L,
+							wakelockEntry.getKey(), "*api*", currentReportedCountVal, 0, 0, 0L, 
+							currentReportedTotalTimeVal / 1000, currentReportedTotalTimeVal / 1000, 0L, 0L,
 							uSecBatteryTime / 1000);
 					myStats.add(myWl);
 //				}	
@@ -2177,7 +2828,7 @@ public class BatteryStatsProxy
 
 							if ((wakeups) > 0)
 							{
-								Alarm myWakeup = new Alarm(ent.getKey() + "*api*");
+								Alarm myWakeup = new Alarm(ent.getKey(), "*api*");
 								myWakeup.setWakeups(wakeups);
 								// opt for lazy loading: do no populate UidInfo, just uid. UidInfo will be fetched on demand
 								myWakeup.setUid(uid);
@@ -2280,7 +2931,7 @@ public class BatteryStatsProxy
 								
 								if ((wakeups) > 0)
 								{
-									Alarm myWakeup = new Alarm(ent.getKey() + "*api*");
+									Alarm myWakeup = new Alarm(ent.getKey(), "*api*");
 									myWakeup.setWakeups(wakeups);
 									// opt for lazy loading: do no populate UidInfo, just uid. UidInfo will be fetched on demand
 									myWakeup.setUid(uid);
@@ -2381,7 +3032,7 @@ public class BatteryStatsProxy
             }
             catch( Exception e )
             {
-            	Log.e(TAG, "An exception occured in getWakeupStats(). Message: " + e.getMessage() + ", cause: " + e.getCause().getMessage());
+            	Log.e(TAG, "An exception occured in getSyncOnTime(). Message: " + e.getMessage());
                 throw e;
             }
 		}	
@@ -2564,8 +3215,8 @@ public class BatteryStatsProxy
 
 	
 	}
-	
-	@SuppressWarnings("unchecked")
+    
+    @SuppressWarnings("unchecked")
 	public ArrayList<HistoryItem> getHistory(Context context) throws Exception
 	{
 		
