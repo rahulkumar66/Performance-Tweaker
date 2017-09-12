@@ -67,8 +67,7 @@ public class SystemAppUtilities {
                 }
                 boolean copiedApp = installAsSystemApp(currentFile);
 
-                Log.d(Constants.App_Tag, "Used RootTools to copy app from: "
-                        + currentFile
+                Log.d(Constants.App_Tag, "Copying app to system directory"
                         + ".  Was it successful? "
                         + copiedApp);
 
