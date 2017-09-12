@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
 
+        //disable the navigation bar initially
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
         mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar,
                 R.string.settings, R.string.settings) {
 
@@ -89,16 +92,14 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         navigationView.setNavigationItemSelectedListener(this);
 
-        actionBar.setTitle("CPU");
         new Task().execute();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     public void populateGui() {
+
+        //enable navigation drawer
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        actionBar.setTitle("CPU");
 
         //TODO add settings based on whether they are supported or not
         if (GpuUtils.isGpuFrequencyScalingSupported()) {
@@ -211,6 +212,7 @@ public class MainActivity extends AppCompatActivity
             if (hasRoot && hasBusyBox) {
                 populateGui();
             } else {
+
                 progressBar.setVisibility(View.GONE);
 
                 appCompatibilityMessage.setVisibility(View.VISIBLE);

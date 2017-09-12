@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
@@ -66,12 +65,7 @@ public class SystemAppUtilities {
                     error = e;
                     return false;
                 }
-
                 boolean copiedApp = installAsSystemApp(currentFile);
-                if (!copiedApp) {
-                    //trying again
-                    //         installAsSystemApp(currentFile);
-                }
 
                 Log.d(Constants.App_Tag, "Used RootTools to copy app from: "
                         + currentFile
@@ -117,7 +111,7 @@ public class SystemAppUtilities {
         task.execute();
     }
 
-    public static void rebootDevice(final Context context) {
+    private static void rebootDevice(final Context context) {
 
         AsyncTask<Void, Void, Boolean> rebootTask = new AsyncTask<Void, Void, Boolean>() {
 
