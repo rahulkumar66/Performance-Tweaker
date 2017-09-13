@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity
                 if (fragment != null) {
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
-                    fragmentTransaction.replace(R.id.main_content, fragment).commit();
+                    fragmentTransaction.replace(R.id.main_content, fragment).commitAllowingStateLoss();
                 }
             }
         }, 400);
