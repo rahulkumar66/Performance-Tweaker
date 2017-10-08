@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.performancetweaker.app"
-        versionCode 11
-        versionName "0.1.11"
+        versionCode 12
+        versionName "0.2.1"
         minSdkVersion 15
         targetSdkVersion 26
     }
@@ -43,7 +43,7 @@ repositories {
 dependencies {
 
     ext {
-        supportLibVersion = '26.0.2'
+        supportLibVersion = '26.1.0'
     }
 
     compile project(':androidCommon')

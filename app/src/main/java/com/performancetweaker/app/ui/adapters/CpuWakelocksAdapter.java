@@ -1,15 +1,21 @@
 package com.performancetweaker.app.ui.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Wakelock;
+import com.asksven.android.common.utils.DateUtils;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.BatteryStatsUtils;
 import com.performancetweaker.app.utils.SysUtils;
@@ -18,11 +24,11 @@ import java.util.ArrayList;
 
 public class CpuWakelocksAdapter extends BaseAdapter {
 
-    ArrayList<Wakelock> partialWakelocks;
-    Context context;
-    int totaltime;
-    LayoutInflater inflater;
-    UidNameResolver uidNameResolver;
+    private ArrayList<Wakelock> partialWakelocks;
+    private Context context;
+    private int totalTime;
+    private LayoutInflater inflater;
+    private UidNameResolver uidNameResolver;
 
     public CpuWakelocksAdapter(Context ctx) {
         this.context = ctx;
@@ -30,12 +36,13 @@ public class CpuWakelocksAdapter extends BaseAdapter {
         /*
          * calculate total time
 		 */
-        if (partialWakelocks != null && partialWakelocks.size() != 0) {
-            totaltime = 0;
-            for (Wakelock wl : partialWakelocks) {
-                totaltime += wl.getDuration() / 1000;
-            }
-        }
+        totalTime = (int) SystemClock.elapsedRealtime();
+//        if (partialWakelocks != null && partialWakelocks.size() != 0) {
+//            totalTime = 0;
+//            for (Wakelock wl : partialWakelocks) {
+//                totalTime += wl.getDuration() / 1000;
+//            }
+//        }
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         uidNameResolver = UidNameResolver.getInstance(context);
     }
@@ -61,24 +68,24 @@ public class CpuWakelocksAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View row = inflater.inflate(R.layout.cpu_wakelock_row, parent, false);
-        TextView wakelockName = (TextView) row.findViewById(R.id.cpu_wakelock_name);
-        TextView duration = (TextView) row.findViewById(R.id.cpu_wakelock_duration);
-        TextView wakeCount = (TextView) row.findViewById(R.id.cpu_wakelock_count);
-        ProgressBar progress = (ProgressBar) row.findViewById(R.id.cpu_wakelock_progress);
+        TextView wakelockName = row.findViewById(R.id.cpu_wakelock_name);
+        TextView duration = row.findViewById(R.id.cpu_wakelock_duration);
+        TextView wakeCount = row.findViewById(R.id.cpu_wakelock_count);
+        ImageView packageIcon = row.findViewById(R.id.package_icon);
+        DonutProgress progress = row.findViewById(R.id.cpu_wakelock_progress);
 
         Wakelock mWakelock = partialWakelocks.get(position);
-//        Drawable drawable = mWakelock.getIcon(uidNameResolver);
-//        Log.d("tag",mWakelock.getPackageName()+"q"+mWakelock.getUidInfo());
+//        Drawable drawable = mWakelock.getIcon(UidNameResolver.getInstance());
+        Log.d("tag",mWakelock.getPackageName()+"q"+mWakelock.getUidInfo());
 //        if (drawable != null) {
-//            icon.setImageDrawable(drawable);
+//            packageIcon.setImageDrawable(drawable);
 //        }
         wakelockName.setText(mWakelock.getName());
-        duration.setText(SysUtils.secToString(mWakelock.getDuration() / 1000));
-        wakeCount.setText("x" + mWakelock.getCount() + context.getString(R.string.times));
-        progress.setMax(totaltime);
-        progress.setProgress((int) mWakelock.getDuration() / 1000);
+        duration.setText(DateUtils.formatDuration(mWakelock.getDuration()));
+        wakeCount.setText("Count: " + mWakelock.getCount());
+        progress.setMax(totalTime);
+        progress.setProgress((mWakelock.getDuration()*100)/totalTime);
         return row;
     }
 }

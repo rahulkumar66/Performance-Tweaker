@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.SysUtils;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.adapters.AlarmTriggerAdapter;
@@ -94,8 +96,10 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
                 wakelockAdapter = new KernelWakelockAdapter(context);
                 break;
             case 1:
-                Log.d(Constants.App_Tag, SysUtils.hasBatteryStatsPermission(getActivity()) + "");
-                if (!(SysUtils.hasBatteryStatsPermission(getActivity()))) {
+                boolean hasPermission = SysUtils.hasBatteryStatsPermission(getActivity());
+                Log.d(Constants.App_Tag, "Has Battery Stats Permission " +
+                        hasPermission);
+                if (!hasPermission) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(
                             "Since Kitkat google only allows system apps to access battery permissions! Install this app as System app")
@@ -112,21 +116,27 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
                             })
                             .setNegativeButton("No", null)
                             .show();
+                } else {
+                    wakelockAdapter = new CpuWakelocksAdapter(context);
                 }
-
-                wakelockAdapter = new CpuWakelocksAdapter(context);
                 break;
             case 2:
                 wakelockAdapter = new AlarmTriggerAdapter(context);
                 break;
         }
-        progressBar.setVisibility(View.GONE);
+       progressBar.setVisibility(View.GONE);
 
         if (wakelockAdapter != null && wakelockAdapter.getCount() != 0) {
             wakelockList.setVisibility(View.VISIBLE);
-            timeSince.setTextSize(15);
+            timeSince.setTextSize(16);
+            long sinceMs = SystemClock.elapsedRealtime();
+            if (sinceMs != -1) {
+                String sinceText = DateUtils.formatDuration(sinceMs);
+                timeSince.setText(sinceText);
+            } else {
+                timeSince.setText("n/a");
+            }
             wakelockList.setAdapter(wakelockAdapter);
-            timeSince.setText("");
         } else {
             wakelockList.setVisibility(View.GONE);
             timeSince.setTextSize(20);

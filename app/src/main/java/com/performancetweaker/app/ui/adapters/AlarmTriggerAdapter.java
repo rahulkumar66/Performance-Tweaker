@@ -2,6 +2,7 @@ package com.performancetweaker.app.ui.adapters;
 
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Alarm;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.BatteryStatsUtils;
 
@@ -18,11 +19,11 @@ import java.util.ArrayList;
 
 public class AlarmTriggerAdapter extends BaseAdapter {
 
-    ArrayList<Alarm> alarms;
-    Context context;
-    int totaltime;
-    LayoutInflater inflater;
-    UidNameResolver uidNameResolver;
+    private ArrayList<Alarm> alarms;
+    private Context context;
+    private int totaltime;
+    private LayoutInflater inflater;
+    private UidNameResolver uidNameResolver;
 
     public AlarmTriggerAdapter(Context ctx) {
         this.context = ctx;
@@ -37,13 +38,12 @@ public class AlarmTriggerAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup container) {
-
         View row = inflater.inflate(R.layout.alarm_trigger_custom_list_item1, container, false);
-        TextView AlarmPackageName = (TextView) row.findViewById(R.id.alarm_package_name);
-        TextView WakeupCount = (TextView) row.findViewById(R.id.wakeup_count);
-        TextView name = (TextView) row.findViewById(R.id.alarm_appname);
-        ImageView icon = (ImageView) row.findViewById(R.id.alarm_icon);
-        ProgressBar progress = (ProgressBar) row.findViewById(R.id.alrm_progress);
+        TextView AlarmPackageName = row.findViewById(R.id.alarm_package_name);
+        TextView WakeupCount = row.findViewById(R.id.wakeup_count);
+        TextView name = row.findViewById(R.id.alarm_appname);
+        ImageView icon = row.findViewById(R.id.alarm_icon);
+        DonutProgress progress = row.findViewById(R.id.donut_progress);
         Alarm alarm = alarms.get(position);
 
         icon.setImageDrawable(alarm.getIcon(uidNameResolver));
@@ -51,8 +51,8 @@ public class AlarmTriggerAdapter extends BaseAdapter {
         AlarmPackageName.setText(uidNameResolver.getLabel(packageName));
         name.setText(packageName);
         WakeupCount.setText("x" + alarm.getWakeups() + " times");
-        progress.setMax(totaltime);
-        progress.setProgress((int) alarm.getWakeups());
+        progress.setMax(100);
+        progress.setProgress(alarm.getWakeups() * 100 / totaltime);
         return row;
     }
 

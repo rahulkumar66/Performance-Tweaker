@@ -1,51 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="2dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="2dp"
+    android:paddingTop="2dp">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/package_icon"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="2dp"
+            android:layout_weight="10"
+            android:contentDescription="@string/image_description"
+            android:paddingBottom="0dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="0dp"
+            android:scaleType="centerCrop" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="100"
+        android:orientation="vertical"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp">
 
         <TextView
             android:id="@+id/cpu_wakelock_name"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="2dp"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/cpu_wakelock_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cpu_wakelock_name"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="5dp"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/cpu_wakelock_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/cpu_wakelock_name"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/cpu_wakelock_duration"
-            android:gravity="right"
-            android:textSize="13sp" />
-
-        <ProgressBar
-            android:id="@+id/cpu_wakelock_progress"
-            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cpu_wakelock_duration"
-            android:layout_marginTop="2dp"
-            android:paddingBottom="2dp" />
-    </RelativeLayout>
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:text="Name"
+            android:textSize="16sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/cpu_wakelock_duration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="10"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-condensend"
+                android:maxLines="1"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/cpu_wakelock_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.github.lzyzsd.circleprogress.DonutProgress
+            android:id="@+id/cpu_wakelock_progress"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            custom:donut_finished_stroke_width="4dp"
+            custom:donut_max="100"
+            custom:donut_text_size="10sp"
+            custom:donut_unfinished_stroke_width="4dp" />
+    </LinearLayout>
 
 </LinearLayout>
