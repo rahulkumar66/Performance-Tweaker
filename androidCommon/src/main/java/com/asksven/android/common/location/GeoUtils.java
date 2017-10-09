@@ -3,15 +3,15 @@
  */
 package com.asksven.android.common.location;
 
+import java.util.List;
+
+import com.asksven.android.common.networkutils.DataNetwork;
+
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.util.Log;
-
-import com.asksven.android.common.networkutils.DataNetwork;
-
-import java.util.List;
 
 /**
  * Helper class for retrieing geo data for a given location

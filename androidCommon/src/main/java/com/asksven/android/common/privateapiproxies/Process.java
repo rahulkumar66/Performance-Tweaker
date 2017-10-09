@@ -15,19 +15,24 @@
  */
 package com.asksven.android.common.privateapiproxies;
 
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-
-import com.asksven.android.common.dto.ProcessDto;
-import com.asksven.android.common.nameutils.UidNameResolver;
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 
+import com.asksven.android.common.dto.ProcessDto;
+import com.asksven.android.common.nameutils.UidInfo;
+import com.asksven.android.common.nameutils.UidNameResolver;
+import com.google.gson.annotations.SerializedName;
+
+
+
+
+
+
 //import android.content.Context;
 //import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 /**
  * @author sven
@@ -225,6 +230,23 @@ public class Process extends StatElement implements Comparable<Process>, Seriali
 		return retVal;
 	}
 	
+	public static class ProcessCountComparator implements Comparator<Process>
+	{
+		public int compare(Process a, Process b)
+		{
+			return ((int)(b.getStarts() - a.getStarts()));
+		}
+	}
+	
+	public static class ProcessTimeComparator implements Comparator<Process>
+	{
+		public int compare(Process a, Process b)
+		{
+			return ((int)((b.getSystemTime() + b.getUserTime())
+					- (a.getSystemTime() + a.getUserTime())));
+		}
+	}
+	
 	public Drawable getIcon(UidNameResolver resolver)
 	{
 		if (m_icon == null)
@@ -243,7 +265,7 @@ public class Process extends StatElement implements Comparable<Process>, Seriali
 		return m_icon;
 	}
 
-    public String getPackageName()
+	public String getPackageName()
 	{
 		if (m_uidInfo != null)
 		{
@@ -252,20 +274,7 @@ public class Process extends StatElement implements Comparable<Process>, Seriali
 		else
 		{
 			return "";
-        }
-    }
-
-    public static class ProcessCountComparator implements Comparator<Process> {
-        public int compare(Process a, Process b) {
-            return b.getStarts() - a.getStarts();
-        }
-    }
-
-    public static class ProcessTimeComparator implements Comparator<Process> {
-        public int compare(Process a, Process b) {
-            return ((int) ((b.getSystemTime() + b.getUserTime())
-                    - (a.getSystemTime() + a.getUserTime())));
-        }
+		}
 	}
 	
 

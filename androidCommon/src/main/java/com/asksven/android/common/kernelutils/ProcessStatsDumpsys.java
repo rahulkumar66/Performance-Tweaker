@@ -3,24 +3,32 @@
  */
 package com.asksven.android.common.kernelutils;
 
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.util.Log;
-
-import com.asksven.android.common.NonRootShell;
-import com.asksven.android.common.RootShell;
-import com.asksven.android.common.privateapiproxies.Process;
-import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.common.utils.SysUtils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.SystemClock;
+import android.util.Log;
+
+import com.asksven.andoid.common.contrib.Util;
+import com.asksven.android.common.NonRootShell;
+import com.asksven.android.common.RootShell;
+import com.asksven.android.common.privateapiproxies.Alarm;
+import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
+import com.asksven.android.common.privateapiproxies.Misc;
+import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.privateapiproxies.Process;
+import com.asksven.android.common.shellutils.Exec;
+import com.asksven.android.common.shellutils.ExecResult;
+import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.SysUtils;
 
 /**
  * Parses the content of 'dumpsys battery'

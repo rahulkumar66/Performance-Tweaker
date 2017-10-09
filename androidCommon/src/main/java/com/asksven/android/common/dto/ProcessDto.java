@@ -16,11 +16,12 @@
 
 package com.asksven.android.common.dto;
 
-import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.io.Serializable;
+import com.asksven.android.common.nameutils.UidInfo;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * A DTO for Process

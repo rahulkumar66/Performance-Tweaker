@@ -16,11 +16,9 @@
 
 package com.asksven.android.common.shellutils;
 
-import android.util.Log;
+import java.io.*;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
+import android.util.Log;
 
 /** A class that eases the pain of running external processes
  *  from applications. Lets you run a program three ways:

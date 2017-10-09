@@ -32,7 +32,7 @@ public class CpuWakelocksAdapter extends BaseAdapter {
 
     public CpuWakelocksAdapter(Context ctx) {
         this.context = ctx;
-        partialWakelocks = BatteryStatsUtils.getInstance(context).getCpuWakelocksStats(true);
+        partialWakelocks = BatteryStatsUtils.getInstance(context).getCpuWakelocksStats(false);
         /*
          * calculate total time
 		 */
@@ -76,11 +76,11 @@ public class CpuWakelocksAdapter extends BaseAdapter {
         DonutProgress progress = row.findViewById(R.id.cpu_wakelock_progress);
 
         Wakelock mWakelock = partialWakelocks.get(position);
-//        Drawable drawable = mWakelock.getIcon(UidNameResolver.getInstance());
+        Drawable drawable = mWakelock.getIcon(uidNameResolver);
         Log.d("tag",mWakelock.getPackageName()+"q"+mWakelock.getUidInfo());
-//        if (drawable != null) {
-//            packageIcon.setImageDrawable(drawable);
-//        }
+        if (drawable != null) {
+            packageIcon.setImageDrawable(drawable);
+        }
         wakelockName.setText(mWakelock.getName());
         duration.setText(DateUtils.formatDuration(mWakelock.getDuration()));
         wakeCount.setText("Count: " + mWakelock.getCount());

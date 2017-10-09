@@ -16,9 +16,12 @@ package com.asksven.android.common.privateapiproxies;
  */
 
 
+import java.io.Serializable;
+
+import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
+import com.asksven.android.common.utils.DateUtils;
 
 /**
  * ICS specific Value holder for BatteryStats$HistoryItem
@@ -27,10 +30,13 @@ import java.io.Serializable;
  */
 public class HistoryItemIcs extends HistoryItem implements Serializable, Parcelable
 {
+	static final long serialVersionUID = 1L;
 	public static final byte CMD_NULL = 0;
     public static final byte CMD_UPDATE = 1;
     public static final byte CMD_START = 2;
     public static final byte CMD_OVERFLOW = 3;
+    
+    public byte cmd = CMD_NULL;
     // Constants from SCREEN_BRIGHTNESS_*
     public static final int STATE_BRIGHTNESS_MASK = 0x0000000f;
     public static final int STATE_BRIGHTNESS_SHIFT = 0;
@@ -43,6 +49,7 @@ public class HistoryItemIcs extends HistoryItem implements Serializable, Parcela
     // Constants from DATA_CONNECTION_*
     public static final int STATE_DATA_CONNECTION_MASK = 0x0000f000;
     public static final int STATE_DATA_CONNECTION_SHIFT = 12;
+    
     // These states always appear directly in the first int token
     // of a delta change; they should be ones that change relatively
     // frequently.
@@ -63,12 +70,11 @@ public class HistoryItemIcs extends HistoryItem implements Serializable, Parcela
     public static final int STATE_PHONE_IN_CALL_FLAG = 1<<18;
     public static final int STATE_WIFI_ON_FLAG = 1<<17;
     public static final int STATE_BLUETOOTH_ON_FLAG = 1<<16;
+    
     public static final int MOST_INTERESTING_STATES =
         STATE_BATTERY_PLUGGED_FLAG | STATE_SCREEN_ON_FLAG
         | STATE_GPS_ON_FLAG | STATE_PHONE_IN_CALL_FLAG;
-    static final long serialVersionUID = 1L;
-    public byte cmd = CMD_NULL;
-
+    	
     public HistoryItemIcs(Long time, Byte cmd, Byte batteryLevel, Byte batteryStatusValue,
     		Byte batteryHealthValue, Byte batteryPlugTypeValue,
     		String batteryTemperatureValue,	String batteryVoltageValue,

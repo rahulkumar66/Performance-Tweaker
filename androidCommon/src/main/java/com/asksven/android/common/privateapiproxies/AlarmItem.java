@@ -16,19 +16,28 @@
 
 package com.asksven.android.common.privateapiproxies;
 
-import android.util.Log;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-import com.google.gson.annotations.SerializedName;
-
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import java.io.Serializable;
-import java.util.List;
+
+
+
 
 //import android.content.Context;
 //import android.content.pm.PackageManager;
 //import android.graphics.drawable.Drawable;
+import android.util.Log;
+
+import com.asksven.android.common.nameutils.UidNameResolver;
+import com.asksven.android.common.privateapiproxies.StatElement;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Value holder for alarm items
@@ -115,8 +124,8 @@ public class AlarmItem implements Serializable
 			{
 				try
 				{
-                    AlarmItem myRef = myList.get(i);
-                    if (this.getIntent().equals(myRef.getIntent()))
+					AlarmItem myRef = (AlarmItem) myList.get(i);
+					if (this.getIntent().equals(myRef.getIntent()))
 					{
 						// process main values
 						this.m_nNumber		-= myRef.getCount();

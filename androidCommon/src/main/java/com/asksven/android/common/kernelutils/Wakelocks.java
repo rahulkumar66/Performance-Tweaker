@@ -3,24 +3,33 @@
  */
 package com.asksven.android.common.kernelutils;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import com.asksven.andoid.common.contrib.Shell;
+import com.asksven.andoid.common.contrib.Util;
+import com.asksven.android.common.CommonLogSettings;
+import com.asksven.android.common.RootShell;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
+import com.asksven.android.common.privateapiproxies.NetworkUsage;
+import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.shellutils.Exec;
+import com.asksven.android.common.shellutils.ExecResult;
+import com.asksven.android.common.utils.StringUtils;
+
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.SystemClock;
 import android.util.Log;
-
-import com.asksven.andoid.common.contrib.Shell;
-import com.asksven.andoid.common.contrib.Util;
-import com.asksven.android.common.CommonLogSettings;
-import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
-import com.asksven.android.common.privateapiproxies.StatElement;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -69,8 +78,8 @@ public class Wakelocks
     		try
     		{
     			// times in file are microseconds
-                String[] data = rows.get(i);
-                String name = data[0];
+    			String[] data = (String[]) rows.get(i);
+    			String name = data[0];
     			int count = Integer.valueOf(data[1]);
     			int expire_count = Integer.valueOf(data[2]);
     			int wake_count = Integer.valueOf(data[3]);

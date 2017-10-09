@@ -5,6 +5,8 @@ package com.asksven.android.common.utils;
 
 import android.util.Log;
 
+import com.asksven.android.common.utils.DataStorage;
+
 /**
  * @author sven
  *

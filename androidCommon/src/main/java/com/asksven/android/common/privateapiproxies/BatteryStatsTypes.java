@@ -74,22 +74,6 @@ public class BatteryStatsTypes
 	public static final int CONTROLLER_RX_TIME = 1;
 	public static final int CONTROLLER_TX_TIME = 2;
 	public static final int CONTROLLER_ENERGY = 3;
-    /**
-     * Include all of the data in the stats, including previously saved data.
-     */
-    public static final int STATS_SINCE_CHARGED = 0;
-    /**
-     * Include only the last run in the stats.
-     */
-    public static final int STATS_LAST = 1;
-    /**
-     * Include only the current run in the stats.
-     */
-    public static final int STATS_CURRENT = 2;
-    /**
-     * Include only the run since the last time the device was unplugged in the stats.
-     */
-    public static final int STATS_SINCE_UNPLUGGED = 3;
 
     /**
      * Enum of valid wakelock types
@@ -108,13 +92,33 @@ public class BatteryStatsTypes
     		case WAKE_TYPE_WINDOW:
     			ret = true;
     			break;
-            default:
-                ret = false;
+    		default: 
+    			ret = false;
     			break;
-
-        }
+    			
+    	}
     	return ret;
     }
+
+    /**
+     * Include all of the data in the stats, including previously saved data.
+     */
+    public static final int STATS_SINCE_CHARGED = 0;
+
+    /**
+     * Include only the last run in the stats.
+     */
+    public static final int STATS_LAST = 1;
+
+    /**
+     * Include only the current run in the stats.
+     */
+    public static final int STATS_CURRENT = 2;
+
+    /**
+     * Include only the run since the last time the device was unplugged in the stats.
+     */
+    public static final int STATS_SINCE_UNPLUGGED = 3;
     
     /**
      * Enum of valid stat types

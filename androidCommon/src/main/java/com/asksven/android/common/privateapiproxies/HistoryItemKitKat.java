@@ -16,9 +16,13 @@ package com.asksven.android.common.privateapiproxies;
  */
 
 
+import java.io.Serializable;
+
+import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
+import com.asksven.android.common.privateapiproxies.HistoryItem.BitDescription;
+import com.asksven.android.common.utils.DateUtils;
 
 /**
  * ICS specific Value holder for BatteryStats$HistoryItem
@@ -27,10 +31,22 @@ import java.io.Serializable;
  */
 public class HistoryItemKitKat extends HistoryItem implements Serializable, Parcelable
 {
+	static final long serialVersionUID = 1L;
 	public static final byte CMD_NULL = 0;
 	public static final byte CMD_UPDATE = 1;
 	public static final byte CMD_START = 2;
 	public static final byte CMD_OVERFLOW = 3;
+	   
+	public byte cmd = CMD_NULL;
+	    
+	public byte batteryLevel;
+	public byte batteryStatus;
+	public byte batteryHealth;
+	public byte batteryPlugType;
+	    
+	public char batteryTemperature;
+	public char batteryVoltage;
+	    
 	// Constants from SCREEN_BRIGHTNESS_*
 	public static final int STATE_BRIGHTNESS_MASK = 0x0000000f;
 	public static final int STATE_BRIGHTNESS_SHIFT = 0;
@@ -43,6 +59,7 @@ public class HistoryItemKitKat extends HistoryItem implements Serializable, Parc
 	// Constants from DATA_CONNECTION_*
 	public static final int STATE_DATA_CONNECTION_MASK = 0x0000f000;
 	public static final int STATE_DATA_CONNECTION_SHIFT = 12;
+	    
 	// These states always appear directly in the first int token
 	// of a delta change; they should be ones that change relatively
 	// frequently.
@@ -63,41 +80,12 @@ public class HistoryItemKitKat extends HistoryItem implements Serializable, Parc
 	public static final int STATE_PHONE_IN_CALL_FLAG = 1<<18;
 	public static final int STATE_WIFI_ON_FLAG = 1<<17;
 	public static final int STATE_BLUETOOTH_ON_FLAG = 1<<16;
+	       
 	public static final int MOST_INTERESTING_STATES =
 			STATE_BATTERY_PLUGGED_FLAG | STATE_SCREEN_ON_FLAG
 			| STATE_GPS_ON_FLAG | STATE_PHONE_IN_CALL_FLAG;
-    public static final BitDescription[] HISTORY_STATE_DESCRIPTIONS = new BitDescription[]
-            {
-                    new BitDescription(STATE_BATTERY_PLUGGED_FLAG, "plugged"),
-                    new BitDescription(STATE_SCREEN_ON_FLAG, "screen"),
-                    new BitDescription(STATE_GPS_ON_FLAG, "gps"),
-                    new BitDescription(STATE_PHONE_IN_CALL_FLAG, "phone_in_call"),
-                    new BitDescription(STATE_PHONE_SCANNING_FLAG, "phone_scanning"),
-                    new BitDescription(STATE_WIFI_ON_FLAG, "wifi"),
-                    new BitDescription(STATE_WIFI_RUNNING_FLAG, "wifi_running"),
-                    new BitDescription(STATE_WIFI_FULL_LOCK_FLAG, "wifi_full_lock"),
-                    new BitDescription(STATE_WIFI_SCAN_FLAG, "wifi_scan"),
-                    new BitDescription(STATE_WIFI_MULTICAST_ON_FLAG, "wifi_multicast"),
-                    new BitDescription(STATE_BLUETOOTH_ON_FLAG, "bluetooth"),
-                    new BitDescription(STATE_AUDIO_ON_FLAG, "audio"),
-                    new BitDescription(STATE_VIDEO_ON_FLAG, "video"),
-                    new BitDescription(STATE_WAKE_LOCK_FLAG, "wake_lock"),
-                    new BitDescription(STATE_SENSOR_ON_FLAG, "sensor"),
-                    new BitDescription(STATE_BRIGHTNESS_MASK, HistoryItem.STATE_BRIGHTNESS_SHIFT, "brightness", SCREEN_BRIGHTNESS_NAMES),
-                    new BitDescription(STATE_SIGNAL_STRENGTH_MASK, HistoryItem.STATE_SIGNAL_STRENGTH_SHIFT, "signal_strength", SIGNAL_STRENGTH_NAMES),
-                    new BitDescription(STATE_PHONE_STATE_MASK, HistoryItem.STATE_PHONE_STATE_SHIFT, "phone_state", new String[]{"in", "out", "emergency", "off"}),
-                    new BitDescription(STATE_DATA_CONNECTION_MASK, STATE_DATA_CONNECTION_SHIFT, "data_conn", DATA_CONNECTION_NAMES),
-            };
-    static final long serialVersionUID = 1L;
-    public byte cmd = CMD_NULL;
-    public byte batteryLevel;
-    public byte batteryStatus;
-    public byte batteryHealth;
-    public byte batteryPlugType;
-    public char batteryTemperature;
-    public char batteryVoltage;
 
-
+    	
     public HistoryItemKitKat(Long time, Byte cmd, Byte batteryLevel, Byte batteryStatusValue,
     		Byte batteryHealthValue, Byte batteryPlugTypeValue,
     		String batteryTemperatureValue,	String batteryVoltageValue,
@@ -108,14 +96,16 @@ public class HistoryItemKitKat extends HistoryItem implements Serializable, Parc
     		batteryTemperatureValue, batteryVoltageValue,
     		statesValue);
     }
+    
 
+	
 	/**
 	 * @return true is phone is charging
 	 */
 	public boolean isCharging()
 	{
 		boolean bCharging = (m_statesValue & STATE_BATTERY_PLUGGED_FLAG) != 0;
-
+		
 		return bCharging;
 	}
 
@@ -128,7 +118,7 @@ public class HistoryItemKitKat extends HistoryItem implements Serializable, Parc
 		return bScreenOn;
 	}
 
-    /**
+	/**
 	 * @return true is GPS is on
 	 */
 	public boolean isGpsOn()
@@ -136,8 +126,8 @@ public class HistoryItemKitKat extends HistoryItem implements Serializable, Parc
 		boolean bGpsOn = (m_statesValue & STATE_GPS_ON_FLAG) != 0;
 		return bGpsOn;
 	}
-
-    /**
+	
+	/**
 	 * @return true is wifi is running
 	 */
 	public boolean isWifiRunning()
@@ -160,8 +150,8 @@ public class HistoryItemKitKat extends HistoryItem implements Serializable, Parc
 	 */
 	public boolean isPhoneInCall()
 	{
-
-        boolean bPhoneInCall = (m_statesValue & STATE_PHONE_IN_CALL_FLAG) != 0;
+		
+		boolean bPhoneInCall = (m_statesValue & STATE_PHONE_IN_CALL_FLAG) != 0;
 
 		return bPhoneInCall;
 	}
@@ -176,7 +166,7 @@ public class HistoryItemKitKat extends HistoryItem implements Serializable, Parc
 		return bPhoneScanning;
 	}
 
-    /**
+	/**
 	 * @return the true if bluetooth is on
 	 */
 	public boolean isBluetoothOn()
@@ -185,6 +175,30 @@ public class HistoryItemKitKat extends HistoryItem implements Serializable, Parc
 
 		return bBluetoothOn;
 	}
+	
+	
+	public static final BitDescription[] HISTORY_STATE_DESCRIPTIONS = new BitDescription[]
+	{
+		new BitDescription(STATE_BATTERY_PLUGGED_FLAG, "plugged"),
+		new BitDescription(STATE_SCREEN_ON_FLAG, "screen"),
+		new BitDescription(STATE_GPS_ON_FLAG, "gps"),
+		new BitDescription(STATE_PHONE_IN_CALL_FLAG, "phone_in_call"),
+		new BitDescription(STATE_PHONE_SCANNING_FLAG, "phone_scanning"),
+		new BitDescription(STATE_WIFI_ON_FLAG, "wifi"),
+		new BitDescription(STATE_WIFI_RUNNING_FLAG, "wifi_running"),
+		new BitDescription(STATE_WIFI_FULL_LOCK_FLAG, "wifi_full_lock"),
+		new BitDescription(STATE_WIFI_SCAN_FLAG, "wifi_scan"),
+		new BitDescription(STATE_WIFI_MULTICAST_ON_FLAG, "wifi_multicast"),
+		new BitDescription(STATE_BLUETOOTH_ON_FLAG, "bluetooth"),
+		new BitDescription(STATE_AUDIO_ON_FLAG, "audio"),
+		new BitDescription(STATE_VIDEO_ON_FLAG, "video"),
+		new BitDescription(STATE_WAKE_LOCK_FLAG, "wake_lock"),
+		new BitDescription(STATE_SENSOR_ON_FLAG, "sensor"),
+		new BitDescription(STATE_BRIGHTNESS_MASK, HistoryItem.STATE_BRIGHTNESS_SHIFT, "brightness", SCREEN_BRIGHTNESS_NAMES),
+		new BitDescription(STATE_SIGNAL_STRENGTH_MASK, HistoryItem.STATE_SIGNAL_STRENGTH_SHIFT, "signal_strength", SIGNAL_STRENGTH_NAMES),
+		new BitDescription(STATE_PHONE_STATE_MASK, HistoryItem.STATE_PHONE_STATE_SHIFT, "phone_state", new String[] {"in", "out", "emergency", "off"}),
+		new BitDescription(STATE_DATA_CONNECTION_MASK, STATE_DATA_CONNECTION_SHIFT, "data_conn", DATA_CONNECTION_NAMES),
+	};
 	
 	String printBitDescriptions(int oldval, int newval)
 	{

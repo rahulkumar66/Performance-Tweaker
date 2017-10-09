@@ -16,17 +16,20 @@
 
 package com.asksven.android.common.privateapiproxies;
 
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-
-import com.asksven.android.common.nameutils.UidNameResolver;
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 
+import com.asksven.android.common.nameutils.UidInfo;
+import com.asksven.android.common.nameutils.UidNameResolver;
+import com.asksven.android.common.utils.StringUtils;
+import com.google.gson.annotations.SerializedName;
+
+
 //import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 /**
  * @author sven
@@ -95,39 +98,12 @@ public class PackageElement extends StatElement implements Comparable<PackageEle
 		m_rxtx		= rxtx;
 		super.setUid(uid);
 	}
-
-    /**
-     * Formats data volumes
-     *
-     * @param bytes
-     * @return the formated string
-     */
-    public static String formatVolume(double bytes) {
-        String ret = "";
-
-        double kB = Math.floor(bytes / 1024);
-        double mB = Math.floor(bytes / 1024 / 1024);
-        double gB = Math.floor(bytes / 1024 / 1024 / 1024);
-        double tB = Math.floor(bytes / 1024 / 1024 / 1024 / 1024);
-
-        if (tB > 0) {
-            ret = tB + " TBytes";
-        } else if (gB > 0) {
-            ret = gB + " GBytes";
-        } else if (mB > 0) {
-            ret = mB + " MBytes";
-        } else if (kB > 0) {
-            ret = kB + " KBytes";
-        } else {
-            ret = bytes + " Bytes";
-        }
-        return ret;
-    }
+	
 
 	public PackageElement clone()
 	{
 		PackageElement clone = new PackageElement(m_packageName, m_name, getuid(), m_duration, getTotal(), m_count, m_wakeups, m_rxtx);
-
+		
 		// Overwrite name to avoid multiple hashes
 		clone.m_name	= m_name;
 
@@ -174,13 +150,14 @@ public class PackageElement extends StatElement implements Comparable<PackageEle
 					// just log as it is no error not to change the process
 					// being substracted from to do nothing
 					Log.e(TAG, "substractFromRef was called with a wrong list type");
-                }
-
+				}
+				
 			}
 		}
 	}
 
-    public void add(StatElement element)
+
+	public void add(StatElement element)
 	{
 		if (element instanceof Wakelock)
 		{
@@ -201,7 +178,7 @@ public class PackageElement extends StatElement implements Comparable<PackageEle
 			Log.d(TAG, "element "+ element.toString() +  " was not added.");
 		}
 	}
-
+	
 	/**
 	 * @return the name
 	 */
@@ -227,10 +204,10 @@ public class PackageElement extends StatElement implements Comparable<PackageEle
 	 * @return the data volume
 	 */
 	public long getDataVolume() {
-        return m_rxtx;
+		return m_rxtx;
 	}
 
-    /**
+	/**
 	 * @return the count
 	 */
 	public int getCount() {
@@ -239,7 +216,7 @@ public class PackageElement extends StatElement implements Comparable<PackageEle
 	
 	 /**
      * Compare a given Wakelock with this object.
-      * If the duration of this object is
+     * If the duration of this object is 
      * greater than the received object,
      * then this object is greater than the other.
      */
@@ -248,15 +225,53 @@ public class PackageElement extends StatElement implements Comparable<PackageEle
 		// we want to sort in descending order
 		return ((int)(o.getDuration() - this.getDuration()));
 	}
-
+	
 	/**
 	 * returns a string representation of the data
 	 */
-	public String getData(long totalTime) {
-        return this.formatDuration(getDuration())
-                + " Wakeups:" + m_wakeups
+	public String getData(long totalTime)
+	{
+		return this.formatDuration(getDuration()) 
+			+ " Wakeups:" + m_wakeups
 			+ " Data:" + formatVolume(m_rxtx)
 			+ " " + this.formatRatio(getDuration(), totalTime);
+	}
+
+	/**
+	 * Formats data volumes 
+	 * @param bytes
+	 * @return the formated string
+	 */
+	public static String formatVolume(double bytes)
+	{
+		String ret = "";
+		
+		double kB = Math.floor(bytes / 1024);
+		double mB = Math.floor(bytes / 1024 / 1024);
+		double gB = Math.floor(bytes / 1024 / 1024 / 1024);
+		double tB = Math.floor(bytes / 1024 / 1024 / 1024 / 1024);
+        
+        if (tB > 0)
+        {
+            ret = tB + " TBytes";
+        }
+        else if ( gB > 0)
+        {
+            ret = gB + " GBytes";
+        }
+        else if ( mB > 0)
+        {
+            ret = mB + " MBytes";
+        }
+        else if ( kB > 0)
+        {
+            ret = kB + " KBytes";
+        }
+        else
+        {
+            ret = bytes + " Bytes";
+        }
+        return ret;
 	}
 
 	/** 
@@ -267,6 +282,22 @@ public class PackageElement extends StatElement implements Comparable<PackageEle
 		double[] retVal = new double[2];
 		retVal[0] = getDuration();
 		return retVal;
+	}
+	
+	public static class WakelockCountComparator implements Comparator<PackageElement>
+	{
+		public int compare(PackageElement a, PackageElement b)
+		{
+			return ((int)(b.getCount() - a.getCount()));
+		}
+	}
+	
+	public static class WakelockTimeComparator implements Comparator<PackageElement>
+	{
+		public int compare(PackageElement a, PackageElement b)
+		{
+			return ((int)(b.getDuration() - a.getDuration()));
+		}
 	}
 	
 	public Drawable getIcon(UidNameResolver resolver)
@@ -299,19 +330,7 @@ public class PackageElement extends StatElement implements Comparable<PackageEle
 	public String toString()
 	{
 		return "PackageElement [m_name=" + m_name + ", m_packageName=" + m_packageName + ", m_uid=" + getuid() + ", m_duration=" + m_duration
-				+ ", m_count=" + m_count + ", m_rxtx=" + m_rxtx + ", m_wakeups=" + m_wakeups + "]";
-    }
-
-    public static class WakelockCountComparator implements Comparator<PackageElement> {
-        public int compare(PackageElement a, PackageElement b) {
-            return b.getCount() - a.getCount();
-        }
-    }
-
-    public static class WakelockTimeComparator implements Comparator<PackageElement> {
-        public int compare(PackageElement a, PackageElement b) {
-            return ((int) (b.getDuration() - a.getDuration()));
-        }
+				+ ", m_count=" + m_count + ", m_rxtx=" + m_rxtx + ", m_wakeups=" + m_wakeups  +"]";
 	}
 
 

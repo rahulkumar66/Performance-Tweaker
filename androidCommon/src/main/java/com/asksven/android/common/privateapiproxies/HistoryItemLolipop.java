@@ -16,9 +16,13 @@ package com.asksven.android.common.privateapiproxies;
  */
 
 
+import java.io.Serializable;
+
+import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
+import com.asksven.android.common.privateapiproxies.HistoryItem.BitDescription;
+import com.asksven.android.common.utils.DateUtils;
 
 /**
  * ICS specific Value holder for BatteryStats$HistoryItem
@@ -34,6 +38,17 @@ public class HistoryItemLolipop extends HistoryItem implements Serializable, Par
     public static final byte CMD_CURRENT_TIME = 5;
     public static final byte CMD_OVERFLOW = 6;
     public static final byte CMD_RESET = 7;
+	   
+	public byte cmd = CMD_NULL;
+	  
+	public byte batteryLevel;
+	public byte batteryStatus;
+	public byte batteryHealth;
+	public byte batteryPlugType;
+	  
+	public short batteryTemperature;
+	public char batteryVoltage;
+	 
     // Constants from SCREEN_BRIGHTNESS_*
     public static final int STATE_BRIGHTNESS_SHIFT = 0;
     public static final int STATE_BRIGHTNESS_MASK = 0x7;
@@ -46,6 +61,7 @@ public class HistoryItemLolipop extends HistoryItem implements Serializable, Par
     // Constants from DATA_CONNECTION_*
     public static final int STATE_DATA_CONNECTION_SHIFT = 9;
     public static final int STATE_DATA_CONNECTION_MASK = 0x1f << STATE_DATA_CONNECTION_SHIFT;
+	  
     // These states always appear directly in the first int token
     // of a delta change; they should be ones that change relatively
     // frequently.
@@ -68,14 +84,7 @@ public class HistoryItemLolipop extends HistoryItem implements Serializable, Par
     public static final int MOST_INTERESTING_STATES =
         STATE_BATTERY_PLUGGED_FLAG | STATE_SCREEN_ON_FLAG
         | STATE_PHONE_IN_CALL_FLAG | STATE_BLUETOOTH_ON_FLAG;
-    public byte cmd = CMD_NULL;
-    public byte batteryLevel;
-    public byte batteryStatus;
-    public byte batteryHealth;
-    public byte batteryPlugType;
-    public short batteryTemperature;
-    public char batteryVoltage;
-
+    	
     public HistoryItemLolipop(Long time, Byte cmd, Byte batteryLevel, Byte batteryStatusValue,
     		Byte batteryHealthValue, Byte batteryPlugTypeValue,
     		String batteryTemperatureValue,	String batteryVoltageValue,

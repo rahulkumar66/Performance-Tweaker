@@ -16,13 +16,12 @@
 
 package com.asksven.android.common.privateapiproxies;
 
-import android.util.Log;
-
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
+import com.google.gson.annotations.SerializedName;
+
+import android.util.Log;
 
 
 /**
@@ -182,8 +181,8 @@ public class KernelWakelock extends StatElement implements Comparable<KernelWake
 	{
 		public int compare(KernelWakelock a, KernelWakelock b)
 		{
-            return b.getCount() - a.getCount();
-        }
+			return ((int)(b.getCount() - a.getCount()));
+		}
 	}
 	
 	public static class TimeComparator implements Comparator<KernelWakelock>

@@ -19,11 +19,10 @@ package com.asksven.android.common.utils;
  * @author sven
  *
  */
-
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 public class DateUtils
 {

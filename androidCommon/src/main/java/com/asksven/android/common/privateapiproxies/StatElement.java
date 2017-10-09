@@ -3,16 +3,19 @@
  */
 package com.asksven.android.common.privateapiproxies;
 
+import java.io.Serializable;
+import java.util.Formatter;
+
+
+//import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+
 
 import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
-import java.util.Formatter;
-
-//import android.content.Context;
 
 /**
  * @author sven
@@ -25,23 +28,22 @@ public abstract class StatElement implements Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
+	 * The process uid
+	 */
+	@SerializedName("uid")
+	private int m_uid = -1;
+	/**
 	 * The resolved name info
 	 */
 	@SerializedName("uid_info")
 	protected UidInfo m_uidInfo;
-    protected transient Drawable m_icon;
-    /**
-     * The process uid
-     */
-    @SerializedName("uid")
-    private int m_uid = -1;
-    /**
-     * the battery realtime time
+
+	/**
+	 * the battery realtime time
 	 */
 	@SerializedName("total")
-    private long m_total;
-
-    /**
+	private long m_total;	
+	/**
 	 * Set the uid
 	 * @param uid a process uid
 	 */
@@ -49,6 +51,8 @@ public abstract class StatElement implements Serializable
 	{
 		m_uid = uid;
 	}
+	
+	protected transient Drawable m_icon;
 	
 	/**
 	 * Get the uid
@@ -60,13 +64,22 @@ public abstract class StatElement implements Serializable
 	}
 	
 	/**
+	 * Store the name info
+	 * @param myInfo (@see com.android.asksven.common.nameutils.UidNameResolver)
+	 */
+	public void setUidInfo(UidInfo myInfo)
+	{
+		m_uidInfo = myInfo;
+	}
+	
+	/**
 	 * Returns the full qualified name
 	 * @return the full qualified name
 	 */
 	private String getFullQualifiedName(UidNameResolver nameResolver)
 	{
 		String ret = "";
-
+		
 		if (m_uidInfo == null)
 		{
 			// may have been left out for lazy loading
@@ -79,16 +92,16 @@ public abstract class StatElement implements Serializable
 				return ret;
 			}
 		}
-
-        if (!m_uidInfo.getNamePackage().equals(""))
+		
+		if (!m_uidInfo.getNamePackage().equals(""))
 		{
 			ret = m_uidInfo.getNamePackage() + ".";
 		}
 		ret += m_uidInfo.getName();
-
-        return ret;
-
-    }
+		
+		return ret;
+			
+	}
 	
 	/**
 	 * Returns the full qualified name (default, can be overwritten)
@@ -99,6 +112,7 @@ public abstract class StatElement implements Serializable
 		return getFullQualifiedName(nameResolver);
 	}
 	
+
 	/**
 	 * Returns the associated UidInfo
 	 * @return the UidInfo
@@ -106,16 +120,7 @@ public abstract class StatElement implements Serializable
 	public UidInfo getUidInfo()
 	{
 		return m_uidInfo;
-    }
-
-    /**
-     * Store the name info
-     *
-     * @param myInfo (@see com.android.asksven.common.nameutils.UidNameResolver)
-     */
-    public void setUidInfo(UidInfo myInfo) {
-        m_uidInfo = myInfo;
-    }
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
