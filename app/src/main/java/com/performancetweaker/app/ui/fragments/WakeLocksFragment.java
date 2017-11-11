@@ -67,7 +67,6 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         wakelockList.setVisibility(View.GONE);
@@ -90,6 +89,8 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         BaseAdapter wakelockAdapter = null;
+        wakelockList.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
 
         switch (position) {
             case 0:
@@ -113,9 +114,7 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
                                         e.printStackTrace();
                                     }
                                 }
-                            })
-                            .setNegativeButton("No", null)
-                            .show();
+                            }).setNegativeButton("No", null).show();
                 } else {
                     wakelockAdapter = new CpuWakelocksAdapter(context);
                 }
