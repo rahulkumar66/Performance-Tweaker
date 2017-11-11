@@ -3,7 +3,6 @@ package com.performancetweaker.app.ui;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
-import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -16,8 +15,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -57,7 +54,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         if (BuildConfig.ENABLE_ANALYTICS) {
-            Mint.initAndStartSession(this.getApplication(), "7e3b93f8");
+            String analyticsKey = BuildConfig.ANALYTICS_KEY;
+            Mint.initAndStartSession(this.getApplication(), analyticsKey);
             Mint.enableDebugLog();
             Mint.enableLogging(true);
         }

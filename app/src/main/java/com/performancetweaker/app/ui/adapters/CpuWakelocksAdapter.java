@@ -33,18 +33,9 @@ public class CpuWakelocksAdapter extends BaseAdapter {
     public CpuWakelocksAdapter(Context ctx) {
         this.context = ctx;
         partialWakelocks = BatteryStatsUtils.getInstance(context).getCpuWakelocksStats(false);
-        /*
-         * calculate total time
-		 */
         totalTime = (int) SystemClock.elapsedRealtime();
-//        if (partialWakelocks != null && partialWakelocks.size() != 0) {
-//            totalTime = 0;
-//            for (Wakelock wl : partialWakelocks) {
-//                totalTime += wl.getDuration() / 1000;
-//            }
-//        }
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        uidNameResolver = UidNameResolver.getInstance(context);
+        uidNameResolver = UidNameResolver.getInstance();
     }
 
     @Override
