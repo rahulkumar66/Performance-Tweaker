@@ -74,18 +74,21 @@ public class IOUtils {
 
             File[] devices = new File(Constants.available_blockdevices).listFiles();
 
-            for (int i = 0; i < devices.length; i++) {
 
-                String devicePath = devices[i].getAbsolutePath();
+            if(devices!=null) {
+                for (int i = 0; i < devices.length; i++) {
 
-                if (!(devicePath.contains("ram") || devicePath.contains("loop") || devicePath.contains(
-                        "dm"))) {
+                    String devicePath = devices[i].getAbsolutePath();
 
-                    File blockDevice = new File(devices[i].getAbsolutePath() + "/queue/scheduler");
+                    if (!(devicePath.contains("ram") || devicePath.contains("loop") || devicePath.contains(
+                            "dm"))) {
 
-                    if (blockDevice.exists()) {
-                        mCommands.add("chmod 0644 " + blockDevice.getAbsolutePath());
-                        mCommands.add("echo " + ioScheduler + " > " + blockDevice.getAbsolutePath());
+                        File blockDevice = new File(devices[i].getAbsolutePath() + "/queue/scheduler");
+
+                        if (blockDevice.exists()) {
+                            mCommands.add("chmod 0644 " + blockDevice.getAbsolutePath());
+                            mCommands.add("echo " + ioScheduler + " > " + blockDevice.getAbsolutePath());
+                        }
                     }
                 }
             }

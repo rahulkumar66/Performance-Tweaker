@@ -74,7 +74,7 @@ public class SysUtils implements Constants {
 
         try {
             Process mProcess = Runtime.getRuntime().exec("su");
-            if (mProcess == null) return false;
+            if (mProcess == null){ return false;}
             dos = new DataOutputStream(mProcess.getOutputStream());
             for (String cmd : commands) {
                 dos.writeBytes(cmd + "\n");
