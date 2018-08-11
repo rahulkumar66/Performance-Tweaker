@@ -9,7 +9,7 @@ android {
         versionCode 20
         versionName "0.2.5"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 28
     }
 
     packagingOptions {
