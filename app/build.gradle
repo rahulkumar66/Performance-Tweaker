@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '27.0.3'
 
     defaultConfig {
@@ -9,7 +9,7 @@ android {
         versionCode 20
         versionName "0.2.5"
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 27
     }
 
     packagingOptions {
@@ -25,7 +25,7 @@ android {
         }
         release {
             debuggable false
-            minifyEnabled false
+            minifyEnabled true
             buildConfigField 'boolean', 'ENABLE_ANALYTICS', 'true'
             buildConfigField 'String', 'ANALYTICS_KEY', ANALYTICS_KEY
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -49,7 +49,7 @@ repositories {
 dependencies {
 
     ext {
-        supportLibVersion = '26.1.0'
+        supportLibVersion = '27.1.1'
     }
 
     implementation files('libs/RootTools-3.4.jar')
