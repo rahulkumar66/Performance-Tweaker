@@ -23,14 +23,20 @@ public class GpuUtils {
 
     public static String[] getAvailableGpuFrequencies() {
         String[] possiblePath = Constants.gpu_freqs_avail;
-        String gpu_path = getGpuPath();
+        String gpuPath = getGpuPath();
+        String gpuFrequencies[]=new String[]{};
 
         for (String s : possiblePath) {
-            if (new File(gpu_path + s).exists()) {
-                return SysUtils.readOutputFromFile(gpu_path + s).split(" ");
+            if (new File(gpuPath + s).exists()) {
+                gpuFrequencies= SysUtils.readOutputFromFile(gpuPath + s).split(" ");
             }
         }
-        return new String[]{};
+        for(int i=0;i<gpuFrequencies.length;i++) {
+            if(gpuFrequencies[i]=="") {
+                return new String[]{};
+            }
+        }
+        return gpuFrequencies;
     }
 
     public static String[] getAvailableGpuGovernors() {

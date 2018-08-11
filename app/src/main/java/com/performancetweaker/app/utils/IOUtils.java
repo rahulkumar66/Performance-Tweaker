@@ -16,10 +16,10 @@ public class IOUtils {
             schedulerPath = Constants.available_schedulers;
         } else if (new File(Constants.available_schedulers_path).exists()) {
             schedulerPath = Constants.available_schedulers_path;
-        /*
-         * Some devices don't have mmcblk0 block device so we instead use
-         * mtdblock0 to read the available schedulers
-       */
+            /*
+             * Some devices don't have mmcblk0 block device so we instead use
+             * mtdblock0 to read the available schedulers
+             */
         } else if (new File(Constants.ioscheduler_mtd).exists()) {
             schedulerPath = Constants.ioscheduler_mtd;
         } else {
@@ -74,8 +74,7 @@ public class IOUtils {
 
             File[] devices = new File(Constants.available_blockdevices).listFiles();
 
-
-            if(devices!=null) {
+            if (devices != null) {
                 for (int i = 0; i < devices.length; i++) {
 
                     String devicePath = devices[i].getAbsolutePath();
@@ -106,7 +105,7 @@ public class IOUtils {
         ArrayList<String> mCommands = new ArrayList<>();
         /*
          * prepare commands for changing the read ahead cache
-		 */
+         */
         if (readAhead != null) {
             File block;
             for (int i = 0; i < 2; i++) {
@@ -116,7 +115,7 @@ public class IOUtils {
                     mCommands.add("echo " + readAhead + " > " + block.getAbsolutePath());
                 }
             }
-            mCommands.add("chmod 0644 " + Constants.SD_CACHE );
+            mCommands.add("chmod 0644 " + Constants.SD_CACHE);
             mCommands.add("echo " + readAhead + " > " + Constants.SD_CACHE);
         }
         boolean success = SysUtils.executeRootCommand(mCommands);
