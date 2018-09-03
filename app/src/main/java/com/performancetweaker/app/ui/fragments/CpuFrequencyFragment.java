@@ -1,13 +1,10 @@
 package com.performancetweaker.app.ui.fragments;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +25,7 @@ public class CpuFrequencyFragment extends PreferenceFragment
     ListPreference CpuMaxFreqPreference;
     ListPreference CpuMinFreqPreference;
     ListPreference GovernorPreference;
-    Preference preference;
+  //  Preference preference;
     Context context;
     ProgressBar progressBar;
 
@@ -50,7 +47,7 @@ public class CpuFrequencyFragment extends PreferenceFragment
         CpuMaxFreqPreference = (ListPreference) findPreference(Constants.PREF_CPU_MAX_FREQ);
         CpuMinFreqPreference = (ListPreference) findPreference(Constants.PREF_CPU_MIN_FREQ);
         GovernorPreference = (ListPreference) findPreference(Constants.PREF_CPU_GOV);
-        preference = findPreference("governor_tune_pref");
+       // preference = findPreference("governor_tune_pref");
 
         availablefreq = CpuFrequencyUtils.getAvailableFrequencies();
         availableGovernors = CpuFrequencyUtils.getAvailableGovernors();
@@ -59,17 +56,17 @@ public class CpuFrequencyFragment extends PreferenceFragment
         CpuMaxFreqPreference.setOnPreferenceChangeListener(this);
         CpuMinFreqPreference.setOnPreferenceChangeListener(this);
         GovernorPreference.setOnPreferenceChangeListener(this);
-        preference.setOnPreferenceChangeListener(this);
-        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
-                fragmentTransaction.replace(R.id.main_content, new GovernorTuningFragment(),
-                        GovernorTuningFragment.TAG).commit();
-                return true;
-            }
-        });
+//        preference.setOnPreferenceChangeListener(this);
+//        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//            @Override
+//            public boolean onPreferenceClick(Preference preference) {
+//                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
+//                fragmentTransaction.replace(R.id.main_content, new GovernorTuningFragment(),
+//                        GovernorTuningFragment.TAG).commit();
+//                return true;
+//            }
+//        });
     }
 
     @Override

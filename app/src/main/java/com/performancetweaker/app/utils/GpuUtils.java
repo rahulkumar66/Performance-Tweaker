@@ -18,21 +18,21 @@ public class GpuUtils {
                 return s;
             }
         }
-        return "";
+        return null;
     }
 
     public static String[] getAvailableGpuFrequencies() {
         String[] possiblePath = Constants.gpu_freqs_avail;
         String gpuPath = getGpuPath();
-        String gpuFrequencies[]=new String[]{};
+        String gpuFrequencies[] = new String[]{};
 
         for (String s : possiblePath) {
             if (new File(gpuPath + s).exists()) {
-                gpuFrequencies= SysUtils.readOutputFromFile(gpuPath + s).split(" ");
+                gpuFrequencies = SysUtils.readOutputFromFile(gpuPath + s).split(" ");
             }
         }
-        for(int i=0;i<gpuFrequencies.length;i++) {
-            if(gpuFrequencies[i]=="") {
+        for (int i = 0; i < gpuFrequencies.length; i++) {
+            if (gpuFrequencies[i] == "") {
                 return new String[]{};
             }
         }

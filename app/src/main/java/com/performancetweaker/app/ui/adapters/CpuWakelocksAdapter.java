@@ -62,17 +62,19 @@ public class CpuWakelocksAdapter extends BaseAdapter {
         DonutProgress progress = row.findViewById(R.id.cpu_wakelock_progress);
 
         Wakelock wakelock = partialWakelocks.get(position);
-        String packageName=wakelock.getFqn(UidNameResolver.getInstance());
-        Drawable drawable = wakelock.getIcon(UidNameResolver.getInstance());
-        if (drawable != null) {
-            packageIcon.setImageDrawable(drawable);
+        if(wakelock!=null) {
+            String packageName = wakelock.getFqn(UidNameResolver.getInstance());
+            Drawable drawable = wakelock.getIcon(UidNameResolver.getInstance());
+            if (drawable != null) {
+                packageIcon.setImageDrawable(drawable);
+            }
+            wakelockName.setText(wakelock.getName());
+            packageNameView.setText(packageName);
+            wakelockDetail.setText(DateUtils.formatDuration(wakelock.getDuration())
+                    + " Count: " + wakelock.getCount());
+            progress.setMax(totalTime);
+            progress.setProgress((wakelock.getDuration() * 100) / totalTime);
         }
-        wakelockName.setText(wakelock.getName());
-        packageNameView.setText(packageName);
-        wakelockDetail.setText(DateUtils.formatDuration(wakelock.getDuration())
-                + " Count: " + wakelock.getCount());
-        progress.setMax(totalTime);
-        progress.setProgress((wakelock.getDuration()*100)/totalTime);
         return row;
     }
 }

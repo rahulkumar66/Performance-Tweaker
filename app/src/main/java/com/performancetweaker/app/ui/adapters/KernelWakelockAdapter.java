@@ -8,7 +8,6 @@ import com.performancetweaker.app.utils.SysUtils;
 
 import android.content.Context;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,16 +21,12 @@ public class KernelWakelockAdapter extends BaseAdapter {
     private ArrayList<NativeKernelWakelock> kernelWakelocks;
     private Context context;
     private LayoutInflater inflater;
-    private long totaltime = 0;
+    private long totalTime = 0;
 
     public KernelWakelockAdapter(Context ctx) {
         this.context = ctx;
         kernelWakelocks = BatteryStatsUtils.getInstance(context).getNativeKernelWakelocks(true);
-//        for (NativeKernelWakelock element : kernelWakelocks) {
-//            totaltime += (int) element.getDuration() / 1000;
-//        }
-
-        totaltime = SystemClock.elapsedRealtime();
+        totalTime = SystemClock.elapsedRealtime();
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -44,13 +39,14 @@ public class KernelWakelockAdapter extends BaseAdapter {
         DonutProgress progress = rowView.findViewById(R.id.donut_progress);
 
         NativeKernelWakelock nativeWakeLock = kernelWakelocks.get(position);
-        String kernelWakelock = kernelWakelocks.get(position).getName();
-        mKernelWakelock.setText(kernelWakelock);
-        WakeupInfo.setText(SysUtils.secToString(nativeWakeLock.getDuration() / 1000));
-        progress.setMax(100);
-        progress.setProgress( nativeWakeLock.getDuration() * 100 / totaltime);
-        wakeUpCount.setText("x" + nativeWakeLock.getCount() + " " + context.getString(R.string.times));
-
+        if(nativeWakeLock!=null) {
+            String kernelWakelock = kernelWakelocks.get(position).getName();
+            mKernelWakelock.setText(kernelWakelock);
+            WakeupInfo.setText(SysUtils.secToString(nativeWakeLock.getDuration() / 1000));
+            progress.setMax(100);
+            progress.setProgress(nativeWakeLock.getDuration() * 100 / totalTime);
+            wakeUpCount.setText("x" + nativeWakeLock.getCount() + " " + context.getString(R.string.times));
+        }
         return rowView;
     }
 

@@ -46,13 +46,15 @@ public class AlarmTriggerAdapter extends BaseAdapter {
         DonutProgress progress = row.findViewById(R.id.donut_progress);
         Alarm alarm = alarms.get(position);
 
-        icon.setImageDrawable(alarm.getIcon(uidNameResolver));
-        String packageName = alarm.getPackageName();
-        AlarmPackageName.setText(uidNameResolver.getLabel(packageName));
-        name.setText(packageName);
-        WakeupCount.setText("x" + alarm.getWakeups() + " times");
-        progress.setMax(100);
-        progress.setProgress(alarm.getWakeups() * 100 / totaltime);
+        if (alarm != null) {
+            icon.setImageDrawable(alarm.getIcon(uidNameResolver));
+            String packageName = alarm.getPackageName();
+            AlarmPackageName.setText(uidNameResolver.getLabel(packageName));
+            name.setText(packageName);
+            WakeupCount.setText("x" + alarm.getWakeups() + " times");
+            progress.setMax(100);
+            progress.setProgress(alarm.getWakeups() * 100 / totaltime);
+        }
         return row;
     }
 
