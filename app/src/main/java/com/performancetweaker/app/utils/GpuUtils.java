@@ -10,25 +10,60 @@ import java.util.ArrayList;
 
 public class GpuUtils {
 
-    public static String getGpuPath() {
-        String possiblePath[] = Constants.GPU_PATH;
+    private static GpuUtils gpuUtils;
 
-        for (String s : possiblePath) {
-            if (new File(s).exists()) {
-                return s;
-            }
+    public static GpuUtils getInstance() {
+        if (gpuUtils == null) {
+            gpuUtils = new GpuUtils();
         }
-        return null;
+        return gpuUtils;
     }
 
-    public static String[] getAvailableGpuFrequencies() {
-        String[] possiblePath = Constants.gpu_freqs_avail;
-        String gpuPath = getGpuPath();
+    private GpuUtils() {
+    }
+
+    private String[] GPU_GOVS_AVAIL_PATH = new String[]{
+            "/sys/class/kgsl/kgsl-3d0/devfreq/available_governors",
+            "/sys/devices/platform/omap/pvrsrvkm.0/sgxfreq/governor_list",
+            "/sys/devices/platform/dfrgx/devfreq/dfrgx/available_governors"
+    };
+
+    private String[] GPU_FREQS_AVAIL = new String[]{
+            "/sys/devices/platform/kgsl-2d0.0/kgsl/kgsl-2d0/gpu_available_frequencies",
+            "/sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/gpu_available_frequencies",
+            "/sys/class/kgsl/kgsl-3d0/gpu_available_frequencies",
+            "/sys/devices/platform/dfrgx/devfreq/dfrgx/available_frequencies",
+            "/sys/devices/platform/omap/pvrsrvkm.0/sgxfreq/frequency_list"
+    };
+
+    private String[] GPU_FREQS_MIN = new String[]{
+            "/sys/class/kgsl/kgsl-3d0/devfreq/min_freq",
+            "/sys/kernel/tegra_gpu/gpu_floor_rate",
+            "/sys/devices/platform/dfrgx/devfreq/dfrgx/min_freq"
+    };
+
+    private String[] GPU_FREQS_MAX = new String[]{
+            "/sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_gpuclk",
+            "/sys/class/kgsl/kgsl-3d0/max_gpuclk",
+            "/sys/devices/platform/omap/pvrsrvkm.0/sgxfreq/frequency_limit",
+            "/sys/kernel/tegra_gpu/gpu_cap_rate",
+            "/sys/devices/platform/dfrgx/devfreq/dfrgx/max_freq"
+    };
+
+    private String[] GPU_GOVERNOR_PATH = new String[]{
+            "/sys/class/kgsl/kgsl-3d0/pwrscale/trustzone/governor",
+            "/sys/class/kgsl/kgsl-3d0/devfreq/governor",
+            "/sys/devices/platform/omap/pvrsrvkm.0/sgxfreq/governor",
+            "/sys/devices/platform/dfrgx/devfreq/dfrgx/governor"
+    };
+
+    public String[] getAvailableGpuFrequencies() {
+        String[] possiblePath = GPU_FREQS_AVAIL;
         String gpuFrequencies[] = new String[]{};
 
-        for (String s : possiblePath) {
-            if (new File(gpuPath + s).exists()) {
-                gpuFrequencies = SysUtils.readOutputFromFile(gpuPath + s).split(" ");
+        for (String path : possiblePath) {
+            if (new File(path).exists()) {
+                gpuFrequencies = SysUtils.readOutputFromFile(path).split(" ");
             }
         }
         for (int i = 0; i < gpuFrequencies.length; i++) {
@@ -39,25 +74,23 @@ public class GpuUtils {
         return gpuFrequencies;
     }
 
-    public static String[] getAvailableGpuGovernors() {
-        String[] possiblePath = Constants.gpu_govs_avail_path;
-        String gpu_path = getGpuPath();
+    public String[] getAvailableGpuGovernors() {
+        String[] possiblePath = GPU_GOVS_AVAIL_PATH;
 
         for (String s : possiblePath) {
-            if (new File(gpu_path + s).exists()) {
-                return SysUtils.readOutputFromFile(gpu_path + s).split(" ");
+            if (new File(s).exists()) {
+                return SysUtils.readOutputFromFile(s).split(" ");
             }
         }
         return new String[]{};
     }
 
-    public static String getCurrentGpuGovernor() {
-        String gpuPath = getGpuPath();
+    public String getCurrentGpuGovernor() {
         String governorPath = null;
 
-        for (String path : Constants.gpu_governor_path) {
-            if (new File(gpuPath + path).exists()) {
-                governorPath = gpuPath + path;
+        for (String path : GPU_GOVERNOR_PATH) {
+            if (new File(path).exists()) {
+                governorPath = path;
                 break;
             }
         }
@@ -68,14 +101,13 @@ public class GpuUtils {
         }
     }
 
-    public static void setGpuFrequencyScalingGovernor(String governor, Context context) {
+    public void setGpuFrequencyScalingGovernor(String governor, Context context) {
         ArrayList<String> commands = new ArrayList<>();
-        String gpuPath = getGpuPath();
         String governorPath = null;
 
-        for (String path : Constants.gpu_governor_path) {
-            if (new File(gpuPath + path).exists()) {
-                governorPath = gpuPath + path;
+        for (String path : GPU_GOVERNOR_PATH) {
+            if (new File(path).exists()) {
+                governorPath = path;
                 break;
             }
         }
@@ -92,29 +124,27 @@ public class GpuUtils {
         }
     }
 
-    public static String getMaxGpuFrequency() {
-        String possiblePath[] = Constants.gpu_freqs_max;
-        String gpu_path = getGpuPath();
+    public String getMaxGpuFrequency() {
+        String possiblePath[] = GPU_FREQS_MAX;
 
         for (String s : possiblePath) {
-            if (new File(gpu_path + s).exists()) {
-                return SysUtils.readOutputFromFile(gpu_path + s);
+            if (new File(s).exists()) {
+                return SysUtils.readOutputFromFile(s);
             }
         }
         return "";
     }
 
-    public static void setMaxGpuFrequency(String maxFrequency, Context context) {
+    public void setMaxGpuFrequency(String maxFrequency, Context context) {
         ArrayList<String> commands = new ArrayList<>();
 
         if (maxFrequency != null) {
 
-            String path = getGpuPath();
             String maxFrequencyPath = null;
 
-            for (String s : Constants.gpu_freqs_max) {
-                if (new File(path + s).exists()) {
-                    maxFrequencyPath = path + s;
+            for (String s : GPU_FREQS_MAX) {
+                if (new File(s).exists()) {
+                    maxFrequencyPath = s;
                     break;
                 }
             }
@@ -131,29 +161,27 @@ public class GpuUtils {
         }
     }
 
-    public static String getMinGpuFrequency() {
-        String possiblePath[] = Constants.gpu_freqs_min;
-        String gpu_path = getGpuPath();
+    public String getMinGpuFrequency() {
+        String possiblePath[] = GPU_FREQS_MIN;
 
         for (String s : possiblePath) {
-            if (new File(gpu_path + s).exists()) {
-                return SysUtils.readOutputFromFile(gpu_path + s);
+            if (new File(s).exists()) {
+                return SysUtils.readOutputFromFile(s);
             }
         }
         return "";
     }
 
-    public static void setMinFrequency(String minFrequency, Context context) {
+    public void setMinFrequency(String minFrequency, Context context) {
         ArrayList<String> commands = new ArrayList<>();
 
         if (minFrequency != null) {
 
-            String path = getGpuPath();
             String minFrequencyPath = null;
 
-            for (String s : Constants.gpu_freqs_min) {
-                if (new File(path + s).exists()) {
-                    minFrequencyPath = path + s;
+            for (String s : GPU_FREQS_MIN) {
+                if (new File(s).exists()) {
+                    minFrequencyPath = s;
                 }
             }
 
@@ -168,8 +196,8 @@ public class GpuUtils {
         }
     }
 
-    public static boolean isGpuFrequencyScalingSupported() {
-        String possiblePath[] = Constants.GPU_PATH;
+    public boolean isGpuFrequencyScalingSupported() {
+        String possiblePath[] = GPU_FREQS_AVAIL;
         for (String s : possiblePath) {
             if (new File(s).exists()) {
                 return true;
