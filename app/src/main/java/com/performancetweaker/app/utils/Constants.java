@@ -34,26 +34,6 @@ public interface Constants {
             "3072", "3200", "3328", "3456", "3584", "3712", "3840", "3968", "4096"
     };
 
-    // GPU
-    String[] GPU_PATH = new String[]{
-            "/sys/class/kgsl", "/sys/devices/platform/galcore/gpu/gpu0/gpufreq"
-    };
-    String[] gpu_governor_path = new String[]{
-            "/kgsl-3d0/pwrscale/trustzone/governor", "/kgsl-3d0/devfreq/governor", "/scaling_governor"
-    };
-    String[] gpu_govs_avail_path = new String[]{
-            "/kgsl-3d0/devfreq/available_governors", "/scaling_available_governors"
-    };
-    String[] gpu_freqs_avail = new String[]{
-            "/kgsl-3d0/gpu_available_frequencies", "/kgsl-3d0/devfreq/available_frequencies",
-            "/scaling_available_frequencies"
-    };
-    String[] gpu_freqs_max = new String[]{
-            "/kgsl-3d0/max_gpuclk", "/kgsl-3d0/devfreq/max_freq", "/scaling_max_freq"
-    };
-    String[] gpu_freqs_min = new String[]{
-            "/kgsl-3d0/min_gpuclk", "/kgsl-3d0/devfreq/min_freq", "/scaling_min_freq"
-    };
     String[] mFragmentsArray = new String[]{
             "Cpu Frequency", "Time In State", "I/0 Control", "Wakelocks", "Settings"
     };

@@ -26,6 +26,7 @@ public class GpuControlFragment extends PreferenceFragment
     String maxFrequency;
     String minFrequency;
     String currentGovernor;
+    GpuUtils gpuUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,13 +40,14 @@ public class GpuControlFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.gpu_preferences);
 
         context = getActivity().getBaseContext();
+        gpuUtils = GpuUtils.getInstance();
 
         maxGpuFrequencyPreference = (ListPreference) findPreference(Constants.PREF_GPU_MAX);
         minGpuFrequencyPreference = (ListPreference) findPreference(Constants.PREF_GPU_MIN);
         availableGpuGovernorPreference = (ListPreference) findPreference(Constants.PREF_GPU_GOV);
 
-        availableGpuFrequencies = GpuUtils.getAvailableGpuFrequencies();
-        availableGpuGovernors = GpuUtils.getAvailableGpuGovernors();
+        availableGpuFrequencies = gpuUtils.getAvailableGpuFrequencies();
+        availableGpuGovernors = gpuUtils.getAvailableGpuGovernors();
 
         populatePreferences();
 
@@ -83,9 +85,9 @@ public class GpuControlFragment extends PreferenceFragment
     }
 
     public void updateData() {
-        maxFrequency = GpuUtils.getMaxGpuFrequency();
-        minFrequency = GpuUtils.getMinGpuFrequency();
-        currentGovernor = GpuUtils.getCurrentGpuGovernor();
+        maxFrequency = gpuUtils.getMaxGpuFrequency();
+        minFrequency = gpuUtils.getMinGpuFrequency();
+        currentGovernor = gpuUtils.getCurrentGpuGovernor();
     }
 
     public void updatePreferences() {
@@ -103,11 +105,11 @@ public class GpuControlFragment extends PreferenceFragment
     public boolean onPreferenceChange(Preference preference, Object value) {
 
         if (preference.getKey().equals(Constants.PREF_GPU_MAX)) {
-            GpuUtils.setMaxGpuFrequency(value.toString(), getActivity().getBaseContext());
+            gpuUtils.setMaxGpuFrequency(value.toString(), getActivity().getBaseContext());
         } else if (preference.getKey().equals(Constants.PREF_GPU_MIN)) {
-            GpuUtils.setMinFrequency(value.toString(), getActivity().getBaseContext());
+            gpuUtils.setMinFrequency(value.toString(), getActivity().getBaseContext());
         } else if (preference.getKey().equals(Constants.PREF_GPU_GOV)) {
-            GpuUtils.setGpuFrequencyScalingGovernor(value.toString(), getActivity()
+            gpuUtils.setGpuFrequencyScalingGovernor(value.toString(), getActivity()
                     .getBaseContext());
         }
 

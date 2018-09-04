@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class SettingsFragment extends PreferenceFragment {
 
     MultiSelectListPreference mMultiSelectListPreference;
+    GpuUtils gpuUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,10 +28,12 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(paramBundle);
         addPreferencesFromResource(R.xml.settings_preferences);
 
+        gpuUtils = GpuUtils.getInstance();
+
         mMultiSelectListPreference = (MultiSelectListPreference) findPreference("select_apply_on_boot");
         ArrayList<CharSequence> entries = new ArrayList<>();
         entries.add(getString(R.string.cpu_frequency));
-        if (GpuUtils.isGpuFrequencyScalingSupported()) {
+        if (gpuUtils.isGpuFrequencyScalingSupported()) {
             entries.add(getString(R.string.gpu_frequency));
         }
         entries.add(getString(R.string.io));

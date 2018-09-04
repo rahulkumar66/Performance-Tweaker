@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private TextView appCompatibilityMessage;
     private ProgressBar progressBar;
+    private GpuUtils gpuUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +100,10 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         actionBar.setTitle("CPU");
 
+        gpuUtils = GpuUtils.getInstance();
+
         //TODO add settings based on whether they are supported or not
-        if (GpuUtils.isGpuFrequencyScalingSupported()) {
+        if (gpuUtils.isGpuFrequencyScalingSupported()) {
             MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_gpu);
             menuItem.setVisible(true);
         }

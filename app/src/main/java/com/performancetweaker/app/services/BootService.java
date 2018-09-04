@@ -30,7 +30,7 @@ public class BootService extends IntentService {
         context = getApplicationContext();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
-            Thread.sleep(30000);//wait some time and the apply settings
+            Thread.sleep(30000);// wait some time and the apply settings
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -59,12 +59,13 @@ public class BootService extends IntentService {
                     min = prefs.getString(Constants.PREF_GPU_MIN, null);
                     gov = prefs.getString(Constants.PREF_GPU_GOV, null);
                     Log.d("gpu", max + " " + min + " " + gov);
+                    GpuUtils gpuUtils= GpuUtils.getInstance();
                     if (max != null)
-                        GpuUtils.setMaxGpuFrequency(max, context);
+                        gpuUtils.setMaxGpuFrequency(max, context);
                     if (min != null)
-                        GpuUtils.setMinFrequency(min, context);
+                        gpuUtils.setMinFrequency(min, context);
                     if (gov != null)
-                        GpuUtils.setGpuFrequencyScalingGovernor(gov, context);
+                        gpuUtils.setGpuFrequencyScalingGovernor(gov, context);
                 }
                 if (applyOnBootSet.contains(getString(R.string.vm))) {
 
