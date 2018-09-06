@@ -47,7 +47,6 @@ public class CpuFrequencyFragment extends PreferenceFragment
         CpuMaxFreqPreference = (ListPreference) findPreference(Constants.PREF_CPU_MAX_FREQ);
         CpuMinFreqPreference = (ListPreference) findPreference(Constants.PREF_CPU_MIN_FREQ);
         GovernorPreference = (ListPreference) findPreference(Constants.PREF_CPU_GOV);
-       // preference = findPreference("governor_tune_pref");
 
         availablefreq = CpuFrequencyUtils.getAvailableFrequencies();
         availableGovernors = CpuFrequencyUtils.getAvailableGovernors();
@@ -56,17 +55,6 @@ public class CpuFrequencyFragment extends PreferenceFragment
         CpuMaxFreqPreference.setOnPreferenceChangeListener(this);
         CpuMinFreqPreference.setOnPreferenceChangeListener(this);
         GovernorPreference.setOnPreferenceChangeListener(this);
-//        preference.setOnPreferenceChangeListener(this);
-//        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-//            @Override
-//            public boolean onPreferenceClick(Preference preference) {
-//                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-//                fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
-//                fragmentTransaction.replace(R.id.main_content, new GovernorTuningFragment(),
-//                        GovernorTuningFragment.TAG).commit();
-//                return true;
-//            }
-//        });
     }
 
     @Override

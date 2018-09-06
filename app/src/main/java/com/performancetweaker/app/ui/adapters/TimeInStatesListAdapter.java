@@ -41,7 +41,7 @@ public class TimeInStatesListAdapter extends BaseAdapter {
         totaltime = statesReader.getTotalTimeInState();
         /*
          * remove zero values
-		 */
+         */
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -52,21 +52,25 @@ public class TimeInStatesListAdapter extends BaseAdapter {
         ProgressBar mProgressBar = (ProgressBar) rowView.findViewById(R.id.progress);
         TextView time = (TextView) rowView.findViewById(R.id.time);
         TextView percentage = (TextView) rowView.findViewById(R.id.percentage);
-        if (states.get(position).getFrequency() == 0) {
-            frequencyTextView.setText(context.getString(R.string.deep_sleep));
-        } else {
-            frequencyTextView.setText((states.get(position).getFrequency() / 1000) + " Mhz");
+        CpuState state = states.get(position);
+
+        if (state != null) {
+            if (state.getFrequency() == 0) {
+                frequencyTextView.setText(context.getString(R.string.deep_sleep));
+            } else {
+                frequencyTextView.setText((states.get(position).getFrequency() / 1000) + " Mhz");
+            }
+            time.setText(SysUtils.secToString(states.get(position).getTime() / 100));
+
+            mProgressBar.setMax((int) (totaltime));
+            mProgressBar.setProgress((int) (states.get(position).getTime()));
+
+            /*
+             * calculate percentage of time
+             */
+            long percent = (states.get(position).getTime() * 100) / totaltime;
+            percentage.setText(percent + "%");
         }
-        time.setText(SysUtils.secToString(states.get(position).getTime() / 100));
-
-        mProgressBar.setMax((int) (totaltime));
-        mProgressBar.setProgress((int) (states.get(position).getTime()));
-
-		/*
-         * calculate percentage of time
-		 */
-        long percent = (states.get(position).getTime() * 100) / totaltime;
-        percentage.setText(percent + "%");
 
         return rowView;
     }
