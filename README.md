@@ -1,6 +1,5 @@
 # Performance-Tweaker
 
-
 Performance-Tweaker is a simple app for tweaking:
 
  * CPU (Frequency, Governor)

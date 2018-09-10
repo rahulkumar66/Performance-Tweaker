@@ -12,9 +12,7 @@ public class PerfTweakerApplication extends Application {
         PerfTweakerApplication.context = getApplicationContext();
     }
 
-
-    public static Context getAppContext()
-    {
+    public static Context getAppContext() {
         return PerfTweakerApplication.context;
     }
 }
