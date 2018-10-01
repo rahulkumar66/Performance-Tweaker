@@ -26,3 +26,5 @@ keystore.properties
 *.iws
 # Sandbox stuff
 
+*.properties
+
