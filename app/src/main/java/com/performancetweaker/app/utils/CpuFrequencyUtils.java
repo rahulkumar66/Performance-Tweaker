@@ -219,8 +219,8 @@ public class CpuFrequencyUtils {
         for (int i = 0; i < values.length; i++) {
             try {
                 frequency[i] = (Integer.parseInt(values[i].trim()) / 1000) + " Mhz";
-            } catch (NumberFormatException nfe) {
-                nfe.printStackTrace();
+            } catch (NumberFormatException | NullPointerException exception) {
+                exception.printStackTrace();
             }
         }
         return frequency;
