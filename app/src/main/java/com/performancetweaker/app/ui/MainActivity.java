@@ -53,13 +53,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (BuildConfig.ENABLE_ANALYTICS) {
-            String analyticsKey = BuildConfig.ANALYTICS_KEY;
-            Mint.initAndStartSession(this.getApplication(), analyticsKey);
-            Mint.enableDebugLog();
-            Mint.enableLogging(true);
-        }
         setContentView(R.layout.fragment_main_layout_navbar);
 
         navigationView = findViewById(R.id.navigation);
