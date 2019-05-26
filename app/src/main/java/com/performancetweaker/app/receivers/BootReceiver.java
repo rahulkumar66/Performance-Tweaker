@@ -1,6 +1,7 @@
 package com.performancetweaker.app.receivers;
 
 import com.performancetweaker.app.services.BootService;
+import com.performancetweaker.app.utils.Utils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,7 +13,7 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            context.startService(new Intent(context, BootService.class));
+            Utils.startService(context, new Intent(context, BootService.class));
         }
     }
 }
