@@ -60,5 +60,8 @@
     <!--Preferences -->
     <string name="apply_on_boot">select_apply_on_boot</string>
 
+    <!--On Boot -->
+    <string name="apply_on_boot_notification">Apply on boot</string>
+
 
 </resources>

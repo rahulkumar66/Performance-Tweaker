@@ -50,12 +50,12 @@ public class BootService extends IntentService {
             NotificationManager notificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,
-                    getString(R.string.apply_on_boot), NotificationManager.IMPORTANCE_DEFAULT);
+                    getString(R.string.apply_on_boot_notification), NotificationManager.IMPORTANCE_DEFAULT);
             notificationChannel.setSound(null, null);
             notificationManager.createNotificationChannel(notificationChannel);
 
             Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID);
-            builder.setContentTitle(getString(R.string.apply_on_boot))
+            builder.setContentTitle(getString(R.string.apply_on_boot_notification))
                     .setSmallIcon(R.mipmap.ic_launcher);
             startForeground(ON_BOOT_NOTIFICATION_ID, builder.build());
         }
@@ -121,9 +121,9 @@ public class BootService extends IntentService {
                 if (applyOnBootSet.contains(getString(R.string.build_prop))) {
 
                 }
-                stopSelf();
             }
         }
+        stopSelf();
         return START_NOT_STICKY;
     }
 }
