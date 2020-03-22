@@ -5,7 +5,7 @@
         android:layout_height="match_parent"
 >
     <!-- This container is for views which require swipe to refresh -->
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -26,5 +26,5 @@
             />
         </android.support.v4.widget.SwipeRefreshLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

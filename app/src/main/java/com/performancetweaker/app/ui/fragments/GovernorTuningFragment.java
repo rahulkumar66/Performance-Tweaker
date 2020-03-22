@@ -8,10 +8,11 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.CpuFrequencyUtils;
