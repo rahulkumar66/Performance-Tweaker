@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.ads.InterstitialAd;
 import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.Constants;
 import com.performancetweaker.app.utils.CpuFrequencyUtils;
 
@@ -28,6 +30,7 @@ public class CpuFrequencyFragment extends PreferenceFragment
   //  Preference preference;
     Context context;
     ProgressBar progressBar;
+    AdUtils adUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +46,8 @@ public class CpuFrequencyFragment extends PreferenceFragment
         setHasOptionsMenu(true);
         addPreferencesFromResource(R.xml.cpu_freq_preference);
         context = getActivity().getBaseContext();
+        adUtils = AdUtils.getInstance(context);
+        adUtils.loadInterstialAd();
 
         CpuMaxFreqPreference = (ListPreference) findPreference(Constants.PREF_CPU_MAX_FREQ);
         CpuMinFreqPreference = (ListPreference) findPreference(Constants.PREF_CPU_MIN_FREQ);
@@ -105,6 +110,7 @@ public class CpuFrequencyFragment extends PreferenceFragment
         }
         updateData();
         updatePreferences();
+        adUtils.showInterstialAd(context);
         return true;
     }
 

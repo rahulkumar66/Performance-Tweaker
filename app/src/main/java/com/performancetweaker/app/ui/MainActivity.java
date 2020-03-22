@@ -22,6 +22,11 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.asksven.android.common.utils.SystemAppInstaller;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 import com.performancetweaker.app.BuildConfig;
 import com.performancetweaker.app.R;
@@ -35,15 +40,19 @@ import com.performancetweaker.app.ui.fragments.SettingsFragment;
 import com.performancetweaker.app.ui.fragments.TimeInStatesFragment;
 import com.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
 import com.performancetweaker.app.ui.fragments.WakeLocksFragment;
+import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.CPUHotplugUtils;
 import com.performancetweaker.app.utils.GpuUtils;
 import com.splunk.mint.Mint;
 import com.stericson.RootTools.RootTools;
 
+import static com.performancetweaker.app.PerfTweakerApplication.getAppContext;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
+    private InterstitialAd mInterstitialAd;
 
     private Toolbar toolbar;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -86,7 +95,10 @@ public class MainActivity extends AppCompatActivity
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         navigationView.setNavigationItemSelectedListener(this);
-
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+        });
         new Task().execute();
     }
 
