@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="General">
+    <PreferenceCategory android:title="General"
+        android:key="settings_category">
 
         <MultiSelectListPreference
             android:dialogTitle="Apply On Boot"
             android:key="select_apply_on_boot"
             android:summary="Select Settings You Want to Apply on Boot"
             android:title="Apply on Boot"></MultiSelectListPreference>
+
+        <Preference android:title="Uninstall System App"
+            android:key="uninstall_system_app"
+            android:summary="Remove this app from system directory"
+            />
 
     </PreferenceCategory>
 </PreferenceScreen>

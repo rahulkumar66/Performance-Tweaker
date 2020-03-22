@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.support.v7.app.AppCompatActivity;
 
+import com.asksven.android.common.utils.SystemAppInstaller;
 import com.performancetweaker.app.BuildConfig;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;

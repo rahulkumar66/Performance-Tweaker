@@ -75,4 +75,6 @@ public interface Constants {
 
     // CPU Hotplug
     String HOTPLUG_MPDEC = "mpdecision";
+
+    String APK_NAME = "performancetweaker.apk";
 }

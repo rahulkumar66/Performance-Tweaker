@@ -1,5 +1,6 @@
 package com.performancetweaker.app.utils;
 
+import com.asksven.android.common.RootShell;
 import com.asksven.android.common.utils.SystemAppInstaller;
 import com.stericson.RootTools.RootTools;
 
@@ -13,14 +14,15 @@ import android.os.Build;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SystemAppUtilities {
 
     private static final String SYSTEM_DIR_4_4 = "/system/priv-app/";
     private static final String SYSTEM_DIR = "/system/app/";
 
-    private static String getAPKName(Context ctx, boolean includeFullPath, boolean doWildCard)
-            throws com.performancetweaker.app.utils.SystemAppManagementException {
+    public static String getAPKName(Context ctx, boolean includeFullPath, boolean doWildCard)
+            throws SystemAppManagementException {
         String fullPath = ctx.getApplicationInfo().sourceDir;
         if (fullPath.isEmpty() || (fullPath.lastIndexOf('/') == -1)) {
             throw new com.performancetweaker.app.utils.SystemAppManagementException(
@@ -39,7 +41,7 @@ public class SystemAppUtilities {
         return fullPath;
     }
 
-    public static void installAsSystemApp(final Context ctx) throws SystemAppManagementException {
+    public static void installAsSystemApp(final Context ctx) {
         AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
             SystemAppManagementException error = null;
             ProgressDialog progress = null;
@@ -161,5 +163,43 @@ public class SystemAppUtilities {
         }
 
         return SysUtils.executeRootCommand(command);
+    }
+
+    public static boolean uninstallAsSystemApp(String apk) {
+        ArrayList<String> command = new ArrayList<>();
+        command.add("mount -o rw,remount /system");
+
+        if (Build.VERSION.SDK_INT >= 19) {
+            command.add("rm"+" "+SYSTEM_DIR_4_4 + "performancetweaker.apk");
+        } else {
+            command.add("rm"+" "+ SYSTEM_DIR + "performancetweaker.apk");
+        }
+
+        return SysUtils.executeRootCommand(command);
+    }
+
+    public static boolean isSystemApp(String apk)
+    {
+        boolean ret = false;
+        List<String> res;
+
+        String command = "";
+        if (Build.VERSION.SDK_INT >= 19)
+        {
+            command = "ls " + SYSTEM_DIR_4_4 + "/" + apk;
+        }
+        else
+        {
+            command = "ls " + SYSTEM_DIR + "/" + apk;
+        }
+
+        res = RootShell.getInstance().run(command);
+
+        if (res.size() > 0)
+        {
+            ret = !res.get(0).contains("No such file or directory");
+        }
+
+        return ret;
     }
 }

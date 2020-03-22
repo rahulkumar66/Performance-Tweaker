@@ -108,11 +108,7 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
                             .setNeutralButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    try {
-                                        SystemAppUtilities.installAsSystemApp(getActivity());
-                                    } catch (SystemAppManagementException e) {
-                                        e.printStackTrace();
-                                    }
+                                    SystemAppUtilities.installAsSystemApp(getActivity());
                                 }
                             }).setNegativeButton("No", null).show();
                 } else {
