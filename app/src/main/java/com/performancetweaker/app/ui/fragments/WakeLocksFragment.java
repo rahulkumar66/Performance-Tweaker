@@ -44,7 +44,7 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
     Spinner spinner;
     ArrayAdapter<String> adapter;
     AdUtils adUtils;
-    Integer adShowCounter;
+    Integer adShowCounter = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
