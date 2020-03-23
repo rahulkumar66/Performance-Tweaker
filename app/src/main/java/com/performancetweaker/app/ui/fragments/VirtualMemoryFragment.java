@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.VmUtils;
 
 import java.util.LinkedHashMap;
@@ -25,6 +26,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
     EditTextPreference editTextPreferences[];
     LinkedHashMap<String, String> vmEntries = new LinkedHashMap<>();
     ProgressBar progressBar;
+    AdUtils adUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +39,8 @@ public class VirtualMemoryFragment extends PreferenceFragment
         super.onCreate(savedInstanceState);
         progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
         progressBar.setVisibility(View.VISIBLE);
-
+        adUtils = AdUtils.getInstance(context);
+        adUtils.loadInterstialAd();
         context = getActivity();
     }
 
@@ -51,6 +54,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         VmUtils.setVM(newValue.toString(), preference.getKey());
         preference.setSummary(VmUtils.getVMValue(preference.getKey()));
+        adUtils.showInterstialAd();
         return true;
     }
 

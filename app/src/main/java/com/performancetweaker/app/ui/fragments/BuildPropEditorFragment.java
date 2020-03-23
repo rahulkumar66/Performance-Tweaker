@@ -1,6 +1,7 @@
 package com.performancetweaker.app.ui.fragments;
 
 import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.BuildPropUtils;
 
 import android.app.Activity;
@@ -40,6 +41,7 @@ public class BuildPropEditorFragment extends PreferenceFragment
     Context context;
 
     ProgressBar progressBar;
+    AdUtils adUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +58,8 @@ public class BuildPropEditorFragment extends PreferenceFragment
         progressBar.setVisibility(View.VISIBLE);
 
         context = getActivity();
+        adUtils = AdUtils.getInstance(context);
+        adUtils.loadInterstialAd();
     }
 
     @Override
@@ -69,6 +73,7 @@ public class BuildPropEditorFragment extends PreferenceFragment
         BuildPropUtils.overwrite(preference.getKey(), preference.getSummary().toString(),
                 preference.getKey(), o.toString());
         preference.setSummary(o.toString());
+        adUtils.showInterstialAd();
         return true;
     }
 

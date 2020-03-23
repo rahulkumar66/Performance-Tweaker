@@ -42,6 +42,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="?android:attr/colorBackground"
-            android:dividerHeight="1px" />
+            android:dividerHeight="1px"
+            android:layout_marginBottom="50dp"/>
 
 </LinearLayout>

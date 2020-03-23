@@ -23,6 +23,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.asksven.android.common.utils.SystemAppInstaller;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -99,6 +101,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {}
         });
+        AdView adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
         new Task().execute();
     }
 

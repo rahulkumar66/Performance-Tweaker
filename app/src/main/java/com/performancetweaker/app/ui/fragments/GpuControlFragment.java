@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.Constants;
 import com.performancetweaker.app.utils.GpuUtils;
 
@@ -27,6 +28,7 @@ public class GpuControlFragment extends PreferenceFragment
     String minFrequency;
     String currentGovernor;
     GpuUtils gpuUtils;
+    AdUtils adUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +56,8 @@ public class GpuControlFragment extends PreferenceFragment
         maxGpuFrequencyPreference.setOnPreferenceChangeListener(this);
         minGpuFrequencyPreference.setOnPreferenceChangeListener(this);
         availableGpuGovernorPreference.setOnPreferenceChangeListener(this);
+        adUtils = AdUtils.getInstance(context);
+        adUtils.loadInterstialAd();
     }
 
     @Override
@@ -103,7 +107,7 @@ public class GpuControlFragment extends PreferenceFragment
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object value) {
-
+        adUtils.showInterstialAd();
         if (preference.getKey().equals(Constants.PREF_GPU_MAX)) {
             gpuUtils.setMaxGpuFrequency(value.toString(), getActivity().getBaseContext());
         } else if (preference.getKey().equals(Constants.PREF_GPU_MIN)) {

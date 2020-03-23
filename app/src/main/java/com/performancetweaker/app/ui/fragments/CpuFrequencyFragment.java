@@ -110,7 +110,7 @@ public class CpuFrequencyFragment extends PreferenceFragment
         }
         updateData();
         updatePreferences();
-        adUtils.showInterstialAd(context);
+        adUtils.showInterstialAd();
         return true;
     }
 

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.Constants;
 import com.performancetweaker.app.utils.GpuUtils;
 import com.performancetweaker.app.utils.SystemAppUtilities;
@@ -22,6 +23,7 @@ public class SettingsFragment extends PreferenceFragment {
     MultiSelectListPreference mMultiSelectListPreference;
     Preference uninstallSystemAppButton;
     GpuUtils gpuUtils;
+    AdUtils adUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +53,7 @@ public class SettingsFragment extends PreferenceFragment {
                 }else {
                     Toast.makeText(getActivity(),"Unknown error occurred while uninstalling app",Toast.LENGTH_SHORT);
                 }
+                adUtils.showInterstialAd();
                 return true;
             }
         });
@@ -74,5 +77,7 @@ public class SettingsFragment extends PreferenceFragment {
         if(!SystemAppUtilities.isSystemApp(Constants.APK_NAME)) {
             preferenceCategory.removePreference(uninstallSystemAppButton);
         }
+        adUtils = AdUtils.getInstance(getActivity());
+        adUtils.loadInterstialAd();
     }
 }

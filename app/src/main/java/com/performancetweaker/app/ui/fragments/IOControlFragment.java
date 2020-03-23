@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.Constants;
 import com.performancetweaker.app.utils.IOUtils;
 
@@ -23,6 +24,7 @@ public class IOControlFragment extends PreferenceFragment
     ListPreference IOScheduler;
     ListPreference ReadAheadCache;
     Context context;
+    AdUtils adUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +46,8 @@ public class IOControlFragment extends PreferenceFragment
 
         IOScheduler.setOnPreferenceChangeListener(this);
         ReadAheadCache.setOnPreferenceChangeListener(this);
+        adUtils = AdUtils.getInstance(context);
+        adUtils.loadInterstialAd();
     }
 
     private void populatePreferences() {
@@ -80,6 +84,7 @@ public class IOControlFragment extends PreferenceFragment
 
         updateData();
         updatePreferences();
+        adUtils.showInterstialAd();
         return true;
     }
 

@@ -61,7 +61,7 @@ public class AdUtils {
 
     }
 
-    public void showInterstialAd(Context ctx) {
+    public void showInterstialAd() {
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
