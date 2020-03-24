@@ -14,7 +14,7 @@ public class AdUtils {
 
     private AdUtils(Context ctx) {
         mInterstitialAd = new InterstitialAd(ctx);
-        mInterstitialAd.setAdUnitId("ca-app-pub-5017946957970461/6518284384");
+        mInterstitialAd.setAdUnitId("ca-app-pub-5017946957970461/4420688365");
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
