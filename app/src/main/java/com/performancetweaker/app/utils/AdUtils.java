@@ -10,7 +10,7 @@ import com.google.android.gms.ads.InterstitialAd;
 public class AdUtils {
     private static AdUtils adUtils;
     private static InterstitialAd mInterstitialAd;
-    private static String testAdId = "ca-app-pub-3940256099942544/1033173712";
+//    private static String testAdId = "ca-app-pub-3940256099942544/1033173712";
 
     private AdUtils(Context ctx) {
         mInterstitialAd = new InterstitialAd(ctx);
