@@ -28,7 +28,6 @@ import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.adapters.AlarmTriggerAdapter;
 import com.performancetweaker.app.ui.adapters.CpuWakelocksAdapter;
 import com.performancetweaker.app.ui.adapters.KernelWakelockAdapter;
-import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.Constants;
 import com.performancetweaker.app.utils.SystemAppUtilities;
 
@@ -42,8 +41,6 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
     ProgressBar progressBar;
     Spinner spinner;
     ArrayAdapter<String> adapter;
-    AdUtils adUtils;
-    Integer adShowCounter = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,8 +85,6 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
 
         spinner.setOnItemSelectedListener(this);
         context = getActivity().getBaseContext();
-        adUtils = AdUtils.getInstance(context);
-        adUtils.loadInterstialAd();
     }
 
     @Override
@@ -143,10 +138,6 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
             timeSince.setTextSize(20);
             timeSince.setGravity(Gravity.CENTER);
             timeSince.setText(getString(R.string.stats_not_available));
-        }
-        adShowCounter++;
-        if(adShowCounter%2==0) {
-            adUtils.showInterstialAd();
         }
     }
 
