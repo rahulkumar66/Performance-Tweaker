@@ -107,7 +107,7 @@ public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSel
                 boolean hasPermission = SysUtils.hasBatteryStatsPermission(getActivity());
                 Log.d(Constants.App_Tag, "Has Battery Stats Permission " +
                         hasPermission);
-                if (!hasPermission) {
+                if (!hasPermission && !getActivity().isFinishing()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(
                             "Since Kitkat google only allows system apps to access battery permissions! Install this app as System app")
