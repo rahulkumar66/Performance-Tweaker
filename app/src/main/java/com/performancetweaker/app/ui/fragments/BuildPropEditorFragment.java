@@ -1,9 +1,5 @@
 package com.performancetweaker.app.ui.fragments;
 
-import com.performancetweaker.app.R;
-import com.performancetweaker.app.utils.AdUtils;
-import com.performancetweaker.app.utils.BuildPropUtils;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -27,6 +23,10 @@ import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
+
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.AdUtils;
+import com.performancetweaker.app.utils.BuildPropUtils;
 
 import java.util.LinkedHashMap;
 

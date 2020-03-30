@@ -2,7 +2,9 @@ package com.performancetweaker.app;
 
 import android.app.Application;
 import android.content.Context;
+
 import com.crashlytics.android.Crashlytics;
+
 import io.fabric.sdk.android.Fabric;
 
 public class PerfTweakerApplication extends Application {

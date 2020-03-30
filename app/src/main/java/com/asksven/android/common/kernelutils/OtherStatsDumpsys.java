@@ -3,25 +3,21 @@
  */
 package com.asksven.android.common.kernelutils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.os.SystemClock;
 import android.util.Log;
 
-
-
-
-
-
-//import com.asksven.android.contrib.Shell;
 import com.asksven.android.common.NonRootShell;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+//import com.asksven.android.contrib.Shell;
 
 /**
  * Parses the content of 'dumpsys battery'

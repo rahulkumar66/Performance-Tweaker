@@ -3,19 +3,16 @@
  */
 package com.asksven.android.common.privateapiproxies;
 
-import java.io.Serializable;
-import java.util.Formatter;
-
-
-//import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-
 
 import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.Formatter;
+
+//import android.content.Context;
 
 /**
  * @author sven

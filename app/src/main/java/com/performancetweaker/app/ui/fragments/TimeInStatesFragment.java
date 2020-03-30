@@ -1,11 +1,5 @@
 package com.performancetweaker.app.ui.fragments;
 
-import com.performancetweaker.app.R;
-import com.performancetweaker.app.ui.adapters.TimeInStatesListAdapter;
-import com.performancetweaker.app.utils.AdUtils;
-import com.performancetweaker.app.utils.Constants;
-import com.performancetweaker.app.utils.SysUtils;
-
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,6 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.ui.adapters.TimeInStatesListAdapter;
+import com.performancetweaker.app.utils.AdUtils;
+import com.performancetweaker.app.utils.Constants;
+import com.performancetweaker.app.utils.SysUtils;
 
 public class TimeInStatesFragment extends Fragment {
 

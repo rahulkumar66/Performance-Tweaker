@@ -3,20 +3,20 @@
  */
 package com.asksven.android.common.kernelutils;
 
+import android.os.Build;
+import android.util.Log;
+
+import com.asksven.android.common.NonRootShell;
+import com.asksven.android.common.RootShell;
+import com.asksven.android.common.privateapiproxies.Alarm;
+import com.asksven.android.common.privateapiproxies.StatElement;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.os.Build;
-import android.util.Log;
-
-
 //import com.asksven.android.contrib.Shell;
-import com.asksven.android.common.NonRootShell;
-import com.asksven.android.common.RootShell;
-import com.asksven.android.common.privateapiproxies.Alarm;
-import com.asksven.android.common.privateapiproxies.StatElement;
 
 /**
  * Parses the content of 'dumpsys alarm'

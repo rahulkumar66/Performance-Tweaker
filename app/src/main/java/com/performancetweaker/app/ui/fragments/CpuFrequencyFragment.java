@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.ads.InterstitialAd;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.Constants;

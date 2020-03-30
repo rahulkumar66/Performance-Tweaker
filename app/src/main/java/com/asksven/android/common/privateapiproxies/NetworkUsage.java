@@ -16,28 +16,22 @@
 
 package com.asksven.android.common.privateapiproxies;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonFilter;
-
-import com.asksven.android.common.dto.AlarmDto;
-import com.asksven.android.common.dto.NativeKernelWakelockDto;
 import com.asksven.android.common.dto.NetworkUsageDto;
 import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.google.gson.annotations.SerializedName;
 
-import android.app.Application;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import java.io.Serializable;
+import java.util.List;
+
 //import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 //import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 public class NetworkUsage extends StatElement implements Comparable<NetworkUsage>, Serializable
 {

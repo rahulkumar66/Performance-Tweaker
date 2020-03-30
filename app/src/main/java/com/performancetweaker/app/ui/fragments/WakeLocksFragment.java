@@ -30,7 +30,6 @@ import com.performancetweaker.app.ui.adapters.CpuWakelocksAdapter;
 import com.performancetweaker.app.ui.adapters.KernelWakelockAdapter;
 import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.Constants;
-import com.performancetweaker.app.utils.SystemAppManagementException;
 import com.performancetweaker.app.utils.SystemAppUtilities;
 
 public class WakeLocksFragment extends Fragment implements AdapterView.OnItemSelectedListener {

@@ -16,9 +16,9 @@
 
 package com.asksven.android.common.dto;
 
-import java.io.Serializable;
-
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import java.io.Serializable;
 
 /**
  * @author sven

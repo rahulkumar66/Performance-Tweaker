@@ -3,19 +3,19 @@
  */
 package com.asksven.android.common.kernelutils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.asksven.android.common.CommonLogSettings;
-import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
-import com.asksven.android.common.privateapiproxies.StatElement;
-
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.os.Build;
 import android.os.SystemClock;
 import android.util.Log;
+
+import com.asksven.android.common.CommonLogSettings;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
+import com.asksven.android.common.privateapiproxies.StatElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**

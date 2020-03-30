@@ -1,11 +1,11 @@
 package com.performancetweaker.app.receivers;
 
-import com.performancetweaker.app.services.BootService;
-import com.performancetweaker.app.utils.Utils;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.performancetweaker.app.services.BootService;
+import com.performancetweaker.app.utils.Utils;
 
 public class BootReceiver extends BroadcastReceiver {
 

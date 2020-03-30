@@ -1,9 +1,5 @@
 package com.performancetweaker.app.utils;
 
-import com.asksven.android.common.RootShell;
-import com.asksven.android.common.utils.SystemAppInstaller;
-import com.stericson.RootTools.RootTools;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -12,6 +8,9 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
+
+import com.asksven.android.common.RootShell;
+import com.stericson.RootTools.RootTools;
 
 import java.util.ArrayList;
 import java.util.List;

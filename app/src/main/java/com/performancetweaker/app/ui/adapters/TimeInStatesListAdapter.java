@@ -1,11 +1,5 @@
 package com.performancetweaker.app.ui.adapters;
 
-import com.performancetweaker.app.R;
-import com.performancetweaker.app.utils.Constants;
-import com.performancetweaker.app.utils.CpuState;
-import com.performancetweaker.app.utils.SysUtils;
-import com.performancetweaker.app.utils.TimeInStateReader;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,6 +10,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.Constants;
+import com.performancetweaker.app.utils.CpuState;
+import com.performancetweaker.app.utils.SysUtils;
+import com.performancetweaker.app.utils.TimeInStateReader;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -16,11 +16,9 @@
 
 package com.asksven.android.common.dto;
 
-import java.io.Serializable;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.asksven.android.common.nameutils.UidInfo;
+import java.io.Serializable;
 
 /**
  * A DTO for NetworkUsage

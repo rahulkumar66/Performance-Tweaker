@@ -1,10 +1,10 @@
 package com.performancetweaker.app.utils;
 
-import com.performancetweaker.app.R;
-
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.performancetweaker.app.R;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
