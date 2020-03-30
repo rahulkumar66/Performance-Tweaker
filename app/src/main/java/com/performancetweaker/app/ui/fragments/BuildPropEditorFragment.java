@@ -143,26 +143,27 @@ public class BuildPropEditorFragment extends PreferenceFragment
                 LayoutInflater.from(getActivity()).inflate(R.layout.dialog_build_prop, null, false);
         final EditText etName = (EditText) editDialog.findViewById(R.id.prop_name);
         final EditText etValue = (EditText) editDialog.findViewById(R.id.prop_value);
-
-        new AlertDialog.Builder(activity).setView(editDialog)
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                })
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (etValue.getText() != null && etName.getText() != null) {
-                            BuildPropUtils.addKey(etName.getText().toString().trim(),
-                                    etValue.getText().toString().trim());
-                        } else {
-                            return;
+        if(!activity.isFinishing()) {
+            new AlertDialog.Builder(activity).setView(editDialog)
+                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
                         }
-                    }
-                })
-                .show();
+                    })
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (etValue.getText() != null && etName.getText() != null) {
+                                BuildPropUtils.addKey(etName.getText().toString().trim(),
+                                        etValue.getText().toString().trim());
+                            } else {
+                                return;
+                            }
+                        }
+                    })
+                    .show();
+        }
     }
 
     private class populateBuildPropEntries extends AsyncTask<Void, Void, Void> {
