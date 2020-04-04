@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.performancetweaker.app.R;
-import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.CPUHotplugUtils;
 import com.performancetweaker.app.utils.Constants;
 
@@ -19,7 +18,6 @@ public class CpuHotplugFragment extends PreferenceFragment
 
     Context context;
     SwitchPreference switchPreference;
-    AdUtils adUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,8 +32,6 @@ public class CpuHotplugFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.cpu_hotplug_preferences);
         switchPreference = (SwitchPreference) findPreference(Constants.PREF_HOTPLUG);
         context = getActivity().getBaseContext();
-        adUtils = AdUtils.getInstance(context);
-        adUtils.loadInterstialAd();
     }
 
     @Override
@@ -50,7 +46,6 @@ public class CpuHotplugFragment extends PreferenceFragment
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         CPUHotplugUtils.activateMpdecision(Boolean.parseBoolean(newValue.toString()));
         switchPreference.setChecked(CPUHotplugUtils.isMpdecisionActive());
-        adUtils.showInterstialAd();
         return Boolean.parseBoolean(newValue.toString());
     }
 }

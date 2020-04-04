@@ -20,9 +20,9 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:name=".PerfTweakerApplication">
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-5017946957970461~3483969072"/>
+<!--        <meta-data-->
+<!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
+<!--            android:value="ca-app-pub-5017946957970461~3483969072"/>-->
 
         <activity
             android:name="com.performancetweaker.app.ui.MainActivity"
