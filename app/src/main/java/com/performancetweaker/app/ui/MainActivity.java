@@ -8,8 +8,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -20,12 +22,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.facebook.ads.AdSize;
+import com.facebook.ads.AudienceNetworkAds;
+import com.facebook.ads.*;
 import com.google.android.material.navigation.NavigationView;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
@@ -39,6 +38,7 @@ import com.performancetweaker.app.ui.fragments.TimeInStatesFragment;
 import com.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
 import com.performancetweaker.app.ui.fragments.WakeLocksFragment;
 import com.performancetweaker.app.utils.CPUHotplugUtils;
+import com.performancetweaker.app.utils.Constants;
 import com.performancetweaker.app.utils.GpuUtils;
 import com.stericson.RootTools.RootTools;
 
@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity
     private TextView appCompatibilityMessage;
     private ProgressBar progressBar;
     private GpuUtils gpuUtils;
+    private AdView adView;
+    private LinearLayout adContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +68,18 @@ public class MainActivity extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         appCompatibilityMessage = findViewById(R.id.app_compatibility_status);
         progressBar = findViewById(R.id.loading_main);
+        adContainer = findViewById(R.id.ad_container);
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
+
+        Log.e("CHUTIYA",Constants.BANNER_AD_PLACEMENT_ID+"CHITIYA");
+
+        AudienceNetworkAds.initialize(this);
+        Log.e("GANDA",Constants.BANNER_AD_PLACEMENT_ID);
+        adView = new AdView(this, Constants.BANNER_AD_PLACEMENT_ID, AdSize.BANNER_HEIGHT_50);
+        adContainer.addView(adView);
+        adView.loadAd();
 
         //disable the navigation bar initially
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -89,14 +100,17 @@ public class MainActivity extends AppCompatActivity
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         navigationView.setNavigationItemSelectedListener(this);
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {}
-        });
-        AdView adView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+
+
         new Task().execute();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 
     public void populateGui() {

@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.performancetweaker.app.R;
-import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.CpuFrequencyUtils;
 import com.performancetweaker.app.utils.GovernorProperty;
 
@@ -29,7 +28,6 @@ public class GovernorTuningFragment extends PreferenceFragment
     Context context;
     View view;
     SwipeRefreshLayout swipeRefreshLayout;
-    AdUtils adUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,8 +57,8 @@ public class GovernorTuningFragment extends PreferenceFragment
                 new GetGovernorPropertiesTask().execute();
             }
         }, 500);
-        adUtils = AdUtils.getInstance(context);
-        adUtils.loadInterstialAd();
+//        adUtils = AdUtils.getInstance(context);
+//        adUtils.loadInterstialAd();
     }
 
     @Override
@@ -68,7 +66,7 @@ public class GovernorTuningFragment extends PreferenceFragment
         CpuFrequencyUtils.setGovernorProperty(new GovernorProperty(preference.getKey(), o.toString()),
                 getActivity());
         preference.setSummary(o.toString());
-        adUtils.showInterstialAd();
+//        adUtils.showInterstialAd();
         return true;
     }
 

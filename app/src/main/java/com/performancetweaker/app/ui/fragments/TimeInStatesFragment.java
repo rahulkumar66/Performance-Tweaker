@@ -18,7 +18,6 @@ import androidx.cardview.widget.CardView;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.adapters.TimeInStatesListAdapter;
-import com.performancetweaker.app.utils.AdUtils;
 import com.performancetweaker.app.utils.Constants;
 import com.performancetweaker.app.utils.SysUtils;
 
@@ -31,7 +30,6 @@ public class TimeInStatesFragment extends Fragment {
     SharedPreferences prefs;
     Context context;
     CardView cardView;
-    AdUtils adUtils;
     Integer adClickThreshold = 0;
 
     @Override
@@ -66,8 +64,6 @@ public class TimeInStatesFragment extends Fragment {
 
         totalTimeInState.setText(SysUtils.secToString(timeInStateAdapter.totaltime / 100));
         timeInStateAdapter.refresh();
-        adUtils = AdUtils.getInstance(context);
-        adUtils.loadInterstialAd();
     }
 
     @Override
@@ -78,9 +74,6 @@ public class TimeInStatesFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(adClickThreshold % 2 == 0) {
-            adUtils.showInterstialAd();
-        }
         adClickThreshold++;
         switch (item.getItemId()) {
             case R.id.refresh:

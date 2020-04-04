@@ -77,4 +77,7 @@ public interface Constants {
     String HOTPLUG_MPDEC = "mpdecision";
 
     String APK_NAME = "performancetweaker.apk";
+
+    String INTERSTITIAL_AD_PLACEMENT_ID = "YOUR_INTERSTITIAL_AD_PLACEMENT_ID";
+    String BANNER_AD_PLACEMENT_ID = (BuildConfig.BUILD_TYPE == "debug" ? "IMG_16_9_APP_INSTALL#" : "") + "626386947925103_626388387924959";
 }

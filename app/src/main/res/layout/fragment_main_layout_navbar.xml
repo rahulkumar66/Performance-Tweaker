@@ -42,15 +42,14 @@
                 android:scrollbarStyle="outsideOverlay" >
             </LinearLayout>
 
-            <com.google.android.gms.ads.AdView
-                xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/adView"
+            <LinearLayout
+                android:id="@+id/ad_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                ads:adSize="SMART_BANNER"
-                ads:adUnitId="ca-app-pub-5017946957970461/6518284384">
-            </com.google.android.gms.ads.AdView>
+                android:orientation="vertical">
+>
+            </LinearLayout>
 
         </FrameLayout>
 
