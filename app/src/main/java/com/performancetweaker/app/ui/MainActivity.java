@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -73,12 +74,36 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
 
-        Log.e("CHUTIYA",Constants.BANNER_AD_PLACEMENT_ID+"CHITIYA");
-
         AudienceNetworkAds.initialize(this);
         Log.e("GANDA",Constants.BANNER_AD_PLACEMENT_ID);
         adView = new AdView(this, Constants.BANNER_AD_PLACEMENT_ID, AdSize.BANNER_HEIGHT_50);
         adContainer.addView(adView);
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onError(Ad ad, AdError adError) {
+                // Ad error callback
+                Toast.makeText(MainActivity.this, "Error: " + adError.getErrorMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onAdLoaded(Ad ad) {
+                // Ad loaded callback
+                Toast.makeText(MainActivity.this, "Error: ",
+                        Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onAdClicked(Ad ad) {
+                // Ad clicked callback
+            }
+
+            @Override
+            public void onLoggingImpression(Ad ad) {
+                // Ad impression logged callback
+            }
+        });
         adView.loadAd();
 
         //disable the navigation bar initially
@@ -100,7 +125,6 @@ public class MainActivity extends AppCompatActivity
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         navigationView.setNavigationItemSelectedListener(this);
-
 
         new Task().execute();
     }
