@@ -1,81 +1,79 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-            android:title="Kernel">
+    <item android:title="Kernel">
 
         <menu>
             <group
-                    android:id="@+id/kernel_tweaks"
-                    android:checkableBehavior="single">
+                android:id="@+id/kernel_tweaks"
+                android:checkableBehavior="single">
 
                 <item
-                        android:id="@+id/nav_cpu"
-                        android:title="CPU"
-                        android:visible="true"/>
+                    android:id="@+id/nav_cpu"
+                    android:title="CPU"
+                    android:visible="true" />
                 <item
-                        android:id="@+id/nav_cpu_hotplug"
-                        android:title="CPU Hotplug"
-                        android:visible="false"
-                />
+                    android:id="@+id/nav_cpu_hotplug"
+                    android:title="CPU Hotplug"
+                    android:visible="false" />
                 <item
-                        android:id="@+id/nav_gpu"
-                        android:title="GPU"
-                        android:visible="false"/>
+                    android:id="@+id/nav_gpu"
+                    android:title="GPU"
+                    android:visible="false" />
                 <item
-                        android:id="@+id/nav_iocontrol"
-                        android:title="I/O Control"
-                        android:visible="true"/>
+                    android:id="@+id/nav_iocontrol"
+                    android:title="I/O Control"
+                    android:visible="true" />
             </group>
         </menu>
     </item>
 
-    <item
-            android:title="Stats">
+    <item android:title="Stats">
 
         <menu>
             <group
-                    android:id="@+id/stats"
-                    android:checkableBehavior="single">
+                android:id="@+id/stats"
+                android:checkableBehavior="single">
 
                 <item
-                        android:id="@+id/nav_wakelocks"
-                        android:title="Wakelocks"/>
+                    android:id="@+id/nav_wakelocks"
+                    android:title="Wakelocks" />
 
                 <item
-                        android:id="@+id/nav_tis"
-                        android:title="Time In State"/>
+                    android:id="@+id/nav_tis"
+                    android:title="Time In State" />
 
             </group>
         </menu>
     </item>
 
-    <item
-            android:title="Tools">
+    <item android:title="Tools">
 
         <menu>
             <group
-                    android:id="@+id/tools"
-                    android:checkableBehavior="single">
+                android:id="@+id/tools"
+                android:checkableBehavior="single">
                 <item
-                        android:id="@+id/build_prop"
-                        android:title="Build Prop Editor"/>
+                    android:id="@+id/build_prop"
+                    android:title="Build Prop Editor" />
                 <item
-                        android:id="@+id/vm"
-                        android:title="Virtual Memory"/>
+                    android:id="@+id/vm"
+                    android:title="Virtual Memory" />
             </group>
         </menu>
     </item>
-    <item
-            android:title="Misc">
+    <item android:title="Misc">
 
         <menu>
             <group
-                    android:id="@+id/misc"
-                    android:checkableBehavior="single">
+                android:id="@+id/misc"
+                android:checkableBehavior="single">
 
                 <item
-                        android:id="@+id/nav_settings"
-                        android:title="Settings"/>
+                    android:id="@+id/nav_settings"
+                    android:title="Settings" />
+                <item
+                    android:id="@+id/remove_ads_1day"
+                    android:title="Remove Ads(Free)" />
             </group>
         </menu>
     </item>

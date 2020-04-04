@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,9 +23,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.facebook.ads.Ad;
+import com.facebook.ads.AdError;
+import com.facebook.ads.AdListener;
 import com.facebook.ads.AdSize;
-import com.facebook.ads.AudienceNetworkAds;
-import com.facebook.ads.*;
+import com.facebook.ads.AdView;
 import com.google.android.material.navigation.NavigationView;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
@@ -39,6 +42,7 @@ import com.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
 import com.performancetweaker.app.ui.fragments.WakeLocksFragment;
 import com.performancetweaker.app.utils.CPUHotplugUtils;
 import com.performancetweaker.app.utils.Constants;
+import com.performancetweaker.app.utils.FANInterstialHelper;
 import com.performancetweaker.app.utils.GpuUtils;
 import com.stericson.RootTools.RootTools;
 
@@ -46,7 +50,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
-    private InterstitialAd mInterstitialAd;
 
     private Toolbar toolbar;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity
     private GpuUtils gpuUtils;
     private AdView adView;
     private LinearLayout adContainer;
+    private String TAG = Constants.App_Tag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,37 +77,33 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
 
-        AudienceNetworkAds.initialize(this);
-        Log.e("GANDA",Constants.BANNER_AD_PLACEMENT_ID);
         adView = new AdView(this, Constants.BANNER_AD_PLACEMENT_ID, AdSize.BANNER_HEIGHT_50);
         adContainer.addView(adView);
-
         adView.setAdListener(new AdListener() {
             @Override
             public void onError(Ad ad, AdError adError) {
-                // Ad error callback
-                Toast.makeText(MainActivity.this, "Error: " + adError.getErrorMessage(),
-                        Toast.LENGTH_LONG).show();
+                Log.e(TAG, "ERROR:BANNER-AD: " + adError.getErrorMessage());
             }
 
             @Override
             public void onAdLoaded(Ad ad) {
-                // Ad loaded callback
-                Toast.makeText(MainActivity.this, "Error: ",
-                        Toast.LENGTH_LONG).show();
+                Log.e(TAG, "BANNER-AD: loaded successfully");
             }
 
             @Override
             public void onAdClicked(Ad ad) {
-                // Ad clicked callback
+                Log.e(TAG, "BANNER-AD: clicked");
             }
 
             @Override
             public void onLoggingImpression(Ad ad) {
-                // Ad impression logged callback
+                Log.e(TAG, "BANNER-AD: logging impression");
             }
         });
         adView.loadAd();
+        FANInterstialHelper helper = FANInterstialHelper.getInstance(this);
+        helper.loadAd();
+        helper.showAd();
 
         //disable the navigation bar initially
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -203,6 +203,7 @@ public class MainActivity extends AppCompatActivity
                         fragment = new CpuHotplugFragment();
                         actionBar.setTitle(getString(R.string.cpu_hotplug));
                         break;
+
                 }
                 if (fragment != null) {
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
