@@ -19,12 +19,12 @@ public class FANInterstialHelper {
         interstitialAd.setAdListener(new InterstitialAdListener() {
             @Override
             public void onInterstitialDisplayed(Ad ad) {
-                Log.e(TAG, "FAN Interstitial ad displayed.");
+                Log.i(TAG, "FAN Interstitial ad displayed.");
             }
 
             @Override
             public void onInterstitialDismissed(Ad ad) {
-                Log.e(TAG, "FAN Interstitial ad dismissed.");
+                Log.i(TAG, "FAN Interstitial ad dismissed.");
                 interstitialAd.loadAd();
             }
 
@@ -35,17 +35,17 @@ public class FANInterstialHelper {
 
             @Override
             public void onAdLoaded(Ad ad) {
-                Log.d(TAG, "FAN: Interstitial ad is loaded and ready to be displayed!");
+                Log.i(TAG, "FAN: Interstitial ad is loaded and ready to be displayed!");
             }
 
             @Override
             public void onAdClicked(Ad ad) {
-                Log.d(TAG, "FAN Interstitial ad clicked!");
+                Log.i(TAG, "FAN Interstitial ad clicked!");
             }
 
             @Override
             public void onLoggingImpression(Ad ad) {
-                Log.d(TAG, "FAN Interstitial ad impression logged!");
+                Log.i(TAG, "FAN Interstitial ad impression logged!");
             }
         });
     }

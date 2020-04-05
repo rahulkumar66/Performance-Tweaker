@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -39,7 +38,6 @@ import com.performancetweaker.app.ui.fragments.IOControlFragment;
 import com.performancetweaker.app.ui.fragments.SettingsFragment;
 import com.performancetweaker.app.ui.fragments.TimeInStatesFragment;
 import com.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
-import com.performancetweaker.app.ui.fragments.WakeLocksFragment;
 import com.performancetweaker.app.utils.CPUHotplugUtils;
 import com.performancetweaker.app.utils.Constants;
 import com.performancetweaker.app.utils.FANInterstialHelper;
@@ -60,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     private GpuUtils gpuUtils;
     private AdView adView;
     private LinearLayout adContainer;
+    private FANInterstialHelper fanInterstialHelper;
     private String TAG = Constants.App_Tag;
 
     @Override
@@ -76,7 +75,6 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-
         adView = new AdView(this, Constants.BANNER_AD_PLACEMENT_ID, AdSize.BANNER_HEIGHT_50);
         adContainer.addView(adView);
         adView.setAdListener(new AdListener() {
@@ -87,23 +85,22 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onAdLoaded(Ad ad) {
-                Log.e(TAG, "BANNER-AD: loaded successfully");
+                Log.i(TAG, "BANNER-AD: loaded successfully");
             }
 
             @Override
             public void onAdClicked(Ad ad) {
-                Log.e(TAG, "BANNER-AD: clicked");
+                Log.i(TAG, "BANNER-AD: clicked");
             }
 
             @Override
             public void onLoggingImpression(Ad ad) {
-                Log.e(TAG, "BANNER-AD: logging impression");
+                Log.i(TAG, "BANNER-AD: logging impression");
             }
         });
         adView.loadAd();
-        FANInterstialHelper helper = FANInterstialHelper.getInstance(this);
-        helper.loadAd();
-        helper.showAd();
+        fanInterstialHelper = FANInterstialHelper.getInstance(getBaseContext());
+        fanInterstialHelper.loadAd();
 
         //disable the navigation bar initially
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -133,6 +130,7 @@ public class MainActivity extends AppCompatActivity
         if (adView != null) {
             adView.destroy();
         }
+        fanInterstialHelper.destroyAd();
         super.onDestroy();
     }
 
@@ -179,10 +177,10 @@ public class MainActivity extends AppCompatActivity
                         fragment = new IOControlFragment();
                         actionBar.setTitle(getString(R.string.io));
                         break;
-                    case R.id.nav_wakelocks:
-                        fragment = new WakeLocksFragment();
-                        actionBar.setTitle(getString(R.string.wakelocks));
-                        break;
+//                    case R.id.nav_wakelocks:
+//                        fragment = new WakeLocksFragment();
+//                        actionBar.setTitle(getString(R.string.wakelocks));
+//                        break;
                     case R.id.nav_settings:
                         fragment = new SettingsFragment();
                         actionBar.setTitle(getString(R.string.settings));
@@ -203,7 +201,6 @@ public class MainActivity extends AppCompatActivity
                         fragment = new CpuHotplugFragment();
                         actionBar.setTitle(getString(R.string.cpu_hotplug));
                         break;
-
                 }
                 if (fragment != null) {
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -256,7 +253,6 @@ public class MainActivity extends AppCompatActivity
             if (hasRoot && hasBusyBox) {
                 populateGui();
             } else {
-
                 progressBar.setVisibility(View.GONE);
 
                 appCompatibilityMessage.setVisibility(View.VISIBLE);
@@ -264,14 +260,12 @@ public class MainActivity extends AppCompatActivity
                         .setText(!hasRoot ? "No root access found" : "No Busybox found");
 
                 if (hasRoot) {
-                    //TODO redirect to playstore for installing busybox
                     try {
-                        startActivity(
-                                new Intent(Intent.ACTION_VIEW, Uri
-                                        .parse("market://details?id=stericson.busybox")));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=stericson.busybox")));
                     } catch (ActivityNotFoundException ignored) {
                     }
                 }
+                fanInterstialHelper.showAd();
             }
         }
     }

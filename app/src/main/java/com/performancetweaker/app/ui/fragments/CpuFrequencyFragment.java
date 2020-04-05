@@ -57,6 +57,9 @@ public class CpuFrequencyFragment extends PreferenceFragment
         CpuMaxFreqPreference.setOnPreferenceChangeListener(this);
         CpuMinFreqPreference.setOnPreferenceChangeListener(this);
         GovernorPreference.setOnPreferenceChangeListener(this);
+
+        fanInterstialHelper = FANInterstialHelper.getInstance(getActivity());
+        fanInterstialHelper.loadAd();
     }
 
     @Override
@@ -64,15 +67,6 @@ public class CpuFrequencyFragment extends PreferenceFragment
         super.onResume();
         updatePreferences();
         progressBar.setVisibility(View.GONE);
-        fanInterstialHelper = FANInterstialHelper.getInstance(context);
-        fanInterstialHelper.loadAd();
-    }
-
-    @Override
-    public void onDestroy() {
-        fanInterstialHelper.destroyAd();
-        super.onDestroy();
-
     }
 
     public void populatePreferences() {

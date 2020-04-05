@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.Constants;
+import com.performancetweaker.app.utils.FANInterstialHelper;
 import com.performancetweaker.app.utils.GpuUtils;
 import com.performancetweaker.app.utils.SystemAppUtilities;
 
@@ -22,6 +23,7 @@ public class SettingsFragment extends PreferenceFragment {
     MultiSelectListPreference mMultiSelectListPreference;
     Preference uninstallSystemAppButton;
     GpuUtils gpuUtils;
+    FANInterstialHelper fanInterstialHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +44,7 @@ public class SettingsFragment extends PreferenceFragment {
         uninstallSystemAppButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                fanInterstialHelper.showAd();
                 Boolean status = SystemAppUtilities.uninstallAsSystemApp(Constants.APK_NAME);
                 if(status) {
                     if(!SystemAppUtilities.isSystemApp(Constants.APK_NAME)) {
@@ -70,9 +73,17 @@ public class SettingsFragment extends PreferenceFragment {
         }
         mMultiSelectListPreference.setEntries(charSequences);
         mMultiSelectListPreference.setEntryValues(charSequences);
+        mMultiSelectListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                fanInterstialHelper.showAd();
+                return true;
+            }
+        });
 
         if(!SystemAppUtilities.isSystemApp(Constants.APK_NAME)) {
             preferenceCategory.removePreference(uninstallSystemAppButton);
         }
+        fanInterstialHelper = FANInterstialHelper.getInstance(getActivity());
     }
 }

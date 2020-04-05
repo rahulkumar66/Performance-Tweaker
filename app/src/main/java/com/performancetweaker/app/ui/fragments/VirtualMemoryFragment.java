@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.performancetweaker.app.R;
+import com.performancetweaker.app.utils.FANInterstialHelper;
 import com.performancetweaker.app.utils.VmUtils;
 
 import java.util.LinkedHashMap;
@@ -25,6 +26,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
     EditTextPreference editTextPreferences[];
     LinkedHashMap<String, String> vmEntries = new LinkedHashMap<>();
     ProgressBar progressBar;
+    FANInterstialHelper fanInterstialHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +40,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
         progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
         progressBar.setVisibility(View.VISIBLE);
         context = getActivity();
+        fanInterstialHelper = FANInterstialHelper.getInstance(context);
     }
 
     @Override
@@ -48,6 +51,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
+        fanInterstialHelper.showAd();
         VmUtils.setVM(newValue.toString(), preference.getKey());
         preference.setSummary(VmUtils.getVMValue(preference.getKey()));
         return true;
