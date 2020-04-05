@@ -9,11 +9,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
-import com.asksven.android.common.RootShell;
 import com.stericson.RootTools.RootTools;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SystemAppUtilities {
 
@@ -162,43 +160,5 @@ public class SystemAppUtilities {
         }
 
         return SysUtils.executeRootCommand(command);
-    }
-
-    public static boolean uninstallAsSystemApp(String apk) {
-        ArrayList<String> command = new ArrayList<>();
-        command.add("mount -o rw,remount /system");
-
-        if (Build.VERSION.SDK_INT >= 19) {
-            command.add("rm"+" "+SYSTEM_DIR_4_4 + "performancetweaker.apk");
-        } else {
-            command.add("rm"+" "+ SYSTEM_DIR + "performancetweaker.apk");
-        }
-
-        return SysUtils.executeRootCommand(command);
-    }
-
-    public static boolean isSystemApp(String apk)
-    {
-        boolean ret = false;
-        List<String> res;
-
-        String command = "";
-        if (Build.VERSION.SDK_INT >= 19)
-        {
-            command = "ls " + SYSTEM_DIR_4_4 + "/" + apk;
-        }
-        else
-        {
-            command = "ls " + SYSTEM_DIR + "/" + apk;
-        }
-
-        res = RootShell.getInstance().run(command);
-
-        if (res.size() > 0)
-        {
-            ret = !res.get(0).contains("No such file or directory");
-        }
-
-        return ret;
     }
 }

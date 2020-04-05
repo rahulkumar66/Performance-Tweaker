@@ -90,14 +90,14 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <com.github.lzyzsd.circleprogress.DonutProgress
-            android:id="@+id/cpu_wakelock_progress"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            custom:donut_finished_stroke_width="4dp"
-            custom:donut_max="100"
-            custom:donut_text_size="10sp"
-            custom:donut_unfinished_stroke_width="4dp" />
+<!--        <com.github.lzyzsd.circleprogress.DonutProgress-->
+<!--            android:id="@+id/cpu_wakelock_progress"-->
+<!--            android:layout_width="56dp"-->
+<!--            android:layout_height="56dp"-->
+<!--            custom:donut_finished_stroke_width="4dp"-->
+<!--            custom:donut_max="100"-->
+<!--            custom:donut_text_size="10sp"-->
+<!--            custom:donut_unfinished_stroke_width="4dp" />-->
     </LinearLayout>
 
 </LinearLayout>

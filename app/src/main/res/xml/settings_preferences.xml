@@ -10,10 +10,5 @@
             android:summary="Select Settings You Want to Apply on Boot"
             android:title="Apply on Boot"></MultiSelectListPreference>
 
-        <Preference android:title="Uninstall System App"
-            android:key="uninstall_system_app"
-            android:summary="Remove this app from system directory"
-            />
-
     </PreferenceCategory>
 </PreferenceScreen>

@@ -11,9 +11,6 @@ Performance-Tweaker is a simple app for tweaking:
  * Virtual Memory
  * Build prop Editor
 
-It also can monitor:
- * Battery or Wakelocks Stats i.e Spot rogue applications or sources which are causing battery drain
-
 
 
 ## Contribution

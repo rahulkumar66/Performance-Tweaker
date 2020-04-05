@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class SettingsFragment extends PreferenceFragment {
 
     MultiSelectListPreference mMultiSelectListPreference;
-    Preference uninstallSystemAppButton;
     GpuUtils gpuUtils;
     FANInterstialHelper fanInterstialHelper;
 
@@ -40,23 +39,6 @@ public class SettingsFragment extends PreferenceFragment {
 
         final PreferenceCategory preferenceCategory = (PreferenceCategory) findPreference("settings_category");
         mMultiSelectListPreference = (MultiSelectListPreference) findPreference("select_apply_on_boot");
-        uninstallSystemAppButton = findPreference("uninstall_system_app");
-        uninstallSystemAppButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                fanInterstialHelper.showAd();
-                Boolean status = SystemAppUtilities.uninstallAsSystemApp(Constants.APK_NAME);
-                if(status) {
-                    if(!SystemAppUtilities.isSystemApp(Constants.APK_NAME)) {
-                        preferenceCategory.removePreference(uninstallSystemAppButton);
-                    }
-                    Toast.makeText(getActivity(),"Successfully uninstalled app from system\n Please reboot for changes to take place",Toast.LENGTH_LONG);
-                }else {
-                    Toast.makeText(getActivity(),"Unknown error occurred while uninstalling app",Toast.LENGTH_SHORT);
-                }
-                return true;
-            }
-        });
 
         ArrayList<CharSequence> entries = new ArrayList<>();
         entries.add(getString(R.string.cpu_frequency));
@@ -80,10 +62,6 @@ public class SettingsFragment extends PreferenceFragment {
                 return true;
             }
         });
-
-        if(!SystemAppUtilities.isSystemApp(Constants.APK_NAME)) {
-            preferenceCategory.removePreference(uninstallSystemAppButton);
-        }
         fanInterstialHelper = FANInterstialHelper.getInstance(getActivity());
     }
 }
