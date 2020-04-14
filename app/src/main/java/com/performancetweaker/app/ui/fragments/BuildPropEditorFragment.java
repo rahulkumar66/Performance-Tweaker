@@ -152,7 +152,6 @@ public class BuildPropEditorFragment extends PreferenceFragment
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            fanInterstialHelper.showAd();
                             if (etValue.getText() != null && etName.getText() != null) {
                                 BuildPropUtils.addKey(etName.getText().toString().trim(),
                                         etValue.getText().toString().trim());

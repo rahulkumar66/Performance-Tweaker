@@ -34,10 +34,6 @@
                 android:id="@+id/stats"
                 android:checkableBehavior="single">
 
-<!--                <item-->
-<!--                    android:id="@+id/nav_wakelocks"-->
-<!--                    android:title="Wakelocks" />-->
-
                 <item
                     android:id="@+id/nav_tis"
                     android:title="Time In State" />
@@ -71,9 +67,6 @@
                 <item
                     android:id="@+id/nav_settings"
                     android:title="Settings" />
-<!--                <item-->
-<!--                    android:id="@+id/remove_ads_1day"-->
-<!--                    android:title="Remove Ads(Free)" />-->
             </group>
         </menu>
     </item>

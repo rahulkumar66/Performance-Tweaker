@@ -1,9 +1,6 @@
 package com.performancetweaker.app.utils;
 
 import android.content.Context;
-import android.widget.Toast;
-
-import com.performancetweaker.app.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -116,11 +113,6 @@ public class GpuUtils {
             commands.add("chmod 0664 " + governorPath);
             commands.add("echo " + governor + " > " + governorPath);
             boolean success = SysUtils.executeRootCommand(commands);
-
-            if (success) {
-                String msg = context.getString(R.string.ok_message);
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -153,11 +145,6 @@ public class GpuUtils {
             commands.add("echo " + maxFrequency + " > " + maxFrequencyPath);
 
             boolean success = SysUtils.executeRootCommand(commands);
-
-            if (success) {
-                String msg = context.getString(R.string.ok_message);
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -187,12 +174,7 @@ public class GpuUtils {
 
             commands.add("chmod 0664 " + minFrequencyPath);
             commands.add("echo " + minFrequency + " > " + minFrequencyPath);
-            boolean success = SysUtils.executeRootCommand(commands);
-
-            if (success) {
-                String msg = context.getString(R.string.ok_message);
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-            }
+            SysUtils.executeRootCommand(commands);
         }
     }
 

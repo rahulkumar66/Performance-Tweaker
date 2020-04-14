@@ -73,7 +73,7 @@ public class IOControlFragment extends PreferenceFragment
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-
+        fanInterstialHelper.showAd();
         if (preference.getKey().equals(Constants.PREF_IO_SCHEDULER)) {
             IOUtils.setDiskScheduler(o.toString(), context);
         }
@@ -94,7 +94,6 @@ public class IOControlFragment extends PreferenceFragment
     }
 
     public void updatePreferences() {
-        fanInterstialHelper.showAd();
         IOScheduler.setSummary(currentScheduler);
         ReadAheadCache.setSummary(currentReadAhead);
     }

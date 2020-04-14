@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
@@ -214,21 +215,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
-
-        if (getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG) != null
-                && getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG).isVisible()) {
-            //To go back to cpu frequency fragment by pressing back button
-//            getFragmentManager().beginTransaction()
-//                    .replace(R.id.main_content, new CpuFrequencyFragment())
-//                    .commit();
-        } else {
-            //  Toast.makeText(getBaseContext(), "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
-            super.onBackPressed();
-        }
-    }
-
     private class Task extends AsyncTask<Void, Void, Void> {
         private boolean hasRoot, hasBusyBox;
 
@@ -265,7 +251,6 @@ public class MainActivity extends AppCompatActivity
                     } catch (ActivityNotFoundException ignored) {
                     }
                 }
-                fanInterstialHelper.showAd();
             }
         }
     }

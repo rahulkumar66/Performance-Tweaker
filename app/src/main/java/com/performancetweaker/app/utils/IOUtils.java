@@ -1,9 +1,6 @@
 package com.performancetweaker.app.utils;
 
 import android.content.Context;
-import android.widget.Toast;
-
-import com.performancetweaker.app.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -93,10 +90,6 @@ public class IOUtils {
             }
 
             boolean success = SysUtils.executeRootCommand(mCommands);
-            if (success) {
-                String msg = context.getString(R.string.ok_message, getCurrentIOScheduler());
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -119,9 +112,5 @@ public class IOUtils {
             mCommands.add("echo " + readAhead + " > " + Constants.SD_CACHE);
         }
         boolean success = SysUtils.executeRootCommand(mCommands);
-        if (success) {
-            String msg = ctx.getString(R.string.ok_message, getReadAhead());
-            Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
-        }
     }
 }

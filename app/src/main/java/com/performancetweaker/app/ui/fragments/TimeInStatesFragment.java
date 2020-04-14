@@ -98,7 +98,7 @@ public class TimeInStatesFragment extends Fragment {
                 break;
         }
         if (adClickThreshold % 2 == 0) {
-            fanInterstialHelper.showAd();
+//            fanInterstialHelper.showAd();
         }
         return super.onOptionsItemSelected(item);
     }

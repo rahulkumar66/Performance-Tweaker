@@ -47,7 +47,7 @@ public class CpuHotplugFragment extends PreferenceFragment
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        fanInterstialHelper.showAd();
+//        fanInterstialHelper.showAd();
         CPUHotplugUtils.activateMpdecision(Boolean.parseBoolean(newValue.toString()));
         switchPreference.setChecked(CPUHotplugUtils.isMpdecisionActive());
         return Boolean.parseBoolean(newValue.toString());

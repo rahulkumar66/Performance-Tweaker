@@ -25,12 +25,8 @@ $ ./gradlew build
 
 ## Third party libraries
 
- * [Appcompat v7](https://developer.android.com/tools/support-library/features.html#v7-appcompat)
  * [Design](http://developer.android.com/tools/support-library/features.html#design)
- * [RootTools](https://github.com/Stericson/RootTools)
- * [AndroidCommon](https://github.com/asksven/AndroidCommon)
-
-
+ * [RootTools](https://github.com/Stericson/RootFTools)
 
 ## License
 

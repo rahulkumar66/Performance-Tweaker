@@ -2,7 +2,6 @@ package com.performancetweaker.app.utils;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.performancetweaker.app.R;
 
@@ -73,7 +72,6 @@ public class CpuFrequencyUtils {
             boolean success = SysUtils.executeRootCommand(commands);
             if (success) {
                 String msg = context.getString(R.string.ok_message);
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -95,7 +93,6 @@ public class CpuFrequencyUtils {
             boolean success = SysUtils.executeRootCommand(commands);
             if (success) {
                 String msg = context.getString(R.string.ok_message);
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -119,7 +116,6 @@ public class CpuFrequencyUtils {
             boolean success = SysUtils.executeRootCommand(commands);
             if (success) {
                 String msg = context.getString(R.string.governor_applied);
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -209,7 +205,6 @@ public class CpuFrequencyUtils {
 
         if (SysUtils.executeRootCommand(commands)) {
             String msg = context.getString(R.string.governor_applied);
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
         }
     }
 
