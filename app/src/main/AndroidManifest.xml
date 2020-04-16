@@ -44,10 +44,6 @@
         </receiver>
 
         <service android:name="com.performancetweaker.app.services.BootService" />
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="c268f7d3956a5c3b39f56b6f2cf245acaf9b6370" />
     </application>
 
 </manifest>

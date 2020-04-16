@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "780130359599",
+    "firebase_url": "https://performancetweaker.firebaseio.com",
+    "project_id": "performancetweaker",
+    "storage_bucket": "performancetweaker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780130359599:android:f0bbe3702211c4b21129da",
+        "android_client_info": {
+          "package_name": "com.performancetweaker.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "780130359599-i7p4cuda25a2l7i2f7hg5rbiqg5pknqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcNv7vYyoJ1uwroq1W03fV8kLwBVuiXjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "780130359599-i7p4cuda25a2l7i2f7hg5rbiqg5pknqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

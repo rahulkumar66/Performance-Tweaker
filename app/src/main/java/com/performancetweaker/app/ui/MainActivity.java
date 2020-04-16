@@ -135,7 +135,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void populateGui() {
-
         //enable navigation drawer
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         actionBar.setTitle("CPU");

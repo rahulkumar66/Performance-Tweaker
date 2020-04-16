@@ -12,14 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.CpuFrequencyUtils;
 import com.performancetweaker.app.utils.GovernorProperty;
 
 public class GovernorTuningFragment extends PreferenceFragment
-        implements Preference.OnPreferenceChangeListener, SwipeRefreshLayout.OnRefreshListener {
+        implements Preference.OnPreferenceChangeListener {
 
     public static String TAG = "GOVERNOR_TUNING";
     PreferenceCategory preferenceCategory;
@@ -27,13 +27,13 @@ public class GovernorTuningFragment extends PreferenceFragment
     GovernorProperty[] governorProperties;
     Context context;
     View view;
-    SwipeRefreshLayout swipeRefreshLayout;
+//    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_pref_refresh_container, container, false);
-        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+//        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         return view;
     }
 
@@ -46,17 +46,17 @@ public class GovernorTuningFragment extends PreferenceFragment
         preferenceCategory = (PreferenceCategory) findPreference("governor_tune_pref");
         context = getActivity();
 
-        swipeRefreshLayout.setOnRefreshListener(this);
+//        swipeRefreshLayout.setOnRefreshListener(this);
 
         //We are posting SwipeRefreshLayout it to a time in the future
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                new GetGovernorPropertiesTask().execute();
-            }
-        }, 500);
+//        new Handler().postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                swipeRefreshLayout.setRefreshing(true);
+//                new GetGovernorPropertiesTask().execute();
+//            }
+//        }, 500);
 //        adUtils = AdUtils.getInstance(context);
 //        adUtils.loadInterstialAd();
     }
@@ -69,11 +69,11 @@ public class GovernorTuningFragment extends PreferenceFragment
 //        adUtils.showInterstialAd();
         return true;
     }
-
-    @Override
-    public void onRefresh() {
-        new GetGovernorPropertiesTask().execute();
-    }
+//
+//    @Override
+//    public void onRefresh() {
+//        new GetGovernorPropertiesTask().execute();
+//    }
 
     private class GetGovernorPropertiesTask extends AsyncTask<Void, Void, GovernorProperty[]> {
 
@@ -101,7 +101,7 @@ public class GovernorTuningFragment extends PreferenceFragment
                     preferenceCategory.addPreference(editTextPreferences[i]);
                 }
             }
-            swipeRefreshLayout.setRefreshing(false);
+//            swipeRefreshLayout.setRefreshing(false);
         }
     }
 }
