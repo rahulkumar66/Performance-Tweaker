@@ -2,13 +2,13 @@ package com.performancetweaker.app.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import androidx.preference.ListPreference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.Constants;
@@ -16,8 +16,8 @@ import com.performancetweaker.app.utils.CpuFrequencyUtils;
 import com.performancetweaker.app.utils.FANInterstialHelper;
 
 
-public class CpuFrequencyFragment extends PreferenceFragment
-        implements Preference.OnPreferenceChangeListener {
+public class CpuFrequencyFragment extends PreferenceFragmentCompat
+        implements androidx.preference.Preference.OnPreferenceChangeListener {
 
     String[] availablefreq;
     String[] availableGovernors;
@@ -26,10 +26,10 @@ public class CpuFrequencyFragment extends PreferenceFragment
     ListPreference CpuMaxFreqPreference;
     ListPreference CpuMinFreqPreference;
     ListPreference GovernorPreference;
-  //  Preference preference;
     Context context;
     ProgressBar progressBar;
     FANInterstialHelper fanInterstialHelper;
+    private String rootKey;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,15 +40,14 @@ public class CpuFrequencyFragment extends PreferenceFragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setHasOptionsMenu(true);
-        addPreferencesFromResource(R.xml.cpu_freq_preference);
+        setPreferencesFromResource(R.xml.cpu_freq_preference, rootKey);
         context = getActivity().getBaseContext();
 
-        CpuMaxFreqPreference = (ListPreference) findPreference(Constants.PREF_CPU_MAX_FREQ);
-        CpuMinFreqPreference = (ListPreference) findPreference(Constants.PREF_CPU_MIN_FREQ);
-        GovernorPreference = (ListPreference) findPreference(Constants.PREF_CPU_GOV);
+        CpuMaxFreqPreference = findPreference(Constants.PREF_CPU_MAX_FREQ);
+        CpuMinFreqPreference = findPreference(Constants.PREF_CPU_MIN_FREQ);
+        GovernorPreference = findPreference(Constants.PREF_CPU_GOV);
 
         availablefreq = CpuFrequencyUtils.getAvailableFrequencies();
         availableGovernors = CpuFrequencyUtils.getAvailableGovernors();
@@ -98,7 +97,7 @@ public class CpuFrequencyFragment extends PreferenceFragment
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object o) {
+    public boolean onPreferenceChange(androidx.preference.Preference preference, Object o) {
         fanInterstialHelper.showAd();
         if (preference.getKey().equals(Constants.PREF_CPU_MIN_FREQ)) {
             CpuFrequencyUtils.setMinFrequency(o.toString(), context);
@@ -119,4 +118,6 @@ public class CpuFrequencyFragment extends PreferenceFragment
         maxFrequency = CpuFrequencyUtils.getCurrentMaxFrequency();
         minFrequency = CpuFrequencyUtils.getCurrentMinFrequency();
     }
+
+
 }

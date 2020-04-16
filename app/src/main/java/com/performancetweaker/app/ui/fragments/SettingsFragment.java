@@ -1,13 +1,13 @@
 package com.performancetweaker.app.ui.fragments;
 
 import android.os.Bundle;
-import android.preference.MultiSelectListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.preference.MultiSelectListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.FANInterstialHelper;
@@ -15,7 +15,7 @@ import com.performancetweaker.app.utils.GpuUtils;
 
 import java.util.ArrayList;
 
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
     MultiSelectListPreference mMultiSelectListPreference;
     GpuUtils gpuUtils;
@@ -28,23 +28,20 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     @Override
-    public void onCreate(Bundle paramBundle) {
-        super.onCreate(paramBundle);
-        addPreferencesFromResource(R.xml.settings_preferences);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.settings_preferences, rootKey);
 
         gpuUtils = GpuUtils.getInstance();
-
-        final PreferenceCategory preferenceCategory = (PreferenceCategory) findPreference("settings_category");
-        mMultiSelectListPreference = (MultiSelectListPreference) findPreference("select_apply_on_boot");
+        mMultiSelectListPreference = findPreference("select_apply_on_boot");
 
         ArrayList<CharSequence> entries = new ArrayList<>();
         entries.add(getString(R.string.cpu_frequency));
         if (gpuUtils.isGpuFrequencyScalingSupported()) {
             entries.add(getString(R.string.gpu_frequency));
         }
-        entries.add(getString(R.string.io));
-        entries.add(getString(R.string.build_prop));
-        entries.add(getString(R.string.vm));
+//        entries.add(getString(R.string.io));
+//        entries.add(getString(R.string.build_prop));
+//        entries.add(getString(R.string.vm));
 
         CharSequence[] charSequences = new CharSequence[entries.size()];
         for (int i = 0; i < entries.size(); i++) {
@@ -55,7 +52,6 @@ public class SettingsFragment extends PreferenceFragment {
         mMultiSelectListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-//                fanInterstialHelper.showAd();
                 return true;
             }
         });

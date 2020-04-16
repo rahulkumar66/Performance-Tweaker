@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.util.Log;
 
 import com.performancetweaker.app.R;
@@ -66,11 +66,11 @@ public class BootService extends IntentService {
 
         context = getApplicationContext();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        try {
-            Thread.sleep(30000);// wait some time and the apply settings
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(30000);// wait some time and the apply settings
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         if (RootTools.isAccessGiven()) {
             Set<String> applyOnBootSet = prefs.getStringSet(getString(R.string.apply_on_boot), null);
 

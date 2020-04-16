@@ -6,10 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.Preference;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceFragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +19,10 @@ import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
+import androidx.preference.EditTextPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.BuildPropUtils;
@@ -30,18 +30,16 @@ import com.performancetweaker.app.utils.FANInterstialHelper;
 
 import java.util.LinkedHashMap;
 
-public class BuildPropEditorFragment extends PreferenceFragment
-        implements Preference.OnPreferenceChangeListener {
+public class BuildPropEditorFragment extends PreferenceFragmentCompat {
 
-    PreferenceCategory preferenceCategory;
-    EditTextPreference editTextPreferences[];
-    LinkedHashMap<String, String> buildPropEntries = new LinkedHashMap<>();
+    private PreferenceCategory preferenceCategory;
+    private LinkedHashMap<String, String> buildPropEntries = new LinkedHashMap<>();
 
-    MenuItem searchItem;
-    Context context;
+    private MenuItem searchItem;
+    private Context context;
 
-    ProgressBar progressBar;
-    FANInterstialHelper fanInterstialHelper;
+    private ProgressBar progressBar;
+    private FANInterstialHelper fanInterstialHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,12 +47,12 @@ public class BuildPropEditorFragment extends PreferenceFragment
         return inflater.inflate(R.layout.fragment_pref_container, container, false);
     }
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setHasOptionsMenu(true);
 
-        progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
+        progressBar = getActivity().findViewById(R.id.loading_main);
         progressBar.setVisibility(View.VISIBLE);
 
         context = getActivity();
@@ -65,15 +63,6 @@ public class BuildPropEditorFragment extends PreferenceFragment
     public void onResume() {
         super.onResume();
         new populateBuildPropEntries().execute();
-    }
-
-    @Override
-    public boolean onPreferenceChange(Preference preference, Object o) {
-        fanInterstialHelper.showAd();
-        BuildPropUtils.overwrite(preference.getKey(), preference.getSummary().toString(),
-                preference.getKey(), o.toString());
-        preference.setSummary(o.toString());
-        return true;
     }
 
     @Override
@@ -112,7 +101,12 @@ public class BuildPropEditorFragment extends PreferenceFragment
                         editTextPreferences.setSummary(values[i].toString());
                         editTextPreferences.setDialogTitle(keys[i].toString());
                         editTextPreferences.setDefaultValue(values[i]);
-                        editTextPreferences.setOnPreferenceChangeListener(BuildPropEditorFragment.this);
+                        editTextPreferences.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                            @Override
+                            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                                return false;
+                            }
+                        });
 
                         preferenceCategory.addPreference(editTextPreferences);
                     }
@@ -139,8 +133,8 @@ public class BuildPropEditorFragment extends PreferenceFragment
         Activity activity = getActivity();
         final View editDialog =
                 LayoutInflater.from(getActivity()).inflate(R.layout.dialog_build_prop, null, false);
-        final EditText etName = (EditText) editDialog.findViewById(R.id.prop_name);
-        final EditText etValue = (EditText) editDialog.findViewById(R.id.prop_value);
+        final EditText etName = editDialog.findViewById(R.id.prop_name);
+        final EditText etValue = editDialog.findViewById(R.id.prop_value);
         if(!activity.isFinishing()) {
             new AlertDialog.Builder(activity).setView(editDialog)
                     .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -149,7 +143,7 @@ public class BuildPropEditorFragment extends PreferenceFragment
                             dialog.cancel();
                         }
                     })
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(getString(R.string.okbutton), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (etValue.getText() != null && etName.getText() != null) {
@@ -181,11 +175,11 @@ public class BuildPropEditorFragment extends PreferenceFragment
             super.onPostExecute(aVoid);
             addPreferencesFromResource(R.xml.build_prop_editor_fragment);
 
-            preferenceCategory = (PreferenceCategory) findPreference("build_prop_pref");
+            preferenceCategory = findPreference("build_prop_pref");
 
             if (buildPropEntries != null && buildPropEntries.size() != 0) {
                 progressBar.setVisibility(View.GONE);
-                editTextPreferences = new EditTextPreference[buildPropEntries.size()];
+                EditTextPreference[] editTextPreferences = new EditTextPreference[buildPropEntries.size()];
                 int i = 0;
                 for (LinkedHashMap.Entry<String, String> entry : buildPropEntries.entrySet()) {
                     editTextPreferences[i] = new EditTextPreference(context);
@@ -194,7 +188,16 @@ public class BuildPropEditorFragment extends PreferenceFragment
                     editTextPreferences[i].setSummary(entry.getValue());
                     editTextPreferences[i].setDialogTitle(entry.getKey());
                     editTextPreferences[i].setDefaultValue(entry.getValue());
-                    editTextPreferences[i].setOnPreferenceChangeListener(BuildPropEditorFragment.this);
+                    editTextPreferences[i].setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                        @Override
+                        public boolean onPreferenceChange(Preference preference, Object o) {
+                            fanInterstialHelper.showAd();
+                            BuildPropUtils.overwrite(preference.getKey(), preference.getSummary().toString(),
+                                    preference.getKey(), o.toString());
+                            preference.setSummary(o.toString());
+                            return true;
+                        }
+                    });
                     preferenceCategory.addPreference(editTextPreferences[i]);
                     i++;
                 }

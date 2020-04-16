@@ -1,7 +1,5 @@
 package com.performancetweaker.app.ui;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,7 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
@@ -33,7 +32,6 @@ import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
 import com.performancetweaker.app.ui.fragments.CpuFrequencyFragment;
 import com.performancetweaker.app.ui.fragments.CpuHotplugFragment;
-import com.performancetweaker.app.ui.fragments.GovernorTuningFragment;
 import com.performancetweaker.app.ui.fragments.GpuControlFragment;
 import com.performancetweaker.app.ui.fragments.IOControlFragment;
 import com.performancetweaker.app.ui.fragments.SettingsFragment;
@@ -175,7 +173,7 @@ public class MainActivity extends AppCompatActivity
                         actionBar.setTitle(R.string.time_in_state);
                         break;
                     case R.id.nav_iocontrol:
-                        fragment = new IOControlFragment();
+//                        fragment = new IOControlFragment();
                         actionBar.setTitle(getString(R.string.io));
                         break;
 //                    case R.id.nav_wakelocks:
@@ -183,28 +181,28 @@ public class MainActivity extends AppCompatActivity
 //                        actionBar.setTitle(getString(R.string.wakelocks));
 //                        break;
                     case R.id.nav_settings:
-                        fragment = new SettingsFragment();
+//                        fragment = new SettingsFragment();
                         actionBar.setTitle(getString(R.string.settings));
                         break;
                     case R.id.nav_gpu:
-                        fragment = new GpuControlFragment();
+//                        fragment = new GpuControlFragment();
                         actionBar.setTitle(getString(R.string.gpu_frequency));
                         break;
                     case R.id.build_prop:
-                        fragment = new BuildPropEditorFragment();
+//                        fragment = new BuildPropEditorFragment();
                         actionBar.setTitle(R.string.build_prop);
                         break;
                     case R.id.vm:
-                        fragment = new VirtualMemoryFragment();
+//                        fragment = new VirtualMemoryFragment();
                         actionBar.setTitle(getString(R.string.vm));
                         break;
                     case R.id.nav_cpu_hotplug:
-                        fragment = new CpuHotplugFragment();
+//                        fragment = new CpuHotplugFragment();
                         actionBar.setTitle(getString(R.string.cpu_hotplug));
                         break;
                 }
                 if (fragment != null) {
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
                     fragmentTransaction.replace(R.id.main_content, fragment).commitAllowingStateLoss();
                 }

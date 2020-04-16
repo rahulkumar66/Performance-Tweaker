@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.adapters.TimeInStatesListAdapter;
@@ -22,7 +23,7 @@ import com.performancetweaker.app.utils.Constants;
 import com.performancetweaker.app.utils.FANInterstialHelper;
 import com.performancetweaker.app.utils.SysUtils;
 
-public class TimeInStatesFragment extends Fragment {
+public class TimeInStatesFragment extends PreferenceFragmentCompat {
 
     View view;
     ListView listView;
@@ -33,6 +34,11 @@ public class TimeInStatesFragment extends Fragment {
     CardView cardView;
     Integer adClickThreshold = 0;
     FANInterstialHelper fanInterstialHelper;
+
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
