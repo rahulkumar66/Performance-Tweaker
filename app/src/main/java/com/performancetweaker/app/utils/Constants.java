@@ -78,6 +78,8 @@ public interface Constants {
 
     String APK_NAME = "performancetweaker.apk";
 
-    String INTERSTITIAL_AD_PLACEMENT_ID = (BuildConfig.BUILD_TYPE == "debug" ? "IMG_16_9_APP_INSTALL#" : "") + "2399395553684712_2400349406922660";
-    String BANNER_AD_PLACEMENT_ID = (BuildConfig.BUILD_TYPE == "debug" ? "IMG_16_9_APP_INSTALL#" : "") + "2399395553684712_2400350063589261";
+    String FAN_INTERSTITIAL_ID = (BuildConfig.BUILD_TYPE == "debug" ? "IMG_16_9_APP_INSTALL#" : "") + "2399395553684712_2400349406922660";
+    String FAN_BANNER_ID = (BuildConfig.BUILD_TYPE == "debug" ? "IMG_16_9_APP_INSTALL#" : "") + "2399395553684712_2400350063589261";
+    String ADMOB_BANNER_ID = BuildConfig.BUILD_TYPE == "debug" ? "ca-app-pub-3940256099942544/6300978111" : "ca-app-pub-8793770469730850/3803686200";
+    String ADMOB_INTERSTIAL_ID = BuildConfig.BUILD_TYPE == "debug" ? "ca-app-pub-3940256099942544/1033173712" : "ca-app-pub-8793770469730850/7543373240";
 }

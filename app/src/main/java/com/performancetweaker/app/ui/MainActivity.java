@@ -27,6 +27,7 @@ import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
 import com.facebook.ads.AdSize;
 import com.facebook.ads.AdView;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.material.navigation.NavigationView;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
@@ -40,7 +41,7 @@ import com.performancetweaker.app.ui.fragments.TimeInStatesFragment;
 import com.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
 import com.performancetweaker.app.utils.CPUHotplugUtils;
 import com.performancetweaker.app.utils.Constants;
-import com.performancetweaker.app.utils.FANInterstialHelper;
+import com.performancetweaker.app.utils.InterstialHelper;
 import com.performancetweaker.app.utils.GpuUtils;
 import com.stericson.RootTools.RootTools;
 
@@ -56,9 +57,9 @@ public class MainActivity extends AppCompatActivity
     private TextView appCompatibilityMessage;
     private ProgressBar progressBar;
     private GpuUtils gpuUtils;
-    private AdView adView;
-    private LinearLayout adContainer;
-    private FANInterstialHelper fanInterstialHelper;
+    private AdView fanAdView;
+    private LinearLayout bannerContainer;
+    private InterstialHelper fanInterstialHelper;
     private String TAG = Constants.App_Tag;
 
     @Override
@@ -71,21 +72,28 @@ public class MainActivity extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         appCompatibilityMessage = findViewById(R.id.app_compatibility_status);
         progressBar = findViewById(R.id.loading_main);
-        adContainer = findViewById(R.id.ad_container);
+        bannerContainer = findViewById(R.id.ad_container);
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        adView = new AdView(this, Constants.BANNER_AD_PLACEMENT_ID, AdSize.BANNER_HEIGHT_50);
-        adContainer.addView(adView);
-        adView.setAdListener(new AdListener() {
+        fanAdView = new AdView(this, Constants.FAN_BANNER_ID, AdSize.BANNER_HEIGHT_50);
+        final com.google.android.gms.ads.AdView admobBannerView = new com.google.android.gms.ads.AdView(getBaseContext());
+        admobBannerView.setAdSize(com.google.android.gms.ads.AdSize.SMART_BANNER);
+        admobBannerView.setAdUnitId(Constants.ADMOB_BANNER_ID);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        admobBannerView.loadAd(adRequest);
+
+        AdListener adListener = new AdListener() {
             @Override
             public void onError(Ad ad, AdError adError) {
-                Log.e(TAG, "ERROR:BANNER-AD: " + adError.getErrorMessage());
+                Log.e(TAG, "FAN: BANNER: ERROR: " + adError.getErrorMessage());
+                bannerContainer.removeView(fanAdView);
+                bannerContainer.addView(admobBannerView);
             }
 
             @Override
             public void onAdLoaded(Ad ad) {
-                Log.i(TAG, "BANNER-AD: loaded successfully");
+                Log.i(TAG, "FAN: BANNER-AD: loaded successfully");
             }
 
             @Override
@@ -97,10 +105,16 @@ public class MainActivity extends AppCompatActivity
             public void onLoggingImpression(Ad ad) {
                 Log.i(TAG, "BANNER-AD: logging impression");
             }
-        });
-        adView.loadAd();
-        fanInterstialHelper = FANInterstialHelper.getInstance(getBaseContext());
-        fanInterstialHelper.loadAd();
+        };
+
+        AdView.AdViewLoadConfig loadAdConfig = fanAdView.buildLoadAdConfig()
+                .withAdListener(adListener)
+                .build();
+
+        fanAdView.loadAd(loadAdConfig);
+        bannerContainer.addView(fanAdView);
+
+        fanInterstialHelper = InterstialHelper.getInstance(getBaseContext());
 
         //disable the navigation bar initially
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -127,8 +141,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        if (adView != null) {
-            adView.destroy();
+        if (fanAdView != null) {
+            fanAdView.destroy();
         }
         fanInterstialHelper.destroyAd();
         super.onDestroy();
@@ -157,7 +171,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(final MenuItem menuItem) {
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

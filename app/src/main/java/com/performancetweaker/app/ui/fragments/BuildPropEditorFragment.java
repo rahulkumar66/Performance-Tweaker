@@ -26,7 +26,7 @@ import androidx.core.view.MenuItemCompat;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.BuildPropUtils;
-import com.performancetweaker.app.utils.FANInterstialHelper;
+import com.performancetweaker.app.utils.InterstialHelper;
 
 import java.util.LinkedHashMap;
 
@@ -41,7 +41,7 @@ public class BuildPropEditorFragment extends PreferenceFragment
     Context context;
 
     ProgressBar progressBar;
-    FANInterstialHelper fanInterstialHelper;
+    InterstialHelper fanInterstialHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +58,7 @@ public class BuildPropEditorFragment extends PreferenceFragment
         progressBar.setVisibility(View.VISIBLE);
 
         context = getActivity();
-        fanInterstialHelper = FANInterstialHelper.getInstance(getActivity());
+        fanInterstialHelper = InterstialHelper.getInstance(getActivity());
     }
 
     @Override

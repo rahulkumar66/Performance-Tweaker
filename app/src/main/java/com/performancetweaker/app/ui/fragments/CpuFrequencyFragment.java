@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.Constants;
 import com.performancetweaker.app.utils.CpuFrequencyUtils;
-import com.performancetweaker.app.utils.FANInterstialHelper;
+import com.performancetweaker.app.utils.InterstialHelper;
 
 
 public class CpuFrequencyFragment extends PreferenceFragment
@@ -26,10 +26,9 @@ public class CpuFrequencyFragment extends PreferenceFragment
     ListPreference CpuMaxFreqPreference;
     ListPreference CpuMinFreqPreference;
     ListPreference GovernorPreference;
-  //  Preference preference;
     Context context;
     ProgressBar progressBar;
-    FANInterstialHelper fanInterstialHelper;
+    InterstialHelper fanInterstialHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +57,7 @@ public class CpuFrequencyFragment extends PreferenceFragment
         CpuMinFreqPreference.setOnPreferenceChangeListener(this);
         GovernorPreference.setOnPreferenceChangeListener(this);
 
-        fanInterstialHelper = FANInterstialHelper.getInstance(getActivity());
+        fanInterstialHelper = InterstialHelper.getInstance(getActivity());
         fanInterstialHelper.loadAd();
     }
 

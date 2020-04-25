@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.Constants;
-import com.performancetweaker.app.utils.FANInterstialHelper;
+import com.performancetweaker.app.utils.InterstialHelper;
 import com.performancetweaker.app.utils.GpuUtils;
 
 public class GpuControlFragment extends PreferenceFragment
@@ -28,7 +28,7 @@ public class GpuControlFragment extends PreferenceFragment
     String minFrequency;
     String currentGovernor;
     GpuUtils gpuUtils;
-    FANInterstialHelper fanInterstialHelper;
+    InterstialHelper fanInterstialHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +57,7 @@ public class GpuControlFragment extends PreferenceFragment
         minGpuFrequencyPreference.setOnPreferenceChangeListener(this);
         availableGpuGovernorPreference.setOnPreferenceChangeListener(this);
 
-        fanInterstialHelper = FANInterstialHelper.getInstance(getActivity());
+        fanInterstialHelper = InterstialHelper.getInstance(getActivity());
     }
 
     @Override
