@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.Constants;
-import com.performancetweaker.app.utils.FANInterstialHelper;
 import com.performancetweaker.app.utils.IOUtils;
 
 public class IOControlFragment extends PreferenceFragment
@@ -24,7 +23,6 @@ public class IOControlFragment extends PreferenceFragment
     ListPreference IOScheduler;
     ListPreference ReadAheadCache;
     Context context;
-    FANInterstialHelper fanInterstialHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +44,6 @@ public class IOControlFragment extends PreferenceFragment
 
         IOScheduler.setOnPreferenceChangeListener(this);
         ReadAheadCache.setOnPreferenceChangeListener(this);
-        fanInterstialHelper = FANInterstialHelper.getInstance(getActivity());
     }
 
     private void populatePreferences() {
@@ -94,7 +91,7 @@ public class IOControlFragment extends PreferenceFragment
     }
 
     public void updatePreferences() {
-        fanInterstialHelper.showAd();
+//        fanInterstialHelper.showAd();
         IOScheduler.setSummary(currentScheduler);
         ReadAheadCache.setSummary(currentReadAhead);
     }

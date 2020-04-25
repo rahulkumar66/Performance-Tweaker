@@ -8,21 +8,15 @@ import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.performancetweaker.app.R;
-import com.performancetweaker.app.utils.Constants;
-import com.performancetweaker.app.utils.FANInterstialHelper;
 import com.performancetweaker.app.utils.GpuUtils;
-import com.performancetweaker.app.utils.SystemAppUtilities;
-
 import java.util.ArrayList;
 
 public class SettingsFragment extends PreferenceFragment {
 
     MultiSelectListPreference mMultiSelectListPreference;
     GpuUtils gpuUtils;
-    FANInterstialHelper fanInterstialHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,10 +52,9 @@ public class SettingsFragment extends PreferenceFragment {
         mMultiSelectListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                fanInterstialHelper.showAd();
+//                fanInterstialHelper.showAd();
                 return true;
             }
         });
-        fanInterstialHelper = FANInterstialHelper.getInstance(getActivity());
     }
 }

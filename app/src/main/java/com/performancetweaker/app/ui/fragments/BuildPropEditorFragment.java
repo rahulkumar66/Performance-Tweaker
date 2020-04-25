@@ -26,7 +26,6 @@ import androidx.core.view.MenuItemCompat;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.BuildPropUtils;
-import com.performancetweaker.app.utils.FANInterstialHelper;
 
 import java.util.LinkedHashMap;
 
@@ -41,8 +40,6 @@ public class BuildPropEditorFragment extends PreferenceFragment
     Context context;
 
     ProgressBar progressBar;
-    FANInterstialHelper fanInterstialHelper;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,7 +55,6 @@ public class BuildPropEditorFragment extends PreferenceFragment
         progressBar.setVisibility(View.VISIBLE);
 
         context = getActivity();
-        fanInterstialHelper = FANInterstialHelper.getInstance(getActivity());
     }
 
     @Override
@@ -69,7 +65,7 @@ public class BuildPropEditorFragment extends PreferenceFragment
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-        fanInterstialHelper.showAd();
+//        fanInterstialHelper.showAd();
         BuildPropUtils.overwrite(preference.getKey(), preference.getSummary().toString(),
                 preference.getKey(), o.toString());
         preference.setSummary(o.toString());
@@ -152,7 +148,7 @@ public class BuildPropEditorFragment extends PreferenceFragment
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            fanInterstialHelper.showAd();
+//                            fanInterstialHelper.showAd();
                             if (etValue.getText() != null && etName.getText() != null) {
                                 BuildPropUtils.addKey(etName.getText().toString().trim(),
                                         etValue.getText().toString().trim());

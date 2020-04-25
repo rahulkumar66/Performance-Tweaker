@@ -43,13 +43,11 @@
                 android:scrollbarStyle="outsideOverlay" >
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ad_container"
+            <com.appodeal.ads.BannerView
+                android:id="@+id/appodealBannerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
-            </LinearLayout>
+                android:visibility="gone" />
 
         </FrameLayout>
 

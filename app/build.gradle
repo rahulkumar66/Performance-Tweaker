@@ -10,6 +10,12 @@ android {
         versionName "1.2.0"
         minSdkVersion 16
         targetSdkVersion 29
+        multiDexEnabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     packagingOptions {
@@ -41,10 +47,17 @@ repositories {
 dependencies {
 
     implementation files('libs/RootTools-3.4.jar')
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.facebook.android:audience-network-sdk:5.8.0'
     implementation 'com.google.firebase:firebase-analytics:17.3.0'
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta04'
+    implementation 'com.appodeal.ads.sdk:core:2.6.3'
+
+    implementation 'com.appodeal.ads.sdk.networks:applovin:2.6.0.3'
+    implementation 'com.appodeal.ads.sdk.networks:appodealx:2.6.0.1'
+    implementation 'com.appodeal.ads.sdk.networks:facebook:2.6.0.3'
+    implementation 'com.appodeal.ads.sdk.networks:admob:2.6.0.1'
+
+    implementation 'com.android.support:multidex:1.0.3'
 }

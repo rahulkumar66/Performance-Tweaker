@@ -19,7 +19,6 @@ import androidx.cardview.widget.CardView;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.adapters.TimeInStatesListAdapter;
 import com.performancetweaker.app.utils.Constants;
-import com.performancetweaker.app.utils.FANInterstialHelper;
 import com.performancetweaker.app.utils.SysUtils;
 
 public class TimeInStatesFragment extends Fragment {
@@ -32,7 +31,6 @@ public class TimeInStatesFragment extends Fragment {
     Context context;
     CardView cardView;
     Integer adClickThreshold = 0;
-    FANInterstialHelper fanInterstialHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +64,6 @@ public class TimeInStatesFragment extends Fragment {
 
         totalTimeInState.setText(SysUtils.secToString(timeInStateAdapter.totaltime / 100));
         timeInStateAdapter.refresh();
-        fanInterstialHelper = FANInterstialHelper.getInstance(getActivity());
     }
 
     @Override
@@ -98,7 +95,7 @@ public class TimeInStatesFragment extends Fragment {
                 break;
         }
         if (adClickThreshold % 2 == 0) {
-            fanInterstialHelper.showAd();
+//            fanInterstialHelper.showAd();
         }
         return super.onOptionsItemSelected(item);
     }

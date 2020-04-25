@@ -22,11 +22,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdListener;
-import com.facebook.ads.AdSize;
-import com.facebook.ads.AdView;
+import com.appodeal.ads.Appodeal;
+import com.appodeal.ads.BannerCallbacks;
 import com.google.android.material.navigation.NavigationView;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
@@ -40,7 +37,6 @@ import com.performancetweaker.app.ui.fragments.TimeInStatesFragment;
 import com.performancetweaker.app.ui.fragments.VirtualMemoryFragment;
 import com.performancetweaker.app.utils.CPUHotplugUtils;
 import com.performancetweaker.app.utils.Constants;
-import com.performancetweaker.app.utils.FANInterstialHelper;
 import com.performancetweaker.app.utils.GpuUtils;
 import com.stericson.RootTools.RootTools;
 
@@ -56,9 +52,7 @@ public class MainActivity extends AppCompatActivity
     private TextView appCompatibilityMessage;
     private ProgressBar progressBar;
     private GpuUtils gpuUtils;
-    private AdView adView;
     private LinearLayout adContainer;
-    private FANInterstialHelper fanInterstialHelper;
     private String TAG = Constants.App_Tag;
 
     @Override
@@ -71,36 +65,72 @@ public class MainActivity extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         appCompatibilityMessage = findViewById(R.id.app_compatibility_status);
         progressBar = findViewById(R.id.loading_main);
-        adContainer = findViewById(R.id.ad_container);
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        adView = new AdView(this, Constants.BANNER_AD_PLACEMENT_ID, AdSize.BANNER_HEIGHT_50);
-        adContainer.addView(adView);
-        adView.setAdListener(new AdListener() {
+//        Appodeal.setTesting(true);
+        Appodeal.setBannerViewId(R.id.appodealBannerView);
+        Appodeal.initialize(this, "3a82749de9fcc3b4d5ea099923104433b096688aa2a28b4d", Appodeal.BANNER, true);
+        Appodeal.show(this, Appodeal.BANNER_BOTTOM);
+        Appodeal.setBannerCallbacks(new BannerCallbacks() {
             @Override
-            public void onError(Ad ad, AdError adError) {
-                Log.e(TAG, "ERROR:BANNER-AD: " + adError.getErrorMessage());
+            public void onBannerLoaded(int i, boolean b) {
+                Log.d(TAG,"APPODEAL:loaded");
             }
 
             @Override
-            public void onAdLoaded(Ad ad) {
-                Log.i(TAG, "BANNER-AD: loaded successfully");
+            public void onBannerFailedToLoad() {
+                Log.e(TAG,"APPODEAL:Failed to load");
             }
 
             @Override
-            public void onAdClicked(Ad ad) {
-                Log.i(TAG, "BANNER-AD: clicked");
+            public void onBannerShown() {
+                Log.d(TAG,"APPODEAL:shown");
             }
 
             @Override
-            public void onLoggingImpression(Ad ad) {
-                Log.i(TAG, "BANNER-AD: logging impression");
+            public void onBannerShowFailed() {
+                Log.e(TAG,"APPODEAL:Failed to show");
+            }
+
+            @Override
+            public void onBannerClicked() {
+                Log.d(TAG,"APPODEAL:clicked");
+            }
+
+            @Override
+            public void onBannerExpired() {
+                Log.d(TAG,"APPODEAL:expired");
+
             }
         });
-        adView.loadAd();
-        fanInterstialHelper = FANInterstialHelper.getInstance(getBaseContext());
-        fanInterstialHelper.loadAd();
+
+//        adView = new AdView(this, Constants.BANNER_AD_PLACEMENT_ID, AdSize.BANNER_HEIGHT_50);
+//        adContainer.addView(adView);
+//        adView.setAdListener(new AdListener() {
+//            @Override
+//            public void onError(Ad ad, AdError adError) {
+//                Log.e(TAG, "ERROR:BANNER-AD: " + adError.getErrorMessage());
+//            }
+//
+//            @Override
+//            public void onAdLoaded(Ad ad) {
+//                Log.i(TAG, "BANNER-AD: loaded successfully");
+//            }
+//
+//            @Override
+//            public void onAdClicked(Ad ad) {
+//                Log.i(TAG, "BANNER-AD: clicked");
+//            }
+//
+//            @Override
+//            public void onLoggingImpression(Ad ad) {
+//                Log.i(TAG, "BANNER-AD: logging impression");
+//            }
+//        });
+//        adView.loadAd();
+//        fanInterstialHelper = FANInterstialHelper.getInstance(getBaseContext());
+//        fanInterstialHelper.loadAd();
 
         //disable the navigation bar initially
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -127,10 +157,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        if (adView != null) {
-            adView.destroy();
-        }
-        fanInterstialHelper.destroyAd();
         super.onDestroy();
     }
 
@@ -264,7 +290,6 @@ public class MainActivity extends AppCompatActivity
                     } catch (ActivityNotFoundException ignored) {
                     }
                 }
-                fanInterstialHelper.showAd();
             }
         }
     }

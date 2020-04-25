@@ -6,22 +6,26 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <!-- Added for Android M -->
-<!--    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!--optional-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!--optional-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!--optional-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:name=".PerfTweakerApplication"
-        android:hardwareAccelerated="true">
-<!--        <meta-data-->
-<!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
-<!--            android:value="ca-app-pub-5017946957970461~3483969072"/>-->
+        android:hardwareAccelerated="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:allowBackup="true">
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8793770469730850~6060166536"/>
         <activity
             android:name="com.performancetweaker.app.ui.MainActivity"
             android:label="@string/app_name"
@@ -45,5 +49,4 @@
 
         <service android:name="com.performancetweaker.app.services.BootService" />
     </application>
-
 </manifest>

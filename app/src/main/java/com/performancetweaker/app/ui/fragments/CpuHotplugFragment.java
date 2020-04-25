@@ -12,14 +12,12 @@ import android.view.ViewGroup;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.CPUHotplugUtils;
 import com.performancetweaker.app.utils.Constants;
-import com.performancetweaker.app.utils.FANInterstialHelper;
 
 public class CpuHotplugFragment extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {
 
     Context context;
     SwitchPreference switchPreference;
-    FANInterstialHelper fanInterstialHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,7 +32,6 @@ public class CpuHotplugFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.cpu_hotplug_preferences);
         switchPreference = (SwitchPreference) findPreference(Constants.PREF_HOTPLUG);
         context = getActivity().getBaseContext();
-        fanInterstialHelper = FANInterstialHelper.getInstance(getActivity());
     }
 
     @Override
@@ -47,7 +44,7 @@ public class CpuHotplugFragment extends PreferenceFragment
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        fanInterstialHelper.showAd();
+//        fanInterstialHelper.showAd();
         CPUHotplugUtils.activateMpdecision(Boolean.parseBoolean(newValue.toString()));
         switchPreference.setChecked(CPUHotplugUtils.isMpdecisionActive());
         return Boolean.parseBoolean(newValue.toString());
