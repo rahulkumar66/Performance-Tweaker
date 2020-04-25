@@ -83,11 +83,11 @@ public class BootService extends IntentService {
                     gov = prefs.getString(Constants.PREF_CPU_GOV, null);
                     Log.d(Constants.App_Tag, max + " " + min + " " + gov);
                     if (max != null)
-                        CpuFrequencyUtils.setMaxFrequency(max, context);
+                        CpuFrequencyUtils.setMaxFrequency(max);
                     if (min != null)
-                        CpuFrequencyUtils.setMinFrequency(min, context);
+                        CpuFrequencyUtils.setMinFrequency(min);
                     if (gov != null)
-                        CpuFrequencyUtils.setGovernor(gov, context);
+                        CpuFrequencyUtils.setGovernor(gov);
 
                 }
                 if (applyOnBootSet.contains(getString(R.string.gpu_frequency))) {
@@ -98,11 +98,11 @@ public class BootService extends IntentService {
                     Log.d("gpu", max + " " + min + " " + gov);
                     GpuUtils gpuUtils = GpuUtils.getInstance();
                     if (max != null)
-                        gpuUtils.setMaxGpuFrequency(max, context);
+                        gpuUtils.setMaxGpuFrequency(max);
                     if (min != null)
-                        gpuUtils.setMinFrequency(min, context);
+                        gpuUtils.setMinFrequency(min);
                     if (gov != null)
-                        gpuUtils.setGpuFrequencyScalingGovernor(gov, context);
+                        gpuUtils.setGpuFrequencyScalingGovernor(gov);
                 }
                 if (applyOnBootSet.contains(getString(R.string.vm))) {
 
@@ -114,9 +114,9 @@ public class BootService extends IntentService {
                     Log.d("io", ioScheduler + " " + readAhead);
 
                     if (ioScheduler != null)
-                        IOUtils.setDiskScheduler(ioScheduler, context);
+                        IOUtils.setDiskScheduler(ioScheduler);
                     if (readAhead != null)
-                        IOUtils.setReadAhead(readAhead, context);
+                        IOUtils.setReadAhead(readAhead);
                 }
                 if (applyOnBootSet.contains(getString(R.string.build_prop))) {
 

@@ -39,7 +39,6 @@ public class IOControlFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.io_preferences);
         IOScheduler = (ListPreference) findPreference(Constants.PREF_IO_SCHEDULER);
         ReadAheadCache = (ListPreference) findPreference(Constants.PREF_READ_AHEAD);
-
         context = getActivity().getBaseContext();
 
         populatePreferences();
@@ -50,7 +49,6 @@ public class IOControlFragment extends PreferenceFragment
     }
 
     private void populatePreferences() {
-
         updateData();
 
         if (availableSchedulers != null) {
@@ -73,12 +71,12 @@ public class IOControlFragment extends PreferenceFragment
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-
+        fanInterstialHelper.showAd();
         if (preference.getKey().equals(Constants.PREF_IO_SCHEDULER)) {
-            IOUtils.setDiskScheduler(o.toString(), context);
+            IOUtils.setDiskScheduler(o.toString());
         }
         if (preference.getKey().equals(Constants.PREF_READ_AHEAD)) {
-            IOUtils.setReadAhead(o.toString(), context);
+            IOUtils.setReadAhead(o.toString());
         }
 
         updateData();
@@ -94,7 +92,6 @@ public class IOControlFragment extends PreferenceFragment
     }
 
     public void updatePreferences() {
-        fanInterstialHelper.showAd();
         IOScheduler.setSummary(currentScheduler);
         ReadAheadCache.setSummary(currentReadAhead);
     }

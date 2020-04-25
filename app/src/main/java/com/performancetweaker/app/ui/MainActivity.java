@@ -176,10 +176,6 @@ public class MainActivity extends AppCompatActivity
                         fragment = new IOControlFragment();
                         actionBar.setTitle(getString(R.string.io));
                         break;
-//                    case R.id.nav_wakelocks:
-//                        fragment = new WakeLocksFragment();
-//                        actionBar.setTitle(getString(R.string.wakelocks));
-//                        break;
                     case R.id.nav_settings:
                         fragment = new SettingsFragment();
                         actionBar.setTitle(getString(R.string.settings));
@@ -264,7 +260,6 @@ public class MainActivity extends AppCompatActivity
                     } catch (ActivityNotFoundException ignored) {
                     }
                 }
-                fanInterstialHelper.showAd();
             }
         }
     }

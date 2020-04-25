@@ -39,9 +39,9 @@ public class TimeInStatesFragment extends Fragment {
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.time_in_states, container, false);
-        listView = (ListView) view.findViewById(R.id.time_in_state_listView);
-        totalTimeInState = (TextView) view.findViewById(R.id.total_time);
-        cardView = (CardView) view.findViewById(R.id.total_time_card);
+        listView = view.findViewById(R.id.time_in_state_listView);
+        totalTimeInState = view.findViewById(R.id.total_time);
+        cardView = view.findViewById(R.id.total_time_card);
         return view;
     }
 
@@ -49,7 +49,6 @@ public class TimeInStatesFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context = view.getContext();
-        adClickThreshold = 0;
         timeInStateAdapter = new TimeInStatesListAdapter(context);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(context);

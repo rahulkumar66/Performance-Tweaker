@@ -101,13 +101,13 @@ public class CpuFrequencyFragment extends PreferenceFragment
     public boolean onPreferenceChange(Preference preference, Object o) {
         fanInterstialHelper.showAd();
         if (preference.getKey().equals(Constants.PREF_CPU_MIN_FREQ)) {
-            CpuFrequencyUtils.setMinFrequency(o.toString(), context);
+            CpuFrequencyUtils.setMinFrequency(o.toString());
         }
         if (preference.getKey().equals(Constants.PREF_CPU_MAX_FREQ)) {
-            CpuFrequencyUtils.setMaxFrequency(o.toString(), context);
+            CpuFrequencyUtils.setMaxFrequency(o.toString());
         }
         if (preference.getKey().equals(Constants.PREF_CPU_GOV)) {
-            CpuFrequencyUtils.setGovernor(o.toString(), context);
+            CpuFrequencyUtils.setGovernor(o.toString());
         }
         updateData();
         updatePreferences();

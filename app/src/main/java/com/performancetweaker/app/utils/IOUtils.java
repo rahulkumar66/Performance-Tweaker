@@ -66,12 +66,10 @@ public class IOUtils {
         return res;
     }
 
-    public static void setDiskScheduler(String ioScheduler, Context context) {
-
+    public static boolean setDiskScheduler(String ioScheduler) {
         ArrayList<String> mCommands = new ArrayList<>();
 
         if (ioScheduler != null) {
-
             File[] devices = new File(Constants.available_blockdevices).listFiles();
 
             if (devices != null) {
@@ -91,17 +89,12 @@ public class IOUtils {
                     }
                 }
             }
-
-            boolean success = SysUtils.executeRootCommand(mCommands);
-            if (success) {
-                String msg = context.getString(R.string.ok_message, getCurrentIOScheduler());
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-            }
+            return SysUtils.executeRootCommand(mCommands);
         }
+        return false;
     }
 
-    public static void setReadAhead(String readAhead, Context ctx) {
-
+    public static boolean setReadAhead(String readAhead) {
         ArrayList<String> mCommands = new ArrayList<>();
         /*
          * prepare commands for changing the read ahead cache
@@ -118,10 +111,6 @@ public class IOUtils {
             mCommands.add("chmod 0644 " + Constants.SD_CACHE);
             mCommands.add("echo " + readAhead + " > " + Constants.SD_CACHE);
         }
-        boolean success = SysUtils.executeRootCommand(mCommands);
-        if (success) {
-            String msg = ctx.getString(R.string.ok_message, getReadAhead());
-            Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
-        }
+        return SysUtils.executeRootCommand(mCommands);
     }
 }

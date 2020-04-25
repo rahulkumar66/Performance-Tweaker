@@ -54,7 +54,7 @@ public class TimeInStateReader {
         }
         /*
          * calculate deep sleep time
-		 */
+         */
 
         if (withDeepSleep) {
             long deepSleepTime = (SystemClock.elapsedRealtime() - SystemClock.uptimeMillis()) / 10;

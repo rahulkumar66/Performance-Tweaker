@@ -1,10 +1,6 @@
 package com.performancetweaker.app.utils;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.performancetweaker.app.R;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -56,7 +52,7 @@ public class CpuFrequencyUtils {
         return SysUtils.readOutputFromFile(Constants.scaling_governor);
     }
 
-    public static void setMinFrequency(String minFrequency, Context context) {
+    public static boolean setMinFrequency(String minFrequency) {
         ArrayList<String> commands = new ArrayList<>();
         /*
          * prepare commands for each core
@@ -69,16 +65,12 @@ public class CpuFrequencyUtils {
                         + " > "
                         + Constants.scaling_min_freq.replace("cpu0", "cpu" + i));
             }
-
-            boolean success = SysUtils.executeRootCommand(commands);
-            if (success) {
-                String msg = context.getString(R.string.ok_message);
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-            }
+            return SysUtils.executeRootCommand(commands);
         }
+        return false;
     }
 
-    public static void setMaxFrequency(String maxFrequency, Context context) {
+    public static void setMaxFrequency(String maxFrequency) {
         ArrayList<String> commands = new ArrayList<>();
         /*
          * prepare commands for each core
@@ -93,15 +85,10 @@ public class CpuFrequencyUtils {
             }
 
             boolean success = SysUtils.executeRootCommand(commands);
-            if (success) {
-                String msg = context.getString(R.string.ok_message);
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
-    public static void setGovernor(String governor, Context context) {
-
+    public static boolean setGovernor(String governor) {
         ArrayList<String> commands = new ArrayList<>();
         /*
          * prepare commands for each core
@@ -115,13 +102,9 @@ public class CpuFrequencyUtils {
                         + " > "
                         + Constants.scaling_governor.replace("cpu0", "cpu" + i));
             }
-
-            boolean success = SysUtils.executeRootCommand(commands);
-            if (success) {
-                String msg = context.getString(R.string.governor_applied);
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-            }
+           return SysUtils.executeRootCommand(commands);
         }
+        return false;
     }
 
     public static int getCoreCount() {
@@ -197,7 +180,7 @@ public class CpuFrequencyUtils {
         return files;
     }
 
-    public static void setGovernorProperty(GovernorProperty property, Context context) {
+    public static boolean setGovernorProperty(GovernorProperty property) {
         String path = Constants.governor_prop_dir
                 + getCurrentScalingGovernor()
                 + "/"
@@ -207,10 +190,7 @@ public class CpuFrequencyUtils {
         commands.add("chmod 0644 " + path);
         commands.add("echo " + property.getGovernorPropertyValue() + " > " + path);
 
-        if (SysUtils.executeRootCommand(commands)) {
-            String msg = context.getString(R.string.governor_applied);
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-        }
+       return SysUtils.executeRootCommand(commands);
     }
 
     public static String[] toMhz(String... values) {

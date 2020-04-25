@@ -109,12 +109,11 @@ public class GpuControlFragment extends PreferenceFragment
     public boolean onPreferenceChange(Preference preference, Object value) {
         fanInterstialHelper.showAd();
         if (preference.getKey().equals(Constants.PREF_GPU_MAX)) {
-            gpuUtils.setMaxGpuFrequency(value.toString(), getActivity().getBaseContext());
+            gpuUtils.setMaxGpuFrequency(value.toString());
         } else if (preference.getKey().equals(Constants.PREF_GPU_MIN)) {
-            gpuUtils.setMinFrequency(value.toString(), getActivity().getBaseContext());
+            gpuUtils.setMinFrequency(value.toString());
         } else if (preference.getKey().equals(Constants.PREF_GPU_GOV)) {
-            gpuUtils.setGpuFrequencyScalingGovernor(value.toString(), getActivity()
-                    .getBaseContext());
+            gpuUtils.setGpuFrequencyScalingGovernor(value.toString());
         }
 
         updateData();

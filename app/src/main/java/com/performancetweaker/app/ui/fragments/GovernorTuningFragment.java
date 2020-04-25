@@ -3,7 +3,6 @@ package com.performancetweaker.app.ui.fragments;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
@@ -11,8 +10,6 @@ import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.CpuFrequencyUtils;
@@ -57,14 +54,11 @@ public class GovernorTuningFragment extends PreferenceFragment
 //                new GetGovernorPropertiesTask().execute();
 //            }
 //        }, 500);
-//        adUtils = AdUtils.getInstance(context);
-//        adUtils.loadInterstialAd();
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-        CpuFrequencyUtils.setGovernorProperty(new GovernorProperty(preference.getKey(), o.toString()),
-                getActivity());
+        CpuFrequencyUtils.setGovernorProperty(new GovernorProperty(preference.getKey(), o.toString()));
         preference.setSummary(o.toString());
 //        adUtils.showInterstialAd();
         return true;
