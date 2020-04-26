@@ -64,7 +64,6 @@ public class InterstialHelper {
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 Log.e(TAG, "Admob Interstitial ad failed to load: " + errorCode);
-                adMobInterstitial.loadAd(new AdRequest.Builder().build());
             }
 
             @Override
