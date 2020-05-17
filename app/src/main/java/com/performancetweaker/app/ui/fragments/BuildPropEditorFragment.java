@@ -59,6 +59,7 @@ public class BuildPropEditorFragment extends PreferenceFragment
 
         context = getActivity();
         fanInterstialHelper = InterstialHelper.getInstance(getActivity());
+        fanInterstialHelper.loadAd();
     }
 
     @Override

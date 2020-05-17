@@ -66,6 +66,7 @@ public class TimeInStatesFragment extends Fragment {
         totalTimeInState.setText(SysUtils.secToString(timeInStateAdapter.totaltime / 100));
         timeInStateAdapter.refresh();
         fanInterstialHelper = InterstialHelper.getInstance(getActivity());
+        fanInterstialHelper.loadAd();
     }
 
     @Override

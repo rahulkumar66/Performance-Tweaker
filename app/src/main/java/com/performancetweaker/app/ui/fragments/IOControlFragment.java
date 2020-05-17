@@ -46,6 +46,7 @@ public class IOControlFragment extends PreferenceFragment
         IOScheduler.setOnPreferenceChangeListener(this);
         ReadAheadCache.setOnPreferenceChangeListener(this);
         fanInterstialHelper = InterstialHelper.getInstance(getActivity());
+        fanInterstialHelper.loadAd();
     }
 
     private void populatePreferences() {

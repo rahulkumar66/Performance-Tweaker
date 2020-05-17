@@ -3,6 +3,7 @@ package com.performancetweaker.app.ui;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -22,12 +23,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.appnext.banners.BannerAdRequest;
+import com.appnext.banners.BannerListener;
+import com.appnext.banners.BannerSize;
+import com.appnext.banners.BannerView;
+import com.appnext.base.Appnext;
+import com.appnext.core.AppnextAdCreativeType;
+import com.appnext.core.AppnextError;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
 import com.facebook.ads.AdSize;
 import com.facebook.ads.AdView;
-import com.google.android.gms.ads.AdRequest;
+import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.material.navigation.NavigationView;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
@@ -58,14 +66,16 @@ public class MainActivity extends AppCompatActivity
     private ProgressBar progressBar;
     private GpuUtils gpuUtils;
     private AdView fanAdView;
+    BannerView appNextBanner;
     private LinearLayout bannerContainer;
-    private InterstialHelper fanInterstialHelper;
+    private InterstialHelper interstialHelper;
     private String TAG = Constants.App_Tag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main_layout_navbar);
+        initAds(this);
 
         navigationView = findViewById(R.id.navigation);
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -77,18 +87,39 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         fanAdView = new AdView(this, Constants.FAN_BANNER_ID, AdSize.BANNER_HEIGHT_50);
-        final com.google.android.gms.ads.AdView admobBannerView = new com.google.android.gms.ads.AdView(getBaseContext());
-        admobBannerView.setAdSize(com.google.android.gms.ads.AdSize.SMART_BANNER);
-        admobBannerView.setAdUnitId(Constants.ADMOB_BANNER_ID);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        admobBannerView.loadAd(adRequest);
+        appNextBanner = new BannerView(this);
+        appNextBanner.setPlacementId("6cb38705-9716-4764-a25e-117bfab4ba4d");
+        appNextBanner.setBannerSize(BannerSize.BANNER);
+        appNextBanner.loadAd(new BannerAdRequest());
+
+        appNextBanner.setBannerListener(new BannerListener() {
+            @Override
+            public void onError(AppnextError error) {
+                super.onError(error);
+            }
+
+            @Override
+            public void onAdLoaded(String s, AppnextAdCreativeType creativeType) {
+                super.onAdLoaded(s, creativeType);
+            }
+
+            @Override
+            public void adImpression() {
+                super.adImpression();
+            }
+
+            @Override
+            public void onAdClicked() {
+                super.onAdClicked();
+            }
+        });
 
         AdListener adListener = new AdListener() {
             @Override
             public void onError(Ad ad, AdError adError) {
                 Log.e(TAG, "FAN: BANNER: ERROR: " + adError.getErrorMessage());
                 bannerContainer.removeView(fanAdView);
-                bannerContainer.addView(admobBannerView);
+                bannerContainer.addView(appNextBanner);
             }
 
             @Override
@@ -114,7 +145,8 @@ public class MainActivity extends AppCompatActivity
         fanAdView.loadAd(loadAdConfig);
         bannerContainer.addView(fanAdView);
 
-        fanInterstialHelper = InterstialHelper.getInstance(getBaseContext());
+        interstialHelper = InterstialHelper.getInstance(getBaseContext());
+        interstialHelper.showAd();
 
         //disable the navigation bar initially
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -139,12 +171,20 @@ public class MainActivity extends AppCompatActivity
         new Task().execute();
     }
 
+    private void initAds(Context context) {
+        AudienceNetworkAds.initialize(context);
+        Appnext.init(context);
+    }
+
     @Override
     protected void onDestroy() {
         if (fanAdView != null) {
             fanAdView.destroy();
         }
-        fanInterstialHelper.destroyAd();
+        if (appNextBanner != null) {
+            appNextBanner.destroy();
+        }
+        interstialHelper.destroyAd();
         super.onDestroy();
     }
 

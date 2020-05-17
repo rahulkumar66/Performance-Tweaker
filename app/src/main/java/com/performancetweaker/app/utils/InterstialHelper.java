@@ -3,17 +3,18 @@ package com.performancetweaker.app.utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.appnext.ads.interstitial.Interstitial;
+import com.appnext.core.callbacks.OnAdClosed;
+import com.appnext.core.callbacks.OnAdError;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.InterstitialAd;
 import com.facebook.ads.InterstitialAdListener;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 
 public class InterstialHelper {
 
     private static InterstitialAd fanInterstitial;
-    private static com.google.android.gms.ads.InterstitialAd adMobInterstitial;
+    private static Interstitial appnextInterstitial;
     private static InterstialHelper interstialHelper;
 
     private static String TAG = Constants.App_Tag;
@@ -52,38 +53,18 @@ public class InterstialHelper {
             }
         });
 
-        adMobInterstitial = new com.google.android.gms.ads.InterstitialAd(context);
-        adMobInterstitial.setAdUnitId(Constants.ADMOB_INTERSTIAL_ID);
-        adMobInterstitial.loadAd(new AdRequest.Builder().build());
-        adMobInterstitial.setAdListener(new AdListener() {
+        appnextInterstitial = new Interstitial(context, "99958b29-0802-49a5-bc73-27fa65582ada");
+        appnextInterstitial.setOnAdErrorCallback(new OnAdError() {
             @Override
-            public void onAdLoaded() {
-                Log.i(TAG, "Admob: Interstitial ad is loaded and ready to be displayed!");
+            public void adError(String error) {
+                Log.d(TAG, "APPNEXT:ERROR" + error);
             }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                Log.e(TAG, "Admob Interstitial ad failed to load: " + errorCode);
-            }
-
-            @Override
-            public void onAdOpened() {
-                Log.i(TAG, "Admob Interstitial ad closed");
-            }
-
-            @Override
-            public void onAdClicked() {
-                Log.i(TAG, "Admob Interstitial ad closed");            }
-
-            @Override
-            public void onAdLeftApplication() {
-                Log.i(TAG, "Admob Interstitial ad closed");
-            }
-
+        });
+        appnextInterstitial.setOnAdClosedCallback(new OnAdClosed() {
             @Override
             public void onAdClosed() {
-                Log.i(TAG, "Admob Interstitial ad closed ");
-                adMobInterstitial.loadAd(new AdRequest.Builder().build());
+                Log.d(TAG, "APPNEXT:Ad Closed");
+                interstialHelper.loadAd();
             }
         });
     }
@@ -99,22 +80,25 @@ public class InterstialHelper {
         if (!fanInterstitial.isAdLoaded() || fanInterstitial.isAdInvalidated()) {
             fanInterstitial.loadAd();
         }
-        if (!adMobInterstitial.isLoading() || !adMobInterstitial.isLoaded()) {
-            adMobInterstitial.loadAd(new AdRequest.Builder().build());
+        if (!appnextInterstitial.isAdLoaded()) {
+            appnextInterstitial.loadAd();
         }
     }
 
     public void showAd() {
-        if (fanInterstitial.isAdLoaded()) {
+        if (appnextInterstitial.isAdLoaded()) {
+            appnextInterstitial.showAd();
+        } else if (fanInterstitial.isAdLoaded()) {
             fanInterstitial.show();
-        } else if (adMobInterstitial.isLoaded()) {
-            adMobInterstitial.show();
         }
     }
 
     public void destroyAd() {
         if (fanInterstitial != null) {
             fanInterstitial.destroy();
+        }
+        if (appnextInterstitial != null) {
+            appnextInterstitial.destroy();
         }
     }
 }

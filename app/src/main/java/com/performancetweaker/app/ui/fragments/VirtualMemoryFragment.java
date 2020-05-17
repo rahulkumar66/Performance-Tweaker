@@ -41,6 +41,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
         progressBar.setVisibility(View.VISIBLE);
         context = getActivity();
         fanInterstialHelper = InterstialHelper.getInstance(context);
+        fanInterstialHelper.loadAd();
     }
 
     @Override

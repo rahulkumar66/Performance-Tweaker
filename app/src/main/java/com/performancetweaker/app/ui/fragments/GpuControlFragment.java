@@ -58,6 +58,7 @@ public class GpuControlFragment extends PreferenceFragment
         availableGpuGovernorPreference.setOnPreferenceChangeListener(this);
 
         fanInterstialHelper = InterstialHelper.getInstance(getActivity());
+        fanInterstialHelper.loadAd();
     }
 
     @Override

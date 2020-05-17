@@ -3,22 +3,13 @@
     package="com.performancetweaker.app"
     android:installLocation="internalOnly">
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
+        android:name=".PerfTweakerApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".PerfTweakerApplication"
-        android:hardwareAccelerated="true">
-
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8793770469730850~6060166536"/>
+        android:theme="@style/AppTheme">
 
         <activity
             android:name="com.performancetweaker.app.ui.MainActivity"
@@ -43,5 +34,9 @@
 
         <service android:name="com.performancetweaker.app.services.BootService" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
 </manifest>
