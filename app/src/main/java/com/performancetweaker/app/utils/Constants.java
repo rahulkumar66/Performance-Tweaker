@@ -6,6 +6,7 @@ import com.performancetweaker.app.R;
 public interface Constants {
 
     String App_Tag = "Performance Tweaker";
+    String packageName = "com.performancetweaker.app";
     boolean debug = BuildConfig.DEBUG;
 
     // CPU

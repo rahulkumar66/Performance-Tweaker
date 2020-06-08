@@ -23,13 +23,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.appnext.banners.BannerAdRequest;
-import com.appnext.banners.BannerListener;
-import com.appnext.banners.BannerSize;
-import com.appnext.banners.BannerView;
-import com.appnext.base.Appnext;
-import com.appnext.core.AppnextAdCreativeType;
-import com.appnext.core.AppnextError;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
@@ -66,7 +59,6 @@ public class MainActivity extends AppCompatActivity
     private ProgressBar progressBar;
     private GpuUtils gpuUtils;
     private AdView fanAdView;
-    BannerView appNextBanner;
     private LinearLayout bannerContainer;
     private InterstialHelper interstialHelper;
     private String TAG = Constants.App_Tag;
@@ -87,39 +79,14 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         fanAdView = new AdView(this, Constants.FAN_BANNER_ID, AdSize.BANNER_HEIGHT_50);
-        appNextBanner = new BannerView(this);
-        appNextBanner.setPlacementId("6cb38705-9716-4764-a25e-117bfab4ba4d");
-        appNextBanner.setBannerSize(BannerSize.BANNER);
-        appNextBanner.loadAd(new BannerAdRequest());
 
-        appNextBanner.setBannerListener(new BannerListener() {
-            @Override
-            public void onError(AppnextError error) {
-                super.onError(error);
-            }
-
-            @Override
-            public void onAdLoaded(String s, AppnextAdCreativeType creativeType) {
-                super.onAdLoaded(s, creativeType);
-            }
-
-            @Override
-            public void adImpression() {
-                super.adImpression();
-            }
-
-            @Override
-            public void onAdClicked() {
-                super.onAdClicked();
-            }
-        });
 
         AdListener adListener = new AdListener() {
             @Override
             public void onError(Ad ad, AdError adError) {
                 Log.e(TAG, "FAN: BANNER: ERROR: " + adError.getErrorMessage());
-                bannerContainer.removeView(fanAdView);
-                bannerContainer.addView(appNextBanner);
+//                bannerContainer.removeView(fanAdView);
+//                bannerContainer.addView(appNextBanner);
             }
 
             @Override
@@ -173,16 +140,12 @@ public class MainActivity extends AppCompatActivity
 
     private void initAds(Context context) {
         AudienceNetworkAds.initialize(context);
-        Appnext.init(context);
     }
 
     @Override
     protected void onDestroy() {
         if (fanAdView != null) {
             fanAdView.destroy();
-        }
-        if (appNextBanner != null) {
-            appNextBanner.destroy();
         }
         interstialHelper.destroyAd();
         super.onDestroy();
