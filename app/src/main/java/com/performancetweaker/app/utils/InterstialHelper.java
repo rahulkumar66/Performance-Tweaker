@@ -26,6 +26,7 @@ public class InterstialHelper {
             @Override
             public void onInterstitialDismissed(Ad ad) {
                 Log.i(TAG, "FAN Interstitial ad dismissed.");
+                loadAd();
             }
 
             @Override
