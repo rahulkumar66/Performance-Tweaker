@@ -30,6 +30,7 @@ import com.facebook.ads.AdSize;
 import com.facebook.ads.AdView;
 import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
 import com.performancetweaker.app.ui.fragments.CpuFrequencyFragment;
@@ -61,12 +62,15 @@ public class MainActivity extends AppCompatActivity
     private AdView fanAdView;
     private LinearLayout bannerContainer;
     private InterstialHelper interstialHelper;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     private String TAG = Constants.App_Tag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main_layout_navbar);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         initAds(this);
 
         navigationView = findViewById(R.id.navigation);
@@ -139,6 +143,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initAds(Context context) {
+        String installer = context.getPackageManager().getInstallerPackageName(context.getPackageName());
+        mFirebaseAnalytics.setUserProperty("installer_source", installer);
+
+        String googlePlayPackageName = "com.android.vending";
+        if (googlePlayPackageName.equals(installer)) {
+            mFirebaseAnalytics.setUserProperty("showAd", "true");
+        }
+        else {
+            mFirebaseAnalytics.setUserProperty("showAd", "false");
+        }
         AudienceNetworkAds.initialize(context);
     }
 
@@ -178,45 +192,63 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
                 Fragment fragment = null;
+                Bundle bundle = new Bundle();
 
                 switch (menuItem.getItemId()) {
                     case R.id.nav_cpu:
                         fragment = new CpuFrequencyFragment();
-                        actionBar.setTitle(getString(R.string.cpu_frequency));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.cpu_frequency));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.cpu_frequency));
+                        actionBar.setTitle(R.string.cpu_frequency);
                         break;
                     case R.id.nav_tis:
                         fragment = new TimeInStatesFragment();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.time_in_state));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.time_in_state));
                         actionBar.setTitle(R.string.time_in_state);
                         break;
                     case R.id.nav_iocontrol:
                         fragment = new IOControlFragment();
-                        actionBar.setTitle(getString(R.string.io));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.io));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.io));
+                        actionBar.setTitle(R.string.io);
                         break;
                     case R.id.nav_settings:
                         fragment = new SettingsFragment();
-                        actionBar.setTitle(getString(R.string.settings));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.settings));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.settings));
+                        actionBar.setTitle(R.string.settings);
                         break;
                     case R.id.nav_gpu:
                         fragment = new GpuControlFragment();
-                        actionBar.setTitle(getString(R.string.gpu_frequency));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.gpu_frequency));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.gpu_frequency));
+                        actionBar.setTitle(R.string.gpu_frequency);
                         break;
                     case R.id.build_prop:
                         fragment = new BuildPropEditorFragment();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.build_prop));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.build_prop));
                         actionBar.setTitle(R.string.build_prop);
                         break;
                     case R.id.vm:
                         fragment = new VirtualMemoryFragment();
-                        actionBar.setTitle(getString(R.string.vm));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.vm));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.vm));
+                        actionBar.setTitle(R.string.vm);
                         break;
                     case R.id.nav_cpu_hotplug:
                         fragment = new CpuHotplugFragment();
-                        actionBar.setTitle(getString(R.string.cpu_hotplug));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.cpu_hotplug));
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.cpu_hotplug));
+                        actionBar.setTitle(R.string.cpu_hotplug);
                         break;
                 }
                 if (fragment != null) {
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
                     fragmentTransaction.replace(R.id.main_content, fragment).commitAllowingStateLoss();
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 }
             }
         }, 400);
@@ -260,6 +292,8 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            mFirebaseAnalytics.setUserProperty("hasRoot", String.valueOf(hasRoot));
+            mFirebaseAnalytics.setUserProperty("hasBusyBox", String.valueOf(hasBusyBox));
 
             if (hasRoot && hasBusyBox) {
                 populateGui();
