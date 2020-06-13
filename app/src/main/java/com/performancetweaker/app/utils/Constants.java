@@ -7,6 +7,7 @@ public interface Constants {
 
     String App_Tag = "Performance Tweaker";
     String packageName = "com.performancetweaker.app";
+    String googlePlayPackageName = "com.android.vending";
     boolean debug = BuildConfig.DEBUG;
 
     // CPU

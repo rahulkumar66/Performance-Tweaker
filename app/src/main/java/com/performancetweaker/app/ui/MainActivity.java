@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     private AdView fanAdView;
     private LinearLayout bannerContainer;
     private InterstialHelper interstialHelper;
-    private FirebaseAnalytics mFirebaseAnalytics;
+    private FirebaseAnalytics firebaseAnalytics;
 
     private String TAG = Constants.App_Tag;
 
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main_layout_navbar);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         initAds(this);
 
         navigationView = findViewById(R.id.navigation);
@@ -83,7 +84,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         fanAdView = new AdView(this, Constants.FAN_BANNER_ID, AdSize.BANNER_HEIGHT_50);
-
 
         AdListener adListener = new AdListener() {
             @Override
@@ -143,17 +143,42 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initAds(Context context) {
-        String installer = context.getPackageManager().getInstallerPackageName(context.getPackageName());
-        mFirebaseAnalytics.setUserProperty("installer_source", installer);
 
-        String googlePlayPackageName = "com.android.vending";
-        if (googlePlayPackageName.equals(installer)) {
-            mFirebaseAnalytics.setUserProperty("showAd", "true");
+        String installer = context.getPackageManager().getInstallerPackageName(context.getPackageName());
+        firebaseAnalytics.setUserProperty("installer_source", installer == null ? "invalid_source" : installer);
+        if (!isEmulator() && Constants.googlePlayPackageName.equals(installer)) {
+            firebaseAnalytics.setUserProperty("showAd", "true");
         }
         else {
-            mFirebaseAnalytics.setUserProperty("showAd", "false");
+            firebaseAnalytics.setUserProperty("showAd", "false");
         }
         AudienceNetworkAds.initialize(context);
+    }
+
+    private boolean isEmulator() {
+        firebaseAnalytics.setUserProperty("BRAND", Build.BRAND);
+        firebaseAnalytics.setUserProperty("DEVICE", Build.DEVICE);
+        firebaseAnalytics.setUserProperty("HARDWARE", Build.HARDWARE);
+        firebaseAnalytics.setUserProperty("MODEL", Build.MODEL);
+        firebaseAnalytics.setUserProperty("MANUFACTURER", Build.MANUFACTURER);
+        firebaseAnalytics.setUserProperty("PRODUCT", Build.PRODUCT);
+
+        return (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.HARDWARE.contains("goldfish")
+                || Build.HARDWARE.contains("ranchu")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || Build.PRODUCT.contains("sdk_google")
+                || Build.PRODUCT.contains("google_sdk")
+                || Build.PRODUCT.contains("sdk")
+                || Build.PRODUCT.contains("sdk_x86")
+                || Build.PRODUCT.contains("vbox86p")
+                || Build.PRODUCT.contains("emulator")
+                || Build.PRODUCT.contains("simulator");
     }
 
     @Override
@@ -248,7 +273,7 @@ public class MainActivity extends AppCompatActivity
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
                     fragmentTransaction.replace(R.id.main_content, fragment).commitAllowingStateLoss();
-                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 }
             }
         }, 400);
@@ -292,8 +317,8 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            mFirebaseAnalytics.setUserProperty("hasRoot", String.valueOf(hasRoot));
-            mFirebaseAnalytics.setUserProperty("hasBusyBox", String.valueOf(hasBusyBox));
+            firebaseAnalytics.setUserProperty("hasRoot", String.valueOf(hasRoot));
+            firebaseAnalytics.setUserProperty("hasBusyBox", String.valueOf(hasBusyBox));
 
             if (hasRoot && hasBusyBox) {
                 populateGui();
