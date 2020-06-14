@@ -1,5 +1,9 @@
 # Changelog
 
+### v3.1.1
+ - add multidex
+ - fix: back button
+ - load ads only on rooted devices
 
 ### v3.1.0
  - remove banner Ads
