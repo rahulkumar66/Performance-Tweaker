@@ -1,8 +1,8 @@
 package com.performancetweaker.app;
 
-import android.app.Application;
+import androidx.multidex.MultiDexApplication;
 
-public class PerfTweakerApplication extends Application {
+public class PerfTweakerApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {

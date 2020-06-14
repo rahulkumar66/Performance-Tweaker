@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,8 +24,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.facebook.ads.AdSize;
-import com.facebook.ads.AdView;
 import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -61,8 +58,6 @@ public class MainActivity extends AppCompatActivity
     private TextView appCompatibilityMessage;
     private ProgressBar progressBar;
     private GpuUtils gpuUtils;
-    private AdView fanAdView;
-    private LinearLayout bannerContainer;
     private InterstialHelper interstialHelper;
     private FirebaseAnalytics firebaseAnalytics;
     private boolean showAds;
@@ -75,7 +70,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.fragment_main_layout_navbar);
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-
         navigationView = findViewById(R.id.navigation);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
@@ -85,15 +79,6 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        if (isEmulator()) {
-            showAds = false;
-        } else {
-            showAds = true;
-            initAds(this);
-        }
-        firebaseAnalytics.setUserProperty("showAd", String.valueOf(showAds));
-        interstialHelper = InterstialHelper.getInstance(getBaseContext(), showAds);
-
 //        fanAdView = new AdView(this, Constants.FAN_BANNER_ID, AdSize.BANNER_HEIGHT_50);
 //        fanAdView.loadAd(fanAdView.buildLoadAdConfig().build());
 //        bannerContainer.addView(fanAdView);
@@ -119,11 +104,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         new Task().execute();
+
+        String installer = getBaseContext().getPackageManager().getInstallerPackageName(getBaseContext().getPackageName());
+        firebaseAnalytics.setUserProperty("installer_source", installer == null ? "invalid_source" : installer);
     }
 
     private void initAds(Context context) {
-        String installer = context.getPackageManager().getInstallerPackageName(context.getPackageName());
-        firebaseAnalytics.setUserProperty("installer_source", installer == null ? "invalid_source" : installer);
         MobileAds.initialize(context, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -161,9 +147,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        if (fanAdView != null) {
-            fanAdView.destroy();
-        }
+//        if (fanAdView != null) {
+//            fanAdView.destroy();
+//        }
         interstialHelper.destroyAd();
         super.onDestroy();
     }
@@ -263,16 +249,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
 
-//        if (getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG) != null
-//                && getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG).isVisible()) {
-//            //To go back to cpu frequency fragment by pressing back button
-////            getFragmentManager().beginTransaction()
-////                    .replace(R.id.main_content, new CpuFrequencyFragment())
-////                    .commit();
-//        } else {
-//            //  Toast.makeText(getBaseContext(), "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
-//            super.onBackPressed();
-//        }
+        if (getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG) != null
+                && getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG).isVisible()) {
+            //To go back to cpu frequency fragment by pressing back button
+//            getFragmentManager().beginTransaction()
+//                    .replace(R.id.main_content, new CpuFrequencyFragment())
+//                    .commit();
+        } else {
+            //  Toast.makeText(getBaseContext(), "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
+            super.onBackPressed();
+        }
     }
 
     private class Task extends AsyncTask<Void, Void, Void> {
@@ -288,7 +274,13 @@ public class MainActivity extends AppCompatActivity
         protected Void doInBackground(Void... voids) {
             hasRoot = RootTools.isAccessGiven();
             hasBusyBox = RootTools.isBusyboxAvailable() || RootTools.findBinary("toybox");
-
+            if(!isEmulator() && hasRoot && hasBusyBox) {
+                showAds = true;
+                initAds(MainActivity.this);
+            }
+            else {
+                showAds = false;
+            }
             return null;
         }
 
@@ -297,6 +289,8 @@ public class MainActivity extends AppCompatActivity
             super.onPostExecute(aVoid);
             firebaseAnalytics.setUserProperty("hasRoot", String.valueOf(hasRoot));
             firebaseAnalytics.setUserProperty("hasBusyBox", String.valueOf(hasBusyBox));
+            firebaseAnalytics.setUserProperty("showAd", String.valueOf(showAds));
+            interstialHelper = InterstialHelper.getInstance(getBaseContext(), showAds);
 
             if (hasRoot && hasBusyBox) {
                 populateGui();
