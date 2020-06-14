@@ -23,8 +23,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
 
     Context context;
     PreferenceCategory preferenceCategory;
-    EditTextPreference editTextPreferences[];
-    LinkedHashMap<String, String> vmEntries = new LinkedHashMap<>();
+    EditTextPreference[] editTextPreferences;
     ProgressBar progressBar;
     InterstialHelper fanInterstialHelper;
 
@@ -37,11 +36,10 @@ public class VirtualMemoryFragment extends PreferenceFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
+        progressBar = getActivity().findViewById(R.id.loading_main);
         progressBar.setVisibility(View.VISIBLE);
         context = getActivity();
         fanInterstialHelper = InterstialHelper.getInstance(context);
-        fanInterstialHelper.loadAd();
     }
 
     @Override
@@ -59,6 +57,7 @@ public class VirtualMemoryFragment extends PreferenceFragment
     }
 
     private class PopulateVmEntries extends AsyncTask<Void, Void, Void> {
+        LinkedHashMap<String, String> vmEntries = new LinkedHashMap<>();
 
         @Override
         protected Void doInBackground(Void... params) {

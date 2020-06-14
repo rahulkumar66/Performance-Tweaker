@@ -41,7 +41,7 @@ public interface Constants {
     };
 
     // icons
-    int icons[] = new int[]{
+    int[] icons = new int[]{
             R.drawable.ic_action_meter, R.drawable.ic_action_bar_chart, R.drawable.ic_action_backup,
             R.drawable.ic_action_battery_med, R.drawable.ic_action_prefs_widget
     };
@@ -80,6 +80,8 @@ public interface Constants {
 
     String APK_NAME = "performancetweaker.apk";
 
-    String FAN_INTERSTITIAL_ID = (BuildConfig.BUILD_TYPE == "debug" ? "IMG_16_9_APP_INSTALL#" : "") + "2399395553684712_2400349406922660";
-    String FAN_BANNER_ID = (BuildConfig.BUILD_TYPE == "debug" ? "IMG_16_9_APP_INSTALL#" : "") + "2399395553684712_2400350063589261";
+    String FAN_INTERSTITIAL_ID = (BuildConfig.BUILD_TYPE.equals("debug") ? "IMG_16_9_APP_INSTALL#" : "") + "2399395553684712_2400349406922660";
+    String FAN_BANNER_ID = (BuildConfig.BUILD_TYPE.equals(("debug")) ? "IMG_16_9_APP_INSTALL#" : "") + "2399395553684712_2400350063589261";
+
+    String ABMOB_INTERSTITIAL_ID = BuildConfig.BUILD_TYPE.equals("debug") ? "ca-app-pub-3940256099942544/1033173712" : "ca-app-pub-7180816724532508/5633765864";
 }

@@ -31,8 +31,6 @@ public class TimeInStatesFragment extends Fragment {
     SharedPreferences prefs;
     Context context;
     CardView cardView;
-    Integer adClickThreshold = 0;
-    InterstialHelper fanInterstialHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,8 +63,6 @@ public class TimeInStatesFragment extends Fragment {
 
         totalTimeInState.setText(SysUtils.secToString(timeInStateAdapter.totaltime / 100));
         timeInStateAdapter.refresh();
-        fanInterstialHelper = InterstialHelper.getInstance(getActivity());
-        fanInterstialHelper.loadAd();
     }
 
     @Override
@@ -77,7 +73,6 @@ public class TimeInStatesFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        adClickThreshold++;
         switch (item.getItemId()) {
             case R.id.refresh:
                 timeInStateAdapter.refresh();
@@ -96,9 +91,6 @@ public class TimeInStatesFragment extends Fragment {
 
             default:
                 break;
-        }
-        if (adClickThreshold % 2 == 0) {
-            fanInterstialHelper.showAd();
         }
         return super.onOptionsItemSelected(item);
     }

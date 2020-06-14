@@ -58,7 +58,6 @@ public class CpuFrequencyFragment extends PreferenceFragment
         GovernorPreference.setOnPreferenceChangeListener(this);
 
         fanInterstialHelper = InterstialHelper.getInstance(getActivity());
-        fanInterstialHelper.loadAd();
     }
 
     @Override

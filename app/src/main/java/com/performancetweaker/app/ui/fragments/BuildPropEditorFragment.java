@@ -54,12 +54,11 @@ public class BuildPropEditorFragment extends PreferenceFragment
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        progressBar = (ProgressBar) getActivity().findViewById(R.id.loading_main);
+        progressBar = getActivity().findViewById(R.id.loading_main);
         progressBar.setVisibility(View.VISIBLE);
 
         context = getActivity();
         fanInterstialHelper = InterstialHelper.getInstance(getActivity());
-        fanInterstialHelper.loadAd();
     }
 
     @Override
@@ -140,8 +139,8 @@ public class BuildPropEditorFragment extends PreferenceFragment
         Activity activity = getActivity();
         final View editDialog =
                 LayoutInflater.from(getActivity()).inflate(R.layout.dialog_build_prop, null, false);
-        final EditText etName = (EditText) editDialog.findViewById(R.id.prop_name);
-        final EditText etValue = (EditText) editDialog.findViewById(R.id.prop_value);
+        final EditText etName = editDialog.findViewById(R.id.prop_name);
+        final EditText etValue = editDialog.findViewById(R.id.prop_value);
         if(!activity.isFinishing()) {
             new AlertDialog.Builder(activity).setView(editDialog)
                     .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -156,8 +155,6 @@ public class BuildPropEditorFragment extends PreferenceFragment
                             if (etValue.getText() != null && etName.getText() != null) {
                                 BuildPropUtils.addKey(etName.getText().toString().trim(),
                                         etValue.getText().toString().trim());
-                            } else {
-                                return;
                             }
                         }
                     }).show();

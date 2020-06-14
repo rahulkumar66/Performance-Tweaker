@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,12 +25,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdListener;
 import com.facebook.ads.AdSize;
 import com.facebook.ads.AdView;
 import com.facebook.ads.AudienceNetworkAds;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.performancetweaker.app.R;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout bannerContainer;
     private InterstialHelper interstialHelper;
     private FirebaseAnalytics firebaseAnalytics;
+    private boolean showAds;
 
     private String TAG = Constants.App_Tag;
 
@@ -72,52 +74,29 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main_layout_navbar);
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        initAds(this);
+
 
         navigationView = findViewById(R.id.navigation);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
         appCompatibilityMessage = findViewById(R.id.app_compatibility_status);
         progressBar = findViewById(R.id.loading_main);
-        bannerContainer = findViewById(R.id.ad_container);
+//        bannerContainer = findViewById(R.id.ad_container);
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        fanAdView = new AdView(this, Constants.FAN_BANNER_ID, AdSize.BANNER_HEIGHT_50);
+        if (isEmulator()) {
+            showAds = false;
+        } else {
+            showAds = true;
+            initAds(this);
+        }
+        firebaseAnalytics.setUserProperty("showAd", String.valueOf(showAds));
+        interstialHelper = InterstialHelper.getInstance(getBaseContext(), showAds);
 
-        AdListener adListener = new AdListener() {
-            @Override
-            public void onError(Ad ad, AdError adError) {
-                Log.e(TAG, "FAN: BANNER: ERROR: " + adError.getErrorMessage());
-//                bannerContainer.removeView(fanAdView);
-//                bannerContainer.addView(appNextBanner);
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                Log.i(TAG, "FAN: BANNER-AD: loaded successfully");
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-                Log.i(TAG, "BANNER-AD: clicked");
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-                Log.i(TAG, "BANNER-AD: logging impression");
-            }
-        };
-
-        AdView.AdViewLoadConfig loadAdConfig = fanAdView.buildLoadAdConfig()
-                .withAdListener(adListener)
-                .build();
-
-        fanAdView.loadAd(loadAdConfig);
-        bannerContainer.addView(fanAdView);
-
-        interstialHelper = InterstialHelper.getInstance(getBaseContext());
-        interstialHelper.showAd();
+//        fanAdView = new AdView(this, Constants.FAN_BANNER_ID, AdSize.BANNER_HEIGHT_50);
+//        fanAdView.loadAd(fanAdView.buildLoadAdConfig().build());
+//        bannerContainer.addView(fanAdView);
 
         //disable the navigation bar initially
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -143,15 +122,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initAds(Context context) {
-
         String installer = context.getPackageManager().getInstallerPackageName(context.getPackageName());
         firebaseAnalytics.setUserProperty("installer_source", installer == null ? "invalid_source" : installer);
-        if (!isEmulator() && Constants.googlePlayPackageName.equals(installer)) {
-            firebaseAnalytics.setUserProperty("showAd", "true");
-        }
-        else {
-            firebaseAnalytics.setUserProperty("showAd", "false");
-        }
+        MobileAds.initialize(context, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
         AudienceNetworkAds.initialize(context);
     }
 
@@ -168,6 +145,7 @@ public class MainActivity extends AppCompatActivity
                 || Build.FINGERPRINT.startsWith("unknown")
                 || Build.HARDWARE.contains("goldfish")
                 || Build.HARDWARE.contains("ranchu")
+                || Build.HARDWARE.contains("android_x86")
                 || Build.MODEL.contains("google_sdk")
                 || Build.MODEL.contains("Emulator")
                 || Build.MODEL.contains("Android SDK built for x86")
@@ -212,7 +190,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(final MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -285,16 +263,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
 
-        if (getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG) != null
-                && getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG).isVisible()) {
-            //To go back to cpu frequency fragment by pressing back button
-//            getFragmentManager().beginTransaction()
-//                    .replace(R.id.main_content, new CpuFrequencyFragment())
-//                    .commit();
-        } else {
-            //  Toast.makeText(getBaseContext(), "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
-            super.onBackPressed();
-        }
+//        if (getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG) != null
+//                && getFragmentManager().findFragmentByTag(GovernorTuningFragment.TAG).isVisible()) {
+//            //To go back to cpu frequency fragment by pressing back button
+////            getFragmentManager().beginTransaction()
+////                    .replace(R.id.main_content, new CpuFrequencyFragment())
+////                    .commit();
+//        } else {
+//            //  Toast.makeText(getBaseContext(), "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
+//            super.onBackPressed();
+//        }
     }
 
     private class Task extends AsyncTask<Void, Void, Void> {
