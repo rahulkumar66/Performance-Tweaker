@@ -1,5 +1,11 @@
 # Changelog
 
+### v3.2.0
+ - Fix IO fragment crashes
+ - Fix several lint warnings
+ - Show ads for non rooted users
+ - Remove FAN Ads
+
 ### v3.1.1
  - add multidex
  - fix: back button
