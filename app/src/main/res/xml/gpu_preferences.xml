@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="GPU Frequency">
+    <PreferenceCategory android:title="GPU Cores">
         <ListPreference
                 android:key="gpu_min_freq_pref"
                 android:persistent="true"
@@ -13,11 +13,10 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="GPU Governor">
+    <PreferenceCategory android:title="GPU Scaling">
         <ListPreference
                 android:key="gpu_governor_pref"
                 android:persistent="true"
-                android:title="Change GPU Governor"/>
-
+                android:title="Scaling Governor"/>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -15,6 +15,8 @@ import java.util.List;
 
 public class CpuFrequencyUtils {
 
+    private static Integer cpuCount = 0;
+
     public static String[] getAvailableFrequencies() {
         String[] frequencies;
         if (new File(Constants.scaling_available_freq).exists()) {
@@ -56,7 +58,7 @@ public class CpuFrequencyUtils {
         ArrayList<String> commands = new ArrayList<>();
         /*
          * prepare commands for each core
-		 */
+         */
         if (minFrequency != null) {
             for (int i = 0; i < getCoreCount(); i++) {
                 commands.add("chmod 0664 " + Constants.scaling_min_freq.replace("cpu0", "cpu" + i));
@@ -74,7 +76,7 @@ public class CpuFrequencyUtils {
         ArrayList<String> commands = new ArrayList<>();
         /*
          * prepare commands for each core
-		 */
+         */
         if (maxFrequency != null) {
             for (int i = 0; i < getCoreCount(); i++) {
                 commands.add("chmod 0664 " + Constants.scaling_max_freq.replace("cpu0", "cpu" + i));
@@ -92,7 +94,7 @@ public class CpuFrequencyUtils {
         ArrayList<String> commands = new ArrayList<>();
         /*
          * prepare commands for each core
-		 */
+         */
         if (governor != null) {
             for (int i = 0; i < getCoreCount(); i++) {
                 commands.add("chmod 0644 " + Constants.scaling_governor.replace("cpu0", "cpu" + i));
@@ -102,7 +104,7 @@ public class CpuFrequencyUtils {
                         + " > "
                         + Constants.scaling_governor.replace("cpu0", "cpu" + i));
             }
-           return SysUtils.executeRootCommand(commands);
+            return SysUtils.executeRootCommand(commands);
         }
         return false;
     }
@@ -117,6 +119,13 @@ public class CpuFrequencyUtils {
                 return cores;
             }
         }
+    }
+
+    public static void isBigLITTLE() {
+        if (getCoreCount() > 4) {
+
+        }
+//        Runtime.getRuntime().availableProcessors();
     }
 
     public static GovernorProperty[] getGovernorProperties() {
@@ -190,7 +199,7 @@ public class CpuFrequencyUtils {
         commands.add("chmod 0644 " + path);
         commands.add("echo " + property.getGovernorPropertyValue() + " > " + path);
 
-       return SysUtils.executeRootCommand(commands);
+        return SysUtils.executeRootCommand(commands);
     }
 
     public static String[] toMhz(String... values) {

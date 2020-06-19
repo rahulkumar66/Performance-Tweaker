@@ -2,31 +2,44 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Cpu Frequency">
+    <PreferenceCategory android:title="CPU Scaling">
         <ListPreference
-                android:key="cpu_min_freq_pref"
-                android:persistent="true"
-                android:title="Minimum Frequency"/>
-        <ListPreference
-                android:key="cpu_max_freq_pref"
-                android:persistent="true"
-                android:title="Maximum Frequency"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Cpu Governor">
-        <ListPreference
-                android:key="governor_pref"
-                android:persistent="true"
-                android:summary="Change Current Scaling Governor"
-                android:title="Change Governor"/>
+            android:key="governor_pref"
+            android:persistent="true"
+            android:summary="Change Current Scaling Governor"
+            android:title="Scaling Governor" />
         <!--<Preference-->
-                <!--android:key="governor_tune_pref"-->
-                <!--android:persistent="true"-->
-                <!--android:summary="Fine Tune Governor Parameters"-->
-                <!--android:title="Governor Parameters"/>-->
+        <!--android:key="governor_tune_pref"-->
+        <!--android:persistent="true"-->
+        <!--android:summary="Fine Tune Governor Parameters"-->
+        <!--android:title="Governor Parameters"/>-->
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Big Cores">
+        <ListPreference
+            android:key="cpu_min_freq_pref"
+            android:persistent="true"
+            android:title="Minimum Frequency" />
+        <ListPreference
+            android:key="cpu_max_freq_pref"
+            android:persistent="true"
+            android:title="Maximum Frequency" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:enabled="false"
+        android:title="Little Cores">
+        <ListPreference
+            android:key="cpu_min_little_freq_pref"
+            android:persistent="true"
+            android:title="Minimum Frequency" />
+        <ListPreference
+            android:key="cpu_max_little_freq_pref"
+            android:persistent="true"
+            android:title="Maximum Frequency" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
