@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -24,7 +23,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -79,10 +77,6 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-//        fanAdView = new AdView(this, Constants.FAN_BANNER_ID, AdSize.BANNER_HEIGHT_50);
-//        fanAdView.loadAd(fanAdView.buildLoadAdConfig().build());
-//        bannerContainer.addView(fanAdView);
-
         //disable the navigation bar initially
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
@@ -115,7 +109,6 @@ public class MainActivity extends AppCompatActivity
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        AudienceNetworkAds.initialize(context);
     }
 
     private boolean isEmulator() {
@@ -147,9 +140,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-//        if (fanAdView != null) {
-//            fanAdView.destroy();
-//        }
         interstialHelper.destroyAd();
         super.onDestroy();
     }
