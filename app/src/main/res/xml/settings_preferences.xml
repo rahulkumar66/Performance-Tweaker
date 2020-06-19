@@ -8,7 +8,7 @@
             android:dialogTitle="Apply On Boot"
             android:key="select_apply_on_boot"
             android:summary="Select Settings You Want to Apply on Boot"
-            android:title="Apply on Boot"></MultiSelectListPreference>
+            android:title="Apply on Boot"/>
 
     </PreferenceCategory>
 </PreferenceScreen>

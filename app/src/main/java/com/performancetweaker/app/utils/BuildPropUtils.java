@@ -54,7 +54,7 @@ public class BuildPropUtils {
     public static String getOutputFromBuildProp() {
 
         StringBuilder buffer = new StringBuilder();
-        String data = null;
+        String data;
         Process process;
         BufferedReader stdinput;
 

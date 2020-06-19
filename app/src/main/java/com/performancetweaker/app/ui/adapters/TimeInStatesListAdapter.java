@@ -23,12 +23,11 @@ import java.util.HashMap;
 @SuppressLint("UseSparseArrays")
 public class TimeInStatesListAdapter extends BaseAdapter {
 
-    public long totaltime = 0;
+    public long totaltime;
     Context context;
-    ArrayList<CpuState> states = new ArrayList<>();
+    ArrayList<CpuState> states;
     HashMap<Integer, Long> _states = new HashMap<>();
     TimeInStateReader statesReader;
-    LayoutInflater inflater;
     SharedPreferences prefs;
     boolean filterNonZeroVals;
 
@@ -39,19 +38,18 @@ public class TimeInStatesListAdapter extends BaseAdapter {
         statesReader = TimeInStateReader.TimeInStatesReader();
         states = statesReader.getCpuStateTime(true, filterNonZeroVals);
         totaltime = statesReader.getTotalTimeInState();
-        /*
-         * remove zero values
-         */
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View rowView = inflater.inflate(R.layout.time_in_stat_list_item, parent, false);
-        TextView frequencyTextView = (TextView) rowView.findViewById(R.id.frequency);
-        ProgressBar mProgressBar = (ProgressBar) rowView.findViewById(R.id.progress);
-        TextView time = (TextView) rowView.findViewById(R.id.time);
-        TextView percentage = (TextView) rowView.findViewById(R.id.percentage);
+        if(convertView==null) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            convertView = inflater.inflate(R.layout.time_in_stat_list_item, parent, false);
+        }
+        TextView frequencyTextView = convertView.findViewById(R.id.frequency);
+        ProgressBar mProgressBar = convertView.findViewById(R.id.progress);
+        TextView time = convertView.findViewById(R.id.time);
+        TextView percentage = convertView.findViewById(R.id.percentage);
         CpuState state = states.get(position);
 
         if (state != null) {
@@ -72,7 +70,7 @@ public class TimeInStatesListAdapter extends BaseAdapter {
             percentage.setText(percent + "%");
         }
 
-        return rowView;
+        return convertView;
     }
 
     @Override
@@ -91,7 +89,7 @@ public class TimeInStatesListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return states.indexOf(position);
+        return position;
     }
 
     public void refresh() {

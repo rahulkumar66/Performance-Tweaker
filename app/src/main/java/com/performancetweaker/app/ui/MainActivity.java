@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity
     private GpuUtils gpuUtils;
     private InterstialHelper interstialHelper;
     private FirebaseAnalytics firebaseAnalytics;
-    private boolean showAds;
 
     private String TAG = Constants.App_Tag;
 
@@ -227,6 +226,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            initAds(MainActivity.this);
             interstialHelper = InterstialHelper.getInstance(getBaseContext(), true);
 
             if (hasRoot && hasBusyBox) {

@@ -52,7 +52,9 @@ public class BootService extends IntentService {
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,
                     getString(R.string.apply_on_boot_notification), NotificationManager.IMPORTANCE_DEFAULT);
             notificationChannel.setSound(null, null);
-            notificationManager.createNotificationChannel(notificationChannel);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
 
             Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID);
             builder.setContentTitle(getString(R.string.apply_on_boot_notification))

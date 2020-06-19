@@ -62,7 +62,7 @@ public class GpuUtils {
             }
         }
         for (int i = 0; i < gpuFrequencies.length; i++) {
-            if (gpuFrequencies[i] == "") {
+            if (gpuFrequencies[i].equals("")) {
                 return new String[]{};
             }
         }

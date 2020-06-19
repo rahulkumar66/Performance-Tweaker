@@ -126,7 +126,7 @@ public class CpuFrequencyUtils {
 
         if (f.exists()) {
 
-            List<File> govProperties = new ArrayList<>();
+            List<File> govProperties;
             File[] files = f.listFiles();
             if (files == null) {
                 //try reading as root
