@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -98,7 +97,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         new Task().execute();
-
         String installer = getBaseContext().getPackageManager().getInstallerPackageName(getBaseContext().getPackageName());
         firebaseAnalytics.setUserProperty("installer_source", installer == null ? "invalid_source" : installer);
     }
@@ -109,39 +107,6 @@ public class MainActivity extends AppCompatActivity
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-    }
-
-    private boolean isEmulator() {
-        firebaseAnalytics.setUserProperty("BRAND", Build.BRAND);
-        firebaseAnalytics.setUserProperty("DEVICE", Build.DEVICE);
-        firebaseAnalytics.setUserProperty("HARDWARE", Build.HARDWARE);
-        firebaseAnalytics.setUserProperty("MODEL", Build.MODEL);
-        firebaseAnalytics.setUserProperty("MANUFACTURER", Build.MANUFACTURER);
-        firebaseAnalytics.setUserProperty("PRODUCT", Build.PRODUCT);
-
-        return (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
-                || Build.FINGERPRINT.startsWith("generic")
-                || Build.FINGERPRINT.startsWith("unknown")
-                || Build.HARDWARE.contains("goldfish")
-                || Build.HARDWARE.contains("ranchu")
-                || Build.HARDWARE.contains("android_x86")
-                || Build.MODEL.contains("google_sdk")
-                || Build.MODEL.contains("Emulator")
-                || Build.MODEL.contains("Android SDK built for x86")
-                || Build.MANUFACTURER.contains("Genymotion")
-                || Build.PRODUCT.contains("sdk_google")
-                || Build.PRODUCT.contains("google_sdk")
-                || Build.PRODUCT.contains("sdk")
-                || Build.PRODUCT.contains("sdk_x86")
-                || Build.PRODUCT.contains("vbox86p")
-                || Build.PRODUCT.contains("emulator")
-                || Build.PRODUCT.contains("simulator");
-    }
-
-    @Override
-    protected void onDestroy() {
-        interstialHelper.destroyAd();
-        super.onDestroy();
     }
 
     public void populateGui() {
@@ -176,49 +141,41 @@ public class MainActivity extends AppCompatActivity
                 switch (menuItem.getItemId()) {
                     case R.id.nav_cpu:
                         fragment = new CpuFrequencyFragment();
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.cpu_frequency));
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.cpu_frequency));
                         actionBar.setTitle(R.string.cpu_frequency);
                         break;
                     case R.id.nav_tis:
                         fragment = new TimeInStatesFragment();
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.time_in_state));
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.time_in_state));
                         actionBar.setTitle(R.string.time_in_state);
                         break;
                     case R.id.nav_iocontrol:
                         fragment = new IOControlFragment();
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.io));
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.io));
                         actionBar.setTitle(R.string.io);
                         break;
                     case R.id.nav_settings:
                         fragment = new SettingsFragment();
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.settings));
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.settings));
                         actionBar.setTitle(R.string.settings);
                         break;
                     case R.id.nav_gpu:
                         fragment = new GpuControlFragment();
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.gpu_frequency));
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.gpu_frequency));
                         actionBar.setTitle(R.string.gpu_frequency);
                         break;
                     case R.id.build_prop:
                         fragment = new BuildPropEditorFragment();
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.build_prop));
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.build_prop));
                         actionBar.setTitle(R.string.build_prop);
                         break;
                     case R.id.vm:
                         fragment = new VirtualMemoryFragment();
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.vm));
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.vm));
                         actionBar.setTitle(R.string.vm);
                         break;
                     case R.id.nav_cpu_hotplug:
                         fragment = new CpuHotplugFragment();
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.cpu_hotplug));
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.cpu_hotplug));
                         actionBar.setTitle(R.string.cpu_hotplug);
                         break;
@@ -264,23 +221,13 @@ public class MainActivity extends AppCompatActivity
         protected Void doInBackground(Void... voids) {
             hasRoot = RootTools.isAccessGiven();
             hasBusyBox = RootTools.isBusyboxAvailable() || RootTools.findBinary("toybox");
-            if(!isEmulator() && hasRoot && hasBusyBox) {
-                showAds = true;
-                initAds(MainActivity.this);
-            }
-            else {
-                showAds = false;
-            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            firebaseAnalytics.setUserProperty("hasRoot", String.valueOf(hasRoot));
-            firebaseAnalytics.setUserProperty("hasBusyBox", String.valueOf(hasBusyBox));
-            firebaseAnalytics.setUserProperty("showAd", String.valueOf(showAds));
-            interstialHelper = InterstialHelper.getInstance(getBaseContext(), showAds);
+            interstialHelper = InterstialHelper.getInstance(getBaseContext(), true);
 
             if (hasRoot && hasBusyBox) {
                 populateGui();

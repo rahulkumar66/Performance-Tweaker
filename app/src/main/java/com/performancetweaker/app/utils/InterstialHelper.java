@@ -38,17 +38,6 @@ public class InterstialHelper {
         }
         return interstialHelper;
     }
-//
-//    public void loadAd() {
-//        if (showAdsFlag) {
-//            if (!adMobInterstitial.isLoaded()) {
-//                adMobInterstitial.loadAd(new AdRequest.Builder().build());
-//            }
-//            if (!fanInterstitial.isAdLoaded() || fanInterstitial.isAdInvalidated()) {
-//                fanInterstitial.loadAd();
-//            }
-//        }
-//    }
 
     public void showAd() {
         if (showAdsFlag && adShowCounter % 3 == 0) {
@@ -59,6 +48,4 @@ public class InterstialHelper {
         adShowCounter++;
     }
 
-    public void destroyAd() {
-    }
 }
