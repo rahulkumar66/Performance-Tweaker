@@ -24,9 +24,7 @@ public interface Constants {
     String governor_prop_dir = "/sys/devices/system/cpu/cpufreq/";
 
     // I/O
-    String available_blockdevices = "/sys/block/";
-    String available_schedulers = "/sys/block/mmcblk0/queue/scheduler";
-    String available_schedulers_path = "/sys/block/mmcblk1/queue/scheduler";
+
     String time_in_states = "/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state";
     String ioscheduler_mtd = "/sys/block/mtdblock0/queue/scheduler";
     String SD_CACHE = "/sys/devices/virtual/bdi/179:0/read_ahead_kb";

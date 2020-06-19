@@ -1,65 +1,56 @@
 package com.performancetweaker.app.utils;
 
-import android.content.Context;
-import android.widget.Toast;
-
-import com.performancetweaker.app.R;
-
 import java.io.File;
 import java.util.ArrayList;
 
 public class IOUtils {
+    private static String AVAILABLE_BLOCKDEVICES = "/sys/block/";
+    private static String AVAILABLE_SCHEDULER = "/sys/block/mmcblk0/queue/scheduler";
+    private static String AVAILABLE_SCHEDULER_PATH = "/sys/block/mmcblk1/queue/scheduler";
 
     public static String[] getAvailableIOScheduler() {
-        String schedulerPath;
-        if (new File(Constants.available_schedulers).exists()) {
-            schedulerPath = Constants.available_schedulers;
-        } else if (new File(Constants.available_schedulers_path).exists()) {
-            schedulerPath = Constants.available_schedulers_path;
-            /*
-             * Some devices don't have mmcblk0 block device so we instead use
-             * mtdblock0 to read the available schedulers
-             */
-        } else if (new File(Constants.ioscheduler_mtd).exists()) {
-            schedulerPath = Constants.ioscheduler_mtd;
-        } else {
-            return null;
-        }
-        String[] schedulers = SysUtils.readOutputFromFile(schedulerPath).split(" ");
-        for (int i = 0; i < schedulers.length; i++) {
-            if (schedulers[i].contains("]")) {
-                String temp = schedulers[i].substring(1, schedulers[i].length() - 1);
-                schedulers[i] = temp;
+        String schedulerPath = getSchedulerPath();
+        if (schedulerPath != null) {
+            String[] schedulers = SysUtils.readOutputFromFile(schedulerPath).split(" ");
+            for (int i = 0; i < schedulers.length; i++) {
+                if (schedulers[i].contains("]")) {
+                    String temp = schedulers[i].substring(1, schedulers[i].length() - 1);
+                    schedulers[i] = temp;
+                }
             }
+            return schedulers;
         }
-        return schedulers;
+        return new String[0];
     }
 
     public static String getCurrentIOScheduler() {
         String currentScheduler = null;
-        String[] schedulers = SysUtils.readOutputFromFile(Constants.available_schedulers).split(" ");
-        for (String string : schedulers) {
-            if (string.contains("[")) {
-                currentScheduler = string;
+        String schedulerPath = getSchedulerPath();
+        if (schedulerPath != null) {
+            String[] schedulers = SysUtils.readOutputFromFile(AVAILABLE_SCHEDULER).split(" ");
+            for (String string : schedulers) {
+                if (string.contains("[")) {
+                    currentScheduler = string;
+                }
             }
-        }
-        if (currentScheduler != null) {
-            return currentScheduler.substring(1, currentScheduler.length() - 1);
+            if (currentScheduler != null) {
+                return currentScheduler.substring(1, currentScheduler.length() - 1);
+            } else {
+                return "";
+            }
         } else {
             return "";
         }
     }
 
     public static String getReadAhead() {
-
         String res = null;
 
         for (int i = 0; i < 2; i++) {
-
-            File device = new File(Constants.available_blockdevices + "mmcblk" + i);
+            File device = new File(AVAILABLE_BLOCKDEVICES + "mmcblk" + i);
             if (device.exists()) {
 
-                device = new File(Constants.available_blockdevices + "mmcblk" + i + "/queue/read_ahead_kb");
+                device = new File(AVAILABLE_BLOCKDEVICES + "mmcblk" + i + "/queue/read_ahead_kb");
                 res = SysUtils.readOutputFromFile(device.getAbsolutePath());
             }
         }
@@ -68,9 +59,8 @@ public class IOUtils {
 
     public static boolean setDiskScheduler(String ioScheduler) {
         ArrayList<String> mCommands = new ArrayList<>();
-
         if (ioScheduler != null) {
-            File[] devices = new File(Constants.available_blockdevices).listFiles();
+            File[] devices = new File(AVAILABLE_BLOCKDEVICES).listFiles();
 
             if (devices != null) {
                 for (int i = 0; i < devices.length; i++) {
@@ -102,7 +92,7 @@ public class IOUtils {
         if (readAhead != null) {
             File block;
             for (int i = 0; i < 2; i++) {
-                block = new File(Constants.available_blockdevices + "mmcblk" + i + "/queue/read_ahead_kb");
+                block = new File(AVAILABLE_BLOCKDEVICES + "mmcblk" + i + "/queue/read_ahead_kb");
                 if (block.exists()) {
                     mCommands.add("chmod 0644 " + block.getAbsolutePath());
                     mCommands.add("echo " + readAhead + " > " + block.getAbsolutePath());
@@ -112,5 +102,21 @@ public class IOUtils {
             mCommands.add("echo " + readAhead + " > " + Constants.SD_CACHE);
         }
         return SysUtils.executeRootCommand(mCommands);
+    }
+
+    private static String getSchedulerPath() {
+        if (new File(AVAILABLE_SCHEDULER).exists()) {
+            return AVAILABLE_SCHEDULER;
+        } else if (new File(AVAILABLE_SCHEDULER_PATH).exists()) {
+            return AVAILABLE_SCHEDULER_PATH;
+        } else if (new File(Constants.ioscheduler_mtd).exists()) {
+            /*
+             * Some devices don't have mmcblk0 block device so we instead use
+             * mtdblock0 to read the available schedulers
+             */
+            return Constants.ioscheduler_mtd;
+        } else {
+            return null;
+        }
     }
 }
