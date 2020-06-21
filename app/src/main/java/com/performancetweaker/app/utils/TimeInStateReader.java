@@ -13,7 +13,8 @@ import java.util.Map;
 
 public class TimeInStateReader {
 
-    private String TIME_IN_STATES = "/sys/devices/system/cpu/cpu%d/cpufreq/stats/time_in_state";
+    private static final String TIME_IN_STATES = "/sys/devices/system/cpu/cpu%d/cpufreq/stats/time_in_state";
+    private static final String TIME_IN_STATE_2 = "/sys/devices/system/cpu/cpufreq/stats/cpu%d/time_in_state";
     public Map<Integer, Long> newStates = new HashMap<>();
     private ArrayList<CpuState> states = new ArrayList<>();
     private ArrayList<CpuState> _states = new ArrayList<>();
@@ -31,9 +32,11 @@ public class TimeInStateReader {
         states.clear();
         BufferedReader bufferedReader;
         Process process = null;
-        String cpuTimeInStatesPath = TIME_IN_STATES.replace("%d",String.valueOf(core));
+        String cpuTimeInStatesPath = TIME_IN_STATES.replace("%d", String.valueOf(core));
+        String cpuTimeInStatesPath2 = TIME_IN_STATE_2.replace("%d", String.valueOf(core));
         File statsFile = new File(cpuTimeInStatesPath);
-        if (statsFile.exists()) {
+        File statsFile2 = new File(cpuTimeInStatesPath2);
+        if (!statsFile.exists()) {
             if (statsFile.canRead()) {
                 String line;
                 try {
@@ -44,13 +47,30 @@ public class TimeInStateReader {
                 bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                 try {
                     while ((line = bufferedReader.readLine()) != null) {
-                        String entries[] = line.split(" ");
+                        String[] entries = line.split(" ");
                         long time = Long.parseLong(entries[1]);
                         states.add(new CpuState(Integer.parseInt(entries[0]), time));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        } else if (statsFile2.exists()) {
+            String line;
+            try {
+                process = Runtime.getRuntime().exec("cat " + cpuTimeInStatesPath2);
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+            bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            try {
+                while ((line = bufferedReader.readLine()) != null) {
+                    String[] entries = line.split(" ");
+                    long time = Long.parseLong(entries[1]);
+                    states.add(new CpuState(Integer.parseInt(entries[0]), time));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         /*

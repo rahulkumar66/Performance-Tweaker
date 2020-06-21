@@ -17,17 +17,21 @@ public class CpuFrequencyUtils {
 
     // CPU
     private static final String CPU_PRESENT = "/sys/devices/system/cpu/present";
-    private static String CPUFREQ_SYS_DIR = "/sys/devices/system/cpu/cpu%d/cpufreq/";
-    private static String SCALING_MIN_FREQ = CPUFREQ_SYS_DIR + "scaling_min_freq";
-    private static String cpuinfo_min_freq = CPUFREQ_SYS_DIR + "cpuinfo_min_freq";
-    private static String SCALING_MAX_FREQ = CPUFREQ_SYS_DIR + "scaling_max_freq";
-    private static String cpuinfo_max_freq = CPUFREQ_SYS_DIR + "cpuinfo_max_freq";
-    private static String scaling_cur_freq = CPUFREQ_SYS_DIR + "scaling_cur_freq";
-    private static String cpuinfo_cur_freq = CPUFREQ_SYS_DIR + "cpuinfo_cur_freq";
-    private static String SCALING_GOVERNOR = CPUFREQ_SYS_DIR + "scaling_governor";
-    private static String SCALING_FREQS_PATH = CPUFREQ_SYS_DIR + "scaling_available_frequencies";
-    private static String SCALING_AVAILABLE_GOVERNORS = CPUFREQ_SYS_DIR + "scaling_available_governors";
-    private static String TIME_IN_STATE_PATH = "/sys/devices/system/cpu/cpu%d/cpufreq/stats/time_in_state";
+    private static final String CPUFREQ_SYS_DIR = "/sys/devices/system/cpu/cpu%d/cpufreq/";
+    private static final String SCALING_MIN_FREQ = CPUFREQ_SYS_DIR + "scaling_min_freq";
+    private static final String cpuinfo_min_freq = CPUFREQ_SYS_DIR + "cpuinfo_min_freq";
+    private static final String SCALING_MAX_FREQ = CPUFREQ_SYS_DIR + "scaling_max_freq";
+    private static final String cpuinfo_max_freq = CPUFREQ_SYS_DIR + "cpuinfo_max_freq";
+    private static final String scaling_cur_freq = CPUFREQ_SYS_DIR + "scaling_cur_freq";
+    private static final String cpuinfo_cur_freq = CPUFREQ_SYS_DIR + "cpuinfo_cur_freq";
+    private static final String SCALING_GOVERNOR = CPUFREQ_SYS_DIR + "scaling_governor";
+    private static final String SCALING_FREQS_PATH = CPUFREQ_SYS_DIR + "scaling_available_frequencies";
+    private static final String SCALING_AVAILABLE_GOVERNORS = CPUFREQ_SYS_DIR + "scaling_available_governors";
+    private static final String TIME_IN_STATE_PATH = "/sys/devices/system/cpu/cpu%d/cpufreq/stats/time_in_state";
+    public static final String TIME_IN_STATE_2 = "/sys/devices/system/cpu/cpufreq/stats/cpu%d/time_in_state";
+
+
+    private static final String OPP_TABLE = "/sys/devices/system/cpu/cpu%d/opp_table";
 
     private static String governor_prop_dir = "/sys/devices/system/cpu/cpufreq/";
 
@@ -35,10 +39,8 @@ public class CpuFrequencyUtils {
         String[] frequencies;
         String currentCpuFreqsPath = SCALING_FREQS_PATH.replace("%d", String.valueOf(cpu));
         String timeInStatePath = TIME_IN_STATE_PATH.replace("%d", String.valueOf(cpu));
-        if (new File(currentCpuFreqsPath).exists()) {
-            frequencies = SysUtils.readOutputFromFile(currentCpuFreqsPath).split(" ");
-            return frequencies;
-        } else if (new File(timeInStatePath).exists()) {
+        String timeInStatePath2 = TIME_IN_STATE_2.replace("%d", String.valueOf(cpu));
+        if (new File(timeInStatePath).exists() || new File(timeInStatePath2).exists()) {
             ArrayList<CpuState> states;
             int i = 0;
             states = TimeInStateReader.TimeInStatesReader().getCpuStateTime(false, false, 0);
@@ -48,6 +50,9 @@ public class CpuFrequencyUtils {
                 frequencies[i] = String.valueOf(object.getFrequency());
                 i++;
             }
+            return frequencies;
+        } else if (new File(currentCpuFreqsPath).exists()) {
+            frequencies = SysUtils.readOutputFromFile(currentCpuFreqsPath).split(" ");
             return frequencies;
         } else {
             return new String[]{};
