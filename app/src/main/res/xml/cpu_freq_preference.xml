@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="cpu_freq_pref">
+    <!--<Preference-->
+    <!--android:key="governor_tune_pref"-->
+    <!--android:persistent="true"-->
+    <!--android:summary="Fine Tune Governor Parameters"-->
+    <!--android:title="Governor Parameters"/>-->
 
-    <PreferenceCategory android:title="CPU Scaling">
-        <ListPreference
-            android:key="governor_pref"
-            android:persistent="true"
-            android:summary="Change Current Scaling Governor"
-            android:title="Scaling Governor" />
-        <!--<Preference-->
-        <!--android:key="governor_tune_pref"-->
-        <!--android:persistent="true"-->
-        <!--android:summary="Fine Tune Governor Parameters"-->
-        <!--android:title="Governor Parameters"/>-->
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Big Cores">
+    <PreferenceCategory
+        android:title="Big Cores"
+        app:iconSpaceReserved="false">
         <ListPreference
             android:key="cpu_min_freq_pref"
             android:persistent="true"
@@ -25,12 +20,18 @@
             android:key="cpu_max_freq_pref"
             android:persistent="true"
             android:title="Maximum Frequency" />
+        <ListPreference
+            android:key="governor_pref"
+            android:persistent="true"
+            android:summary="Change Current Scaling Governor"
+            android:title="Scaling Governor" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:enabled="false"
-        android:title="Little Cores">
+        android:key="little_pref"
+        android:title="Little Cores"
+        app:iconSpaceReserved="false">
         <ListPreference
             android:key="cpu_min_little_freq_pref"
             android:persistent="true"
@@ -39,6 +40,11 @@
             android:key="cpu_max_little_freq_pref"
             android:persistent="true"
             android:title="Maximum Frequency" />
+        <ListPreference
+            android:key="governor_little_pref"
+            android:persistent="true"
+            android:summary="Change Current Scaling Governor"
+            android:title="Scaling Governor" />
 
     </PreferenceCategory>
 

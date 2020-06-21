@@ -36,13 +36,13 @@ public class TimeInStatesListAdapter extends BaseAdapter {
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         filterNonZeroVals = prefs.getBoolean(Constants.PREF_ZERO_VALS, true);
         statesReader = TimeInStateReader.TimeInStatesReader();
-        states = statesReader.getCpuStateTime(true, filterNonZeroVals);
+        states = statesReader.getCpuStateTime(true, filterNonZeroVals, 0);
         totaltime = statesReader.getTotalTimeInState();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView==null) {
+        if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             convertView = inflater.inflate(R.layout.time_in_stat_list_item, parent, false);
         }
@@ -93,14 +93,14 @@ public class TimeInStatesListAdapter extends BaseAdapter {
     }
 
     public void refresh() {
-        states = statesReader.getCpuStateTime(true, filterNonZeroVals);
+        states = statesReader.getCpuStateTime(true, filterNonZeroVals, 0);
         totaltime = statesReader.getTotalTimeInState();
         notifyDataSetChanged();
     }
 
     public void saveOffsets() {
         String data = "";
-        ArrayList<CpuState> newStates = statesReader.getCpuStateTime(true, filterNonZeroVals);
+        ArrayList<CpuState> newStates = statesReader.getCpuStateTime(true, filterNonZeroVals, 0);
         for (CpuState state : newStates) {
             data += state.getFrequency() + " " + state.getTime() + ",";
         }
@@ -113,7 +113,7 @@ public class TimeInStatesListAdapter extends BaseAdapter {
         removeOffsets();
         saveOffsets();
         loadPreviousStats();
-        states = statesReader.getCpuStateTime(true, filterNonZeroVals);
+        states = statesReader.getCpuStateTime(true, filterNonZeroVals, 0);
         totaltime = statesReader.getTotalTimeInState();
         refresh();
     }

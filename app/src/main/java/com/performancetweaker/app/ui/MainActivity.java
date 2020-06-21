@@ -1,7 +1,6 @@
 package com.performancetweaker.app.ui;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -139,9 +140,13 @@ public class MainActivity extends AppCompatActivity
 
                 switch (menuItem.getItemId()) {
                     case R.id.nav_cpu:
-                        fragment = new CpuFrequencyFragment();
+                        PreferenceFragmentCompat f = new CpuFrequencyFragment();
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.cpu_frequency));
                         actionBar.setTitle(R.string.cpu_frequency);
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
+                        fragmentTransaction.replace(R.id.main_content, f).commitAllowingStateLoss();
+                        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                         break;
                     case R.id.nav_tis:
                         fragment = new TimeInStatesFragment();
@@ -159,9 +164,14 @@ public class MainActivity extends AppCompatActivity
                         actionBar.setTitle(R.string.settings);
                         break;
                     case R.id.nav_gpu:
-                        fragment = new GpuControlFragment();
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.gpu_frequency));
                         actionBar.setTitle(R.string.gpu_frequency);
+
+                        PreferenceFragmentCompat fx = new GpuControlFragment();
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
+                        ft.replace(R.id.main_content, fx).commitAllowingStateLoss();
+                        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                         break;
                     case R.id.build_prop:
                         fragment = new BuildPropEditorFragment();
@@ -180,10 +190,10 @@ public class MainActivity extends AppCompatActivity
                         break;
                 }
                 if (fragment != null) {
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
-                    fragmentTransaction.replace(R.id.main_content, fragment).commitAllowingStateLoss();
-                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+//                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//                    fragmentTransaction.setCustomAnimations(R.animator.enter_anim, R.animator.exit_animation);
+//                    fragmentTransaction.replace(R.id.main_content, fragment).commitAllowingStateLoss();
+//                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 }
             }
         }, 400);

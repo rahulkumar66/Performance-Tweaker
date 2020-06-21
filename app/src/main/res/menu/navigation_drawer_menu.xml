@@ -10,6 +10,7 @@
                 <item
                     android:id="@+id/nav_cpu"
                     android:title="CPU"
+                    android:icon="@drawable/ic_action_meter"
                     android:visible="true" />
                 <item
                     android:id="@+id/nav_cpu_hotplug"
@@ -70,6 +71,7 @@
 
                 <item
                     android:id="@+id/nav_settings"
+                    android:icon="@drawable/ic_action_prefs_widget"
                     android:title="Settings" />
 <!--                <item-->
 <!--                    android:id="@+id/remove_ads_1day"-->

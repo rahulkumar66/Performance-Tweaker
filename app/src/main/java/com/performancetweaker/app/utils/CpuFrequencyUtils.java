@@ -15,17 +15,33 @@ import java.util.List;
 
 public class CpuFrequencyUtils {
 
-    private static Integer cpuCount = 0;
+    // CPU
+    private static final String CPU_PRESENT = "/sys/devices/system/cpu/present";
+    private static String CPUFREQ_SYS_DIR = "/sys/devices/system/cpu/cpu%d/cpufreq/";
+    private static String SCALING_MIN_FREQ = CPUFREQ_SYS_DIR + "scaling_min_freq";
+    private static String cpuinfo_min_freq = CPUFREQ_SYS_DIR + "cpuinfo_min_freq";
+    private static String SCALING_MAX_FREQ = CPUFREQ_SYS_DIR + "scaling_max_freq";
+    private static String cpuinfo_max_freq = CPUFREQ_SYS_DIR + "cpuinfo_max_freq";
+    private static String scaling_cur_freq = CPUFREQ_SYS_DIR + "scaling_cur_freq";
+    private static String cpuinfo_cur_freq = CPUFREQ_SYS_DIR + "cpuinfo_cur_freq";
+    private static String SCALING_GOVERNOR = CPUFREQ_SYS_DIR + "scaling_governor";
+    private static String SCALING_FREQS_PATH = CPUFREQ_SYS_DIR + "scaling_available_frequencies";
+    private static String SCALING_AVAILABLE_GOVERNORS = CPUFREQ_SYS_DIR + "scaling_available_governors";
+    private static String TIME_IN_STATE_PATH = "/sys/devices/system/cpu/cpu%d/cpufreq/stats/time_in_state";
 
-    public static String[] getAvailableFrequencies() {
+    private static String governor_prop_dir = "/sys/devices/system/cpu/cpufreq/";
+
+    public static String[] getAvailableFrequencies(int cpu) {
         String[] frequencies;
-        if (new File(Constants.scaling_available_freq).exists()) {
-            frequencies = SysUtils.readOutputFromFile(Constants.scaling_available_freq).split(" ");
+        String currentCpuFreqsPath = SCALING_FREQS_PATH.replace("%d", String.valueOf(cpu));
+        String timeInStatePath = TIME_IN_STATE_PATH.replace("%d", String.valueOf(cpu));
+        if (new File(currentCpuFreqsPath).exists()) {
+            frequencies = SysUtils.readOutputFromFile(currentCpuFreqsPath).split(" ");
             return frequencies;
-        } else if (new File(Constants.time_in_states).exists()) {
+        } else if (new File(timeInStatePath).exists()) {
             ArrayList<CpuState> states;
             int i = 0;
-            states = TimeInStateReader.TimeInStatesReader().getCpuStateTime(false, false);
+            states = TimeInStateReader.TimeInStatesReader().getCpuStateTime(false, false, 0);
             Collections.sort(states);
             frequencies = new String[states.size()];
             for (CpuState object : states) {
@@ -38,20 +54,24 @@ public class CpuFrequencyUtils {
         }
     }
 
-    public static String getCurrentMaxFrequency() {
-        return SysUtils.readOutputFromFile(Constants.scaling_max_freq);
+    public static String getCurrentMaxFrequency(int cpu) {
+        String cpuScalingMaxFreqPath = SCALING_MAX_FREQ.replace("%d", String.valueOf(cpu));
+        return SysUtils.readOutputFromFile(cpuScalingMaxFreqPath);
     }
 
-    public static String getCurrentMinFrequency() {
-        return SysUtils.readOutputFromFile(Constants.scaling_min_freq);
+    public static String getCurrentMinFrequency(int cpu) {
+        String cpuScalingMinFreqPath = SCALING_MIN_FREQ.replace("%d", String.valueOf(cpu));
+        return SysUtils.readOutputFromFile(cpuScalingMinFreqPath);
     }
 
-    public static String[] getAvailableGovernors() {
-        return SysUtils.readOutputFromFile(Constants.scaling_available_governors).split(" ");
+    public static String[] getAvailableGovernors(int cpu) {
+        String cpuScalingGovernors = SCALING_AVAILABLE_GOVERNORS.replace("%d", String.valueOf(cpu));
+        return SysUtils.readOutputFromFile(cpuScalingGovernors).split(" ");
     }
 
-    public static String getCurrentScalingGovernor() {
-        return SysUtils.readOutputFromFile(Constants.scaling_governor);
+    public static String getCurrentScalingGovernor(int cpu) {
+        String cpuCurrentGov = SCALING_GOVERNOR.replace("%d", String.valueOf(cpu));
+        return SysUtils.readOutputFromFile(cpuCurrentGov);
     }
 
     public static boolean setMinFrequency(String minFrequency) {
@@ -60,12 +80,12 @@ public class CpuFrequencyUtils {
          * prepare commands for each core
          */
         if (minFrequency != null) {
-            for (int i = 0; i < getCoreCount(); i++) {
-                commands.add("chmod 0664 " + Constants.scaling_min_freq.replace("cpu0", "cpu" + i));
+            for (int i = 0; i < getCpuCount(); i++) {
+                commands.add("chmod 0664 " + SCALING_MIN_FREQ.replace("%d", String.valueOf(i)));
                 commands.add("echo "
                         + minFrequency
                         + " > "
-                        + Constants.scaling_min_freq.replace("cpu0", "cpu" + i));
+                        + SCALING_MIN_FREQ.replace("%d", String.valueOf(i)));
             }
             return SysUtils.executeRootCommand(commands);
         }
@@ -78,12 +98,12 @@ public class CpuFrequencyUtils {
          * prepare commands for each core
          */
         if (maxFrequency != null) {
-            for (int i = 0; i < getCoreCount(); i++) {
-                commands.add("chmod 0664 " + Constants.scaling_max_freq.replace("cpu0", "cpu" + i));
+            for (int i = 0; i < getCpuCount(); i++) {
+                commands.add("chmod 0664 " + SCALING_MAX_FREQ.replace("%d", String.valueOf(i)));
                 commands.add("echo "
-                        + maxFrequency.replace("cpu0", "cpu" + i)
+                        + maxFrequency.replace("%d", String.valueOf(i))
                         + " > "
-                        + Constants.scaling_max_freq);
+                        + SCALING_MAX_FREQ);
             }
 
             boolean success = SysUtils.executeRootCommand(commands);
@@ -96,41 +116,38 @@ public class CpuFrequencyUtils {
          * prepare commands for each core
          */
         if (governor != null) {
-            for (int i = 0; i < getCoreCount(); i++) {
-                commands.add("chmod 0644 " + Constants.scaling_governor.replace("cpu0", "cpu" + i));
+            for (int i = 0; i < getCpuCount(); i++) {
+                commands.add("chmod 0644 " + SCALING_GOVERNOR.replace("%d", String.valueOf(i)));
 
                 commands.add("echo "
                         + governor
                         + " > "
-                        + Constants.scaling_governor.replace("cpu0", "cpu" + i));
+                        + SCALING_GOVERNOR.replace("%d", String.valueOf(i)));
             }
             return SysUtils.executeRootCommand(commands);
         }
         return false;
     }
 
-    public static int getCoreCount() {
-        int cores = 0;
-        while (true) {
-            File file = new File(Constants.cpufreq_sys_dir.replace("cpu0", "cpu" + cores));
-            if (file.exists()) {
-                cores++;
-            } else {
-                return cores;
-            }
+    public static int getCpuCount() {
+        String output = SysUtils.readOutputFromFile(CPU_PRESENT);
+        int cpuCount = output.equals("0") ? 1 : Integer.parseInt(output.split("-")[1]) + 1;
+        if (cpuCount == 0) {
+            cpuCount = Runtime.getRuntime().availableProcessors();
         }
+        return cpuCount;
     }
 
-    public static void isBigLITTLE() {
-        if (getCoreCount() > 4) {
-
+    public static boolean isBigLITTLE() {
+        if (getCpuCount() > 4) {
+            return true;
         }
-//        Runtime.getRuntime().availableProcessors();
+        return false;
     }
 
     public static GovernorProperty[] getGovernorProperties() {
         GovernorProperty[] governorProperties = null;
-        String filePath = Constants.governor_prop_dir + getCurrentScalingGovernor();
+        String filePath = governor_prop_dir + getCurrentScalingGovernor(0);
         File f = new File(filePath);
 
         if (f.exists()) {
@@ -190,8 +207,8 @@ public class CpuFrequencyUtils {
     }
 
     public static boolean setGovernorProperty(GovernorProperty property) {
-        String path = Constants.governor_prop_dir
-                + getCurrentScalingGovernor()
+        String path = governor_prop_dir
+                + getCurrentScalingGovernor(0)
                 + "/"
                 + property.getGovernorProperty();
         ArrayList<String> commands = new ArrayList<>();

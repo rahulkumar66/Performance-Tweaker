@@ -2,19 +2,21 @@ package com.performancetweaker.app.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.utils.Constants;
 import com.performancetweaker.app.utils.InterstialHelper;
 import com.performancetweaker.app.utils.GpuUtils;
 
-public class GpuControlFragment extends PreferenceFragment
+public class GpuControlFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceChangeListener {
 
     ListPreference maxGpuFrequencyPreference;
@@ -30,23 +32,22 @@ public class GpuControlFragment extends PreferenceFragment
     GpuUtils gpuUtils;
     InterstialHelper fanInterstialHelper;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_pref_container, container, false);
-    }
+//    @Override
+////    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+////                             Bundle savedInstanceState) {
+////        return inflater.inflate(R.layout.fragment_pref_container, container, false);
+////    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.gpu_preferences);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.gpu_preferences, rootKey);
 
         context = getActivity().getBaseContext();
         gpuUtils = GpuUtils.getInstance();
 
-        maxGpuFrequencyPreference = (ListPreference) findPreference(Constants.PREF_GPU_MAX);
-        minGpuFrequencyPreference = (ListPreference) findPreference(Constants.PREF_GPU_MIN);
-        availableGpuGovernorPreference = (ListPreference) findPreference(Constants.PREF_GPU_GOV);
+        maxGpuFrequencyPreference = findPreference(Constants.PREF_GPU_MAX);
+        minGpuFrequencyPreference = findPreference(Constants.PREF_GPU_MIN);
+        availableGpuGovernorPreference = findPreference(Constants.PREF_GPU_GOV);
 
         availableGpuFrequencies = gpuUtils.getAvailableGpuFrequencies();
         availableGpuGovernors = gpuUtils.getAvailableGpuGovernors();

@@ -10,22 +10,8 @@ public interface Constants {
     String googlePlayPackageName = "com.android.vending";
     boolean debug = BuildConfig.DEBUG;
 
-    // CPU
-    String cpufreq_sys_dir = "/sys/devices/system/cpu/cpu0/cpufreq/";
-    String scaling_min_freq = cpufreq_sys_dir + "scaling_min_freq";
-    String cpuinfo_min_freq = cpufreq_sys_dir + "cpuinfo_min_freq";
-    String scaling_max_freq = cpufreq_sys_dir + "scaling_max_freq";
-    String cpuinfo_max_freq = cpufreq_sys_dir + "cpuinfo_max_freq";
-    String scaling_cur_freq = cpufreq_sys_dir + "scaling_cur_freq";
-    String cpuinfo_cur_freq = cpufreq_sys_dir + "cpuinfo_cur_freq";
-    String scaling_governor = cpufreq_sys_dir + "scaling_governor";
-    String scaling_available_freq = cpufreq_sys_dir + "scaling_available_frequencies";
-    String scaling_available_governors = cpufreq_sys_dir + "scaling_available_governors";
-    String governor_prop_dir = "/sys/devices/system/cpu/cpufreq/";
-
     // I/O
 
-    String time_in_states = "/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state";
     String ioscheduler_mtd = "/sys/block/mtdblock0/queue/scheduler";
     String SD_CACHE = "/sys/devices/virtual/bdi/179:0/read_ahead_kb";
     String[] readAheadKb = {
@@ -51,8 +37,11 @@ public interface Constants {
 
     // Preferences
     String PREF_CPU_MAX_FREQ = "cpu_max_freq_pref";
+    String PREF_CPU_MAX_LITTLE_FREQ = "cpu_max_little_freq_pref";
     String PREF_CPU_MIN_FREQ = "cpu_min_freq_pref";
+    String PREF_CPU_MIN_LITTLE_FREQ = "cpu_min_little_freq_pref";
     String PREF_CPU_GOV = "governor_pref";
+    String PREF_CPU_LITTLE_GOV = "governor_little_pref";
     String PREF_GPU_MAX = "gpu_max_freq_pref";
     String PREF_GPU_MIN = "gpu_min_freq_pref";
     String PREF_GPU_GOV = "gpu_governor_pref";

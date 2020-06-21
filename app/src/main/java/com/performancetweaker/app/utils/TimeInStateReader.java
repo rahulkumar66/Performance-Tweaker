@@ -1,7 +1,6 @@
 package com.performancetweaker.app.utils;
 
 import android.os.SystemClock;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,11 +13,12 @@ import java.util.Map;
 
 public class TimeInStateReader {
 
+    private String TIME_IN_STATES = "/sys/devices/system/cpu/cpu%d/cpufreq/stats/time_in_state";
     public Map<Integer, Long> newStates = new HashMap<>();
     private ArrayList<CpuState> states = new ArrayList<>();
     private ArrayList<CpuState> _states = new ArrayList<>();
 
-    private long totaltime;
+    private long totalTime;
 
     private TimeInStateReader() {
     }
@@ -27,16 +27,17 @@ public class TimeInStateReader {
         return new TimeInStateReader();
     }
 
-    public ArrayList<CpuState> getCpuStateTime(boolean withDeepSleep, boolean filterZeroValues) {
+    public ArrayList<CpuState> getCpuStateTime(boolean withDeepSleep, boolean filterZeroValues, int core) {
         states.clear();
         BufferedReader bufferedReader;
         Process process = null;
-        File statsFile = new File(Constants.time_in_states);
+        String cpuTimeInStatesPath = TIME_IN_STATES.replace("%d",String.valueOf(core));
+        File statsFile = new File(cpuTimeInStatesPath);
         if (statsFile.exists()) {
             if (statsFile.canRead()) {
                 String line;
                 try {
-                    process = Runtime.getRuntime().exec("cat " + Constants.time_in_states);
+                    process = Runtime.getRuntime().exec("cat " + cpuTimeInStatesPath);
                 } catch (IOException ioe) {
                     ioe.printStackTrace();
                 }
@@ -55,7 +56,6 @@ public class TimeInStateReader {
         /*
          * calculate deep sleep time
          */
-
         if (withDeepSleep) {
             long deepSleepTime = (SystemClock.elapsedRealtime() - SystemClock.uptimeMillis()) / 10;
             if (deepSleepTime > 0) states.add(new CpuState(0, deepSleepTime));
@@ -86,16 +86,15 @@ public class TimeInStateReader {
     }
 
     public long getTotalTimeInState() {
-        totaltime = 0;
+        totalTime = 0;
         for (CpuState state : states) {
-            totaltime += state.getTime();
+            totalTime += state.getTime();
         }
-        return totaltime;
+        return totalTime;
     }
 
     public void setNewStates(HashMap<Integer, Long> state) {
         clearNewStates();
-        Log.d("sizeofnew", state.size() + "");
         newStates = state;
     }
 
