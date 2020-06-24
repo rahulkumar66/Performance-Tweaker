@@ -11,15 +11,9 @@
     <string name="exit">Exit</string>
     <string name="noroot">Your Phone Does Not Have Root Access</string>
     <string name="ok_message">Values Successfully Applied</string>
-    <string-array name="fragments">
-        <item>Cpu Frequency</item>
-        <item>Time In States</item>
-        <item>I/O Control</item>
-        <item>Settings</item>
-    </string-array>
     <string name="title_activity_governor_tuner_preference">Cpu Governor Tuning</string>
-
     <string name="cpu_frequency">CPU</string>
+
     <string name="gpu_frequency">GPU</string>
     <string name="io">I/O Control</string>
     <string name="wakelocks">Wakelocks</string>
@@ -29,40 +23,54 @@
     <string name="remove_ads">Remove Ads(Free)</string>
     <string name="vm">Virtual Memory</string>
     <string name="build_prop">Build Prop Editor</string>
+    <string name="total_time">Total Time</string>
 
     <!--Time in State -->
-    <string name="total_time">Total Time</string>
     <string name="deep_sleep">Deep Sleep</string>
     <string name="time_since">Time Since</string>
     <string name="kernel_info">Kernel Info</string>
+    <string name="times">times</string>
 
     <!--Battery Stats -->
-    <string name="times">times</string>
     <string name="stats_not_available">Statistics are not available yet, Please Give it some time
     </string>
-    <string-array name="wakelock_actionbar_spinner_items">
-        <item>Kernel Wakelock</item>
-        <item>Cpu Wakelocks</item>
-        <item>Alarm Triggers</item>
-    </string-array>
-
-    <!--Frequency Scaling -->
     <string name="core">Core</string>
     <string name="image_description">Image Icon</string>
+
+    <!--Frequency Scaling -->
     <string name="max_frequency">Maximum Frequency</string>
     <string name="min_frequency">Minimum Frequency</string>
     <string name="scaling_governor">Scaling Governor</string>
     <string name="apply">Apply</string>
     <string name="governor_applied">Governor Successfully Applied</string>
-
     <string name="io_scheduler">I/O Scheduler</string>
     <string name="read_ahead_cache">Read Ahead Cache</string>
 
-    <!--Preferences -->
     <string name="apply_on_boot">select_apply_on_boot</string>
+    <string name="apply_on_boot_notification">Apply on boot</string>
+
+    <!--Preferences -->
+    <string name="max_freq_pref_title">Maximum Frequency</string>
+    <string name="max_freq_pref_summary">Set the maximum frequency the CPU scales up to.</string>
+    <string name="min_freq_pref_title">Minimum Frequency</string>
+    <string name="min_freq_pref_summary">Set the minimum frequency the CPU scales down to.</string>
+    <string name="scaling_governor_pref">Scaling Governor</string>
+    <string name="cpu_governor_pref_summary">The CPU governor determines how the CPU behaves in response to changes in workload. Changing the governor will impact how the CPU scales through the frequency steps available to your CPU.</string>
+
+    <string-array name="fragments">
+        <item>Cpu Frequency</item>
+        <item>Time In States</item>
+        <item>I/O Control</item>
+        <item>Settings</item>
+    </string-array>
+
 
     <!--On Boot -->
-    <string name="apply_on_boot_notification">Apply on boot</string>
+    <string-array name="wakelock_actionbar_spinner_items">
+        <item>Kernel Wakelock</item>
+        <item>Cpu Wakelocks</item>
+        <item>Alarm Triggers</item>
+    </string-array>
 
 
 </resources>

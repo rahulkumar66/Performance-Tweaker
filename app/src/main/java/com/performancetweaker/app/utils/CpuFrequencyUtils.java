@@ -29,7 +29,7 @@ public class CpuFrequencyUtils {
     private static final String SCALING_AVAILABLE_GOVERNORS = CPUFREQ_SYS_DIR + "scaling_available_governors";
     private static final String TIME_IN_STATE_PATH = "/sys/devices/system/cpu/cpu%d/cpufreq/stats/time_in_state";
     public static final String TIME_IN_STATE_2 = "/sys/devices/system/cpu/cpufreq/stats/cpu%d/time_in_state";
-
+    private static final String CUR_FREQ = "/sys/devices/system/cpu/cpu%d/cpufreq/scaling_cur_freq";
 
     private static final String OPP_TABLE = "/sys/devices/system/cpu/cpu%d/opp_table";
 
@@ -37,21 +37,24 @@ public class CpuFrequencyUtils {
 
     public static String[] getAvailableFrequencies(int cpu) {
         String[] frequencies;
-        String currentCpuFreqsPath = SCALING_FREQS_PATH.replace("%d", String.valueOf(cpu));
-        String timeInStatePath = TIME_IN_STATE_PATH.replace("%d", String.valueOf(cpu));
-        String timeInStatePath2 = TIME_IN_STATE_2.replace("%d", String.valueOf(cpu));
-        if (new File(timeInStatePath).exists() || new File(timeInStatePath2).exists()) {
-            ArrayList<CpuState> states;
-            int i = 0;
-            states = TimeInStateReader.TimeInStatesReader().getCpuStateTime(false, false, 0);
-            Collections.sort(states);
-            frequencies = new String[states.size()];
-            for (CpuState object : states) {
-                frequencies[i] = String.valueOf(object.getFrequency());
-                i++;
-            }
-            return frequencies;
-        } else if (new File(currentCpuFreqsPath).exists()) {
+        String currentCpuFreqsPath = Utils.strFormat(SCALING_FREQS_PATH, cpu);
+        String timeInStatePath = Utils.strFormat(TIME_IN_STATE_PATH, cpu);
+        String timeInStatePath2 = Utils.strFormat(TIME_IN_STATE_2, cpu);
+//        if (new File(timeInStatePath).exists() || new File(timeInStatePath2).exists()) {
+//            ArrayList<CpuState> states;
+//            int i = 0;
+//            states = TimeInStateReader.TimeInStatesReader().getCpuStateTime(false, false, 0);
+//            Collections.sort(states);
+//            frequencies = new String[states.size()];
+//            for (CpuState object : states) {
+//                frequencies[i] = String.valueOf(object.getFrequency());
+//                i++;
+//            }
+//            return frequencies;
+//        } else
+        if (new File(currentCpuFreqsPath).exists()) {
+            int readcpu = cpu;
+            boolean offline = isOffline(cpu);
             frequencies = SysUtils.readOutputFromFile(currentCpuFreqsPath).split(" ");
             return frequencies;
         } else {
@@ -81,6 +84,7 @@ public class CpuFrequencyUtils {
 
     public static boolean setMinFrequency(String minFrequency) {
         ArrayList<String> commands = new ArrayList<>();
+        MSMPerformance msmPerformance = MSMPerformance.getInstance();
         /*
          * prepare commands for each core
          */
@@ -113,6 +117,20 @@ public class CpuFrequencyUtils {
 
             boolean success = SysUtils.executeRootCommand(commands);
         }
+    }
+
+    public static int getCurrentFrequency(int cpu) {
+        if (Utils.fileExists(Utils.strFormat(CUR_FREQ, cpu))) {
+            String value = SysUtils.readOutputFromFile(Utils.strFormat(CUR_FREQ, cpu));
+            if (value != null) {
+                return Utils.strToInt(value);
+            }
+        }
+        return 0;
+    }
+
+    public static boolean isOffline(int cpu) {
+        return getCurrentFrequency(cpu) == 0;
     }
 
     public static boolean setGovernor(String governor) {
@@ -149,6 +167,26 @@ public class CpuFrequencyUtils {
         }
         return false;
     }
+//
+//    public List<Integer> getBigCpuRange() {
+//        List<Integer> list = new ArrayList<>();
+//        int cpuCount = getCpuCount();
+//        if (!isBigLITTLE()) {
+//            for (int i = 0; i < cpuCount; i++) {
+//                list.add(i);
+//            }
+//        } else if (getBigCpu() == 0) {
+//            for (int i = 0; i < getLITTLECpu(); i++) {
+//                list.add(i);
+//            }
+//        } else {
+//            for (int i = getBigCpu(); i < cpuCount(); i++) {
+//                list.add(i);
+//            }
+//        }
+//        return list;
+//    }
+
 
     public static GovernorProperty[] getGovernorProperties() {
         GovernorProperty[] governorProperties = null;

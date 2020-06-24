@@ -36,7 +36,7 @@ public class TimeInStateReader {
         String cpuTimeInStatesPath2 = TIME_IN_STATE_2.replace("%d", String.valueOf(core));
         File statsFile = new File(cpuTimeInStatesPath);
         File statsFile2 = new File(cpuTimeInStatesPath2);
-        if (!statsFile.exists()) {
+        if (statsFile.exists()) {
             if (statsFile.canRead()) {
                 String line;
                 try {

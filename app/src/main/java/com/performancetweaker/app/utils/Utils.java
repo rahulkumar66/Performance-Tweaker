@@ -16,7 +16,24 @@ public class Utils {
         }
     }
 
-    public static boolean fileExists(String file) {
-        return new File(file).exists();
+    public static boolean fileExists(String filePath) {
+        if (new File(filePath).exists()) {
+            return true;
+        } else {
+            String output = SysUtils.executeCommandWithOutput(true, "[ -e " + filePath + " ] && echo true");
+            return output != null && output.equals("true");
+        }
+    }
+
+    public static String strFormat(String text, Object... format) {
+        return String.format(text, format);
+    }
+
+    public static int strToInt(String text) {
+        try {
+            return Integer.parseInt(text);
+        } catch (NumberFormatException ignored) {
+            return 0;
+        }
     }
 }
