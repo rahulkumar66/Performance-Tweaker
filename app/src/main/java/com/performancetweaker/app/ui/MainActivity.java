@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -25,8 +26,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
 import com.performancetweaker.app.ui.fragments.CpuFrequencyFragment;
@@ -95,9 +100,21 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         navigationView.setNavigationItemSelectedListener(this);
 
-        new Task().execute();
+        new RunOnInitTask().execute();
         String installer = getBaseContext().getPackageManager().getInstallerPackageName(getBaseContext().getPackageName());
         firebaseAnalytics.setUserProperty("installer_source", installer == null ? "invalid_source" : installer);
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+                        Log.d(TAG, "FCM TOKEN:" + task.getResult().getToken());
+                    }
+                });
     }
 
     private void initAds(Context context) {
@@ -207,7 +224,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private class Task extends AsyncTask<Void, Void, Void> {
+    private class RunOnInitTask extends AsyncTask<Void, Void, Void> {
         private boolean hasRoot, hasBusyBox;
 
         @Override
