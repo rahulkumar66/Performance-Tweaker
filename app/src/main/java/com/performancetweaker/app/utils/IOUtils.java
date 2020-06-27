@@ -60,22 +60,18 @@ public class IOUtils {
     public static boolean setDiskScheduler(String ioScheduler) {
         ArrayList<String> mCommands = new ArrayList<>();
         if (ioScheduler != null) {
-            File[] devices = new File(AVAILABLE_BLOCKDEVICES).listFiles();
+            File[] devices = Utils.listFiles(AVAILABLE_BLOCKDEVICES);
+            for (int i = 0; i < devices.length; i++) {
+                String devicePath = devices[i].getAbsolutePath();
 
-            if (devices != null) {
-                for (int i = 0; i < devices.length; i++) {
+                if (!(devicePath.contains("ram") || devicePath.contains("loop") || devicePath.contains(
+                        "dm"))) {
 
-                    String devicePath = devices[i].getAbsolutePath();
+                    File blockDevice = new File(devices[i].getAbsolutePath() + "/queue/scheduler");
 
-                    if (!(devicePath.contains("ram") || devicePath.contains("loop") || devicePath.contains(
-                            "dm"))) {
-
-                        File blockDevice = new File(devices[i].getAbsolutePath() + "/queue/scheduler");
-
-                        if (blockDevice.exists()) {
-                            mCommands.add("chmod 0644 " + blockDevice.getAbsolutePath());
-                            mCommands.add("echo " + ioScheduler + " > " + blockDevice.getAbsolutePath());
-                        }
+                    if (blockDevice.exists()) {
+                        mCommands.add("chmod 0644 " + blockDevice.getAbsolutePath());
+                        mCommands.add("echo " + ioScheduler + " > " + blockDevice.getAbsolutePath());
                     }
                 }
             }

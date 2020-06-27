@@ -2,6 +2,8 @@ package com.performancetweaker.app.utils;
 
 import android.util.Log;
 
+import com.stericson.RootTools.RootTools;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -40,7 +42,7 @@ public class SysUtils implements Constants {
         }
         /*
          * try reading the file as root
-		 */
+         */
         else {
             InputStream inputStream;
             DataOutputStream dos;
@@ -74,7 +76,9 @@ public class SysUtils implements Constants {
 
         try {
             Process mProcess = Runtime.getRuntime().exec("su");
-            if (mProcess == null){ return false;}
+            if (mProcess == null) {
+                return false;
+            }
             dos = new DataOutputStream(mProcess.getOutputStream());
             for (String cmd : commands) {
                 dos.writeBytes(cmd + "\n");
@@ -120,7 +124,7 @@ public class SysUtils implements Constants {
                 StringBuilder builder = new StringBuilder();
                 BufferedReader br = new BufferedReader(new InputStreamReader(is));
                 String line;
-                while ((line = br.readLine()) != null) builder.append(line);
+                while ((line = br.readLine()) != null) builder.append(line + "\n");
                 return builder.toString();
             } else {
                 is = process.getErrorStream();
