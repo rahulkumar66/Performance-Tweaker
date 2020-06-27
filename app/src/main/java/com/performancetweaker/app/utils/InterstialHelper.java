@@ -1,10 +1,13 @@
 package com.performancetweaker.app.utils;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.performancetweaker.app.PerfTweakerApplication;
 
 public class InterstialHelper {
 
@@ -43,9 +46,15 @@ public class InterstialHelper {
         if (showAdsFlag && adShowCounter % 2 == 0) {
             if (adMobInterstitial.isLoaded()) {
                 adMobInterstitial.show();
-                adShowCounter++;
+                Bundle bundle = new Bundle();
+                bundle.putString("AdShown", String.valueOf(true));
+                PerfTweakerApplication.getFirebaseAnalyticsInstance().logEvent(FirebaseAnalytics.Event.SELECT_ITEM, bundle);
             }
         }
+        Bundle bundle = new Bundle();
+        bundle.putString("Tweak", String.valueOf(true));
+        PerfTweakerApplication.getFirebaseAnalyticsInstance().logEvent(FirebaseAnalytics.Event.SELECT_ITEM, bundle);
+        adShowCounter++;
     }
 
 }

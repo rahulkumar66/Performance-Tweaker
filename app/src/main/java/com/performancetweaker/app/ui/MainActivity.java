@@ -33,6 +33,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.performancetweaker.app.PerfTweakerApplication;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
 import com.performancetweaker.app.ui.fragments.CpuFrequencyFragment;
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity
     private TextView appCompatibilityMessage;
     private ProgressBar progressBar;
     private GpuUtils gpuUtils;
-    private InterstialHelper interstialHelper;
     private FirebaseAnalytics firebaseAnalytics;
     private boolean showAds = false;
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main_layout_navbar);
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        firebaseAnalytics = PerfTweakerApplication.getFirebaseAnalyticsInstance();
 
         navigationView = findViewById(R.id.navigation);
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity
             firebaseAnalytics.setUserProperty("hasRoot", String.valueOf(hasRoot));
             firebaseAnalytics.setUserProperty("hasBusyBox", String.valueOf(hasBusyBox));
             firebaseAnalytics.setUserProperty("showAd", String.valueOf(showAds));
-            interstialHelper = InterstialHelper.getInstance(getBaseContext(), showAds);
+            InterstialHelper.getInstance(getBaseContext(), showAds);
 
             if (hasRoot && hasBusyBox) {
                 populateGui();
