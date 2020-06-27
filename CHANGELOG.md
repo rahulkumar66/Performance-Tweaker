@@ -1,5 +1,11 @@
 # Changelog
 
+### v3.3.0
+ - Fix IO scheduler
+ - show popup if update is available
+ - Disable ads for emulator users
+ - Add support for notifications
+
 ### v3.2.0
  - Fix IO fragment crashes
  - Fix several lint warnings
