@@ -40,12 +40,12 @@ public class InterstialHelper {
     }
 
     public void showAd() {
-        if (showAdsFlag && adShowCounter % 3 == 0) {
+        if (showAdsFlag && adShowCounter % 2 == 0) {
             if (adMobInterstitial.isLoaded()) {
                 adMobInterstitial.show();
+                adShowCounter++;
             }
         }
-        adShowCounter++;
     }
 
 }

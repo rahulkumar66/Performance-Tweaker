@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity
     private GpuUtils gpuUtils;
     private InterstialHelper interstialHelper;
     private FirebaseAnalytics firebaseAnalytics;
+    private boolean showAds = false;
 
     private String TAG = Constants.App_Tag;
 
@@ -224,6 +226,34 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private boolean isEmulator() {
+        firebaseAnalytics.setUserProperty("BRAND", Build.BRAND);
+        firebaseAnalytics.setUserProperty("DEVICE", Build.DEVICE);
+        firebaseAnalytics.setUserProperty("HARDWARE", Build.HARDWARE);
+        firebaseAnalytics.setUserProperty("MODEL", Build.MODEL);
+        firebaseAnalytics.setUserProperty("MANUFACTURER", Build.MANUFACTURER);
+        firebaseAnalytics.setUserProperty("PRODUCT", Build.PRODUCT);
+
+        return (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.HARDWARE.contains("goldfish")
+                || Build.HARDWARE.contains("ranchu")
+                || Build.HARDWARE.contains("android_x86")
+                || Build.HARDWARE.contains("x86")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || Build.PRODUCT.contains("sdk_google")
+                || Build.PRODUCT.contains("google_sdk")
+                || Build.PRODUCT.contains("sdk")
+                || Build.PRODUCT.contains("sdk_x86")
+                || Build.PRODUCT.contains("vbox86p")
+                || Build.PRODUCT.contains("emulator")
+                || Build.PRODUCT.contains("simulator");
+    }
+
     private class RunOnInitTask extends AsyncTask<Void, Void, Void> {
         private boolean hasRoot, hasBusyBox;
 
@@ -243,8 +273,17 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            initAds(MainActivity.this);
-            interstialHelper = InterstialHelper.getInstance(getBaseContext(), true);
+            if(!isEmulator() && hasRoot && hasBusyBox) {
+                showAds = true;
+                initAds(MainActivity.this);
+            }
+            else {
+                showAds = false;
+            }
+            firebaseAnalytics.setUserProperty("hasRoot", String.valueOf(hasRoot));
+            firebaseAnalytics.setUserProperty("hasBusyBox", String.valueOf(hasBusyBox));
+            firebaseAnalytics.setUserProperty("showAd", String.valueOf(showAds));
+            interstialHelper = InterstialHelper.getInstance(getBaseContext(), showAds);
 
             if (hasRoot && hasBusyBox) {
                 populateGui();
