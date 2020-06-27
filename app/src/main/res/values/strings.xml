@@ -65,4 +65,6 @@
     <string name="apply_on_boot_notification">Apply on boot</string>
 
 
+    <string name="new_version_available">A new version is available.</string>
+    <string name="update">Update</string>
 </resources>

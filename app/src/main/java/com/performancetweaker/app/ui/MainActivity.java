@@ -30,9 +30,11 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.performancetweaker.app.BuildConfig;
 import com.performancetweaker.app.PerfTweakerApplication;
 import com.performancetweaker.app.R;
 import com.performancetweaker.app.ui.fragments.BuildPropEditorFragment;
@@ -103,20 +105,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         new RunOnInitTask().execute();
-        String installer = getBaseContext().getPackageManager().getInstallerPackageName(getBaseContext().getPackageName());
-        firebaseAnalytics.setUserProperty("installer_source", installer == null ? "invalid_source" : installer);
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "getInstanceId failed", task.getException());
-                            return;
-                        }
-                        Log.d(TAG, "FCM TOKEN:" + task.getResult().getToken());
-                    }
-                });
     }
 
     private void initAds(Context context) {
@@ -145,6 +133,48 @@ public class MainActivity extends AppCompatActivity
         }
 
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_cpu));
+
+        String installer = getBaseContext().getPackageManager().getInstallerPackageName(getBaseContext().getPackageName());
+        firebaseAnalytics.setUserProperty("installer_source", installer == null ? "invalid_source" : installer);
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+//                        Log.d(TAG, "FCM TOKEN:" + task.getResult().getToken());
+                    }
+                });
+
+        PerfTweakerApplication.getFirebaseRemoteConfig().fetchAndActivate()
+                .addOnCompleteListener(MainActivity.this, new OnCompleteListener<Boolean>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Boolean> task) {
+                        long latestVersionCode = PerfTweakerApplication.getFirebaseRemoteConfig().getLong(Constants.REMOTE_CONF_LATEST_VERSION_CODE);
+                        Bundle showAdBundle = new Bundle();
+                        if (latestVersionCode > BuildConfig.VERSION_CODE) {
+                            showAdBundle.putBoolean("showPopup", true);
+                            Snackbar.make(findViewById(android.R.id.content), getString(R.string.new_version_available), Snackbar.LENGTH_INDEFINITE)
+                                    .setAction(getString(R.string.update), new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Bundle b = new Bundle();
+                                            b.putBoolean("updateApp", true);
+                                            firebaseAnalytics.logEvent("appUpdateCTA", b);
+                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + Constants.packageName)));
+                                        }
+                                    })
+                                    .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                                    .show();
+                        } else {
+                            showAdBundle.putBoolean("showPopup", false);
+                        }
+                        firebaseAnalytics.logEvent("showUpdatePopup", showAdBundle);
+                    }
+                });
         progressBar.setVisibility(View.GONE);
     }
 
@@ -205,8 +235,7 @@ public class MainActivity extends AppCompatActivity
                     firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 }
             }
-        }, 400);
-
+        }, 300);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -273,11 +302,10 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if(!isEmulator() && hasRoot && hasBusyBox) {
+            if (!isEmulator() && hasRoot && hasBusyBox) {
                 showAds = true;
                 initAds(MainActivity.this);
-            }
-            else {
+            } else {
                 showAds = false;
             }
             firebaseAnalytics.setUserProperty("hasRoot", String.valueOf(hasRoot));

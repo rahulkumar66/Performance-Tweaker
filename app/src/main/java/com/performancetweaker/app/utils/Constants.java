@@ -10,6 +10,8 @@ public interface Constants {
     String googlePlayPackageName = "com.android.vending";
     boolean debug = BuildConfig.DEBUG;
 
+    String REMOTE_CONF_LATEST_VERSION_CODE = "latestVersionCode";
+
     // CPU
     String cpufreq_sys_dir = "/sys/devices/system/cpu/cpu0/cpufreq/";
     String scaling_min_freq = cpufreq_sys_dir + "scaling_min_freq";
