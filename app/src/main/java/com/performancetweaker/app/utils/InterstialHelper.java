@@ -52,8 +52,8 @@ public class InterstialHelper {
             }
         }
         Bundle bundle = new Bundle();
-        bundle.putString("Tweak", String.valueOf(true));
-        PerfTweakerApplication.getFirebaseAnalyticsInstance().logEvent(FirebaseAnalytics.Event.SELECT_ITEM, bundle);
+        bundle.putString("shown", String.valueOf(true));
+        PerfTweakerApplication.getFirebaseAnalyticsInstance().logEvent("showAdmobInterstitial", bundle);
         adShowCounter++;
     }
 
